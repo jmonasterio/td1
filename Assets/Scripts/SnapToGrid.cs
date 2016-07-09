@@ -6,7 +6,7 @@ public class SnapToGrid : MonoBehaviour {
 
 #if UNITY_EDITOR
     public bool snapToGrid = true;
-    public float snapValue = 2f;
+    public float snapValue = 1f;
 
     public bool sizeToGrid = false;
     public float sizeValue = 0.25f;
@@ -16,7 +16,12 @@ public class SnapToGrid : MonoBehaviour {
     {
         if (snapToGrid)
         {
-            transform.position = RoundTransform(transform.position, snapValue);
+            var newPos = RoundTransform(transform.position, snapValue);
+            if (newPos != transform.position)
+            {
+                transform.position = newPos;
+                UnityEngine.Debug.Log("Snapped!");
+            }
         }
         if (sizeToGrid)
         {

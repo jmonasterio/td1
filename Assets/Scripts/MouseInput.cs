@@ -4,8 +4,6 @@ using System.Net;
 
 public class MouseInput : MonoBehaviour {
 
-    public GameObject selector;
-
 	// Use this for initialization
 	void Start () {
 	
@@ -24,7 +22,7 @@ public class MouseInput : MonoBehaviour {
 	        {
 	            var pos3 = pos2.Value;
 	            pos3.z = 0;
-	            Debug.Log(pos3);
+	            //Debug.Log(pos3);
 	            this.transform.position = pos3;
 	        }
 

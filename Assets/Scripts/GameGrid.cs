@@ -6,14 +6,14 @@ using UnityEngine;
     {
 
         public GameCell[,] Cells;
-        private Bounds _mapRect;
+        private Rect _mapInternalGrid;
         private Vector2 _mapDims;
 
         public Vector3? MapScreenToGridCellsOrNull(Vector2 screenPos)
         {
             var pos2 = Camera.main.ScreenToWorldPoint(screenPos);
             pos2.z = 0;
-            if (_mapRect.Contains(pos2))
+            if (_mapInternalGrid.Contains(pos2))
             {
                 return pos2;
             }
@@ -38,8 +38,9 @@ using UnityEngine;
 
         public void FillFromHeirarchy(GameObject map)
         {
-            _mapRect = GetMapRect(map);
-            _mapDims = CalcMapDims(_mapRect);
+             _mapInternalGrid = GridHelper.GetInternalGridRect(map);
+
+            _mapDims = CalcMapDims(_mapInternalGrid);
             InitGameGrid(_mapDims);
 
             const int BACKGROUND_LAYER = 8;
@@ -54,12 +55,21 @@ using UnityEngine;
             foreach (var obj in oos)
             {
                 var dims = CalcMapCoords(map, obj.transform.position);
-                var cell = Cells[(int) dims.x, (int) dims.y];
-                if (cell.BackgroundGameObject != null)
+                if (dims.x < Cells.GetLength(0) && dims.y < Cells.GetLength(1) && dims.x >= 0 && dims.y >= 0)
                 {
-                    //Debug.Assert(cell.BackgroundGameObject == null);
+                    var cell = Cells[(int) dims.x, (int) dims.y];
+                    if (cell.BackgroundGameObject != null)
+                    {
+                        // There may be more than one shape on a square? What to do? Pick the top one???
+                        Debug.Assert(cell.BackgroundGameObject == null);
+                    }
+                    cell.BackgroundGameObject = obj;
                 }
-                cell.BackgroundGameObject = obj;
+                else
+                {
+                    Debug.Assert(false, "Coords not on map.");
+                }
+
 
             }
 
@@ -69,11 +79,11 @@ using UnityEngine;
         private Vector2 CalcMapCoords(GameObject map, Vector3 position)
         {
             
-            return new Vector2( (int) position.x - (int) _mapRect.min.x, (int) position.y -(int) _mapRect.min.y);
+            return new Vector2( (int) position.x - (int) _mapInternalGrid.min.x, (int) position.y -(int) _mapInternalGrid.min.y);
         }
 
 
-        private static Vector2 CalcMapDims(Bounds b)
+        private static Vector2 CalcMapDims(Rect b)
         {
             Vector3 end = b.max;
             Vector3 start = b.min;
@@ -81,31 +91,6 @@ using UnityEngine;
             int ww = (int) end.x - (int) start.x;
             int hh = (int) end.y - (int) start.y;
             return new Vector2(ww, hh);
-        }
-
-        private static Bounds GetMapRect(GameObject map)
-        {
-
-
-            var rect = map.GetComponent<SpriteRenderer>().bounds;
-            return rect;
-
-            /*
-                        var mapTrans = map.transform;
-            var rect = mapTrans.localScale;
-            return rect;
-            Vector3 start = rect.min;
-            Vector3 end = rect.max;
-
-            for (int xx = (int)start.x; xx <= (int)end.x; xx++)
-            {
-                Vector3 ss = new Vector3(xx - 0.5f, (int)start.y, 0);
-                Vector3 ee = new Vector3(xx - 0.5f, (int)end.y, 0);
-
-                Debug.DrawLine(ss, ee, Color.green, 0.1f);
-            }
-    */
-
         }
 
         private static GameObject[] GetSceneObjects()
@@ -128,6 +113,28 @@ using UnityEngine;
             }
             return Selected;
 
+        }
+
+        public byte[,] ToByteGrid()
+        {
+            var w = 32; // Must be power of 2. Cells.GetLength(0);
+            var h = 32; // Must be power of 2. Cells.GetLength(1);
+            var grid = new byte[w,h];
+            for (int xx = 0; xx < w; xx++)
+            {
+                for (int yy = 0; yy < h; yy++)
+                {
+                    if (yy >= Cells.GetLength(1) || xx >= Cells.GetLength(0))
+                    {
+                        grid[xx, yy] = 0; // Assume outside area is blocked
+                    }
+                    else
+                    {
+                        grid[xx, yy] = (Cells[xx, yy].BackgroundGameObject != null) ? (byte) 0 : (byte) 1;
+                    }
+                }
+            }
+            return grid;
         }
     }
 

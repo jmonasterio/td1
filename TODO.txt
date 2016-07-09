@@ -1,0 +1,2 @@
+﻿- Cool theory on A*: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+- C# A* example: http://www.codeproject.com/Articles/15307/A-algorithm-implementation-in-C
