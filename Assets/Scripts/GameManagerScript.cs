@@ -25,7 +25,7 @@ public class GameManagerScript : MonoBehaviour {
     public GameGrid GameGrid {
         get
         {
-            var ret = Toolbox.Instance.GetComponent<GameGrid>();
+            var ret = Toolbox.Instance.GameManager.GetComponent<GameGrid>();
             return ret;
 
         }
