@@ -17,13 +17,17 @@ public class MouseInput : MonoBehaviour {
             Debug.Log(pos);
             pos.z = -5;
 
-	        var pos2 = Toolbox.Instance.GameManager.GameGrid.MapScreenToGridCellsOrNull(pos);
-	        if (pos2.HasValue)
+	        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+	        if (gameGrid != null)
 	        {
-	            var pos3 = pos2.Value;
-	            pos3.z = 0;
-	            //Debug.Log(pos3);
-	            this.transform.position = pos3;
+	            var pos2 = gameGrid.MapScreenToGridCellsOrNull(pos);
+	            if (pos2.HasValue)
+	            {
+	                var pos3 = pos2.Value;
+	                pos3.z = 0;
+	                //Debug.Log(pos3);
+	                this.transform.position = pos3;
+	            }
 	        }
 
 	    }

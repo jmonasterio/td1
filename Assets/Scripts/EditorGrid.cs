@@ -20,6 +20,13 @@ public static class GridHelper
         return rc;
     }
 
+    public static Vector3 MapPointToVector(GameObject go, Point p)
+    {
+        var gr = GetInternalGridRect(go);
+        var v = gr.min + new Vector2(p.X, p.Y);
+        return v;
+    }
+
 
 }
 
@@ -34,9 +41,12 @@ public class EditorGrid : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        var rcInternalGrid = GridHelper.GetInternalGridRect(this.gameObject);
+        if (!Application.isPlaying || Toolbox.Instance.DebugSys.ShowGridAtRuntime )
+        {
+            var rcInternalGrid = GridHelper.GetInternalGridRect(this.gameObject);
 
-        DrawGridAroundIntegerPoints(rcInternalGrid);
+            DrawGridAroundIntegerPoints(rcInternalGrid);
+        }
     }
 
     private void DrawGridAroundIntegerPoints(Rect rcInternalGrid)

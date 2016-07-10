@@ -9,6 +9,7 @@ public class Toolbox : Singleton<Toolbox>
     public Language language = new Language();
 
     public GameManagerScript GameManager;
+    public DebugSystem DebugSys;
 
 
     void Awake()

@@ -1,11 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Algorithms;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Networking;
 
-    public class GameGrid
+[ExecuteInEditMode]
+    public class GameGrid : MonoBehaviour
     {
+        public GameObject Map;
+
+        private List<PathFinderNode> _pathNodeList;
+
+        public const int BACKGROUND_LAYER = 8;
 
         public GameCell[,] Cells;
+        private Waypoint StartWaypoint;
+        private Waypoint EndWaypoint;
         private Rect _mapInternalGrid;
         private Vector2 _mapDims;
 
@@ -36,14 +47,75 @@ using UnityEngine;
             }
         }
 
-        public void FillFromHeirarchy(GameObject map)
+    public void FindPath()
+    {
+        var byteGrid = ToByteGrid();
+
+        var pf = new PathFinderFast(byteGrid);
+        pf.Diagonals = true;
+        pf.Formula = HeuristicFormula.DiagonalShortCut;
+        pf.HeuristicEstimate = 2;
+        pf.HeavyDiagonals = true;
+        pf.PunishChangeDirection = false;
+        pf.SearchLimit = 5000;
+        pf.TieBreaker = false;
+        var start = MapVectorToPoint(this.StartWaypoint.transform.position);
+        var end = MapVectorToPoint(this.EndWaypoint.transform.position);
+        _pathNodeList = pf.FindPath(start, end);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+#if UNITY_EDITOR
+        FillFromHeirarchy(Map);
+#endif
+        FindPath();
+    }
+
+    public void Start()
+    {
+        // Initialize connection to others.
+        FillFromHeirarchy(Map);
+    }
+
+    void OnSceneGUI()
+    {
+        OnGUI();
+    }
+
+    void OnGUI()
+    {
+        if (_pathNodeList != null)
+        {
+            foreach (var node in _pathNodeList)
+            {
+                // Draw lines between the nodes, just to see.
+                //Debug.DrawLine( );
+                var nodePoint = new Point(node.X, node.Y);
+                if (Toolbox.Instance.DebugSys.ShowXOnPath)
+                {
+                     DrawTextAtPoint(nodePoint, "X");
+                }
+            }
+        }
+        else
+        {
+            Debug.Assert(false, "No path found");
+        }
+
+    }
+
+
+    public void FillFromHeirarchy(GameObject map)
         {
              _mapInternalGrid = GridHelper.GetInternalGridRect(map);
 
             _mapDims = CalcMapDims(_mapInternalGrid);
             InitGameGrid(_mapDims);
 
-            const int BACKGROUND_LAYER = 8;
             var oos = GetObjectsInLayer(BACKGROUND_LAYER);
 
             // Walk thru the grid and figure out terrain type for each
@@ -64,6 +136,31 @@ using UnityEngine;
                         Debug.Assert(cell.BackgroundGameObject == null);
                     }
                     cell.BackgroundGameObject = obj;
+                    if (obj != null)
+                    {
+                        var wp = obj.GetComponent<Waypoint>();
+                        if (wp != null)
+                        {
+                            if (wp.WaypointType == Waypoint.WaypointTypes.Start)
+                            {
+                                StartWaypoint = wp;
+                                cell.GroundType = GameCell.GroundTypes.Start;
+                            }
+                            else if (wp.WaypointType == Waypoint.WaypointTypes.End)
+                            {
+                                EndWaypoint = wp;
+                                cell.GroundType = GameCell.GroundTypes.End;
+                            }
+                        }
+                        else
+                        {
+                            cell.GroundType = GameCell.GroundTypes.Dirt;
+                        }
+                    }
+                    else
+                    {
+                        cell.GroundType = GameCell.GroundTypes.Path;
+                    }
                 }
                 else
                 {
@@ -71,12 +168,14 @@ using UnityEngine;
                 }
 
 
-            }
-
-
         }
+        Debug.Assert(StartWaypoint != null, "Did not find start.");
+        Debug.Assert(EndWaypoint != null, "Did not find end.");
 
-        private Vector2 CalcMapCoords(GameObject map, Vector3 position)
+
+    }
+
+    private Vector2 CalcMapCoords(GameObject map, Vector3 position)
         {
             
             return new Vector2( (int) position.x - (int) _mapInternalGrid.min.x, (int) position.y -(int) _mapInternalGrid.min.y);
@@ -126,32 +225,81 @@ using UnityEngine;
                 {
                     if (yy >= Cells.GetLength(1) || xx >= Cells.GetLength(0))
                     {
-                        grid[xx, yy] = 0; // Assume outside area is blocked
+                        grid[xx, yy] = CELL_BLOCKED; // Assume outside area is blocked
                     }
                     else
                     {
-                        grid[xx, yy] = (Cells[xx, yy].BackgroundGameObject != null) ? (byte) 0 : (byte) 1;
+                        grid[xx, yy] = CalcCellValue(xx,yy);
                     }
                 }
             }
             return grid;
         }
-    }
 
-    public class GameCell
-    {
-        public enum GroundTypes
+        private const byte CELL_OPEN = 1;
+        private const byte CELL_BLOCKED = 0;
+
+        private byte CalcCellValue(int xx, int yy)
         {
-            Dirt,
-            Water,
-            Rock,
-            Tree,
-            Path
+            var cell = Cells[xx, yy];
+            if (cell.IsStart || cell.IsEnd)
+            {
+                return CELL_OPEN;
+            }
+            return (cell.BackgroundGameObject != null) ? (byte) CELL_BLOCKED : (byte) CELL_OPEN;
         }
 
-        public GroundTypes GroundType { get; set; }
-        public GameObject BackgroundGameObject { get; set; }
+        public void DrawTextAtPoint(Point nodePoint, string s)
+        {
+            var vector = MapPointToVector( nodePoint)-new Vector3(0.25f,-0.25f, 0f);
+            var color = GUI.color;
+            GUI.color = Color.green;
+            Handles.Label(vector, s);
+            GUI.color = color;
+        }
 
+        public Point MapVectorToPoint(Vector2 vv)
+        {
+            var origin = _mapInternalGrid.min;
+            var p = new Point(Mathf.RoundToInt(vv.x - origin.x), Mathf.RoundToInt(vv.y - origin.y));
+            return p;
+        }
 
-
+        private Vector3 MapPointToVector(Point nodePoint)
+        {
+            var origin = _mapInternalGrid.min;
+            origin.x += nodePoint.X;
+            origin.y += nodePoint.Y;
+            return origin;
+        }
     }
+
+public class GameCell
+{
+    public enum GroundTypes
+    {
+        Dirt,
+        Water,
+        Rock,
+        Tree,
+        Path,
+        Start,
+        End
+    }
+
+    public GroundTypes GroundType { get; set; }
+    public GameObject BackgroundGameObject { get; set; }
+
+
+    public bool IsStart
+    {
+        get { return GroundType == GroundTypes.Start; }
+    }
+
+    public bool IsEnd
+    {
+        get { return GroundType == GroundTypes.End; }
+    }
+}
+
+
