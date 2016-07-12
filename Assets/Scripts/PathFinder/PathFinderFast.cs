@@ -200,7 +200,7 @@ namespace Algorithms
             mStop = true;
         }
 
-        public List<PathFinderNode> FindPath(Point start, Point end)
+        public List<PathFinderNode> FindPath(GridPoint start, GridPoint end)
         {
             lock (this)
             {
@@ -342,7 +342,7 @@ namespace Algorithms
                                 mH = (int)(mHEstimate * (Math.Pow((mNewLocationX - end.X), 2) + Math.Pow((mNewLocationY - end.Y), 2)));
                                 break;
                             case HeuristicFormula.Custom1:
-                                Point dxy = new Point(Math.Abs(end.X - mNewLocationX), Math.Abs(end.Y - mNewLocationY));
+                                GridPoint dxy = new GridPoint(Math.Abs(end.X - mNewLocationX), Math.Abs(end.Y - mNewLocationY));
                                 int Orthogonal = Math.Abs(dxy.X - dxy.Y);
                                 int Diagonal = Math.Abs(((dxy.X + dxy.Y) - Orthogonal) / 2);
                                 mH = mHEstimate * (Diagonal + Orthogonal + dxy.X + dxy.Y);

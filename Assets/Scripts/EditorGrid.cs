@@ -20,7 +20,7 @@ public static class GridHelper
         return rc;
     }
 
-    public static Vector3 MapPointToVector(GameObject go, Point p)
+    public static Vector3 MapPointToVector(GameObject go, GridPoint p)
     {
         var gr = GetInternalGridRect(go);
         var v = gr.min + new Vector2(p.X, p.Y);

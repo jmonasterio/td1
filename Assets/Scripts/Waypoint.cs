@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Algorithms;
+using UnityEngine;
 
 
 // TBD: Would be nice to be able to have multiple starts, and associated end.
@@ -20,9 +21,5 @@ public class Waypoint : MonoBehaviour
     /// </summary>
     public int WaypointIndex = 0; // 0 = start, 
 
-    /// <summary>
-    /// Optional, if multiple ENDs on the screen.
-    /// </summary>
-    public Waypoint Goal;
-
+    public GridPoint GridPoint;
 }

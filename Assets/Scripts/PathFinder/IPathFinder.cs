@@ -99,7 +99,7 @@ namespace Algorithms
 
         #region Methods
         void FindPathStop();
-        List<PathFinderNode> FindPath(Point start, Point end);
+        List<PathFinderNode> FindPath(GridPoint start, GridPoint end);
         #endregion
 
     }

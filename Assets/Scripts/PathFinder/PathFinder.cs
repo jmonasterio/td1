@@ -11,47 +11,61 @@
 //
 #define DEBUGON
 
-using System;
-using System.Text;
-using System.Threading;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Algorithms
 {
-    public struct Point
+    public struct GridPoint
     {
-        public Point( Vector2 p)
+        public GridPoint(Vector2 p)
         {
             _point = p;
         }
 
-        public Point(int x, int y)
+        public GridPoint(int x, int y)
         {
-            _point = new Vector2( x, y);
+            _point = new Vector2(x, y);
         }
 
         private Vector2 _point;
 
         public int X
         {
-            get
-            {
-                return (int) _point.x;
-                
-            }
+            get { return (int) _point.x; }
         }
+
         public int Y
         {
-            get
-            {
-                return (int) _point.y;
-
-            }
+            get { return (int) _point.y; }
         }
-    }
+
+        //add this code to class ThreeDPoint as defined previously
+        //
+        public static bool operator ==(GridPoint a, GridPoint b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object) a == null) || ((object) b == null))
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return a.X == b.X && a.Y == b.Y;
+        }
+
+        public static bool operator !=(GridPoint a, GridPoint b)
+            {
+            return !(a == b);
+            }
+
+        }
+
 
     #region Structs
     [Author("Franco, Gustavo")]
@@ -217,7 +231,7 @@ namespace Algorithms
             mStop = true;
         }
 
-        public List<PathFinderNode> FindPath(Point start, Point end)
+        public List<PathFinderNode> FindPath(GridPoint start, GridPoint end)
         {
             HighResolutionTime.Start();
 
@@ -364,7 +378,7 @@ namespace Algorithms
                             newNode.H = (int)(mHEstimate * (Math.Pow((newNode.X - end.X), 2) + Math.Pow((newNode.Y - end.Y), 2)));
                             break;
                         case HeuristicFormula.Custom1:
-                            Point dxy = new Point(Math.Abs(end.X - newNode.X), Math.Abs(end.Y - newNode.Y));
+                            GridPoint dxy = new GridPoint(Math.Abs(end.X - newNode.X), Math.Abs(end.Y - newNode.Y));
                             int Orthogonal = Math.Abs(dxy.X - dxy.Y);
                             int Diagonal = Math.Abs(((dxy.X + dxy.Y) - Orthogonal) / 2);
                             newNode.H = mHEstimate * (Diagonal + Orthogonal + dxy.X + dxy.Y);
