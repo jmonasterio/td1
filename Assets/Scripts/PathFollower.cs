@@ -7,139 +7,129 @@ using Algorithms;
 
 public class PathFollower : MonoBehaviour {
 
-    public GameGrid.Directions Direction;
+    public GameGrid.GridDirections GridDirection;
     public float Speed = 1.0f;
 
-    public GridPoint NextGridPoint;
-    public GridPoint PrevGridPoint;
+    public GameGrid.GameCell CurrentGameCell; // The one we are in.
+    public GameGrid.GameCell PrevGameCell; // The one we are leaving.
+    public GameGrid.GameCell NextGameCell; // The on we are going to.
+    public GameGrid.GameCell TargetCell; // The one we are going to
 
+    private GridPoint? _target = null;
     private float _startTime;
 
-
     // Use this for initialization
-    void Start () {
-	}
-
-    public void StartFollowing( GameGrid gameGrid)
+    public void Start()
     {
-        Direction = GameGrid.Directions.Forward;
+    }
 
-        PrevGridPoint = gameGrid.GetStartGameCell().GridPoint;
+    public void StartFollowing( GameGrid gameGrid, GridPoint target)
+    {
+        GridDirection = GameGrid.GridDirections.Forward;
 
-        NextGridPoint = gameGrid.GetNextPathGameCell( PrevGridPoint, Direction).GridPoint;
+        PrevGameCell = gameGrid.GetStartGameCell();
 
-        _startTime = Time.time;
+        NextGameCell = gameGrid.GetNextPathGameCell( PrevGameCell, GridDirection);
+
+        TargetCell = gameGrid.GetEndGameCell();
 
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-
-
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         if (gameGrid != null)
         {
-            if (_startTime == 0.0f)
-                {
-                // TBD: Put this elsewhere later.
-                StartFollowing(gameGrid);
-                }
+            if (!_target.HasValue)
+            {
+                _target = gameGrid.GetEndGameCell().GridPoint;
+                StartFollowing(gameGrid, _target.Value);
+                _startTime = Time.time;
+            }
+
 
             var map = gameGrid.Map;
-            var path = gameGrid.CurrentPath; // TBD - This won't work when the path can move.
 
+            // Refigure the path on each update (in case the path has changed).
+            // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
+            //  and we're sure the target is still there ... more complex games might allow the user to drop
+            /// walls to block paths.
+            var path = gameGrid.FindPath(PrevGameCell, TargetCell);
 
-            while (true)
+            //var nextGameCell = FindNextGameCell( path, PrevGameCell);
+
+            // If the path is no longer valid.
+            //if( !IsPathStillValid(path, PrevGameCell, NextGameCell, this.transform.position))
+            //{
+            //    //DebugSystem.DebugAssert(false, "Need to handle case where next cell is blocked (no longer on path).");
+            //}
+
+            var t = Time.time;
+            float deltaT = t - _startTime;
+            float distCovered = deltaT * Speed;
+
+            var nextPathVector = GridHelper.MapPointToVector(map, NextGameCell.GridPoint);
+            var prevPathVector = GridHelper.MapPointToVector(map, PrevGameCell.GridPoint);
+            float fracJourney = distCovered/(nextPathVector - prevPathVector).magnitude;
+
+            if (fracJourney <= 1.0f)
             {
-                var t = Time.time;
-                float deltaT = t - _startTime;
-                float distCovered = deltaT * Speed;
-
-                var nextPathVector = GridHelper.MapPointToVector(map, NextGridPoint);
-                var prevPathVector = GridHelper.MapPointToVector(map, PrevGridPoint);
-                float fracJourney = distCovered/(nextPathVector - prevPathVector).magnitude;
-
-                if (fracJourney <= 1.0f)
+                this.transform.position = Vector3.Lerp(prevPathVector, nextPathVector, fracJourney);
+            }
+            else if (fracJourney < 2.0f)
+            {
+                CurrentGameCell = NextGameCell;
+                // We moved past the point, so go on to the next point.
+                if (NextGameCell.GridPoint == TargetCell.GridPoint)
                 {
-                    this.transform.position = Vector3.Lerp(prevPathVector, nextPathVector, fracJourney);
-                    break;
-                }
-                else if (fracJourney < 2.0f)
-                {
-                    // We moved past the point, so go on to the next point.
-                    if (IsTargetPathPoint(NextGridPoint))
+                    GridDirection = GameGrid.Reverse(GridDirection);
+                    if (GridDirection == GameGrid.GridDirections.Back)
                     {
-                        Direction = Reverse(Direction);
+                        gameGrid.RandomizeStartCell();
+                        TargetCell = gameGrid.GetStartGameCell();
+                    }
+                    else
+                    {
+                        TargetCell = gameGrid.GetEndGameCell();
                     }
 
-                    GameGrid.GameCell gameCell = gameGrid.GetNextPathGameCell(NextGridPoint, Direction);
-                    PrevGridPoint = NextGridPoint;
-                    NextGridPoint = gameCell.GridPoint;
-
-                    // TBD: There may have been a little time left, so we have to move further past current point.
-                    _startTime = t;
-
-                    continue;
+                    // Changed target, so find a new path.
+                    path = gameGrid.FindPath(CurrentGameCell, TargetCell);
                 }
-                else
-                {
-                    DebugSystem.DebugAssert(false, "moved way to far");
-                    _startTime = t;
-                    break;
-                }
+                PrevGameCell = CurrentGameCell;
+                NextGameCell = gameGrid.GetNextPathGameCell(CurrentGameCell, GridDirection);
+
+
+                // TBD: There may have been a little time left, so we have to move further past current point.
+                _startTime = t;
+
+            }
+            else
+            {
+                // Why would we ever need to go this far, unless we missed aframe?
+                DebugSystem.DebugAssert(false, "moved way to far");
+                _startTime = t;
             }
 
         }
 
     }
 
-    
-    // This sucks because PathPoints don't tell me anything about the cells.
-    private bool IsTargetPathPoint(GridPoint nextGridPoint)
+    // Path has changed a lot and we're no longer on the way to a cell on the path.
+    private bool IsPathStillValid(List<GameGrid.GameCell> path, GameGrid.GameCell prevGameCell,
+        GameGrid.GameCell nextGameCell, Vector3 position)
     {
-        var path = Toolbox.Instance.GameManager.GameGrid.CurrentPath; // TBD - This won't work when the path can move.
-
-        var gameCell = FindPointOnPath(nextGridPoint, path);
-
-        if (Direction == GameGrid.Directions.Forward)
+        var targetcell = path.Find(_ => _.GridPoint == nextGameCell.GridPoint);
+        if (targetcell != null)
         {
-            if (gameCell.IsEnd)
-            {
-                return true;
-            }
+            return targetcell.IsBlocked();
         }
         else
         {
-            if (gameCell.IsStart)
-            {
-                return true;
-            }
+            int a = 0;
+            return false;
         }
-        return false;
-    }
 
-    private GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)
-    {
-        foreach (var node in path)
-        {
-            if (node.GridPoint == nextGridPoint)
-            {
-                return node;
-            }
-        }
-        return null;
-    }
-
-    private GameGrid.Directions Reverse(GameGrid.Directions direction)
-    {
-        if (direction == GameGrid.Directions.Back)
-        {
-            return GameGrid.Directions.Forward;
-        }
-        else
-        {
-            return GameGrid.Directions.Back;
-        }
     }
 }

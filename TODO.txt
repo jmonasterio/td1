@@ -1,2 +1,7 @@
-﻿- Cool theory on A*: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+﻿- Need to look, when I am about to enter a new cell, to see whether the path follower is blocked, and needs to turn back.
+- Need to prevent block a cell that already has an enemy in it.
+- Need to keep track of which cells have enemies.
+
+
+- Cool theory on A*: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
 - C# A* example: http://www.codeproject.com/Articles/15307/A-algorithm-implementation-in-C

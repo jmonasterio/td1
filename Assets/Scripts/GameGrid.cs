@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 [ExecuteInEditMode]
 public class GameGrid : MonoBehaviour
 {
-    public enum Directions
+    public enum GridDirections
     {
         Forward,
         Back
@@ -77,7 +77,7 @@ public class GameGrid : MonoBehaviour
         }
     }
 
-    public void FindPath()
+    public List<GameCell> FindPath( GameCell start, GameCell end)
     {
         var byteGrid = ToByteGrid();
 
@@ -89,9 +89,8 @@ public class GameGrid : MonoBehaviour
         pf.PunishChangeDirection = false;
         pf.SearchLimit = 5000;
         pf.TieBreaker = false;
-        var start = MapVectorToPoint(this.StartWaypoint.transform.position);
-        var end = MapVectorToPoint(this.EndWaypoint.transform.position);
-        _pathNodeList = pf.FindPath(start, end);
+        _pathNodeList = pf.FindPath(start.GridPoint, end.GridPoint);
+        return this.CurrentPath;
 
     }
 
@@ -100,15 +99,23 @@ public class GameGrid : MonoBehaviour
     {
 
 #if UNITY_EDITOR
-        FillFromHeirarchy(Map);
+        InitCellMapFromLevelMap(Map);
 #endif
-        FindPath();
+        var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
+        var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
+
+        FindPath(start, end);
+    }
+
+    private GameCell MapGridPointToCell(GridPoint mapVectorToGridPoint)
+    {
+        return Cells[mapVectorToGridPoint.X, mapVectorToGridPoint.Y];
     }
 
     public void Start()
     {
         // Initialize connection to others.
-        FillFromHeirarchy(Map);
+        InitCellMapFromLevelMap(Map);
     }
 
     void OnSceneGUI()
@@ -138,8 +145,56 @@ public class GameGrid : MonoBehaviour
 
     }
 
+    // This sucks because PathPoints don't tell me anything about the cells.
+    public static bool IsTargetPathPoint(GridPoint nextGridPoint, GridDirections direction)
+        {
+        var path = Toolbox.Instance.GameManager.GameGrid.CurrentPath; // TBD - This won't work when the path can move.
 
-    public void FillFromHeirarchy(GameObject map)
+        var gameCell = FindPointOnPath(nextGridPoint, path);
+
+        if (direction == GameGrid.GridDirections.Forward)
+            {
+            if (gameCell.IsEnd)
+                {
+                return true;
+                }
+            }
+        else
+            {
+            if (gameCell.IsStart)
+                {
+                return true;
+                }
+            }
+        return false;
+        }
+
+    public static GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)
+        {
+        foreach (var node in path)
+            {
+            if (node.GridPoint == nextGridPoint)
+                {
+                return node;
+                }
+            }
+        return null;
+        }
+
+    public static GameGrid.GridDirections Reverse(GameGrid.GridDirections gridDirection)
+        {
+        if (gridDirection == GameGrid.GridDirections.Back)
+            {
+            return GameGrid.GridDirections.Forward;
+            }
+        else
+            {
+            return GameGrid.GridDirections.Back;
+            }
+        }
+
+
+    public void InitCellMapFromLevelMap(GameObject map)
     {
         _mapInternalGrid = GridHelper.GetInternalGridRect(map);
 
@@ -294,7 +349,7 @@ public class GameGrid : MonoBehaviour
         GUI.color = color;
     }
 
-    public GridPoint MapVectorToPoint(Vector2 vv)
+    public GridPoint MapVectorToGridPoint(Vector2 vv)
     {
         var origin = _mapInternalGrid.min;
         var p = new GridPoint(Mathf.RoundToInt(vv.x - origin.x), Mathf.RoundToInt(vv.y - origin.y));
@@ -314,21 +369,44 @@ public class GameGrid : MonoBehaviour
         return Cells[StartWaypoint.GridPoint.X, StartWaypoint.GridPoint.Y];
     }
 
-    public GameCell GetNextPathGameCell(GridPoint curGridPoint, Directions direction)
+    public GameCell GetEndGameCell()
+        {
+        return Cells[EndWaypoint.GridPoint.X, EndWaypoint.GridPoint.Y];
+        }
+
+    // Bad idea.
+    public GameCell RandomGameCell(GameCell.GroundTypes OfGroundType)
     {
+        var list = new List<GameCell>();
+        for (int row = 0; row < Cells.GetLength(0); row++)
+        {
+            for (int col=0; col < Cells.GetLength(1); col++)
+            {
+                if (Cells[row, col].GroundType == OfGroundType)
+                {
+                    list.Add(Cells[row,col]);
+                }
+            }
+        }
+        return list[UnityEngine.Random.Range(0, list.Count)];
+    }
+
+    public GameCell GetNextPathGameCell(GameCell curGameCell, GridDirections gridDirection)
+    {
+        var curGridPoint = curGameCell.GridPoint;
         for (int ii = 0; ii < _pathNodeList.Count; ii++)
         {
             var cel = _pathNodeList[ii];
             if (cel.X == curGridPoint.X && cel.Y == curGridPoint.Y)
             {
                 PathFinderNode node;
-                if (direction == Directions.Back)
+                if (gridDirection == GridDirections.Back)
                 {
-                    if (ii > _pathNodeList.Count - 2)
+                    if (ii < 1)
                     {
                         return null;
                     }
-                    node = _pathNodeList[ii + 1];
+                    node = _pathNodeList[ii -1];
                 }
                 else
                 {
@@ -373,6 +451,17 @@ public class GameGrid : MonoBehaviour
         }
 
         public GridPoint GridPoint;
+
+        public bool IsBlocked()
+        {
+            bool open = this.GroundType == GroundTypes.Path || this.GroundType == GroundTypes.Start || this.GroundType == GroundTypes.End;
+            return !open;
+        }
+    }
+
+    public void RandomizeStartCell()
+    {
+        StartWaypoint.GridPoint = RandomGameCell(GameCell.GroundTypes.Dirt).GridPoint;
     }
 }
 
