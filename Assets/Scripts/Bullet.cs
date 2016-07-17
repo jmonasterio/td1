@@ -22,18 +22,28 @@ public class Bullet : MonoBehaviour
 
         if ((this.transform.position - _bulletStart).magnitude > BulletRange)
         {
-            Destroy(this.gameObject);
+            Destroy();
         }
+    }
+
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
-        {
+    {
+        // Each object decides what to do if it hits a bullet.
+#if OLD_WAY
         var bullet = collision.collider.gameObject;
-        if (bullet.GetComponent<Bullet>() != null)
-            {
-            Debug.Log("Hit!");
-            }
-        }
+        if (bullet.GetComponent<Enemy>() != null)
+        {
+            Debug.Log("Hit! Enemy");
+            Destroy(this.gameObject);
 
+        }
+#endif
     }
+
+}
 

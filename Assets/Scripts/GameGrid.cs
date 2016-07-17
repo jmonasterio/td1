@@ -9,13 +9,6 @@ using UnityEngine.Networking;
 [ExecuteInEditMode]
 public class GameGrid : MonoBehaviour
 {
-    public enum GridDirections
-    {
-        Forward,
-        Back
-    }
-
-
     public GameObject Map;
 
     private List<PathFinderNode> _pathNodeList;
@@ -48,11 +41,14 @@ public class GameGrid : MonoBehaviour
         {
             var list = new List<GameCell>();
 
-            foreach (var node in _pathNodeList)
+            if (_pathNodeList != null)
             {
-                var gameCell = Cells[node.X, node.Y];
-                list.Add(gameCell);
+                foreach (var node in _pathNodeList)
+                {
+                    var gameCell = Cells[node.X, node.Y];
+                    list.Add(gameCell);
 
+                }
             }
             return list;
         }
@@ -90,7 +86,7 @@ public class GameGrid : MonoBehaviour
         pf.HeuristicEstimate = 2;
         pf.HeavyDiagonals = true;
         pf.PunishChangeDirection = false;
-        pf.SearchLimit = 5000;
+        pf.SearchLimit = 15000;
         pf.TieBreaker = false;
         _pathNodeList = pf.FindPath(start.GridPoint, end.GridPoint);
         return this.CurrentPath;
@@ -104,10 +100,10 @@ public class GameGrid : MonoBehaviour
 #if UNITY_EDITOR
         InitCellMapFromLevelMap(Map);
 #endif
-        var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
-        var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
+        //var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
+       // var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
 
-        FindPath(start, end);
+        //FindPath(start, end);
     }
 
     private GameCell MapGridPointToCell(GridPoint mapVectorToGridPoint)
@@ -148,57 +144,17 @@ public class GameGrid : MonoBehaviour
 
     }
 
-    // This sucks because PathPoints don't tell me anything about the cells.
-    public static bool IsTargetPathPoint(GridPoint nextGridPoint, GridDirections direction)
-    {
-        var path = Toolbox.Instance.GameManager.GameGrid.CurrentPath; // TBD - This won't work when the path can move.
-        if (path != null)
-        {
-        }
-        var gameCell = FindPointOnPath(nextGridPoint, path);
-
-        if (direction == GameGrid.GridDirections.Forward)
-        {
-            if (gameCell.IsEnd)
-            {
-                return true;
-            }
-        }
-        else
-        {
-            if (gameCell.IsStart)
-            {
-                return true;
-            }
-        }
-
-
-        return false;
-    }
-
     public static GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)
-        {
+    {
         foreach (var node in path)
-            {
-            if (node.GridPoint == nextGridPoint)
-                {
-                return node;
-                }
-            }
-        return null;
-        }
-
-    public static GameGrid.GridDirections Reverse(GameGrid.GridDirections gridDirection)
         {
-        if (gridDirection == GameGrid.GridDirections.Back)
+            if (node.GridPoint == nextGridPoint)
             {
-            return GameGrid.GridDirections.Forward;
-            }
-        else
-            {
-            return GameGrid.GridDirections.Back;
+                return node;
             }
         }
+        return null;
+    }
 
 
     public void InitCellMapFromLevelMap(GameObject map)
@@ -349,7 +305,7 @@ public class GameGrid : MonoBehaviour
 
     public void DrawTextAtPoint(GridPoint nodeGridPoint, string s)
     {
-        var vector = MapPointToVector(nodeGridPoint) - _textOffset;
+        var vector = MapGridPointToVector(nodeGridPoint) - _textOffset;
         var color = GUI.color;
         GUI.color = Color.green;
         Handles.Label(vector, s);
@@ -363,7 +319,7 @@ public class GameGrid : MonoBehaviour
         return p;
     }
 
-    private Vector3 MapPointToVector(GridPoint nodeGridPoint)
+    private Vector3 MapGridPointToVector(GridPoint nodeGridPoint)
     {
         var origin = _mapInternalGrid.min;
         origin.x += nodeGridPoint.X;
@@ -398,31 +354,26 @@ public class GameGrid : MonoBehaviour
         return list[UnityEngine.Random.Range(0, list.Count)];
     }
 
-    public GameCell GetNextPathGameCell(GameCell curGameCell, GridDirections gridDirection)
+    public GameCell GetNextPathGameCell(GameCell curGameCell)
     {
+        if (_pathNodeList == null)
+        {
+            return null;
+        }
+
         var curGridPoint = curGameCell.GridPoint;
+
         for (int ii = 0; ii < _pathNodeList.Count; ii++)
         {
             var cel = _pathNodeList[ii];
             if (cel.X == curGridPoint.X && cel.Y == curGridPoint.Y)
             {
                 PathFinderNode node;
-                if (gridDirection == GridDirections.Back)
+                if (ii < 1)
                 {
-                    if (ii < 1)
-                    {
-                        return null;
-                    }
-                    node = _pathNodeList[ii -1];
+                    return null;
                 }
-                else
-                {
-                    if (ii < 1)
-                    {
-                        return null;
-                    }
-                    node = _pathNodeList[ii - 1];
-                }
+                node = _pathNodeList[ii - 1];
                 return Cells[node.X, node.Y];
             }
         }
@@ -466,9 +417,20 @@ public class GameGrid : MonoBehaviour
         }
     }
 
-    public void RandomizeStartCell()
+    public void MoveWayPointToGridPoint( Waypoint wp, GridPoint dst)
     {
-        StartWaypoint.GridPoint = RandomGameCell(GameCell.GroundTypes.Dirt).GridPoint;
+        wp.GridPoint = dst;
+        wp.GetComponent<Transform>().position = MapGridPointToVector(dst);
+    }
+
+    public void RandomizeEndCell()
+    {
+         MoveWayPointToGridPoint(EndWaypoint, RandomGameCell(GameCell.GroundTypes.Dirt).GridPoint);
+    }
+
+    public void MoveStartToEnd()
+    {
+        MoveWayPointToGridPoint( StartWaypoint, EndWaypoint.GridPoint);
     }
 }
 

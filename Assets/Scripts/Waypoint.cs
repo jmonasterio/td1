@@ -22,4 +22,5 @@ public class Waypoint : MonoBehaviour
     public int WaypointIndex = 0; // 0 = start, 
 
     public GridPoint GridPoint;
+
 }

@@ -15,10 +15,13 @@ public class Enemy : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        var bullet = collision.collider.gameObject;
-        if (bullet.GetComponent<Bullet>() != null)
+        var bulletGo = collision.collider.gameObject;
+        var bullet = bulletGo.GetComponent<Bullet>();
+
+        if (bullet != null)
         {
             Debug.Log("Hit!");
+            bullet.Destroy();
         }
     }
 }

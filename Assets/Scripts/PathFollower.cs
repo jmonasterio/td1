@@ -7,7 +7,6 @@ using Algorithms;
 
 public class PathFollower : MonoBehaviour {
 
-    public GameGrid.GridDirections GridDirection;
     public float Speed = 1.0f;
 
     public GameGrid.GameCell CurrentGameCell; // The one we are in.
@@ -15,7 +14,6 @@ public class PathFollower : MonoBehaviour {
     public GameGrid.GameCell NextGameCell; // The on we are going to.
     public GameGrid.GameCell TargetCell; // The one we are going to
 
-    private GridPoint? _target = null;
     private float _startTime;
 
     // Use this for initialization
@@ -23,17 +21,36 @@ public class PathFollower : MonoBehaviour {
     {
     }
 
-    public void StartFollowing( GameGrid gameGrid, GridPoint target)
+
+    public void MakeNewRandomPath( GameGrid gameGrid)
     {
-        GridDirection = GameGrid.GridDirections.Forward;
-
         PrevGameCell = gameGrid.GetStartGameCell();
-
-        NextGameCell = gameGrid.GetNextPathGameCell( PrevGameCell, GridDirection);
-
+        CurrentGameCell = PrevGameCell;
+        gameGrid.RandomizeEndCell();
         TargetCell = gameGrid.GetEndGameCell();
 
     }
+
+
+    public void FollowToTargetCell(GameGrid gameGrid)
+    {
+        PrevGameCell = CurrentGameCell;
+
+        // Changed target, so find a new path.
+        var ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell);
+        if (ignorePath == null || ignorePath.Count == 0)
+        {
+            // Couldn't find a path!!!!
+            ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell);
+            Debug.Assert(false, "Couldn't find a path! Happens randomly. What???");
+        }
+
+        NextGameCell = gameGrid.GetNextPathGameCell(PrevGameCell);
+        Debug.Assert(NextGameCell != null, "Should have something on path? What is up?");
+
+
+    }
+
 
     // Update is called once per frame
     public void Update()
@@ -41,11 +58,14 @@ public class PathFollower : MonoBehaviour {
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         if (gameGrid != null)
         {
-            if (!_target.HasValue)
+            var t = Time.time;
+
+            if (TargetCell == null)
             {
-                _target = gameGrid.GetEndGameCell().GridPoint;
-                StartFollowing(gameGrid, _target.Value);
-                _startTime = Time.time;
+                MakeNewRandomPath(gameGrid);
+                FollowToTargetCell(gameGrid);
+                _startTime = t;
+                return;
             }
 
 
@@ -65,10 +85,10 @@ public class PathFollower : MonoBehaviour {
             //    //DebugSystem.DebugAssert(false, "Need to handle case where next cell is blocked (no longer on path).");
             //}
 
-            var t = Time.time;
             float deltaT = t - _startTime;
-            float distCovered = deltaT * Speed;
+            float distCovered = deltaT*Speed;
 
+            Debug.Assert(NextGameCell != null);
             var nextPathVector = GridHelper.MapPointToVector(map, NextGameCell.GridPoint);
             var prevPathVector = GridHelper.MapPointToVector(map, PrevGameCell.GridPoint);
             float fracJourney = distCovered/(nextPathVector - prevPathVector).magnitude;
@@ -83,38 +103,42 @@ public class PathFollower : MonoBehaviour {
                 // We moved past the point, so go on to the next point.
                 if (NextGameCell.GridPoint == TargetCell.GridPoint)
                 {
-                    GridDirection = GameGrid.Reverse(GridDirection);
-                    if (GridDirection == GameGrid.GridDirections.Back)
+                    if (TargetCell.GroundType == GameGrid.GameCell.GroundTypes.Start)
                     {
-                        gameGrid.RandomizeStartCell();
-                        TargetCell = gameGrid.GetStartGameCell();
+                        // Back at start. Create a new random path.
+                        // TBD-JM: This is just for testing. Really we want to destroy
+                        //  units and add to score.
+                        TargetCell = null;
                     }
                     else
                     {
-                        TargetCell = gameGrid.GetEndGameCell();
+                        // Go back to start.
+                        TargetCell = gameGrid.GetStartGameCell();
+                        FollowToTargetCell(gameGrid);
+                        ;
+                        Debug.Assert(NextGameCell != null);
+
                     }
-
-                    // Changed target, so find a new path.
-                    path = gameGrid.FindPath(CurrentGameCell, TargetCell);
                 }
-                PrevGameCell = CurrentGameCell;
-                NextGameCell = gameGrid.GetNextPathGameCell(CurrentGameCell, GridDirection);
+                else
+                {
 
-
-                // TBD: There may have been a little time left, so we have to move further past current point.
-                _startTime = t;
-
+                    // TBD: There may have been a little time left, so we have to move further past current point.
+                    _startTime = t;
+                    FollowToTargetCell(gameGrid);
+                }
             }
             else
             {
                 // Why would we ever need to go this far, unless we missed aframe?
                 DebugSystem.DebugAssert(false, "moved way to far");
                 _startTime = t;
+                FollowToTargetCell(gameGrid);
             }
-
         }
-
     }
+
+
 
     // Path has changed a lot and we're no longer on the way to a cell on the path.
     private bool IsPathStillValid(List<GameGrid.GameCell> path, GameGrid.GameCell prevGameCell,
