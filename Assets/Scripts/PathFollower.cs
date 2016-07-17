@@ -127,7 +127,6 @@ public class PathFollower : MonoBehaviour {
         }
         else
         {
-            int a = 0;
             return false;
         }
 

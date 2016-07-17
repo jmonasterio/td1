@@ -60,9 +60,10 @@ namespace Algorithms
         }
 
         public static bool operator !=(GridPoint a, GridPoint b)
-            {
+        {
             return !(a == b);
-            }
+        }
+
 
         }
 

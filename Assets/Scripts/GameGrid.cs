@@ -21,6 +21,9 @@ public class GameGrid : MonoBehaviour
     private List<PathFinderNode> _pathNodeList;
 
     public const int BACKGROUND_LAYER = 8;
+    public const int TOWER_LAYER = 9;
+    public const int ENEMY_LAYER = 10;
+    public const int BULLET_LAYER = 11;
 
     public GameCell[,] Cells;
     private Waypoint StartWaypoint;
@@ -147,27 +150,31 @@ public class GameGrid : MonoBehaviour
 
     // This sucks because PathPoints don't tell me anything about the cells.
     public static bool IsTargetPathPoint(GridPoint nextGridPoint, GridDirections direction)
-        {
+    {
         var path = Toolbox.Instance.GameManager.GameGrid.CurrentPath; // TBD - This won't work when the path can move.
-
+        if (path != null)
+        {
+        }
         var gameCell = FindPointOnPath(nextGridPoint, path);
 
         if (direction == GameGrid.GridDirections.Forward)
-            {
+        {
             if (gameCell.IsEnd)
-                {
-                return true;
-                }
-            }
-        else
             {
-            if (gameCell.IsStart)
-                {
                 return true;
-                }
             }
-        return false;
         }
+        else
+        {
+            if (gameCell.IsStart)
+            {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
 
     public static GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)
         {
@@ -287,7 +294,7 @@ public class GameGrid : MonoBehaviour
             .Where(go => go.transform.hideFlags == HideFlags.None).ToArray();
     }
 
-    private static List<GameObject> GetObjectsInLayer(int layer)
+    public static List<GameObject> GetObjectsInLayer(int layer)
     {
         var objects = GetSceneObjects();
 
