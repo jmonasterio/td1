@@ -1,15 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Waves : MonoBehaviour {
+public class Waves : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+   
 }

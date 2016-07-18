@@ -11,6 +11,7 @@ public class GameManagerScript : MonoBehaviour
     // Inspectors
     public string GameName;
 
+
     // State
 
     // Use this for initialization (of me).

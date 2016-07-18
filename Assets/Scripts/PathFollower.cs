@@ -26,7 +26,7 @@ public class PathFollower : MonoBehaviour {
     {
         PrevGameCell = gameGrid.GetStartGameCell();
         CurrentGameCell = PrevGameCell;
-        gameGrid.RandomizeEndCell();
+        //gameGrid.RandomizeEndCell();
         TargetCell = gameGrid.GetEndGameCell();
 
     }

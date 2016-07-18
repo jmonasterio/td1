@@ -137,11 +137,6 @@ public class GameGrid : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            Debug.Assert(false, "No path found");
-        }
-
     }
 
     public static GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)
