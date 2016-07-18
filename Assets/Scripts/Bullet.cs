@@ -14,10 +14,15 @@ public class Bullet : MonoBehaviour
         _bulletStart = this.transform.position;
     }
 
+
     // Update is called once per frame
     void Update()
     {
+
         float dt = Time.deltaTime;
+
+
+
         this.transform.position = this.transform.position + direction*BulletSpeed*dt;
 
         if ((this.transform.position - _bulletStart).magnitude > BulletRange)

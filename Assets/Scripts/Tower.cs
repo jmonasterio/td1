@@ -5,33 +5,44 @@ using System.Linq;
 
 public class Tower : MonoBehaviour
 {
-    private Bullet _bullet;
     public Bullet BulletPrefab;
+    public float ReloadTime; // TBD-JM: Should be part of different types of bullets, that are in GUN SLOT
+    public float BulletRange;
 
-	// Use this for initialization
-	void Start () {
+    private float _reloadDelay;
+
+
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	    if (_bullet == null)
+
+        _reloadDelay -= Time.deltaTime;
+
+	    if (_reloadDelay <= 0.0f)
 	    {
-	        var enempy = FindClosestEnemy(5.0f); // Should be related to bullet range.
+
+	        var enempy = FindClosestEnemy(BulletPrefab.BulletRange); // Should be related to bullet range.
 	        if (enempy != null)
 	        {
 	            FireBulletAt(enempy);
+	            _reloadDelay = ReloadTime;
+
 	        }
 	    }
 	}
 
     private void FireBulletAt(Enemy enempy)
     {
-        _bullet = Instantiate<Bullet>(BulletPrefab);
+        var bullet = Instantiate<Bullet>(BulletPrefab);
         var here = this.transform.position;
-        _bullet.direction = (enempy.transform.position - here).normalized;
-        _bullet.transform.position = here;
+        bullet.direction = (enempy.transform.position - here).normalized;
+        bullet.transform.position = here;
     }
 
     private Enemy FindClosestEnemy(float fMax)

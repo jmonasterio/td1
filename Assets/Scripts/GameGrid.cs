@@ -11,8 +11,6 @@ public class GameGrid : MonoBehaviour
 {
     public GameObject Map;
 
-    private List<PathFinderNode> _pathNodeList;
-
     public const int BACKGROUND_LAYER = 8;
     public const int TOWER_LAYER = 9;
     public const int ENEMY_LAYER = 10;
@@ -35,23 +33,20 @@ public class GameGrid : MonoBehaviour
         return null;
     }
 
-    public List<GameCell> CurrentPath
+    public List<GameCell> CurrentPath(PathFollower follwer)
     {
-        get
+        var list = new List<GameCell>();
+
+        if (follwer.Path != null)
         {
-            var list = new List<GameCell>();
-
-            if (_pathNodeList != null)
+            foreach (var node in follwer.Path)
             {
-                foreach (var node in _pathNodeList)
-                {
-                    var gameCell = Cells[node.X, node.Y];
-                    list.Add(gameCell);
+                var gameCell = Cells[node.X, node.Y];
+                list.Add(gameCell);
 
-                }
             }
-            return list;
         }
+        return list;
 
     }
 
@@ -76,7 +71,7 @@ public class GameGrid : MonoBehaviour
         }
     }
 
-    public List<GameCell> FindPath( GameCell start, GameCell end)
+    public List<GameCell> FindPath( GameCell start, GameCell end, PathFollower forFollower)
     {
         var byteGrid = ToByteGrid();
 
@@ -88,8 +83,8 @@ public class GameGrid : MonoBehaviour
         pf.PunishChangeDirection = false;
         pf.SearchLimit = 15000;
         pf.TieBreaker = false;
-        _pathNodeList = pf.FindPath(start.GridPoint, end.GridPoint);
-        return this.CurrentPath;
+        forFollower.Path = pf.FindPath(start.GridPoint, end.GridPoint);
+        return CurrentPath(forFollower);
 
     }
 
@@ -117,27 +112,8 @@ public class GameGrid : MonoBehaviour
         InitCellMapFromLevelMap(Map);
     }
 
-    void OnSceneGUI()
-    {
-        OnGUI();
-    }
+ 
 
-    void OnGUI()
-    {
-        if (_pathNodeList != null)
-        {
-            foreach (var node in _pathNodeList)
-            {
-                // Draw lines between the nodes, just to see.
-                //Debug.DrawLine( );
-                var nodePoint = new GridPoint(node.X, node.Y);
-                if (Toolbox.Instance.DebugSys.ShowXOnPath)
-                {
-                    DrawTextAtPoint(nodePoint, "X");
-                }
-            }
-        }
-    }
 
     public static GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)
     {
@@ -349,18 +325,19 @@ public class GameGrid : MonoBehaviour
         return list[UnityEngine.Random.Range(0, list.Count)];
     }
 
-    public GameCell GetNextPathGameCell(GameCell curGameCell)
+    public GameCell GetNextPathGameCell(GameCell curGameCell, PathFollower forFollower)
     {
-        if (_pathNodeList == null)
+        var path = forFollower.Path;
+        if (path == null)
         {
             return null;
         }
 
         var curGridPoint = curGameCell.GridPoint;
 
-        for (int ii = 0; ii < _pathNodeList.Count; ii++)
+        for (int ii = 0; ii < path.Count; ii++)
         {
-            var cel = _pathNodeList[ii];
+            var cel = forFollower.Path[ii];
             if (cel.X == curGridPoint.X && cel.Y == curGridPoint.Y)
             {
                 PathFinderNode node;
@@ -368,7 +345,7 @@ public class GameGrid : MonoBehaviour
                 {
                     return null;
                 }
-                node = _pathNodeList[ii - 1];
+                node = path[ii - 1];
                 return Cells[node.X, node.Y];
             }
         }

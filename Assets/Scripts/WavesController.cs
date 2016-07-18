@@ -25,6 +25,7 @@ public class WavesController : MonoBehaviour {
                 Vector3 spawnPosition = SpawnWaypoint.transform.position;
                 var newEnemy = Instantiate<Enemy>(EnemyPrefab);
                 newEnemy.transform.position = spawnPosition;
+                Toolbox.Instance.GameManager.Enemies().Add(newEnemy);
                 yield return new WaitForSeconds(SpawnWait);
                 }
             yield return new WaitForSeconds(WaveWait);

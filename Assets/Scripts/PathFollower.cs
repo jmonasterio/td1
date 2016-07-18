@@ -7,6 +7,8 @@ using Algorithms;
 
 public class PathFollower : MonoBehaviour {
 
+    private List<PathFinderNode> _pathNodeList;
+
     public float Speed = 1.0f;
 
     public GameGrid.GameCell CurrentGameCell; // The one we are in.
@@ -21,6 +23,15 @@ public class PathFollower : MonoBehaviour {
     {
     }
 
+    public List<PathFinderNode> Path
+    {
+        get
+        {
+            return _pathNodeList;
+            
+        }
+        set { _pathNodeList = value; }
+    } 
 
     public void MakeNewRandomPath( GameGrid gameGrid)
     {
@@ -37,19 +48,46 @@ public class PathFollower : MonoBehaviour {
         PrevGameCell = CurrentGameCell;
 
         // Changed target, so find a new path.
-        var ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell);
+        var ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell, this);
         if (ignorePath == null || ignorePath.Count == 0)
         {
             // Couldn't find a path!!!!
-            ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell);
+            ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell, this);
             Debug.Assert(false, "Couldn't find a path! Happens randomly. What???");
         }
 
-        NextGameCell = gameGrid.GetNextPathGameCell(PrevGameCell);
+        NextGameCell = gameGrid.GetNextPathGameCell(PrevGameCell, this);
         Debug.Assert(NextGameCell != null, "Should have something on path? What is up?");
 
 
     }
+
+
+
+    void OnSceneGUI()
+        {
+        OnGUI();
+        }
+
+    void OnGUI()
+    {
+        if (_pathNodeList != null)
+        {
+            var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+
+            foreach (var node in _pathNodeList)
+            {
+                // Draw lines between the nodes, just to see.
+                //Debug.DrawLine( );
+                var nodePoint = new GridPoint(node.X, node.Y);
+                if (Toolbox.Instance.DebugSys.ShowXOnPath)
+                {
+                    gameGrid.DrawTextAtPoint(nodePoint, "X");
+                }
+            }
+        }
+    }
+
 
 
     // Update is called once per frame
@@ -75,7 +113,7 @@ public class PathFollower : MonoBehaviour {
             // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
             //  and we're sure the target is still there ... more complex games might allow the user to drop
             /// walls to block paths.
-            var path = gameGrid.FindPath(PrevGameCell, TargetCell);
+            var path = gameGrid.FindPath(PrevGameCell, TargetCell,this);
 
             //var nextGameCell = FindNextGameCell( path, PrevGameCell);
 
@@ -105,10 +143,11 @@ public class PathFollower : MonoBehaviour {
                 {
                     if (TargetCell.GroundType == GameGrid.GameCell.GroundTypes.Start)
                     {
-                        // Back at start. Create a new random path.
                         // TBD-JM: This is just for testing. Really we want to destroy
                         //  units and add to score.
-                        TargetCell = null;
+                        // TBD-JM: Lame that we have to cast to ENEMY.
+                        Toolbox.Instance.GameManager.Enemies().Remove(this.GetComponent<Enemy>());
+                        Destroy(this.gameObject);
                     }
                     else
                     {

@@ -1,7 +1,12 @@
-﻿- GameGrid shouldn't have the path. The FOLLOWER should have the path.
-- Create an enemy wave.
-- Kill enemies that are hit by too many.
+﻿x Need more delay between bullets
+x OnGui needs to draw path for each enemy.
+x GameGrid shouldn't have the path. The FOLLOWER should have the path.
+x Create an enemy wave.
+- Create wave from wave collection.
+- Kill enemies that are hit by too many bullets
 - Start keeping simple score.
+- Add health to enemy and towers.
+- Add ability to drop a tower.
 
 - Need to look, when I am about to enter a new cell, to see whether the path follower is blocked, and needs to turn back.
 - Need to prevent block a cell that already has an enemy in it.
