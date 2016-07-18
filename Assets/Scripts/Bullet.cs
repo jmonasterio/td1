@@ -7,10 +7,12 @@ public class Bullet : MonoBehaviour
     public Vector3 direction;
     public float BulletSpeed;
     public float BulletRange;
+    private Transform _bulletsCollection;
 
     // Use this for initialization
     void Start()
     {
+        _bulletsCollection = GameObject.Find("Bullets").transform; // TBD: Maybe do this in the in the Enemy object.
         _bulletStart = this.transform.position;
     }
 
@@ -24,6 +26,7 @@ public class Bullet : MonoBehaviour
 
 
         this.transform.position = this.transform.position + direction*BulletSpeed*dt;
+        this.transform.SetParent( _bulletsCollection);
 
         if ((this.transform.position - _bulletStart).magnitude > BulletRange)
         {

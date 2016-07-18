@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Wave : MonoBehaviour
+public class WaveBuffer : MonoBehaviour
 {
 
-    public string name;
-    public float startDelayTime;
-    public float endDelayTime;
-
-
+    public float delay = 1.0f;
 
 	// Use this for initialization
 	void Start () {
