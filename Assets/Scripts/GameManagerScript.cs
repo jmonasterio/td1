@@ -46,10 +46,13 @@ public class GameManagerScript : MonoBehaviour
 
     public List<Enemy> Enemies()
     {
+        var enemiesCollection = GameObject.Find("Enemies"); // TBD: Maybe do this in the in the Enemy object.
+
+
         var list = new List<Enemy>();
-        foreach (var en in GameGrid.GetObjectsInLayer(GameGrid.ENEMY_LAYER))
+        foreach (Transform en in enemiesCollection.transform)
         {
-            list.Add((Enemy) en.GetComponent<Enemy>());
+            list.Add( en.gameObject.GetComponent<Enemy>());
         }
         return list;
     }

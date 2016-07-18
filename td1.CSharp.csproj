@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\GameGrid.cs" />
     <Compile Include="Assets\Scripts\GameManagerScript.cs" />
+    <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\MouseInput.cs" />
     <Compile Include="Assets\Scripts\PathFinder\AuthorAttribute.cs" />
     <Compile Include="Assets\Scripts\PathFinder\IPathFinder.cs" />
@@ -82,10 +83,10 @@
     <Compile Include="Assets\Scripts\Toolbox.cs" />
     <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\Scripts\Wave.cs" />
+    <Compile Include="Assets\Scripts\WaveBuffer.cs" />
     <Compile Include="Assets\Scripts\Waves.cs" />
     <Compile Include="Assets\Scripts\WavesController.cs" />
     <Compile Include="Assets\Scripts\Waypoint.cs" />
-    <Compile Include="Assets\WaveBuffer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

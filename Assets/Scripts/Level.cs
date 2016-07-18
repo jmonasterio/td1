@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Wave : MonoBehaviour
+public class Level : MonoBehaviour
 {
 
-    public string WaveName;
-    public float startDelayTime;
-    public float endDelayTime;
-
-
+    public string LevelName;
 
 	// Use this for initialization
 	void Start () {

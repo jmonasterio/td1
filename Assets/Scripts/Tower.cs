@@ -52,7 +52,11 @@ public class Tower : MonoBehaviour
         {
             var here = this.transform.position;
 
-            var found = nearby.OrderBy(_ => (_.transform.position - here).magnitude).First();
+            var found = nearby.OrderBy(_ => (_.transform.position - here).magnitude).FirstOrDefault();
+            if (found == null)
+            {
+                return null;
+            }
             if ((found.transform.position - here).magnitude < fMax)
             {
                 return found;

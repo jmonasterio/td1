@@ -2,7 +2,11 @@
 x OnGui needs to draw path for each enemy.
 x GameGrid shouldn't have the path. The FOLLOWER should have the path.
 x Create an enemy wave.
-- Create wave from wave collection.
+- Have a way for wave to start off screen.
+- Detect when level is over.
+- Pause a level.
+- Speed to next wavelet.
+x Create wave from wave collection.
 - Kill enemies that are hit by too many bullets
 - Start keeping simple score.
 - Add health to enemy and towers.
