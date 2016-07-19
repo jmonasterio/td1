@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21250400}
   - 114: {fileID: 11493462}
   m_Layer: 8
-  m_Name: SquarePF
+  m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

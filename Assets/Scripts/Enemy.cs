@@ -21,9 +21,16 @@ public class Enemy : MonoBehaviour {
         if (bullet != null)
         {
             Debug.Log("Hit!");
+           
             bullet.Destroy();
-            Toolbox.Instance.GameManager.Enemies().Remove(this);
-            Destroy(this.gameObject);
+
+            var health = this.gameObject.GetComponent<Health>();
+            health.Lives = health.Lives - 1;
+            if (health.Lives <= 0)
+            {
+                Toolbox.Instance.GameManager.Enemies().Remove(this);
+                Destroy(this.gameObject);
+            }
         }
     }
 }

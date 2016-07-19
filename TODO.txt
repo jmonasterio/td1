@@ -7,8 +7,8 @@ x Create an enemy wave.
 - Pause a level.
 - Speed to next wavelet.
 x Create wave from wave collection.
-- Kill enemies that are hit by too many bullets
-- Start keeping simple score.
+x Kill enemies that are hit by too many bullets
+x Start keeping simple score.
 - Add health to enemy and towers.
 - Add ability to drop a tower.
 

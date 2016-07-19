@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11448546}
   - 114: {fileID: 11483746}
   m_Layer: 8
-  m_Name: SelectorPF
+  m_Name: Selector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4bd37a6bf86bc5409f84e25f717483d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selector: {fileID: 0}
 --- !u!114 &11483746
 MonoBehaviour:
   m_ObjectHideFlags: 1
