@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour {
             if (health.Lives <= 0)
             {
                 Toolbox.Instance.GameManager.Enemies().Remove(this);
+                Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Score += 100;
                 Destroy(this.gameObject);
             }
         }
