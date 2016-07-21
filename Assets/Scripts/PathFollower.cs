@@ -143,9 +143,8 @@ public class PathFollower : MonoBehaviour {
                 {
                     if (TargetCell.GroundType == GameGrid.GameCell.GroundTypes.Start)
                     {
-                        // TBD-JM: This is just for testing. Really we want to destroy
-                        //  units and add to score.
                         // TBD-JM: Lame that we have to cast to ENEMY.
+                        Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored();
                         Toolbox.Instance.GameManager.Enemies().Remove(this.GetComponent<Enemy>());
                         Destroy(this.gameObject);
                     }
