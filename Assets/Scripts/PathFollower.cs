@@ -93,7 +93,12 @@ public class PathFollower : MonoBehaviour {
     // Update is called once per frame
     public void Update()
     {
-        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+        if (this.gameObject == null)
+        {
+            return; // We are already destroyed. So weird.
+        }
+
+  var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         if (gameGrid != null)
         {
             var t = Time.time;
@@ -143,10 +148,9 @@ public class PathFollower : MonoBehaviour {
                 {
                     if (TargetCell.GroundType == GameGrid.GameCell.GroundTypes.Start)
                     {
-                        // TBD-JM: Lame that we have to cast to ENEMY.
-                        Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored();
-                        Toolbox.Instance.GameManager.Enemies().Remove(this.GetComponent<Enemy>());
-                        Destroy(this.gameObject);
+                        var enempyCmp = this.GetComponent<Enemy>();
+                        Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored(enempyCmp.FlagCount);
+                        Object.Destroy(this.gameObject);
                     }
                     else
                     {

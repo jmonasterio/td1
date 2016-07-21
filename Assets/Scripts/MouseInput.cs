@@ -14,7 +14,6 @@ public class MouseInput : MonoBehaviour {
 	    if (Input.mousePresent)
 	    {
             var pos = Input.mousePosition;
-            Debug.Log(pos);
             pos.z = -5;
 
 	        var gameGrid = Toolbox.Instance.GameManager.GameGrid;

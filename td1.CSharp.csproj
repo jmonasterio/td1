@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\DebugSystem.cs" />
     <Compile Include="Assets\Scripts\EditorGrid.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameGrid.cs" />
     <Compile Include="Assets\Scripts\GameManagerScript.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />

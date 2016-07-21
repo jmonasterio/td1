@@ -3,9 +3,11 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
+    public int FlagCount = 1;
+
     // Use this for initialization
     void Start () {
-	
+	    this.gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
