@@ -88,7 +88,16 @@ public class PathFollower : MonoBehaviour {
         }
     }
 
+    public void SetTarget()
+    {
+        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 
+        MakeNewRandomPath(gameGrid);
+        FollowToTargetCell(gameGrid);
+        _startTime = Time.time;
+        return;
+
+    }
 
     // Update is called once per frame
     public void Update()
@@ -98,19 +107,18 @@ public class PathFollower : MonoBehaviour {
             return; // We are already destroyed. So weird.
         }
 
-  var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+        if (this.TargetCell == null)
+        {
+            // No target. Nothing to do.
+            return;
+        }
+
+        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         if (gameGrid != null)
         {
             var t = Time.time;
 
-            if (TargetCell == null)
-            {
-                MakeNewRandomPath(gameGrid);
-                FollowToTargetCell(gameGrid);
-                _startTime = t;
-                return;
-            }
-
+            
 
             var map = gameGrid.Map;
 

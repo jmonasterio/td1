@@ -69,12 +69,17 @@ public class WavesController : MonoBehaviour
                 var enemy = subChild.GetComponent<Enemy>();
                 if (enemy != null)
                 {
+                    
+
                     Vector3 spawnPosition = SpawnWaypoint.transform.position;
                     //var newEnemy = enemy.gameObject; 
                     var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
                     newEnemy.transform.parent = _enemiesCollection.transform;
                     newEnemy.transform.position = spawnPosition;
                     newEnemy.gameObject.SetActive(true);
+
+                    var pathFollower = newEnemy.GetComponent<PathFollower>();
+                    pathFollower.SetTarget(); // TBD-JM: Need to pick targets here if there is a choice.
 
                     this.LiveEnemyCount ++;
 

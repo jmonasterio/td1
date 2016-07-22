@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour {
         var scoreController = this.gameObject.GetComponent<ScoreController>();
 	    if (scoreController.EnemyCaptureAllFlags() )
 	    {
-            Debug.LogWarning("Should unload scene.");
+            //Debug.LogWarning("Should unload scene.");
             //SceneManager.LoadScene("GameOver");
 	    }
 	}

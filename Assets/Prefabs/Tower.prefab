@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lives: 3
+  labelOffset: {x: 0, y: -1.5, z: 0}
 --- !u!114 &11485166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -58,7 +59,7 @@ MonoBehaviour:
   snapToGrid: 1
   snapValue: 1
   sizeToGrid: 0
-  sizeValue: 0.25
+  sizeValue: 1
 --- !u!114 &11494990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -71,8 +72,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 11459160, guid: 1a9f9e8281d06634799f721078ce41f2, type: 2}
-  ReloadTime: 0
-  BulletRange: 0
+  ReloadTime: 0.25
+  BulletRange: 4
 --- !u!212 &21285554
 SpriteRenderer:
   m_ObjectHideFlags: 1

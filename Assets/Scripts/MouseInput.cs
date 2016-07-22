@@ -19,7 +19,7 @@ public class MouseInput : MonoBehaviour {
 	        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 	        if (gameGrid != null)
 	        {
-	            var pos2 = gameGrid.MapScreenToGridCellsOrNull(pos);
+	            var pos2 = gameGrid.MapScreenToMapPositionOrNull(pos);
 	            if (pos2.HasValue)
 	            {
 	                var pos3 = pos2.Value;
