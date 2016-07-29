@@ -386,9 +386,14 @@ public class GameGrid : MonoBehaviour
             End
         }
 
-        public GroundTypes GroundType { get; set; }
-        public GameObject BackgroundGameObject { get; set; }
+        public GroundTypes GroundType;
 
+        /// <summary>
+        /// Towers or Squares that block enemies.
+        /// </summary>
+        public GameObject BackgroundGameObject;
+
+        public List<Enemy> Enemies = new List<Enemy>();
 
         public bool IsStart
         {

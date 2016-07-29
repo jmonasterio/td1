@@ -1,5 +1,5 @@
 ﻿- Snap to grid seems to screw up the dropping of dirt. TURNED OFF FOR NOW.
-- Add ability to drop a tower.
+x Add ability to drop a tower.
 x Add ability to drop terrain.
 - Have a way for wave to start off screen.
 - Pause a level.
