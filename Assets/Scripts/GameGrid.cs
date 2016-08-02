@@ -16,6 +16,13 @@ public class GameGrid : MonoBehaviour
         return _map;
     }
 
+    public GameObject _selector;
+
+    public GameObject GetSelector()
+    {
+        return _selector;
+    }
+
     public const int BACKGROUND_LAYER = 8;
     public const int TOWER_LAYER = 9;
     public const int ENEMY_LAYER = 10;
@@ -26,7 +33,6 @@ public class GameGrid : MonoBehaviour
     private Waypoint EndWaypoint;
     private Rect _mapInternalGrid;
     private Vector2 _mapDims;
-    public GameObject Selector;
 
     public Vector3? MapScreenToMapPositionOrNull(Vector2 screenPos)
     {
@@ -99,11 +105,7 @@ public class GameGrid : MonoBehaviour
     {
 
 #if UNITY_EDITOR
-<<<<<<< HEAD
         InitCellMapFromLevelMap(_map);
-=======
-        //InitCellMapFromLevelMap(Map);
->>>>>>> dd0fc484d7ffdbe652bfc456c6e262d7887fcdc9
 #endif
         //var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
        // var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
@@ -114,6 +116,7 @@ public class GameGrid : MonoBehaviour
     public void Start()
     {
         _map = FindActiveMap().gameObject;
+        _selector = FindSelector().gameObject;
 
         // Initialize connection to others.
         InitCellMapFromLevelMap(_map);
@@ -136,7 +139,7 @@ public class GameGrid : MonoBehaviour
         cell.GroundType = GameGrid.GameCell.GroundTypes.Dirt;
 
         var newSquare = Instantiate(prefab);
-        newSquare.transform.SetParent(this.Map.transform);
+        newSquare.transform.SetParent(_map.transform);
         newSquare.transform.position = MapGridPointToPosition(cell.GridPoint);
         cell.BackgroundGameObject = newSquare;
 
@@ -261,6 +264,16 @@ public class GameGrid : MonoBehaviour
                 .ToList()
                 .FirstOrDefault();
     }
+
+    private static MouseInput FindSelector()
+        {
+        return
+            Resources.FindObjectsOfTypeAll<MouseInput>()
+                .Where(go => go.gameObject.activeInHierarchy && go.gameObject.name == "Selector")
+                .ToList()
+                .FirstOrDefault();
+        }
+
 
     public static List<GameObject> GetActiveObjectsInLayer(int layer)
     {
