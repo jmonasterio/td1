@@ -89,24 +89,37 @@ public class PathFollower : MonoBehaviour {
         }
     }
 
+    public void SetTarget()
+    {
+        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 
+        MakeNewRandomPath(gameGrid);
+        FollowToTargetCell(gameGrid);
+        _startTime = Time.time;
+        return;
+
+    }
 
     // Update is called once per frame
     public void Update()
     {
+        if (this.gameObject == null)
+        {
+            return; // We are already destroyed. So weird.
+        }
+
+        if (this.TargetCell == null)
+        {
+            // No target. Nothing to do.
+            return;
+        }
+
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         if (gameGrid != null)
         {
             var t = Time.time;
 
-            if (TargetCell == null)
-            {
-                MakeNewRandomPath(gameGrid);
-                FollowToTargetCell(gameGrid);
-                _startTime = t;
-                return;
-            }
-
+            
 
             var map = gameGrid.GetMap();
 
@@ -144,11 +157,9 @@ public class PathFollower : MonoBehaviour {
                 {
                     if (TargetCell.GroundType == GameGrid.GameCell.GroundTypes.Start)
                     {
-                        // TBD-JM: This is just for testing. Really we want to destroy
-                        //  units and add to score.
-                        // TBD-JM: Lame that we have to cast to ENEMY.
-                        Toolbox.Instance.GameManager.Enemies().Remove(this.GetComponent<Enemy>());
-                        Destroy(this.gameObject);
+                        var enempyCmp = this.GetComponent<Enemy>();
+                        Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored(enempyCmp.FlagCount);
+                        Object.Destroy(this.gameObject);
                     }
                     else
                     {

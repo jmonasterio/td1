@@ -5,7 +5,6 @@ using Algorithms;
 using Assets.Scripts;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
 
 [ExecuteInEditMode]
 public class GameGrid : MonoBehaviour
@@ -27,8 +26,9 @@ public class GameGrid : MonoBehaviour
     private Waypoint EndWaypoint;
     private Rect _mapInternalGrid;
     private Vector2 _mapDims;
+    public GameObject Selector;
 
-    public Vector3? MapScreenToGridCellsOrNull(Vector2 screenPos)
+    public Vector3? MapScreenToMapPositionOrNull(Vector2 screenPos)
     {
         var pos2 = Camera.main.ScreenToWorldPoint(screenPos);
         pos2.z = 0;
@@ -99,17 +99,16 @@ public class GameGrid : MonoBehaviour
     {
 
 #if UNITY_EDITOR
+<<<<<<< HEAD
         InitCellMapFromLevelMap(_map);
+=======
+        //InitCellMapFromLevelMap(Map);
+>>>>>>> dd0fc484d7ffdbe652bfc456c6e262d7887fcdc9
 #endif
         //var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
        // var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
 
         //FindPath(start, end);
-    }
-
-    private GameCell MapGridPointToCell(GridPoint mapVectorToGridPoint)
-    {
-        return Cells[mapVectorToGridPoint.X, mapVectorToGridPoint.Y];
     }
 
     public void Start()
@@ -119,9 +118,6 @@ public class GameGrid : MonoBehaviour
         // Initialize connection to others.
         InitCellMapFromLevelMap(_map);
     }
-
- 
-
 
     public static GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)
     {
@@ -135,6 +131,24 @@ public class GameGrid : MonoBehaviour
         return null;
     }
 
+    public void InstaniatePrefabAtGameCell(GameObject prefab, GameCell cell)
+    {
+        cell.GroundType = GameGrid.GameCell.GroundTypes.Dirt;
+
+        var newSquare = Instantiate(prefab);
+        newSquare.transform.SetParent(this.Map.transform);
+        newSquare.transform.position = MapGridPointToPosition(cell.GridPoint);
+        cell.BackgroundGameObject = newSquare;
+
+        var snap = newSquare.GetComponent<SnapToGrid>();
+        snap.snapToGrid = false;
+    }
+
+    private Vector3 MapGridPointToPosition(GridPoint gridPoint)
+    {
+        return new Vector3( Mathf.RoundToInt((float) gridPoint.X + _mapInternalGrid.min.x),
+            Mathf.RoundToInt((float) gridPoint.Y + _mapInternalGrid.min.y), 0);
+    }
 
     public void InitCellMapFromLevelMap(GameObject map)
     {
@@ -153,15 +167,14 @@ public class GameGrid : MonoBehaviour
         //  3) Place any initial items on the map.
         foreach (var obj in oos)
         {
-            var dims = CalcMapCoords(map, obj.transform.position);
-            if (dims.x < Cells.GetLength(0) && dims.y < Cells.GetLength(1) && dims.x >= 0 && dims.y >= 0)
+            var cell = MapPositionToGameCellOrNull(obj.transform.position);
+            if( cell != null)
             {
-                var cell = Cells[(int) dims.x, (int) dims.y];
-                DebugSystem.DebugAssert( cell.GridPoint == new GridPoint( (int) dims.x, (int) dims.y), "Something wrong with gridpoint.");
                 if (cell.BackgroundGameObject != null)
                 {
                     // There may be more than one shape on a square? What to do? Pick the top one???
                     Debug.Assert(cell.BackgroundGameObject == null);
+                    continue;
                 }
                 cell.BackgroundGameObject = obj;
                 if (obj != null)
@@ -172,13 +185,13 @@ public class GameGrid : MonoBehaviour
                         if (wp.WaypointType == Waypoint.WaypointTypes.Start)
                         {
                             StartWaypoint = wp;
-                            wp.GridPoint = new GridPoint(Mathf.RoundToInt( dims.x), Mathf.RoundToInt(dims.y)); // Lame. Why doesn't the component know it's gridpoint?
+                            wp.GridPoint = cell.GridPoint; // new GridPoint(cell.GridPoint.X, cell.GridPoint.Y); // Lame. Why doesn't the component know it's gridpoint?
                             cell.GroundType = GameCell.GroundTypes.Start;
                         }
                         else if (wp.WaypointType == Waypoint.WaypointTypes.End)
                         {
                             EndWaypoint = wp;
-                            EndWaypoint.GridPoint = new GridPoint(Mathf.RoundToInt(dims.x), Mathf.RoundToInt(dims.y)); // Lame. Why doesn't the component know it's gridpoint?
+                            EndWaypoint.GridPoint = cell.GridPoint; // new GridPoint(cell.GridPoint.X, cell.GridPoint.Y); // Lame. Why doesn't the component know it's gridpoint?
                             cell.GroundType = GameCell.GroundTypes.End;
                         }
                     }
@@ -205,7 +218,18 @@ public class GameGrid : MonoBehaviour
 
     }
 
-    private Vector2 CalcMapCoords(GameObject map, Vector3 position)
+    public GameCell MapPositionToGameCellOrNull(Vector3 position)
+    {
+        var dims = CalcMapCoords(position);
+        if (dims.x < Cells.GetLength(0) && dims.y < Cells.GetLength(1) && dims.x >= 0 && dims.y >= 0)
+        {
+            var cell = Cells[(int) dims.x, (int) dims.y];
+            return cell;
+        }
+        return null;
+    }
+
+    private Vector2 CalcMapCoords( Vector3 position)
     {
 
         return new Vector2(Mathf.RoundToInt( position.x) - Mathf.RoundToInt(_mapInternalGrid.min.x),
@@ -383,9 +407,14 @@ public class GameGrid : MonoBehaviour
             End
         }
 
-        public GroundTypes GroundType { get; set; }
-        public GameObject BackgroundGameObject { get; set; }
+        public GroundTypes GroundType;
 
+        /// <summary>
+        /// Towers or Squares that block enemies.
+        /// </summary>
+        public GameObject BackgroundGameObject;
+
+        public List<Enemy> Enemies = new List<Enemy>();
 
         public bool IsStart
         {

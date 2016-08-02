@@ -20,7 +20,7 @@ public class SnapToGrid : MonoBehaviour {
             if (newPos != transform.position)
             {
                 transform.position = newPos;
-                UnityEngine.Debug.Log("Snapped!");
+                //UnityEngine.Debug.Log("Snapped!");
             }
         }
         if (sizeToGrid)

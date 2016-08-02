@@ -14,13 +14,12 @@ public class MouseInput : MonoBehaviour {
 	    if (Input.mousePresent)
 	    {
             var pos = Input.mousePosition;
-            Debug.Log(pos);
             pos.z = -5;
 
 	        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 	        if (gameGrid != null)
 	        {
-	            var pos2 = gameGrid.MapScreenToGridCellsOrNull(pos);
+	            var pos2 = gameGrid.MapScreenToMapPositionOrNull(pos);
 	            if (pos2.HasValue)
 	            {
 	                var pos3 = pos2.Value;

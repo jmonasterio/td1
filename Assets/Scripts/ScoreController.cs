@@ -1,9 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Runtime.InteropServices.ComTypes;
 
 public class ScoreController : MonoBehaviour {
 
-	// Use this for initialization
+    public int Score;
+
+    // How many enemies have
+    public int EnemyScore = 3;
+
+    // calling them flags like "capture the flag".
+    public void EnemyScored(int numberOfFlags)
+    {
+        this.EnemyScore -= numberOfFlags;
+    }
+
+    public bool EnemyCaptureAllFlags()
+    {
+        return EnemyScore <= 0;
+    }
+
+    public void PlayerScored(int points)
+    {
+        Score += points;
+    }
+
+    // Use this for initialization
 	void Start () {
 	
 	}

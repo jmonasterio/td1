@@ -21,6 +21,7 @@ public class WavesController : MonoBehaviour
         StartCoroutine(SpawnWaves2());
     }
 
+#if DEAD
     IEnumerator SpawnWaves()
     {
         yield return new WaitForSeconds(StartWait);
@@ -37,6 +38,7 @@ public class WavesController : MonoBehaviour
             yield return new WaitForSeconds(WaveWait);
         }
     }
+#endif
 
 
     IEnumerator SpawnWaves2()
@@ -61,17 +63,23 @@ public class WavesController : MonoBehaviour
 
             //}
             //_skipWaveDelay = false;
-            foreach (Transform subChild in wave.transform)
-            {
+            while( wave.transform.childCount > 0)
+                {
+                var subChild = wave.transform.GetChild(0);
                 var enemy = subChild.GetComponent<Enemy>();
                 if (enemy != null)
                 {
+                    
+
                     Vector3 spawnPosition = SpawnWaypoint.transform.position;
                     //var newEnemy = enemy.gameObject; 
-                    var newEnemy = Instantiate<Enemy>(EnemyPrefab);
-                    newEnemy.transform.SetParent(_enemiesCollection.transform);
+                    var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
+                    newEnemy.transform.parent = _enemiesCollection.transform;
                     newEnemy.transform.position = spawnPosition;
                     newEnemy.gameObject.SetActive(true);
+
+                    var pathFollower = newEnemy.GetComponent<PathFollower>();
+                    pathFollower.SetTarget(); // TBD-JM: Need to pick targets here if there is a choice.
 
                     this.LiveEnemyCount ++;
 
@@ -83,8 +91,9 @@ public class WavesController : MonoBehaviour
                     var buffer = subChild.GetComponent<WaveBuffer>();
                     if (buffer != null)
                     {
-                        yield return new WaitForSeconds(buffer.delay);
+                        buffer.transform.parent = _enemiesCollection.transform; // Make sure removed from tree, so that loop works, even if buffer.delay is 0.
                         Destroy(buffer.gameObject);
+                        yield return new WaitForSeconds(buffer.delay);
                     }
                     else
                     {
