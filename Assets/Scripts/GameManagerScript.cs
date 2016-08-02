@@ -41,7 +41,7 @@ public class GameManagerScript : MonoBehaviour
     /// <returns></returns>
     public List<Tower> Towers()
     {
-        return GameGrid.GetObjectsInLayer(GameGrid.TOWER_LAYER).Cast<Tower>().ToList();
+        return GameGrid.GetActiveObjectsInLayer(GameGrid.TOWER_LAYER).Cast<Tower>().ToList();
     }
 
     public List<Enemy> Enemies()

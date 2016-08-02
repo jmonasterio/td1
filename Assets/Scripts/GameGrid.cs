@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Algorithms;
+using Assets.Scripts;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,7 +10,12 @@ using UnityEngine.Networking;
 [ExecuteInEditMode]
 public class GameGrid : MonoBehaviour
 {
-    public GameObject Map;
+    private GameObject _map;
+
+    public GameObject GetMap()
+    {
+        return _map;
+    }
 
     public const int BACKGROUND_LAYER = 8;
     public const int TOWER_LAYER = 9;
@@ -93,7 +99,7 @@ public class GameGrid : MonoBehaviour
     {
 
 #if UNITY_EDITOR
-        InitCellMapFromLevelMap(Map);
+        InitCellMapFromLevelMap(_map);
 #endif
         //var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
        // var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
@@ -108,8 +114,10 @@ public class GameGrid : MonoBehaviour
 
     public void Start()
     {
+        _map = FindActiveMap().gameObject;
+
         // Initialize connection to others.
-        InitCellMapFromLevelMap(Map);
+        InitCellMapFromLevelMap(_map);
     }
 
  
@@ -135,7 +143,7 @@ public class GameGrid : MonoBehaviour
         _mapDims = CalcMapDims(_mapInternalGrid);
         InitGameGrid(_mapDims);
 
-        var oos = GetObjectsInLayer(BACKGROUND_LAYER);
+        var oos = GetActiveObjectsInLayer(BACKGROUND_LAYER);
 
         // Walk thru the grid and figure out terrain type for each
         //  block.
@@ -221,14 +229,23 @@ public class GameGrid : MonoBehaviour
             .Where(go => go.transform.hideFlags == HideFlags.None).ToArray();
     }
 
-    public static List<GameObject> GetObjectsInLayer(int layer)
+    private static EditorGrid FindActiveMap()
+    {
+        return
+            Resources.FindObjectsOfTypeAll<EditorGrid>()
+                .Where(go => go.gameObject.activeInHierarchy && go.gameObject.name == "Map")
+                .ToList()
+                .FirstOrDefault();
+    }
+
+    public static List<GameObject> GetActiveObjectsInLayer(int layer)
     {
         var objects = GetSceneObjects();
 
         List<GameObject> Selected = new List<GameObject>();
         foreach (GameObject t in objects)
         {
-            if (t.layer == layer)
+            if (t.activeInHierarchy && t.layer == layer)
             {
                 Selected.Add(t);
             }

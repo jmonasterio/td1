@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Algorithms;
+using Assets.Scripts;
 
 public class PathFollower : MonoBehaviour {
 
@@ -107,7 +108,7 @@ public class PathFollower : MonoBehaviour {
             }
 
 
-            var map = gameGrid.Map;
+            var map = gameGrid.GetMap();
 
             // Refigure the path on each update (in case the path has changed).
             // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
