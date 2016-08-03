@@ -1,4 +1,29 @@
-﻿- Snap to grid seems to screw up the dropping of dirt. TURNED OFF FOR NOW.
+﻿x When dropping towers, why do I get so many?
+- Cities
+- Humans
+- Shooting enemies.
+- Move level to correct spot in 
+
+- Start with enough "pwer" to make one towner.
+- Place towers
+- Untrained humans spawn at cities.
+- Grab humans and drop on resources or tower.
+- Grabbing carcuses and humans
+- Humans: Gatehrer, builders, attackers, cyborg...
+
+
+- Wide spawning.
+- Wide waves
+- 3-levels per map (easy, medium, hard).
+
+
+- Humans, Resources (cities), Mobs, and Robots should come from spreadsheets
+
+- Mob Waves should come from spreadsheets
+- When switching levels in editor (at runtime), we should move the level to the camera
+	and into the chrome. We don't move the camera at design time.
+- It might make sense at runtime to COPY a level, so that we can re-run from original copy.
+- Snap to grid seems to screw up the dropping of dirt. TURNED OFF FOR NOW.
 x Add ability to drop a tower.
 x Add ability to drop terrain.
 - Have a way for wave to start off screen.

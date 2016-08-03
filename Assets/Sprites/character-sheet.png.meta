@@ -1,0 +1,349 @@
+fileFormatVersion: 2
+guid: 6c05daf5f0b435749a8276868c2238b5
+timeCreated: 1470205316
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: character-sheet_0
+    21300002: character-sheet_1
+    21300004: character-sheet_2
+    21300006: character-sheet_3
+    21300008: character-sheet_4
+    21300010: character-sheet_5
+    21300012: character-sheet_6
+    21300014: character-sheet_7
+    21300016: character-sheet_8
+    21300018: character-sheet_9
+    21300020: character-sheet_10
+    21300022: character-sheet-city
+    21300024: character-sheet_12
+    21300026: character-sheet_13
+    21300028: character-sheet_14
+    21300030: character-sheet_15
+    21300032: character-sheet_16
+    21300034: character-sheet_17
+    21300036: character-sheet_18
+    21300038: character-sheet_19
+    21300040: character-sheet_20
+    21300042: character-sheet_21
+    21300044: character-sheet_22
+    21300046: character-sheet_23
+    21300048: character-sheet_24
+    21300050: character-sheet_25
+    21300052: character-sheet_26
+    21300054: character-sheet_27
+    21300056: character-sheet_28
+    21300058: character-sheet_29
+    21300060: character-sheet_30
+    21300062: character-sheet_31
+    21300064: character-sheet_32
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: character-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 483
+        width: 60
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 2}
+      outline:
+      - - {x: -27, y: 68}
+        - {x: -27, y: -63}
+        - {x: 28, y: -63}
+        - {x: 28, y: 42}
+        - {x: 13, y: 68}
+    - name: character-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 148
+        width: 70
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18, y: 72}
+        - {x: -24, y: 43}
+        - {x: -24, y: -16}
+        - {x: -20, y: -17}
+        - {x: -16, y: -17}
+        - {x: -12, y: -65}
+        - {x: -11, y: -71}
+        - {x: 23, y: -71}
+        - {x: 33, y: -13}
+        - {x: 33, y: 47}
+        - {x: 16, y: 72}
+    - name: character-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 136
+        width: 83
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15.5, y: -71.5}
+        - {x: 15.5, y: -2.5}
+        - {x: 13.5, y: 9.5}
+        - {x: 12.5, y: 12.5}
+        - {x: 11.5, y: 18.5}
+        - {x: 15.5, y: 2.5}
+        - {x: 16.5, y: -20.5}
+        - {x: 25.5, y: -25.5}
+        - {x: 30.5, y: -3.5}
+        - {x: 30.5, y: 40.5}
+        - {x: 6.5, y: 70.5}
+        - {x: -11.5, y: 70.5}
+        - {x: -18.5, y: 65.5}
+        - {x: -18.5, y: 61.5}
+        - {x: -39.5, y: 39.5}
+        - {x: -39.5, y: -9.5}
+        - {x: -35.5, y: -29.5}
+        - {x: -25.5, y: -19.5}
+        - {x: -25.5, y: -7.5}
+        - {x: -26.5, y: -32.5}
+        - {x: -24.5, y: -71.5}
+        - {x: -21.5, y: -72.5}
+        - {x: -7.5, y: -72.5}
+        - {x: -4.5, y: -64.5}
+        - {x: -1.5, y: -72.5}
+        - {x: 12.5, y: -72.5}
+    - name: character-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 893
+        width: 94
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: 55.5}
+        - {x: -47, y: -50.5}
+        - {x: 47, y: -50.5}
+        - {x: 47, y: 55.5}
+    - name: character-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 892
+        width: 83
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11.5, y: 62}
+        - {x: -41.5, y: 30}
+        - {x: -41.5, y: -64}
+        - {x: -40.5, y: -66}
+        - {x: 37.5, y: -66}
+        - {x: 41.5, y: -60}
+        - {x: 41.5, y: 62}
+      - - {x: -29.5, y: 62}
+        - {x: -32.5, y: 61}
+        - {x: -41.5, y: 51}
+        - {x: -41.5, y: 39}
+        - {x: -37.5, y: 39}
+        - {x: -21.5, y: 57}
+        - {x: -21.5, y: 62}
+    - name: character-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 912
+        width: 83
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41.5, y: 53}
+        - {x: -41.5, y: -51}
+        - {x: 41.5, y: -51}
+        - {x: 41.5, y: 53}
+    - name: character-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 907
+        width: 76
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 20, y: -49.5}
+        - {x: 20, y: -42.5}
+        - {x: 20, y: -50.5}
+        - {x: 27, y: -53.5}
+        - {x: 38, y: -46.5}
+        - {x: 38, y: 53.5}
+        - {x: -34, y: 53.5}
+        - {x: -38, y: 50.5}
+        - {x: -38, y: -54.5}
+        - {x: -35, y: -54.5}
+        - {x: -32, y: -53.5}
+        - {x: -32, y: -51.5}
+        - {x: -27, y: -52.5}
+        - {x: 19, y: -52.5}
+      - - {x: -38, y: 52.5}
+        - {x: -38, y: 44.5}
+        - {x: -37, y: 44.5}
+        - {x: -33, y: 48.5}
+        - {x: -33, y: 50.5}
+        - {x: -35, y: 52.5}
+    - name: character-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 912
+        width: 88
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 49}
+        - {x: -44, y: -56}
+        - {x: 44, y: -56}
+        - {x: 44, y: 47}
+        - {x: 41, y: 49}
+    - name: character-sheet_8
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 185
+        width: 57
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3.5, y: 25}
+        - {x: -13.5, y: 17}
+        - {x: -28.5, y: 4}
+        - {x: -28.5, y: -12}
+        - {x: -20.5, y: -30}
+        - {x: 24.5, y: -30}
+        - {x: 28.5, y: -13}
+        - {x: 28.5, y: 6}
+        - {x: 11.5, y: 25}
+    - name: character-sheet_9
+      rect:
+        serializedVersion: 2
+        x: 662
+        y: 509
+        width: 109
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31.5, y: -2.5}
+        - {x: -52.5, y: -4.5}
+        - {x: -53.5, y: -17.5}
+        - {x: -53.5, y: -58.5}
+        - {x: 44.5, y: -58.5}
+        - {x: 45.5, y: -56.5}
+        - {x: 45.5, y: -38.5}
+        - {x: 40.5, y: -2.5}
+      - - {x: -24.5, y: 41.5}
+        - {x: -44.5, y: 31.5}
+        - {x: -44.5, y: 1.5}
+        - {x: -10.5, y: -2.5}
+        - {x: 31.5, y: -2.5}
+        - {x: 31.5, y: 26.5}
+        - {x: 17.5, y: 41.5}
+    - name: character-sheet_10
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 513
+        width: 99
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.5, y: 51.5}
+        - {x: -38.5, y: 45.5}
+        - {x: -40.5, y: -8.5}
+        - {x: -40.5, y: -56.5}
+        - {x: 36.5, y: -56.5}
+        - {x: 47.5, y: -18.5}
+        - {x: 47.5, y: 51.5}
+    - name: character-sheet-city
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 515
+        width: 100
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6, y: 27.5}
+        - {x: -39, y: 27.5}
+        - {x: -47, y: -35.5}
+        - {x: -47, y: -60.5}
+        - {x: 43, y: -60.5}
+        - {x: 43, y: -37.5}
+        - {x: 38, y: 18.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

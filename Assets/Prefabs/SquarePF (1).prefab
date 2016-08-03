@@ -1,56 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &163142
+--- !u!1 &132908
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 498696}
-  - 212: {fileID: 21285554}
-  - 114: {fileID: 11485166}
-  - 114: {fileID: 11494990}
-  - 114: {fileID: 11440518}
-  m_Layer: 9
-  m_Name: Tower
+  - 4: {fileID: 400348}
+  - 212: {fileID: 21276720}
+  - 114: {fileID: 11467218}
+  - 114: {fileID: 11444708}
+  m_Layer: 8
+  m_Name: SquarePF (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &498696
+--- !u!4 &400348
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 163142}
+  m_GameObject: {fileID: 132908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.81, y: -2.33, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalPosition: {x: 0.47321284, y: 0.006640569, z: 0}
+  m_LocalScale: {x: 0.0390762, y: 0.07378412, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11440518
+--- !u!114 &11444708
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 163142}
+  m_GameObject: {fileID: 132908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07fe40c74cdb70d44bd4030137a354ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 8de5fbeb5481bbc48b43ebb29e456b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Lives: 3
-  labelOffset: {x: 0, y: -1.5, z: 0}
---- !u!114 &11485166
+--- !u!114 &11467218
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 163142}
+  m_GameObject: {fileID: 132908}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cad84ddff865e23418b0162c53df54b7, type: 3}
@@ -59,27 +56,13 @@ MonoBehaviour:
   snapToGrid: 1
   snapValue: 1
   sizeToGrid: 0
-  sizeValue: 1
---- !u!114 &11494990
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 163142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 187bc9d7d2517664797f60f89ea70272, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 11459160, guid: 1a9f9e8281d06634799f721078ce41f2, type: 2}
-  ReloadTime: 0.25
-  BulletRange: 4
---- !u!212 &21285554
+  sizeValue: 0.25
+--- !u!212 &21276720
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 163142}
+  m_GameObject: {fileID: 132908}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -100,8 +83,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1514206399
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
-  m_Color: {r: 0.97794116, g: 0.141, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: fa3d37cf31e347a41b4e9e3456002c46, type: 3}
+  m_Color: {r: 0.15339148, g: 0.09234428, b: 0.89705884, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!1001 &100100000
@@ -113,5 +96,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 163142}
+  m_RootGameObject: {fileID: 132908}
   m_IsPrefabParent: 1
