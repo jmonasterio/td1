@@ -14,6 +14,7 @@ public class MapController : MonoBehaviour {
 	// Update is called once per frame
     private void Update()
     {
+#if NOT_DRAGGING_FROM_SOURCE
         if (Input.GetMouseButtonDown(0))
         {
             DropAPrefabAtSelector(TowerPrefab.gameObject);
@@ -29,6 +30,7 @@ public class MapController : MonoBehaviour {
         {
             DropAPrefabAtSelector( SquarePrefab);
         }
+#endif
     }
 
     private void DropAPrefabAtSelector(GameObject prefab)

@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21276720}
   - 114: {fileID: 11467218}
   - 114: {fileID: 11444708}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: SquarePF (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,8 +25,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.47321284, y: 0.006640569, z: 0}
-  m_LocalScale: {x: 0.0390762, y: 0.07378412, z: 1}
+  m_LocalPosition: {x: 11, y: 2, z: 0}
+  m_LocalScale: {x: 1.7816077, y: 2.212278, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1514206399
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fa3d37cf31e347a41b4e9e3456002c46, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
   m_Color: {r: 0.15339148, g: 0.09234428, b: 0.89705884, a: 1}
   m_FlipX: 0
   m_FlipY: 0

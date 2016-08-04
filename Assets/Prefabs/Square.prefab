@@ -42,7 +42,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapToGrid: 1
-  snapValue: 2
+  snapValue: 1
   sizeToGrid: 0
   sizeValue: 0.25
 --- !u!212 &21250400
