@@ -21,7 +21,7 @@ public class Health : MonoBehaviour {
     // Update is called once per frame
     void OnGUI () {
         var color = GUI.color;
-        GUI.color = Color.green;
+        GUI.color = Color.black;
         Handles.Label(this.transform.position - labelOffset, "" + this.Lives);
         GUI.color = color;
     }

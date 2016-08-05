@@ -27,6 +27,8 @@ public class GameGrid : MonoBehaviour
     public const int TOWER_LAYER = 9;
     public const int ENEMY_LAYER = 10;
     public const int BULLET_LAYER = 11;
+    public const int ROBOT_LAYER = 13;
+    public const int RESOURCE_LAYER = 15; // Cities
 
     public GameCell[,] Cells;
     private Waypoint StartWaypoint;
@@ -160,7 +162,15 @@ public class GameGrid : MonoBehaviour
         _mapDims = CalcMapDims(_mapInternalGrid);
         InitGameGrid(_mapDims);
 
-        var oos = GetActiveObjectsInLayer(BACKGROUND_LAYER);
+        var blocks = GetActiveObjectsInLayer(BACKGROUND_LAYER);
+        var towers = (GetActiveObjectsInLayer(TOWER_LAYER));
+        var resources = (GetActiveObjectsInLayer(RESOURCE_LAYER));
+        var robots = (GetActiveObjectsInLayer(ROBOT_LAYER));
+        var oos = new List<GameObject>();
+        oos.AddRange(blocks);
+        oos.AddRange(towers);
+        oos.AddRange(resources);
+        oos.AddRange(robots);
 
         // Walk thru the grid and figure out terrain type for each
         //  block.

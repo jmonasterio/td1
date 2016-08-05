@@ -1,13 +1,31 @@
 ﻿x When dropping towers, why do I get so many?
+x Grab humans and drop on resources or tower. Show while dragging. Return if a miss.
+x Towers and Cells can't be dropped on, because not on the grid... Hmmmm.
+
+x Don't drop on occupied squares.
+
+
+- Random walk
+- Real health
+- Speed should be on the ENTITY, not on the PATH FOLLOWER
+- Maybe do PICK & CLICK instead of DRAG and DROP
+- Don't drop off map.
+- Hide reticle while dragging.
+- Enemies are walking through walls.
+
+- Spawn humans randomly.
+
 - Cities
 - Humans
 - Shooting enemies.
 - Move level to correct spot in 
 
 - Start with enough "pwer" to make one towner.
-- Place towers
+x Place towers
+- Only place towers if enough income.
+- Keep track of income.
+- Rename source to "toolbox" or something.
 - Untrained humans spawn at cities.
-- Grab humans and drop on resources or tower.
 - Grabbing carcuses and humans
 - Humans: Gatehrer, builders, attackers, cyborg...
 

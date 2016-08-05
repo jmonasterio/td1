@@ -6,6 +6,8 @@ public class ScoreController : MonoBehaviour {
 
     public int Score;
 
+    public int Income;
+
     // How many enemies have
     public int EnemyScore = 3;
 

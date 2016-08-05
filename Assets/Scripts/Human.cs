@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Human : MonoBehaviour {
+public class Human : MonoBehaviour
+{
+
+    public int IncomeValue = 10;
 
 	// Use this for initialization
 	void Start () {

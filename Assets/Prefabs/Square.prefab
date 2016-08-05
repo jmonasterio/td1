@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 467250}
   - 212: {fileID: 21250400}
   - 114: {fileID: 11493462}
+  - 114: {fileID: 11497802}
   m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
@@ -45,6 +46,18 @@ MonoBehaviour:
   snapValue: 1
   sizeToGrid: 0
   sizeValue: 0.25
+--- !u!114 &11497802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193896fea47820f4b8296166509fbc99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IncomeCost: 5
 --- !u!212 &21250400
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21276720}
   - 114: {fileID: 11467218}
   - 114: {fileID: 11444708}
+  - 114: {fileID: 11496104}
   m_Layer: 13
   m_Name: SquarePF (1)
   m_TagString: Untagged
@@ -57,6 +58,18 @@ MonoBehaviour:
   snapValue: 1
   sizeToGrid: 0
   sizeValue: 0.25
+--- !u!114 &11496104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193896fea47820f4b8296166509fbc99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IncomeCost: 50
 --- !u!212 &21276720
 SpriteRenderer:
   m_ObjectHideFlags: 1

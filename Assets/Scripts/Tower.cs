@@ -65,4 +65,9 @@ public class Tower : MonoBehaviour
         }
         return null;
     }
+
+    public void DropHuman(Human human)
+    {
+        
+    }
 }
