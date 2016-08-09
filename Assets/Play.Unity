@@ -2657,30 +2657,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 136904, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: m_Name
-      value: Human
-      objectReference: {fileID: 0}
-    - target: {fileID: 432570, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 432570, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: DragScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: DragScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: DragScale.z
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
   m_IsPrefabParent: 0
@@ -3291,27 +3267,8 @@ Prefab:
       propertyPath: m_Name
       value: Human (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 432570, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 432570, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: DragScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: DragScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: DragScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11449478, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1011615920 stripped

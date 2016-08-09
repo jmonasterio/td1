@@ -386,6 +386,10 @@ public class GameGrid : MonoBehaviour
                 }
             }
         }
+        if (list.Count <= 0)
+        {
+            Debug.Assert(list.Count > 0);
+        }
         return list[UnityEngine.Random.Range(0, list.Count)];
     }
 

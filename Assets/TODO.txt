@@ -1,0 +1,74 @@
+﻿- Humans "jump" at end of path.
+- Enemies no longer following path.
+
+x When dropping towers, why do I get so many?
+x Grab humans and drop on resources or tower. Show while dragging. Return if a miss.
+x Towers and Cells can't be dropped on, because not on the grid... Hmmmm.
+
+x Don't drop on occupied squares.
+
+
+- Random walk
+- Real health
+- Speed should be on the ENTITY, not on the PATH FOLLOWER
+- Maybe do PICK & CLICK instead of DRAG and DROP
+- Don't drop off map.
+- Hide reticle while dragging.
+- Enemies are walking through walls.
+
+- Spawn humans randomly.
+
+- Cities
+- Humans
+- Shooting enemies.
+- Move level to correct spot in 
+
+- Start with enough "pwer" to make one towner.
+x Place towers
+- Only place towers if enough income.
+- Keep track of income.
+- Rename source to "toolbox" or something.
+- Untrained humans spawn at cities.
+- Grabbing carcuses and humans
+- Humans: Gatehrer, builders, attackers, cyborg...
+
+
+- Wide spawning.
+- Wide waves
+- 3-levels per map (easy, medium, hard).
+
+
+- Humans, Resources (cities), Mobs, and Robots should come from spreadsheets
+
+- Mob Waves should come from spreadsheets
+- When switching levels in editor (at runtime), we should move the level to the camera
+	and into the chrome. We don't move the camera at design time.
+- It might make sense at runtime to COPY a level, so that we can re-run from original copy.
+- Snap to grid seems to screw up the dropping of dirt. TURNED OFF FOR NOW.
+x Add ability to drop a tower.
+x Add ability to drop terrain.
+- Have a way for wave to start off screen.
+- Pause a level.
+- Speed to next wavelet.
+- Need to look, when I am about to enter a new cell, to see whether the path follower is blocked, and needs to turn back.
+- Need to prevent block a cell that already has an enemy in it.
+- Need to keep track of which cells have enemies.
+
+x MVC: https://www.toptal.com/unity-unity3d/unity-with-mvc-how-to-level-up-your-game-development
+x Need more delay between bullets
+x OnGui needs to draw path for each enemy.
+x GameGrid shouldn't have the path. The FOLLOWER should have the path.
+x Create an enemy wave.
+x Set target of enemy when you create it, instead of in update.
+x Keep track of how many enemies make it home. So we know we lost.
+x Detect when level is over.
+x Create wave from wave collection.
+x Kill enemies that are hit by too many bullets
+x Start keeping simple score.
+x Add health to enemy and towers.
+
+
+
+
+- Cool theory on A*: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+- C# A* example: http://www.codeproject.com/Articles/15307/A-algorithm-implementation-in-C

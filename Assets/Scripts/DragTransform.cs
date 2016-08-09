@@ -8,17 +8,18 @@ class DragTransform : MonoBehaviour
 
     private Color mouseOverColor = Color.blue;
     private Color originalColor = Color.yellow;
-    private bool _dragging = false;
+    public bool Dragging = false;
     private float _distance;
     private SpriteRenderer _renderer;
     private Vector3 _startPos;
     private Vector3 _originalScale;
-
+    private PathFollower _pf;
 
 
     void Start()
     {
         _renderer = GetComponent<SpriteRenderer>();
+        _pf = GetComponent<PathFollower>();
 
     }
 
@@ -47,7 +48,7 @@ class DragTransform : MonoBehaviour
             _originalScale = transform.localScale;
             //transform.localScale = DragScale;
             _distance = Vector3.Distance(transform.position, Camera.main.transform.position);
-            _dragging = true;
+            Dragging = true; // Will stop path following. Lame. TBD
 
             var ds = GetComponent<DragSpawner>();
             if (ds != null)
@@ -62,8 +63,7 @@ class DragTransform : MonoBehaviour
     {
         if (Draggable)
         {
-
-            _dragging = false;
+            Dragging = false;
 
             var gameGrid = Toolbox.Instance.GameManager.GameGrid;
             var worldPos = gameGrid.GetSelector().transform.position;
@@ -136,7 +136,7 @@ class DragTransform : MonoBehaviour
         if (Draggable)
         {
 
-            if (_dragging)
+            if (Dragging)
             {
                 // TBD: Can do this faster in 2D
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

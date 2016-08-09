@@ -78,8 +78,8 @@ public class WavesController : MonoBehaviour
                     newEnemy.transform.position = spawnPosition;
                     newEnemy.gameObject.SetActive(true);
 
-                    var pathFollower = newEnemy.GetComponent<PathFollower>();
-                    pathFollower.SetTarget(); // TBD-JM: Need to pick targets here if there is a choice.
+                    var pathFollower = newEnemy.GetComponent<PathFollowerStartToEnd>();
+                    pathFollower.SetRandomTarget(); // TBD-JM: Need to pick targets here if there is a choice.
 
                     this.LiveEnemyCount ++;
 

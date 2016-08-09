@@ -1,12 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Algorithms;
 using Assets.Scripts;
+using Object = UnityEngine.Object;
 
-public class PathFollower : MonoBehaviour {
+public class PathFollower : MonoBehaviour
+{
+
+    public event EventHandler<EventArgs> Blocked;
+    public event EventHandler<EventArgs> AtFinish;
 
     private List<PathFinderNode> _pathNodeList;
 
@@ -17,11 +23,14 @@ public class PathFollower : MonoBehaviour {
     public GameGrid.GameCell NextGameCell; // The on we are going to.
     public GameGrid.GameCell TargetCell; // The one we are going to
 
-    private float _startTime;
+    protected float _startTime;
+    private DragTransform _dt;
 
     // Use this for initialization
     public void Start()
     {
+        // If dragging, pause the path.
+        _dt = this.GetComponent<DragTransform>();
     }
 
     public List<PathFinderNode> Path
@@ -34,16 +43,6 @@ public class PathFollower : MonoBehaviour {
         set { _pathNodeList = value; }
     } 
 
-    public void MakeNewRandomPath( GameGrid gameGrid)
-    {
-        PrevGameCell = gameGrid.GetStartGameCell();
-        CurrentGameCell = PrevGameCell;
-        //gameGrid.RandomizeEndCell();
-        TargetCell = gameGrid.GetEndGameCell();
-
-    }
-
-
     public void FollowToTargetCell(GameGrid gameGrid)
     {
         PrevGameCell = CurrentGameCell;
@@ -53,8 +52,13 @@ public class PathFollower : MonoBehaviour {
         if (ignorePath == null || ignorePath.Count == 0)
         {
             // Couldn't find a path!!!!
-            ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell, this);
-            Debug.Assert(false, "Couldn't find a path! Happens randomly. What???");
+            //ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell, this);
+            //Debug.Assert(false, "Couldn't find a path! Happens randomly. What???");
+            if (Blocked != null)
+            {
+                Blocked(this, new EventArgs());
+            }
+            return;
         }
 
         NextGameCell = gameGrid.GetNextPathGameCell(PrevGameCell, this);
@@ -89,16 +93,6 @@ public class PathFollower : MonoBehaviour {
         }
     }
 
-    public void SetTarget()
-    {
-        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
-
-        MakeNewRandomPath(gameGrid);
-        FollowToTargetCell(gameGrid);
-        _startTime = Time.time;
-        return;
-
-    }
 
     // Update is called once per frame
     public void Update()
@@ -106,6 +100,11 @@ public class PathFollower : MonoBehaviour {
         if (this.gameObject == null)
         {
             return; // We are already destroyed. So weird.
+        }
+
+        if (_dt != null && _dt.Dragging)
+        {
+            return;
         }
 
         if (this.TargetCell == null)
@@ -155,20 +154,9 @@ public class PathFollower : MonoBehaviour {
                 // We moved past the point, so go on to the next point.
                 if (NextGameCell.GridPoint == TargetCell.GridPoint)
                 {
-                    if (TargetCell.GroundType == GameGrid.GameCell.GroundTypes.Start)
+                    if (AtFinish != null)
                     {
-                        var enempyCmp = this.GetComponent<Enemy>();
-                        Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored(enempyCmp.FlagCount);
-                        Object.Destroy(this.gameObject);
-                    }
-                    else
-                    {
-                        // Go back to start.
-                        TargetCell = gameGrid.GetStartGameCell();
-                        FollowToTargetCell(gameGrid);
-                        ;
-                        Debug.Assert(NextGameCell != null);
-
+                        AtFinish(this, new EventArgs());
                     }
                 }
                 else
