@@ -13,7 +13,7 @@ public class DebugSystem : MonoBehaviour
         if (!condition)
         {
             Debug.Log(message);
-            Debug.Break();
+            //Debug.Break();
         }
     }
 }

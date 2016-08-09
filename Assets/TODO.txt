@@ -1,6 +1,4 @@
-﻿- Humans "jump" at end of path.
-- Enemies no longer following path.
-
+﻿
 x When dropping towers, why do I get so many?
 x Grab humans and drop on resources or tower. Show while dragging. Return if a miss.
 x Towers and Cells can't be dropped on, because not on the grid... Hmmmm.
@@ -8,7 +6,9 @@ x Towers and Cells can't be dropped on, because not on the grid... Hmmmm.
 x Don't drop on occupied squares.
 
 
-- Random walk
+x Human Random walk
+x Humans "jump" at end of path.
+- "Click select". Teleport or walk to city?
 - Real health
 - Speed should be on the ENTITY, not on the PATH FOLLOWER
 - Maybe do PICK & CLICK instead of DRAG and DROP
@@ -25,9 +25,9 @@ x Don't drop on occupied squares.
 
 - Start with enough "pwer" to make one towner.
 x Place towers
-- Only place towers if enough income.
-- Keep track of income.
-- Rename source to "toolbox" or something.
+x Only place towers if enough income.
+x Keep track of income.
+x Rename source to "palette" or something.
 - Untrained humans spawn at cities.
 - Grabbing carcuses and humans
 - Humans: Gatehrer, builders, attackers, cyborg...

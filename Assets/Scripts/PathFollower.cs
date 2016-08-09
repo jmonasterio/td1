@@ -152,12 +152,13 @@ public class PathFollower : MonoBehaviour
             {
                 CurrentGameCell = NextGameCell;
                 // We moved past the point, so go on to the next point.
-                if (NextGameCell.GridPoint == TargetCell.GridPoint)
+                if (CurrentGameCell.GridPoint == TargetCell.GridPoint)
                 {
                     if (AtFinish != null)
                     {
                         AtFinish(this, new EventArgs());
                     }
+                    _startTime = t;
                 }
                 else
                 {
