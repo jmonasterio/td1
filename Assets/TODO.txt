@@ -8,10 +8,14 @@ x Don't drop on occupied squares.
 
 x Human Random walk
 x Humans "jump" at end of path.
-- "Click select". Teleport or walk to city?
+x Maybe do PICK & CLICK instead of DRAG and DROP
+- Smooth drag, but indicate the cell or item you'll drop on.
+- Maybe option to autdrop if you go over city.
+- Drop a human anywhere, instead of just on a robot.
+- Teleport or walk to city? Darrin wants teleport.
+- Multiselect humans would be a powerup.
 - Real health
 - Speed should be on the ENTITY, not on the PATH FOLLOWER
-- Maybe do PICK & CLICK instead of DRAG and DROP
 - Don't drop off map.
 - Hide reticle while dragging.
 - Enemies are walking through walls.

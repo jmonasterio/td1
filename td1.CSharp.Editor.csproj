@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\Editor\AutoSave.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\RELEASE NOTES.txt" />
     <None Include="Assets\TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

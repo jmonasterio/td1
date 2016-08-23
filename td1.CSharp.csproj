@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Background.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Scripts\ClickAndDrag.cs" />
     <Compile Include="Assets\Scripts\DebugSystem.cs" />
     <Compile Include="Assets\Scripts\DragSpawner.cs" />
     <Compile Include="Assets\Scripts\DragTransform.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Assets\Scripts\Waypoint.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\RELEASE NOTES.txt" />
     <None Include="Assets\TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

@@ -157,8 +157,8 @@ public class PathFollower : MonoBehaviour
                     if (AtFinish != null)
                     {
                         AtFinish(this, new EventArgs());
+                        _startTime = t;
                     }
-                    _startTime = t;
                 }
                 else
                 {

@@ -49,4 +49,9 @@ public class Wander : MonoBehaviour
         pf.FollowToTargetCell(gameGrid);
         return pf.CurrentGameCell;
     }
+
+    public void RestartWandering()
+    {
+        MakeRandomPath();
+    }
 }

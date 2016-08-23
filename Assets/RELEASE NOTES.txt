@@ -1,0 +1,2 @@
+﻿- Build 0823
+   - Switching from drag n drop to click and rop.

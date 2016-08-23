@@ -731,7 +731,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11424182, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &307827870 stripped
@@ -1483,15 +1484,15 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+    - target: {fileID: 0}
       propertyPath: DragScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+    - target: {fileID: 0}
       propertyPath: DragScale.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+    - target: {fileID: 0}
       propertyPath: DragScale.z
       value: 1
       objectReference: {fileID: 0}
@@ -1782,7 +1783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f34ccdd04dec844c87765c743764500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowXOnPath: 1
+  ShowXOnPath: 0
   ShowGridAtRuntime: 0
 --- !u!114 &601069453
 MonoBehaviour:
@@ -4304,6 +4305,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11453956, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
+      propertyPath: IncomeCost
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
   m_IsPrefabParent: 0
@@ -5013,15 +5018,15 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+    - target: {fileID: 0}
       propertyPath: DragScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+    - target: {fileID: 0}
       propertyPath: DragScale.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11453728, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+    - target: {fileID: 0}
       propertyPath: DragScale.z
       value: 1
       objectReference: {fileID: 0}
