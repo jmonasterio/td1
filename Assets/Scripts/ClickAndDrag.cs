@@ -46,9 +46,7 @@ public class ClickAndDrag : MonoBehaviour {
                 Dragging = false;
 
                 var gameGrid = Toolbox.Instance.GameManager.GameGrid;
-                var worldPos = gameGrid.GetSelector().transform.position;
-                worldPos.z = -10;
-                GameGrid.GameCell dropCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
+                var dropCell = gameGrid.GetSelectorCellOrNull();
 
                 if (dropCell != null)
                 {

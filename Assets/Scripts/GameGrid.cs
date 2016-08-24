@@ -97,8 +97,15 @@ public class GameGrid : MonoBehaviour
         pf.PunishChangeDirection = false;
         pf.SearchLimit = 15000;
         pf.TieBreaker = false;
-        forFollower.Path = pf.FindPath(start.GridPoint, end.GridPoint);
-        return CurrentPath(forFollower);
+        if (forFollower == null || start == null || end == null)
+        {
+            return new List<GameCell>();
+        }
+        else
+        {
+            forFollower.Path = pf.FindPath(start.GridPoint, end.GridPoint);
+            return CurrentPath(forFollower);
+        }
 
     }
 
@@ -484,6 +491,14 @@ public class GameGrid : MonoBehaviour
     public void MoveStartToEnd()
     {
         MoveWayPointToGridPoint( StartWaypoint, EndWaypoint.GridPoint);
+    }
+
+    public GameCell GetSelectorCellOrNull()
+    {
+        var worldPos = this.GetSelector().transform.position;
+        worldPos.z = -10;
+        GameCell dropCell = this.MapPositionToGameCellOrNull(worldPos);
+        return dropCell;
     }
 }
 

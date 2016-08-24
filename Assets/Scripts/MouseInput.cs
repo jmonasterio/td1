@@ -27,7 +27,15 @@ public class MouseInput : MonoBehaviour {
 	                //Debug.Log(pos3);
 	                this.transform.position = pos3;
 	            }
-	        }
+	            else
+	            {
+                    // We've gone off the grid! Yucky. Need better way to handle this.
+                    var pos3 = new Vector3(-10,-10);
+                    pos3.z = 0;
+                    //Debug.Log(pos3);
+                    this.transform.position = pos3;
+                }
+            }
 
 	    }
 	}

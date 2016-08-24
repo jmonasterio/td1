@@ -1,23 +1,9 @@
-﻿
-x When dropping towers, why do I get so many?
-x Grab humans and drop on resources or tower. Show while dragging. Return if a miss.
-x Towers and Cells can't be dropped on, because not on the grid... Hmmmm.
-
-x Don't drop on occupied squares.
-
-
-x Human Random walk
-x Humans "jump" at end of path.
-x Maybe do PICK & CLICK instead of DRAG and DROP
-- Smooth drag, but indicate the cell or item you'll drop on.
+﻿- BUG: Drop on city seems to destroy it.
+- Indicate the cell or item you'll drop on.
 - Maybe option to autdrop if you go over city.
 - If human wanders into a city or robot, it should go inside...
-x Drop a human anywhere, instead of just on a robot.
-x Teleport or walk to city? Darrin wants teleport.
 - Multiselect humans would be a powerup.
 - Real health
-- Speed should be on the ENTITY, not on the PATH FOLLOWER
-- Don't drop off map.
 - Hide reticle while dragging.
 - Enemies are walking through walls.
 
@@ -27,12 +13,9 @@ x Teleport or walk to city? Darrin wants teleport.
 - Humans
 - Shooting enemies.
 - Move level to correct spot in 
+- xlsx entity integration
 
 - Start with enough "pwer" to make one towner.
-x Place towers
-x Only place towers if enough income.
-x Keep track of income.
-x Rename source to "palette" or something.
 - Untrained humans spawn at cities.
 - Grabbing carcuses and humans
 - Humans: Gatehrer, builders, attackers, cyborg...
@@ -50,14 +33,33 @@ x Rename source to "palette" or something.
 	and into the chrome. We don't move the camera at design time.
 - It might make sense at runtime to COPY a level, so that we can re-run from original copy.
 - Snap to grid seems to screw up the dropping of dirt. TURNED OFF FOR NOW.
-x Add ability to drop a tower.
-x Add ability to drop terrain.
 - Have a way for wave to start off screen.
 - Pause a level.
 - Speed to next wavelet.
 - Need to look, when I am about to enter a new cell, to see whether the path follower is blocked, and needs to turn back.
 - Need to prevent block a cell that already has an enemy in it.
 - Need to keep track of which cells have enemies.
+
+
+x When dropping towers, why do I get so many?
+x Grab humans and drop on resources or tower. Show while dragging. Return if a miss.
+x Towers and Cells can't be dropped on, because not on the grid... Hmmmm.
+
+x Don't drop on occupied squares.
+
+x Human Random walk
+x Humans "jump" at end of path.
+x Maybe do PICK & CLICK instead of DRAG and DROP
+x Drop a human anywhere, instead of just on a robot.
+x Teleport or walk to city? Darrin wants teleport.
+x Speed should be on the ENTITY, not on the PATH FOLLOWER
+x Don't drop off map.
+x Place towers
+x Only place towers if enough income.
+x Keep track of income.
+x Rename source to "palette" or something.
+x Add ability to drop a tower.
+x Add ability to drop terrain.
 
 x MVC: https://www.toptal.com/unity-unity3d/unity-with-mvc-how-to-level-up-your-game-development
 x Need more delay between bullets

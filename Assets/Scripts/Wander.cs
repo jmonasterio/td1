@@ -19,7 +19,8 @@ public class Wander : MonoBehaviour
 
     private void Pf_AtFinishOrBlocked(object sender, System.EventArgs e)
     {
-        MakeRandomPath();
+        // Will try to make a new path on next update.
+        _targetCell = null;
     }
 
     void Update()

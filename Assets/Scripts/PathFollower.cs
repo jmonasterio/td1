@@ -63,7 +63,7 @@ public class PathFollower : MonoBehaviour
         }
 
         NextGameCell = gameGrid.GetNextPathGameCell(PrevGameCell, this);
-        Debug.Assert(NextGameCell != null, "Should have something on path? What is up?");
+        //Debug.Assert(NextGameCell != null, "Should have something on path? What is up?");
 
 
     }

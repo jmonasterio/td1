@@ -36,9 +36,7 @@ public class MapController : MonoBehaviour {
     private void DropAPrefabAtSelector(GameObject prefab)
     {
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
-        var worldPos = gameGrid.GetSelector().transform.position;
-        worldPos.z = -10;
-        GameGrid.GameCell cell = gameGrid.MapPositionToGameCellOrNull(worldPos);
+        var cell = gameGrid.GetSelectorCellOrNull();
         if (cell != null)
         {
             if (cell.BackgroundGameObject == null)

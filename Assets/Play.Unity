@@ -1759,6 +1759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameName: td1
+  HideMouseCuror: 1
 --- !u!4 &601069451
 Transform:
   m_ObjectHideFlags: 0
@@ -4470,6 +4471,14 @@ Prefab:
     - target: {fileID: 403102, guid: 43ec6367448d6cb4b8fbd5be325d777c, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11460300, guid: 43ec6367448d6cb4b8fbd5be325d777c, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11460300, guid: 43ec6367448d6cb4b8fbd5be325d777c, type: 2}
+      propertyPath: snapToGrid
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 43ec6367448d6cb4b8fbd5be325d777c, type: 2}
