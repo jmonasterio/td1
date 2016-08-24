@@ -16,8 +16,6 @@ public class PathFollower : MonoBehaviour
 
     private List<PathFinderNode> _pathNodeList;
 
-    public float Speed = 1.0f;
-
     public GameGrid.GameCell CurrentGameCell; // The one we are in.
     public GameGrid.GameCell PrevGameCell; // The one we are leaving.
     public GameGrid.GameCell NextGameCell; // The on we are going to.
@@ -25,12 +23,15 @@ public class PathFollower : MonoBehaviour
 
     protected float _startTime;
     private DragTransform _dt;
+    private Entity _entity;
 
     // Use this for initialization
     public void Start()
     {
         // If dragging, pause the path.
         _dt = this.GetComponent<DragTransform>();
+        _entity = this.GetComponent<Entity>();
+
     }
 
     public List<PathFinderNode> Path
@@ -137,7 +138,7 @@ public class PathFollower : MonoBehaviour
             //}
 
             float deltaT = t - _startTime;
-            float distCovered = deltaT*Speed;
+            float distCovered = deltaT*GetSpeedFromEntity();
 
             Debug.Assert(NextGameCell != null);
             var nextPathVector = GridHelper.MapPointToVector(map, NextGameCell.GridPoint);
@@ -178,6 +179,14 @@ public class PathFollower : MonoBehaviour
         }
     }
 
+    private float GetSpeedFromEntity()
+    {
+        if (_entity != null)
+        {
+            return _entity.Speed;
+        }
+        return 0.0f;
+    }
 
 
     // Path has changed a lot and we're no longer on the way to a cell on the path.

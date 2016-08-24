@@ -15,6 +15,9 @@ public class Entity : MonoBehaviour
     public int Health = 5;
     public int HealthMax = 5;
 
+    public float Speed = 1.0f;
+
+
     // Use this for initialization
 
 #if !EXCLUDE_HEALTH

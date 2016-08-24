@@ -4,8 +4,9 @@ using System.Collections;
 public class PathFollowerStartToEnd : PathFollower {
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
         this.AtFinish += PathFollowerStartToEnd_AtFinish;
+        base.Start();
 	}
 
     // If at end, head back to start. Or if at START, then done.
@@ -54,7 +55,7 @@ public class PathFollowerStartToEnd : PathFollower {
 
 
     // Update is called once per frame
-    void Update () {
+    new void Update () {
 	    base.Update();
 	}
 }
