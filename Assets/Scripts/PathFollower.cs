@@ -108,7 +108,7 @@ public class PathFollower : MonoBehaviour
             return;
         }
 
-        if (this.TargetCell == null)
+        if (this.TargetCell == null || this.NextGameCell == null || this.PrevGameCell == null)
         {
             // No target. Nothing to do.
             return;

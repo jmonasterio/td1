@@ -10,7 +10,6 @@ public class GameManagerScript : MonoBehaviour
 
     // Inspectors
     public string GameName;
-    public bool HideMouseCuror = true;
 
 
     // State
@@ -20,9 +19,9 @@ public class GameManagerScript : MonoBehaviour
     {
         Toolbox.Instance.GameManager = this;
         Toolbox.Instance.DebugSys = this.GetComponent<DebugSystem>();
-        if (HideMouseCuror)
+        //if (HideMouseCuror)
         {
-            Cursor.visible = false;
+            Cursor.visible = true;
         }
     }
 

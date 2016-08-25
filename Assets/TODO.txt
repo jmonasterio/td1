@@ -1,8 +1,6 @@
 ﻿- BUG: Drop on city seems to destroy it.
 - Indicate the cell or item you'll drop on.
 - Maybe option to autdrop if you go over city.
-- If human wanders into a city or robot, it should go inside...
-- Multiselect humans would be a powerup.
 - Real health
 - Hide reticle while dragging.
 - Enemies are walking through walls.
@@ -39,6 +37,8 @@
 - Need to look, when I am about to enter a new cell, to see whether the path follower is blocked, and needs to turn back.
 - Need to prevent block a cell that already has an enemy in it.
 - Need to keep track of which cells have enemies.
+- If human wanders into a city or robot, it should go inside...
+- Multiselect humans would be a powerup.
 
 
 x When dropping towers, why do I get so many?

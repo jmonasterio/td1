@@ -248,6 +248,10 @@ public class GameGrid : MonoBehaviour
 
     public GameCell MapPositionToGameCellOrNull(Vector3 position)
     {
+        if (Cells == null)
+        {
+            return null;
+        }
         var dims = CalcMapCoords(position);
         if (dims.x < Cells.GetLength(0) && dims.y < Cells.GetLength(1) && dims.x >= 0 && dims.y >= 0)
         {
@@ -390,6 +394,11 @@ public class GameGrid : MonoBehaviour
     // Bad idea.
     public GameCell RandomGameCell(GameCell.GroundTypes OfGroundType)
     {
+        if (Cells == null)
+        {
+            return null;
+        }
+
         var list = new List<GameCell>();
         for (int row = 0; row < Cells.GetLength(0); row++)
         {

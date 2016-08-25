@@ -16,6 +16,7 @@ GameObject:
   - 114: {fileID: 11496262}
   - 114: {fileID: 11495622}
   - 114: {fileID: 11471580}
+  - 114: {fileID: 11457564}
   m_Layer: 12
   m_Name: Human
   m_TagString: Untagged
@@ -77,6 +78,18 @@ MonoBehaviour:
   snapValue: 1
   sizeToGrid: 0
   sizeValue: 0.25
+--- !u!114 &11457564
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07fe40c74cdb70d44bd4030137a354ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labelOffset: {x: 0, y: -1.5, z: 0}
 --- !u!114 &11471580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -105,6 +118,8 @@ MonoBehaviour:
   IncomeCost: 0
   Health: 4
   HealthMax: 5
+  Lives: 0
+  Speed: 1
   HealthDisplay: 1
   progress_empty:
     m_Name: 
@@ -236,7 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39068db1b67002b409fda558367b2f15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0.8
 --- !u!114 &11496262
 MonoBehaviour:
   m_ObjectHideFlags: 1

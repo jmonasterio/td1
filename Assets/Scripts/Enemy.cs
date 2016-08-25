@@ -4,11 +4,13 @@ using System.Collections;
 public class Enemy : MonoBehaviour {
 
     public int FlagCount = 1;
+    private Entity _entity;
 
     // Use this for initialization
     void Start () {
 	    this.gameObject.SetActive(false);
-	}
+        _entity = GetComponent<Entity>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,8 +29,8 @@ public class Enemy : MonoBehaviour {
             bullet.Destroy();
 
             var health = this.gameObject.GetComponent<Health>();
-            health.Lives = health.Lives - 1;
-            if (health.Lives <= 0)
+            _entity.Health--;
+            if (_entity.Health <= 0)
             {
                 Toolbox.Instance.GameManager.Enemies().Remove(this);
                 Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Score += 100;
