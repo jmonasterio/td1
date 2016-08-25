@@ -72,12 +72,12 @@ public class Health : MonoBehaviour {
         var boxSize = new Vector3(1, 0, 0);
 
         var origHandleColor = Handles.color;
-        Handles.color = Color.red;
+        Handles.color = Color.green;
         Handles.DrawAAPolyLine(Texture2D.whiteTexture, 3.0f,
             pos,
             pos + boxSize * barDisplay);
 
-        Handles.color = Color.green;
+        Handles.color = Color.red;
         Handles.DrawAAPolyLine(Texture2D.whiteTexture, 3.0f,
             pos + boxSize * barDisplay,
             pos + boxSize);
