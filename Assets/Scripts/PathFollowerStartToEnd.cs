@@ -5,6 +5,7 @@ public class PathFollowerStartToEnd : PathFollower {
 
 	// Use this for initialization
 	new void Start () {
+        this.AtFinish -= PathFollowerStartToEnd_AtFinish;
         this.AtFinish += PathFollowerStartToEnd_AtFinish;
         base.Start();
 	}

@@ -731,12 +731,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11431252, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
-      propertyPath: HealthDisplay
+    - target: {fileID: 6180442, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
+      propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 11424182, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
+    - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &307827870 stripped
@@ -1763,7 +1763,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameName: td1
-  HideMouseCuror: 1
 --- !u!4 &601069451
 Transform:
   m_ObjectHideFlags: 0
@@ -1964,14 +1963,6 @@ Prefab:
     - target: {fileID: 194792, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
       propertyPath: m_Name
       value: Square (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 467250, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.0390762
-      objectReference: {fileID: 0}
-    - target: {fileID: 467250, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.07378412
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
@@ -4218,6 +4209,10 @@ Prefab:
     - target: {fileID: 163142, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
       propertyPath: m_Name
       value: Tower (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180442, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}

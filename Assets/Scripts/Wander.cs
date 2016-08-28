@@ -12,6 +12,8 @@ public class Wander : MonoBehaviour
     void Start()
     {
         var pf = this.GetComponent<PathFollower>();
+        pf.AtFinish -= Pf_AtFinishOrBlocked;
+        pf.Blocked -= Pf_AtFinishOrBlocked;
         pf.AtFinish += Pf_AtFinishOrBlocked;
         pf.Blocked += Pf_AtFinishOrBlocked;
 
