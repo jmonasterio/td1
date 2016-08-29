@@ -17,10 +17,15 @@ public class GameGrid : MonoBehaviour
     }
 
     public GameObject _selector;
+    public GameObject _dragBox;
 
     public GameObject GetSelector()
     {
         return _selector;
+    }
+    public GameObject GetDragBox()
+    {
+        return _dragBox;
     }
 
     public const int BACKGROUND_LAYER = 8;
@@ -29,6 +34,7 @@ public class GameGrid : MonoBehaviour
     public const int BULLET_LAYER = 11;
     public const int ROBOT_LAYER = 13;
     public const int RESOURCE_LAYER = 15; // Cities
+    public const int DRAG_LAYER = 16;
 
     public GameCell[,] Cells;
     private Waypoint StartWaypoint;

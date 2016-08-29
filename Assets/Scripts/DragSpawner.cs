@@ -7,42 +7,40 @@ public class DragSpawner : MonoBehaviour
 {
 
     public GameObject SpawnPF;
-    private bool _dragging;
+    public GameObject SpawnParent;
+    private GameGrid _gameGrid;
+
+    private MouseInput _mouseInput;
 
     // Use this for initialization
     void Start()
     {
-
+        _mouseInput = Toolbox.Instance.GameManager.GameGrid.GetSelector().GetComponent<MouseInput>();
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnMouseDown()
     {
-
-    }
-
-    public void StartDrag()
-    {
-        _dragging = true;
-    }
-
-    public void StopDrag()
-    {
-        _dragging = false;
+        var newGameObject = Instantiate(SpawnPF);
+        newGameObject.transform.SetParent(SpawnParent.transform, worldPositionStays:false);
+        newGameObject.transform.position = this.transform.position;
+        //newGameObject.transform.localScale = this.transform.localScale;
+        newGameObject.layer = GameGrid.DRAG_LAYER;
+        var snap = newGameObject.GetComponent<SnapToGrid>();
+        snap.snapToGrid = true;
+        var dragSource = newGameObject.GetComponent<DragSource>();
+        Debug.Assert( dragSource != null);
+        _mouseInput.StartDraggingSpawnedObject(dragSource );
     }
 
     // Update is called once per frame
     private void OnGUI()
     {
-        if (!_dragging)
-        {
-            var income = SpawnPF.GetComponent<Entity>().IncomeCost;
-            var vector = this.transform.position + new Vector3(-1, 1, 0);
-            var color = GUI.color;
-            GUI.color = Color.black;
-            Handles.Label(vector, "Cost: " + income);
-            GUI.color = color;
-        }
-
+        var income = SpawnPF.GetComponent<Entity>().IncomeCost;
+        var vector = this.transform.position + new Vector3(-1, 1, 0);
+        var color = GUI.color;
+        GUI.color = Color.black;
+        Handles.Label(vector, "Cost: " + income);
+        GUI.color = color;
     }
 }

@@ -1,10 +1,17 @@
-﻿- BUG: Drop on city seems to destroy it.
-- Indicate the cell or item you'll drop on.
+﻿x BUG: Drop on city seems to destroy it.
+x Indicate the cell or item you'll drop on.
+x Drag spawner for tower gets dragged.
+- Dragging tower goes behind palette.
+- After moving a human, he doesn't start pathing anymore.
+x Dragging block makes a small block
+- human goes behind wall
 - Maybe option to autdrop if you go over city.
 - Real health
 - Hide reticle while dragging.
 - Enemies are walking through walls.
 - Instead of using RAYCAST, look in the grid.
+- xlsx entity integration
+- xlsx wave integration
 
 - Spawn humans randomly.
 
@@ -12,7 +19,6 @@
 - Humans
 - Shooting enemies.
 - Move level to correct spot in 
-- xlsx entity integration
 
 - Start with enough "pwer" to make one towner.
 - Untrained humans spawn at cities.

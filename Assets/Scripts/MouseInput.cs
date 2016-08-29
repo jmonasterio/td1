@@ -2,47 +2,85 @@
 using System.Collections;
 using System.Net;
 using Assets.Scripts;
+using UnityEditor;
 using UnityEngine.UI;
 
 public class MouseInput : MonoBehaviour
 {
 
     public DragSource DraggingNow;
+    private GameObject _selector;
+    private GameObject _dragBox;
+    private DragSource _attachOnNextUpdate;
 
 
     public const int DRAG_BUTTON_ID = 0;
 
     // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Start ()
+    {
+        _selector = Toolbox.Instance.GameManager.GameGrid.GetSelector();
+        _dragBox = Toolbox.Instance.GameManager.GameGrid.GetDragBox();
+    }
+
+#if TEST
+    void OnGUI()
+    {
+        if (DraggingNow != null)
+        {
+            var p2 = transform.position + new Vector3(1, 1, 1);
+            var rect = new Rect(transform.position, p2);
+            //GUIHelper.BeginGroup(rect);
+            GUIHelper.DrawLine(new Vector2(transform.position.x, transform.position.y), new Vector2(p2.x, p2.y), Color.red);
+            //GUIHelper.EndGroup();
+        }
+    }
+#endif
+
+    // Update is called once per frame
+    void Update () {
 
 	    if (Input.mousePresent)
 	    {
 
-	        // We support BOTH DRAG...DROP and CLICK...DRAG...CLICK .
+            // We support BOTH DRAG...DROP and CLICK...DRAG...CLICK .
+            if (_attachOnNextUpdate != null)
+            {
+                Debug.Assert(DraggingNow == null, "already dragging.");
+                DraggingNow = _attachOnNextUpdate;
+                _attachOnNextUpdate = null;
+                DraggingNow.StartDragging();
+                return;
+            }
 
-	        bool isDragging = (DraggingNow != null);
+            bool isDragging = (DraggingNow != null);
 	        var leftButtonDown = Input.GetMouseButtonDown(DRAG_BUTTON_ID);
 	        var leftButtonUp = Input.GetMouseButtonUp(DRAG_BUTTON_ID);
 	        bool movedAwayFromClick = false;
 
-	        var pos = GetCursorPosition();
+
+            var pos = GetCursorPosition();
 
             // Move the selector around, to chase the mouse
-            Toolbox.Instance.GameManager.GameGrid.GetSelector().transform.position = pos;
 
-            if (isDragging)
+            _selector.transform.position = pos;
+
+	        if (isDragging)
 	        {
 	            movedAwayFromClick = DraggingNow.IsMovedAwayFromClick();
 
 	            DraggingNow.transform.position = pos;
+	            _dragBox.transform.position = pos;
+
+
+	        }
+	        else
+	        {
+	            Vector3 OFF_SCREEN = new Vector3(-10,-10,-10);
+	            _dragBox.transform.position = OFF_SCREEN;
 	        }
 
-	        if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick))
+            if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick))
 	        {
 	            // End dragging with a click.
 	            DraggingNow.FinishOrCancelDragging();
@@ -62,6 +100,13 @@ public class MouseInput : MonoBehaviour
 	        }
         }
 
+    }
+
+    public void StartDraggingSpawnedObject(DragSource dragSource)
+    {
+        Debug.Assert(dragSource != null, "missing drag source.");
+        Debug.Assert(_attachOnNextUpdate == null, "already dragging");
+        _attachOnNextUpdate = dragSource;
     }
 
     private Vector3 GetCursorPosition()

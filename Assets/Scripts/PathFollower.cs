@@ -22,14 +22,14 @@ public class PathFollower : MonoBehaviour
     public GameGrid.GameCell TargetCell; // The one we are going to
 
     protected float _startTime;
-    private DragTransform _dt;
+    private DragSource _dt;
     private Entity _entity;
 
     // Use this for initialization
     public void Start()
     {
         // If dragging, pause the path.
-        _dt = this.GetComponent<DragTransform>();
+        _dt = this.GetComponent<DragSource>();
         _entity = this.GetComponent<Entity>();
 
     }

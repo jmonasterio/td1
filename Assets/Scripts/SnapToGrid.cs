@@ -30,7 +30,7 @@ public class SnapToGrid : MonoBehaviour {
     }
 
     // The snapping code
-    private Vector3 RoundTransform(Vector3 v, float snapValue)
+    public static Vector3 RoundTransform(Vector3 v, float snapValue)
     {
         return new Vector3
         (

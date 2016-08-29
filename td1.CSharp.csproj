@@ -70,7 +70,6 @@
     <Compile Include="Assets\Scripts\DragSource.cs" />
     <Compile Include="Assets\Scripts\DragSpawner.cs" />
     <Compile Include="Assets\Scripts\DragTarget.cs" />
-    <Compile Include="Assets\Scripts\DragTransform.cs" />
     <Compile Include="Assets\Scripts\EditorGrid.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Entity.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="Assets\Scripts\GameGrid.cs" />
     <Compile Include="Assets\Scripts\GameManagerScript.cs" />
     <Compile Include="Assets\Scripts\GridHelper.cs" />
+    <Compile Include="Assets\Scripts\GUIHelper.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Human.cs" />
     <Compile Include="Assets\Scripts\Income.cs" />

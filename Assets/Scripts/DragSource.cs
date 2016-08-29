@@ -5,18 +5,11 @@ public class DragSource : MonoBehaviour
 {
     public bool Dragging;
     private Vector3 _startPos;
-    private Vector3 _originalScale;
-    private float _distance;
 
     public void CancelDragging()
     {
         this.transform.position = _startPos;
-        this.transform.localScale = _originalScale;
-        CancelDragging(this);
-    }
-
-    private static void CancelDragging(DragSource dragSource)
-    {
+        Dragging = false;
     }
 
     public void StartDragging()
@@ -24,14 +17,6 @@ public class DragSource : MonoBehaviour
         var dragSource = this;
         dragSource.Dragging = true;
         _startPos = dragSource.transform.position;
-        _originalScale = dragSource.transform.localScale;
-        _distance = Vector3.Distance(dragSource.transform.position, Camera.main.transform.position);
-        var ds = GetComponent<DragSpawner>();
-        if (ds != null)
-        {
-            ds.StartDrag();
-        }
-
     }
 
 
@@ -87,26 +72,30 @@ public class DragSource : MonoBehaviour
             }
             else
             {
-                var ds = dragSource.GetComponent<DragSpawner>();
-                if (ds != null)
+                // Disallow dups on 
+                if (dropCell.BackgroundGameObject != null)
                 {
-                    // Only blank cells.
-                    if (dropCell.BackgroundGameObject == null)
-                    {
-                        Toolbox.Instance.GameManager.GetComponent<ScoreController>().Income -=
-                            ds.SpawnPF.GetComponent<Entity>().IncomeCost;
-                        gameGrid.InstaniatePrefabAtGameCell(ds.SpawnPF, dropCell);
-                    }
+                    this.CancelDragging();
+                    return;
+                }
 
-                    ds.StopDrag();
+                var city = dragSource.GetComponent<Resource>();
+                if (city != null)
+                {
+                    dragSource.gameObject.layer = GameGrid.RESOURCE_LAYER;
 
-                    // FALL THRU TO CANCEL.
+
+                }
+                else
+                {
+                    dragSource.gameObject.layer = GameGrid.BACKGROUND_LAYER;
+                    dragSource.gameObject.transform.position = SnapToGrid.RoundTransform( dragSource.gameObject.transform.position, 1.0f);
                 }
             }
         }
         else
         {
-            this.CancelDragging();
+            //this.CancelDragging();
         }
     }
 
