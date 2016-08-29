@@ -4,6 +4,7 @@
 - Real health
 - Hide reticle while dragging.
 - Enemies are walking through walls.
+- Instead of using RAYCAST, look in the grid.
 
 - Spawn humans randomly.
 

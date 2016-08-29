@@ -68,6 +68,8 @@ public class Tower : MonoBehaviour
 
     public void DropHuman(Human human)
     {
-        
+        /* TBD: Need to do something different here */
+        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += human.IncomeValue * 1;
+
     }
 }
