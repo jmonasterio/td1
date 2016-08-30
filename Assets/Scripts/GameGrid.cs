@@ -157,15 +157,6 @@ public class GameGrid : MonoBehaviour
         return null;
     }
 
-    public void DropGameObjectAtGameCell(GameObject go, GameCell cell)
-    {
-        //go.transform.SetParent(_map.transform);
-        go.transform.position = MapGridPointToPosition(cell.GridPoint);
-        cell.BackgroundGameObject = go;
-
-        //var snap = newGameObject.GetComponent<SnapToGrid>();
-        //snap.snapToGrid = false;
-    }
 
     public void InstaniatePrefabAtGameCell(GameObject prefab, GameCell cell)
     {

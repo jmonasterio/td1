@@ -24,18 +24,18 @@ namespace Assets.Scripts
 
         private void DrawGridAroundIntegerPoints(Rect rcInternalGrid)
         {
-            for (int xx = (int)rcInternalGrid.xMin; xx <= rcInternalGrid.xMax; xx++)
+            for (int xx = (int)rcInternalGrid.xMin; xx < (int) rcInternalGrid.xMax; xx++)
             {
-                Vector3 ss = new Vector3(xx - 0.5f, (rcInternalGrid.yMin - 0.5f), 0);
-                Vector3 ee = new Vector3(xx - 0.5f, (rcInternalGrid.yMax - 0.5f), 0);
+                Vector3 ss = new Vector3(xx - 0.5f, (rcInternalGrid.yMin), 0);
+                Vector3 ee = new Vector3(xx - 0.5f, (rcInternalGrid.yMax - 1.5f), 0);
 
                 Debug.DrawLine(ss, ee, Color.green, 0.1f);
             }
 
-            for (int yy = (int)rcInternalGrid.yMin; yy <= rcInternalGrid.yMax; yy++)
+            for (int yy = (int)rcInternalGrid.yMin; yy < (int) rcInternalGrid.yMax; yy++)
             {
-                Vector3 ss = new Vector3(rcInternalGrid.xMin - 0.5f, yy - 0.5f, 0);
-                Vector3 ee = new Vector3(rcInternalGrid.xMax - 0.5f, yy - 0.5f, 0);
+                Vector3 ss = new Vector3(rcInternalGrid.xMin, yy - 0.5f, 0);
+                Vector3 ee = new Vector3(rcInternalGrid.xMax-1.5f, yy - 0.5f, 0);
 
                 Debug.DrawLine(ss, ee, Color.green, 0.1f);
             }

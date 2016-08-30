@@ -100,7 +100,7 @@ public class MouseInput : MonoBehaviour
             else if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick) )
 	        {
 	            // End dragging with a click.
-	            DraggingNow.FinishOrCancelDragging( gameCellOrNull);
+	            DraggingNow.FinishOrCancelDragging( gameCellOrNull, pos);
 	            DraggingNow = null;
                 _dragBox.transform.position = OFF_SCREEN;
 

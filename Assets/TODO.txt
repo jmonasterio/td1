@@ -3,9 +3,9 @@ x Indicate the cell or item you'll drop on.
 x Drag spawner for tower gets dragged.
 x Don't show dragRect when on cells that you can't drop on.
 x Dragged item should not be opaque.
-- Don't allow draggin things that are stationary.
+x Don't allow draggin things that are stationary.
 x Dragging tower goes behind palette.
-- Edge of map not detect properly.
+x STILL SHITTY CODE: Edge of map not detect properly.
 - After moving a human, he doesn't start pathing anymore.
 - Dragging tower should not shoot, or be a target.
 - Bong if illegal drop.

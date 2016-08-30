@@ -84,7 +84,7 @@ public class DragSource : MonoBehaviour
     /// <summary>
     /// TBD: We probably already know gamecell in caller, so why not pass in?
     /// </summary>
-    public void FinishOrCancelDragging(GameGrid.GameCell dropCellOrNull)
+    public void FinishOrCancelDragging(GameGrid.GameCell dropCellOrNull, Vector3 mapExactDrop)
     {
         var dragSource = this;
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
@@ -130,7 +130,7 @@ public class DragSource : MonoBehaviour
                 {
                     if (CanHumanWalkOn(dropCellOrNull.GroundType))
                     {
-                        gameGrid.DropGameObjectAtGameCell(human.gameObject, dropCellOrNull);
+                        this.transform.position = mapExactDrop;
                         human.gameObject.layer = GameGrid.BACKGROUND_LAYER;
                         var wander = human.GetComponent<Wander>();
                         wander.RestartWandering();
