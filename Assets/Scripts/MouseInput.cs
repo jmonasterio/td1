@@ -16,6 +16,7 @@ public class MouseInput : MonoBehaviour
 
 
     public const int DRAG_BUTTON_ID = 0;
+    public const int CANCEL_BUTTON_ID = 1;
 
     // Use this for initialization
     void Start ()
@@ -59,6 +60,7 @@ public class MouseInput : MonoBehaviour
             bool isDragging = (DraggingNow != null);
             var leftButtonDown = Input.GetMouseButtonDown(DRAG_BUTTON_ID);
 	        var leftButtonUp = Input.GetMouseButtonUp(DRAG_BUTTON_ID);
+	        var rightButtonDown = Input.GetMouseButtonDown(CANCEL_BUTTON_ID);
 	        bool movedAwayFromClick = false;
 
 
@@ -88,14 +90,21 @@ public class MouseInput : MonoBehaviour
 	        //    _dragBox.transform.position = OFF_SCREEN;
 	        //}
 
-            if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick))
+	        if (rightButtonDown && isDragging)
+	        {
+	            DraggingNow.CancelDragging();
+	            DraggingNow = null;
+                _dragBox.transform.position = OFF_SCREEN;
+            }
+            else if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick) )
 	        {
 	            // End dragging with a click.
 	            DraggingNow.FinishOrCancelDragging();
 	            DraggingNow = null;
-	            
+                _dragBox.transform.position = OFF_SCREEN;
+
             }
-    	    else if (leftButtonDown && !isDragging)
+            else if (leftButtonDown && !isDragging)
 	        {
 	            var dragSource = FindFirstDragSourceAtMousePositionOrNull();
 	            if (dragSource != null)
