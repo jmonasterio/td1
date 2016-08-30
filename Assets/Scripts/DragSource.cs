@@ -7,18 +7,41 @@ public class DragSource : MonoBehaviour
     public bool DeleteOnCancel; // If you mouse-cancel the drag from palette, we want to delete the object.
     private Vector3 _startPos;
     private Vector3 _startMousePos;
+    private Color _originalColor;
+    private SpriteRenderer _spriteRender;
 
     public void CancelDragging()
     {
-        if (this.DeleteOnCancel)
+        EndDragging(cancel:true);
+    }
+
+    // Does the final cleanup. Will hand
+    private void EndDragging( bool cancel)
+    {
+        if (this.DeleteOnCancel && cancel)
         {
             Object.Destroy(this.gameObject);
         }
         else
         {
-            this.transform.position = _startPos;
+            RestoreOpacity();
+            if (cancel)
+            {
+                RestorePosition();
+            }
             Dragging = false;
         }
+    }
+
+    private void RestorePosition()
+    {
+// Restore position
+        this.transform.position = _startPos;
+    }
+
+    private void RestoreOpacity()
+    {
+        _spriteRender.color = _originalColor;
     }
 
     public void StartDragging( Vector3 mousePosition)
@@ -28,6 +51,10 @@ public class DragSource : MonoBehaviour
         dragSource.gameObject.layer = GameGrid.DRAG_LAYER;
         _startPos = dragSource.transform.position;
         _startMousePos = mousePosition;
+        _spriteRender = dragSource.GetComponent<SpriteRenderer>();
+        _originalColor = _spriteRender.color;
+        const float TRANSPARENT_50 = 0.5f;
+        _spriteRender.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, TRANSPARENT_50);
     }
 
     public bool CanDropAt(GameGrid.GameCell dropCellOrNull)
@@ -94,7 +121,7 @@ public class DragSource : MonoBehaviour
                     }
                     else if (target.GetComponent<Block>())
                     {
-                        this.CancelDragging();
+                        CancelDragging();
                         return;
                     }
 
@@ -107,6 +134,7 @@ public class DragSource : MonoBehaviour
                         human.gameObject.layer = GameGrid.BACKGROUND_LAYER;
                         var wander = human.GetComponent<Wander>();
                         wander.RestartWandering();
+                        RestoreOpacity();
                     }
                 }
 
@@ -114,10 +142,28 @@ public class DragSource : MonoBehaviour
             }
             else
             {
+
+                var income = Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income;
+                
+                // TBD: Race.
+                // TBD: Move to EndDragging !Cancel
+                var entity = this.GetComponent<Entity>();
+                var cost = entity.IncomeCost;
+                if (income >= cost)
+                {
+                    Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income -= cost;
+                }
+                else
+                {
+                    EndDragging( cancel:true);
+                    return;
+                }
+
+
                 // Disallow dups on 
                 if (dropCellOrNull.BackgroundGameObject != null)
                 {
-                    this.CancelDragging();
+                    CancelDragging();
                     return;
                 }
 
@@ -133,11 +179,12 @@ public class DragSource : MonoBehaviour
                     dragSource.gameObject.layer = GameGrid.BACKGROUND_LAYER;
                     dragSource.gameObject.transform.position = SnapToGrid.RoundTransform( dragSource.gameObject.transform.position, 1.0f);
                 }
+                EndDragging(cancel:false);
             }
         }
         else
         {
-            this.CancelDragging();
+            CancelDragging();
         }
     }
 

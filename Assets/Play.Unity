@@ -1586,6 +1586,22 @@ Prefab:
       propertyPath: DragScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 21298246, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+      propertyPath: m_Color.r
+      value: 0.59607846
+      objectReference: {fileID: 0}
+    - target: {fileID: 21298246, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+      propertyPath: m_Color.g
+      value: 0.59607846
+      objectReference: {fileID: 0}
+    - target: {fileID: 21298246, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+      propertyPath: m_Color.b
+      value: 0.59607846
+      objectReference: {fileID: 0}
+    - target: {fileID: 21298246, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
   m_IsPrefabParent: 0

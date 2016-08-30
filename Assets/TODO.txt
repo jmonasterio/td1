@@ -2,7 +2,7 @@
 x Indicate the cell or item you'll drop on.
 x Drag spawner for tower gets dragged.
 x Don't show dragRect when on cells that you can't drop on.
-- Dragged item should not be opaque.
+x Dragged item should not be opaque.
 - Don't allow draggin things that are stationary.
 x Dragging tower goes behind palette.
 - Edge of map not detect properly.
@@ -16,6 +16,7 @@ x Dragging block makes a small block
 - don't allow dropping wall on a human
 - human goes behind wall
 - Maybe option to autdrop if you go over city.
+- If money goes down while dragging below cost, we may not be able to drop.
 
 
 - Real health
