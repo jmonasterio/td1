@@ -4,39 +4,73 @@ using UnityEngine;
 public class DragSource : MonoBehaviour
 {
     public bool Dragging;
+    public bool DeleteOnCancel; // If you mouse-cancel the drag from palette, we want to delete the object.
     private Vector3 _startPos;
     private Vector3 _startMousePos;
 
     public void CancelDragging()
     {
-        this.transform.position = _startPos;
-        Dragging = false;
+        if (this.DeleteOnCancel)
+        {
+            Object.Destroy(this.gameObject);
+        }
+        else
+        {
+            this.transform.position = _startPos;
+            Dragging = false;
+        }
     }
 
     public void StartDragging( Vector3 mousePosition)
     {
         var dragSource = this;
         dragSource.Dragging = true;
+        dragSource.gameObject.layer = GameGrid.DRAG_LAYER;
         _startPos = dragSource.transform.position;
         _startMousePos = mousePosition;
     }
 
+    public bool CanDropAt(GameGrid.GameCell dropCellOrNull)
+    {
+        if (dropCellOrNull == null)
+        {
+            return false;
+        }
+        var human = this.GetComponent<Human>();
+        if (human != null)
+        {
+            return true; // Only allowed drop.
+        }
+        var city = this.GetComponent<Resource>();
+        if (city != null)
+        {
+            return dropCellOrNull.BackgroundGameObject == null;
+        }
+        var block = this.GetComponent<Block>();
+        if (block != null)
+        {
+            return dropCellOrNull.BackgroundGameObject == null;
+        }
+        return true;
+    }
 
-    public void FinishOrCancelDragging()
+    /// <summary>
+    /// TBD: We probably already know gamecell in caller, so why not pass in?
+    /// </summary>
+    public void FinishOrCancelDragging(GameGrid.GameCell dropCellOrNull)
     {
         var dragSource = this;
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
-        var dropCell = gameGrid.GetSelectorCellOrNull();
 
-        if (dropCell != null)
+        if (dropCellOrNull != null)
         {
             var human = dragSource.GetComponent<Human>();
             if (human != null)
             {
                 // We're only allowed to drop on intersting cells.
-                if (dropCell.BackgroundGameObject != null)
+                if (dropCellOrNull.BackgroundGameObject != null)
                 {
-                    var target = dropCell.BackgroundGameObject;
+                    var target = dropCellOrNull.BackgroundGameObject;
                     if (target.GetComponent<Resource>())
                     {
                         var resource = target.GetComponent<Resource>();
@@ -58,13 +92,19 @@ public class DragSource : MonoBehaviour
                         Destroy(human.gameObject);
                         return;
                     }
+                    else if (target.GetComponent<Block>())
+                    {
+                        this.CancelDragging();
+                        return;
+                    }
 
                 }
                 else
                 {
-                    if (CanHumanWalkOn(dropCell.GroundType))
+                    if (CanHumanWalkOn(dropCellOrNull.GroundType))
                     {
-                        gameGrid.DropGameObjectAtGameCell(human.gameObject, dropCell);
+                        gameGrid.DropGameObjectAtGameCell(human.gameObject, dropCellOrNull);
+                        human.gameObject.layer = GameGrid.BACKGROUND_LAYER;
                         var wander = human.GetComponent<Wander>();
                         wander.RestartWandering();
                     }
@@ -75,7 +115,7 @@ public class DragSource : MonoBehaviour
             else
             {
                 // Disallow dups on 
-                if (dropCell.BackgroundGameObject != null)
+                if (dropCellOrNull.BackgroundGameObject != null)
                 {
                     this.CancelDragging();
                     return;
@@ -109,5 +149,11 @@ public class DragSource : MonoBehaviour
     public bool IsMovedAwayFromClick( Vector3 mousePos)
     {
         return (_startMousePos - mousePos).magnitude > 0.2f;
+    }
+
+    public bool CanStartDragging()
+    {
+        var human = this.GetComponent<Human>();
+        return (human != null);
     }
 }

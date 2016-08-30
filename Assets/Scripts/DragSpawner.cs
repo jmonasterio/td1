@@ -6,7 +6,7 @@ using UnityEditor;
 public class DragSpawner : MonoBehaviour
 {
 
-    public GameObject SpawnPF;
+    public DragSource SpawnPF;
     public GameObject SpawnParent;
     private GameGrid _gameGrid;
 
@@ -25,7 +25,8 @@ public class DragSpawner : MonoBehaviour
         newGameObject.transform.SetParent(SpawnParent.transform, worldPositionStays:false);
         newGameObject.transform.position = this.transform.position;
         //newGameObject.transform.localScale = this.transform.localScale;
-        newGameObject.layer = GameGrid.DRAG_LAYER;
+        newGameObject.gameObject.layer = GameGrid.DRAG_LAYER;
+        newGameObject.DeleteOnCancel = true;
         var snap = newGameObject.GetComponent<SnapToGrid>();
         snap.snapToGrid = false;
         var dragSource = newGameObject.GetComponent<DragSource>();

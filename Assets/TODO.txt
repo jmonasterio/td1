@@ -1,16 +1,23 @@
 ﻿x BUG: Drop on city seems to destroy it.
 x Indicate the cell or item you'll drop on.
 x Drag spawner for tower gets dragged.
-- Don't show dragRect when on cells that you can't drop on.
+x Don't show dragRect when on cells that you can't drop on.
+- Dragged item should not be opaque.
+- Don't allow draggin things that are stationary.
 x Dragging tower goes behind palette.
 - Edge of map not detect properly.
 - After moving a human, he doesn't start pathing anymore.
 - Dragging tower should not shoot, or be a target.
+- Bong if illegal drop.
+- X icon if illegal drop cell.
+- Animate back to palete
 x Dragging block makes a small block
 - Offscreen ends up with items??? Why.
 - don't allow dropping wall on a human
 - human goes behind wall
 - Maybe option to autdrop if you go over city.
+
+
 - Real health
 - Hide reticle while dragging.
 - Enemies are walking through walls.

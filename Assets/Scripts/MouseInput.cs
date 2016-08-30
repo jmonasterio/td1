@@ -44,8 +44,8 @@ public class MouseInput : MonoBehaviour
 
 	    if (Input.mousePresent)
 	    {
-            bool offScreen = false;
-            var pos = GetCursorPosition(out offScreen);
+	        GameGrid.GameCell gameCellOrNull;
+            var pos = GetCursorPosition(out gameCellOrNull);
 
             // We support BOTH DRAG...DROP and CLICK...DRAG...CLICK .
             if (_attachOnNextUpdate != null)
@@ -74,17 +74,18 @@ public class MouseInput : MonoBehaviour
 
 	            DraggingNow.transform.position = pos;
 
-                if( !offScreen)
+	            if ((gameCellOrNull != null) && (gameCellOrNull.BackgroundGameObject == null) && DraggingNow.CanDropAt(gameCellOrNull))
 	            {
-                    // Snap dragbox to grid, but not the thing we're dragging.
-                    _dragBox.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
-                }
-                else
-                {
-                    _dragBox.transform.position = OFF_SCREEN;
-                }
+	                // Snap dragbox to grid, but not the thing we're dragging.
+	                _dragBox.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
+	            }
+	            else
+	            {
+                    // Don't show drag box, if can't drop there OR off map.
+	                _dragBox.transform.position = OFF_SCREEN;
+	            }
 
-            }
+	        }
 	        //else
 	        //{
 	        //    _dragBox.transform.position = OFF_SCREEN;
@@ -99,7 +100,7 @@ public class MouseInput : MonoBehaviour
             else if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick) )
 	        {
 	            // End dragging with a click.
-	            DraggingNow.FinishOrCancelDragging();
+	            DraggingNow.FinishOrCancelDragging( gameCellOrNull);
 	            DraggingNow = null;
                 _dragBox.transform.position = OFF_SCREEN;
 
@@ -124,19 +125,28 @@ public class MouseInput : MonoBehaviour
         _attachOnNextUpdate = dragSource;
     }
 
-    private Vector3 GetCursorPosition( out bool offScreen)
+    private Vector3 GetCursorPosition( out GameGrid.GameCell gameCellOrNull)
     {
-        var pos = Input.mousePosition;
-        pos.z = -5;
+        var screenPos = Input.mousePosition;
+        screenPos.z = -5;
 
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         if (gameGrid != null)
         {
-            var pos2 = gameGrid.MapScreenToMapPosition(pos, out offScreen);
-            pos2.z = 0;
-            return pos2;
+            bool offScreen;
+            var mapPos = gameGrid.MapScreenToMapPosition(screenPos, out offScreen);
+            mapPos.z = 0;
+            if (!offScreen)
+            {
+                gameCellOrNull = gameGrid.MapPositionToGameCellOrNull(mapPos);
+            }
+            else
+            {
+                gameCellOrNull = null;
+            }
+            return mapPos;
         }
-        offScreen = true;
+        gameCellOrNull = null;
         return OFF_SCREEN;
     }
 
@@ -178,8 +188,11 @@ public class MouseInput : MonoBehaviour
                 var source = c.GetComponent<DragSource>();
                 if (source != null)
                 {
-                    // TBD: For now drag the first one.
-                    return source;
+                    if (source.CanStartDragging())
+                    {
+                        // TBD: For now drag the first one.
+                        return source;
+                    }
                 }
             }
         }

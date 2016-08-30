@@ -50,6 +50,15 @@ public class GameGrid : MonoBehaviour
         return pos2;
     }
 
+    public GameCell MapScreenToGameCellOrNull(Vector2 screenPos)
+    {
+        var pos2 = Camera.main.ScreenToWorldPoint(screenPos);
+        pos2.z = 0;
+        var cell = MapPositionToGameCellOrNull(pos2);
+        return cell;
+
+    }
+
 
 
     public List<GameCell> CurrentPath(PathFollower follwer)
