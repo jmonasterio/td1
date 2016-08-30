@@ -32,6 +32,8 @@ public class DragSpawner : MonoBehaviour
         var dragSource = newGameObject.GetComponent<DragSource>();
         Debug.Assert( dragSource != null);
         _mouseInput.StartDraggingSpawnedObject(dragSource );
+
+        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income -= newGameObject.GetComponent<Entity>().IncomeCost;
     }
 
     // Update is called once per frame
