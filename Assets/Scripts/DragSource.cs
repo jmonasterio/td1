@@ -5,6 +5,7 @@ public class DragSource : MonoBehaviour
 {
     public bool Dragging;
     private Vector3 _startPos;
+    private Vector3 _startMousePos;
 
     public void CancelDragging()
     {
@@ -12,11 +13,12 @@ public class DragSource : MonoBehaviour
         Dragging = false;
     }
 
-    public void StartDragging()
+    public void StartDragging( Vector3 mousePosition)
     {
         var dragSource = this;
         dragSource.Dragging = true;
         _startPos = dragSource.transform.position;
+        _startMousePos = mousePosition;
     }
 
 
@@ -104,8 +106,8 @@ public class DragSource : MonoBehaviour
         return groundType == GameGrid.GameCell.GroundTypes.Dirt || groundType == GameGrid.GameCell.GroundTypes.Path;
     }
 
-    public bool IsMovedAwayFromClick()
+    public bool IsMovedAwayFromClick( Vector3 mousePos)
     {
-        return (_startPos - transform.position).magnitude > 0.1f;
+        return (_startMousePos - mousePos).magnitude > 0.2f;
     }
 }

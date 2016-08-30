@@ -43,6 +43,8 @@ public class MouseInput : MonoBehaviour
 
 	    if (Input.mousePresent)
 	    {
+            bool offScreen = false;
+            var pos = GetCursorPosition(out offScreen);
 
             // We support BOTH DRAG...DROP and CLICK...DRAG...CLICK .
             if (_attachOnNextUpdate != null)
@@ -50,17 +52,15 @@ public class MouseInput : MonoBehaviour
                 Debug.Assert(DraggingNow == null, "already dragging.");
                 DraggingNow = _attachOnNextUpdate;
                 _attachOnNextUpdate = null;
-                DraggingNow.StartDragging();
+                DraggingNow.StartDragging(pos);
                 return;
             }
 
             bool isDragging = (DraggingNow != null);
-	        var leftButtonDown = Input.GetMouseButtonDown(DRAG_BUTTON_ID);
+            var leftButtonDown = Input.GetMouseButtonDown(DRAG_BUTTON_ID);
 	        var leftButtonUp = Input.GetMouseButtonUp(DRAG_BUTTON_ID);
 	        bool movedAwayFromClick = false;
 
-	        bool offScreen = false;
-            var pos = GetCursorPosition( out offScreen);
 
             // Move the selector around, to chase the mouse
 
@@ -68,7 +68,7 @@ public class MouseInput : MonoBehaviour
 
 	        if (isDragging)
 	        {
-	            movedAwayFromClick = DraggingNow.IsMovedAwayFromClick();
+	            movedAwayFromClick = DraggingNow.IsMovedAwayFromClick(pos);
 
 	            DraggingNow.transform.position = pos;
 
@@ -101,9 +101,7 @@ public class MouseInput : MonoBehaviour
 	            if (dragSource != null)
 	            {
                     DraggingNow = dragSource;
-                    dragSource.StartDragging();
-
-
+                    dragSource.StartDragging(pos);
 	            }
 	        }
         }
