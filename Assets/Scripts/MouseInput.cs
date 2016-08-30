@@ -12,6 +12,7 @@ public class MouseInput : MonoBehaviour
     private GameObject _selector;
     private GameObject _dragBox;
     private DragSource _attachOnNextUpdate;
+    private readonly Vector3 OFF_SCREEN = new Vector3(-10, -10, -10);
 
 
     public const int DRAG_BUTTON_ID = 0;
@@ -58,8 +59,8 @@ public class MouseInput : MonoBehaviour
 	        var leftButtonUp = Input.GetMouseButtonUp(DRAG_BUTTON_ID);
 	        bool movedAwayFromClick = false;
 
-
-            var pos = GetCursorPosition();
+	        bool offScreen = false;
+            var pos = GetCursorPosition( out offScreen);
 
             // Move the selector around, to chase the mouse
 
@@ -70,15 +71,22 @@ public class MouseInput : MonoBehaviour
 	            movedAwayFromClick = DraggingNow.IsMovedAwayFromClick();
 
 	            DraggingNow.transform.position = pos;
-	            _dragBox.transform.position = pos;
 
+                if( !offScreen)
+	            {
+                    // Snap dragbox to grid, but not the thing we're dragging.
+                    _dragBox.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
+                }
+                else
+                {
+                    _dragBox.transform.position = OFF_SCREEN;
+                }
 
-	        }
-	        else
-	        {
-	            Vector3 OFF_SCREEN = new Vector3(-10,-10,-10);
-	            _dragBox.transform.position = OFF_SCREEN;
-	        }
+            }
+	        //else
+	        //{
+	        //    _dragBox.transform.position = OFF_SCREEN;
+	        //}
 
             if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick))
 	        {
@@ -109,7 +117,7 @@ public class MouseInput : MonoBehaviour
         _attachOnNextUpdate = dragSource;
     }
 
-    private Vector3 GetCursorPosition()
+    private Vector3 GetCursorPosition( out bool offScreen)
     {
         var pos = Input.mousePosition;
         pos.z = -5;
@@ -117,22 +125,12 @@ public class MouseInput : MonoBehaviour
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         if (gameGrid != null)
         {
-            var pos2 = gameGrid.MapScreenToMapPositionOrNull(pos);
-            if (pos2.HasValue)
-            {
-                var pos3 = pos2.Value;
-                pos3.z = 0;
-                return pos3;
-            }
-            else
-            {
-                // We've gone off the grid! Yucky. Need better way to handle this.
-                var pos3 = new Vector3(-10, -10);
-                pos3.z = 0;
-                return pos3;
-            }
+            var pos2 = gameGrid.MapScreenToMapPosition(pos, out offScreen);
+            pos2.z = 0;
+            return pos2;
         }
-        return new Vector3();
+        offScreen = true;
+        return OFF_SCREEN;
     }
 
     private DragTarget FindFirstDragTargetAtMousePositionOrNull()

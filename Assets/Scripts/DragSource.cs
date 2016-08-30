@@ -95,7 +95,7 @@ public class DragSource : MonoBehaviour
         }
         else
         {
-            //this.CancelDragging();
+            this.CancelDragging();
         }
     }
 

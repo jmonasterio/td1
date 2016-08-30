@@ -2,8 +2,12 @@
 x Indicate the cell or item you'll drop on.
 x Drag spawner for tower gets dragged.
 - Dragging tower goes behind palette.
+- Edge of map not detect properly.
 - After moving a human, he doesn't start pathing anymore.
+- Dragging tower should not shoot, or be a target.
 x Dragging block makes a small block
+- Offscreen ends up with items??? Why.
+- don't allow dropping wall on a human
 - human goes behind wall
 - Maybe option to autdrop if you go over city.
 - Real health

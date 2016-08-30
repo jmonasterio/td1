@@ -27,7 +27,7 @@ public class DragSpawner : MonoBehaviour
         //newGameObject.transform.localScale = this.transform.localScale;
         newGameObject.layer = GameGrid.DRAG_LAYER;
         var snap = newGameObject.GetComponent<SnapToGrid>();
-        snap.snapToGrid = true;
+        snap.snapToGrid = false;
         var dragSource = newGameObject.GetComponent<DragSource>();
         Debug.Assert( dragSource != null);
         _mouseInput.StartDraggingSpawnedObject(dragSource );

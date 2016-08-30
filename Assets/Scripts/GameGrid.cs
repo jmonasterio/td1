@@ -42,16 +42,15 @@ public class GameGrid : MonoBehaviour
     private Rect _mapInternalGrid;
     private Vector2 _mapDims;
 
-    public Vector3? MapScreenToMapPositionOrNull(Vector2 screenPos)
+    public Vector3 MapScreenToMapPosition(Vector2 screenPos, out bool isOffScreen)
     {
         var pos2 = Camera.main.ScreenToWorldPoint(screenPos);
         pos2.z = 0;
-        if (_mapInternalGrid.Contains(pos2))
-        {
-            return pos2;
-        }
-        return null;
+        isOffScreen = !(_mapInternalGrid.Contains(pos2));
+        return pos2;
     }
+
+
 
     public List<GameCell> CurrentPath(PathFollower follwer)
     {
