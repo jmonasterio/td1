@@ -134,7 +134,7 @@ public class DragSource : MonoBehaviour
                         human.gameObject.layer = GameGrid.BACKGROUND_LAYER;
                         var wander = human.GetComponent<Wander>();
                         wander.RestartWandering();
-                        RestoreOpacity();
+                        EndDragging(cancel:false);
                     }
                 }
 

@@ -55,6 +55,6 @@ public class Wander : MonoBehaviour
 
     public void RestartWandering()
     {
-        MakeRandomPath();
+        _targetCell = null;
     }
 }

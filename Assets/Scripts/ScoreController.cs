@@ -8,6 +8,8 @@ public class ScoreController : MonoBehaviour {
 
     public int Income;
 
+    public float SpawnRate;
+
     // How many enemies have
     public int EnemyScore = 3;
 

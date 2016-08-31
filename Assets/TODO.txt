@@ -11,13 +11,23 @@ x STILL SHITTY CODE: Edge of map not detect properly.
 - Bong if illegal drop.
 - X icon if illegal drop cell.
 - Animate back to palete
-x Dragging block makes a small block
 - Offscreen ends up with items??? Why.
 - don't allow dropping wall on a human
 - human goes behind wall
+- Multiple entry points and multiple routes.
+- Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
+- Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
+- Need a spawn rate indicator.
+- Humans to spawn at one city and go to other cities.
+- Humans should powerup if they hit a city or tower or robot.
+- Robot dies... level over.
+- Planning screen...
+- # of cities on the map affects the spawn rate.
+- Build the love shack
+- Special tower that can generate humans... like a little hostpiatl
+x Dragging block makes a small block
 - Maybe option to autdrop if you go over city.
 - If money goes down while dragging below cost, we may not be able to drop.
-- Multiple entry points and multiple routes.
 - Mob explodes and does damage to the robot. Maybe stop to fight.
 
 
