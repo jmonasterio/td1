@@ -29,7 +29,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.81, y: 3.67, z: 0}
+  m_LocalPosition: {x: -1.81, y: -1.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -44,7 +44,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -101,7 +101,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a377d7ccb80d36f4f891f105da30b973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InvalidDropSound: {fileID: 0}
+  CancelDropSound: {fileID: 0}
+  DropSound: {fileID: 0}
   Dragging: 0
+  DeleteOnCancel: 0
 --- !u!114 &11494990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -140,7 +144,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1514206399
+  m_SortingLayerID: -302777777
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
   m_Color: {r: 0.97794116, g: 0.141, b: 0, a: 1}

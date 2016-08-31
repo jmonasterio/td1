@@ -11,6 +11,7 @@ public class MouseInput : MonoBehaviour
     public DragSource DraggingNow;
     private GameObject _selector;
     private GameObject _dragBox;
+    private GameObject _disallowed;
     private DragSource _attachOnNextUpdate;
     private readonly Vector3 OFF_SCREEN = new Vector3(-10, -10, -10);
 
@@ -23,6 +24,7 @@ public class MouseInput : MonoBehaviour
     {
         _selector = Toolbox.Instance.GameManager.GameGrid.GetSelector();
         _dragBox = Toolbox.Instance.GameManager.GameGrid.GetDragBox();
+        _disallowed = Toolbox.Instance.GameManager.GameGrid.GetDisallowed();
     }
 
 #if TEST
@@ -78,14 +80,16 @@ public class MouseInput : MonoBehaviour
 	            {
 	                // Snap dragbox to grid, but not the thing we're dragging.
 	                _dragBox.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
-	            }
-	            else
+                    _disallowed.transform.position = OFF_SCREEN;
+                }
+                else
 	            {
                     // Don't show drag box, if can't drop there OR off map.
 	                _dragBox.transform.position = OFF_SCREEN;
+	                _disallowed.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
 	            }
 
-	        }
+            }
 	        //else
 	        //{
 	        //    _dragBox.transform.position = OFF_SCREEN;
@@ -96,13 +100,15 @@ public class MouseInput : MonoBehaviour
 	            DraggingNow.CancelDragging();
 	            DraggingNow = null;
                 _dragBox.transform.position = OFF_SCREEN;
-            }
+	            _disallowed.transform.position = OFF_SCREEN;
+	        }
             else if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick) )
 	        {
 	            // End dragging with a click.
 	            DraggingNow.FinishOrCancelDragging( gameCellOrNull, pos);
 	            DraggingNow = null;
                 _dragBox.transform.position = OFF_SCREEN;
+                _disallowed.transform.position = OFF_SCREEN;
 
             }
             else if (leftButtonDown && !isDragging)

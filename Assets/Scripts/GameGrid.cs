@@ -18,6 +18,7 @@ public class GameGrid : MonoBehaviour
 
     public GameObject _selector;
     public GameObject _dragBox;
+    public GameObject _disallowed;
 
     public GameObject GetSelector()
     {
@@ -27,7 +28,10 @@ public class GameGrid : MonoBehaviour
     {
         return _dragBox;
     }
-
+    public GameObject GetDisallowed()
+    {
+        return _disallowed;
+    }
     public const int BACKGROUND_LAYER = 8;
     public const int TOWER_LAYER = 9;
     public const int ENEMY_LAYER = 10;

@@ -9,9 +9,9 @@ x STILL SHITTY CODE: Edge of map not detect properly.
 x After moving a human, he doesn't start pathing anymore.
 x Dragging tower should not shoot, or be a target.
 x Bong if illegal drop.
-- Am I really reloading grid on every frame?
-- Human should pause for a second after being dropped.
+x Am I really reloading grid on every frame?
 - X icon if illegal drop cell.
+- Human should pause for a second after being dropped.
 - Animate back to palete
 - Offscreen ends up with items??? Why.
 - don't allow dropping wall on a human
