@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class DragSource : MonoBehaviour
 {
+    public AudioClip InvalidDropSound;
+    public AudioClip CancelDropSound;
+    public AudioClip DropSound;
     public bool Dragging;
     public bool DeleteOnCancel; // If you mouse-cancel the drag from palette, we want to delete the object.
     private Vector3 _startPos;
@@ -28,6 +31,11 @@ public class DragSource : MonoBehaviour
             if (cancel)
             {
                 RestorePosition();
+                GameManagerScript.PlayClip(CancelDropSound);
+            }
+            else
+            {
+                GameManagerScript.PlayClip(DropSound);
             }
             Dragging = false;
         }
@@ -103,6 +111,7 @@ public class DragSource : MonoBehaviour
                         var resource = target.GetComponent<Resource>();
                         resource.DropHuman(human);
                         Destroy(human.gameObject);
+                        GameManagerScript.PlayClip(DropSound);
                         return;
                     }
                     else if (target.GetComponent<Robot>())
@@ -110,6 +119,7 @@ public class DragSource : MonoBehaviour
                         var robot = target.GetComponent<Robot>();
                         robot.DropHuman(human);
                         Destroy(human.gameObject);
+                        GameManagerScript.PlayClip(DropSound);
                         return;
                     }
                     else if (target.GetComponent<Tower>())
@@ -117,6 +127,7 @@ public class DragSource : MonoBehaviour
                         var tower = target.GetComponent<Tower>();
                         tower.DropHuman(human); // TBD: Should DropHuman be a component that everyone has?
                         Destroy(human.gameObject);
+                        GameManagerScript.PlayClip(DropSound);
                         return;
                     }
                     else if (target.GetComponent<Block>())

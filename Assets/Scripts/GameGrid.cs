@@ -127,9 +127,10 @@ public class GameGrid : MonoBehaviour
     void Update()
     {
 
-#if UNITY_EDITOR
-        InitCellMapFromLevelMap(_map);
-#endif
+        if ( !Application.isPlaying)
+        {
+            InitCellMapFromLevelMap(_map);
+        }
         //var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
        // var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
 

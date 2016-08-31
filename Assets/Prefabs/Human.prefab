@@ -31,7 +31,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.19, y: 5.67, z: 0}
+  m_LocalPosition: {x: 6.19, y: 3.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -62,6 +62,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a377d7ccb80d36f4f891f105da30b973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InvalidDropSound: {fileID: 8300000, guid: 88ade09436618be428f3f3b56cad8f0a, type: 3}
+  CancelDropSound: {fileID: 8300000, guid: b2eafcf96efa39645a1c9dcf4bedc001, type: 3}
+  DropSound: {fileID: 8300000, guid: 054f9d3e699642e4284d9c24046ff6f9, type: 3}
   Dragging: 0
   DeleteOnCancel: 0
 --- !u!114 &11405522

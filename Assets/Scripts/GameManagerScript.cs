@@ -11,6 +11,8 @@ public class GameManagerScript : MonoBehaviour
     // Inspectors
     public string GameName;
 
+    private static AudioPoolController AudioPoolController;
+
 
     // State
 
@@ -19,6 +21,7 @@ public class GameManagerScript : MonoBehaviour
     {
         Toolbox.Instance.GameManager = this;
         Toolbox.Instance.DebugSys = this.GetComponent<DebugSystem>();
+        AudioPoolController = GetComponent<AudioPoolController>();
         //if (HideMouseCuror)
         {
             Cursor.visible = true;
@@ -37,6 +40,16 @@ public class GameManagerScript : MonoBehaviour
             return ret;
 
         }
+    }
+
+    public static void PlayClip(AudioClip clip)
+    {
+        //if (GameManager.Instance.PlayController.State == PlayController.States.Over)
+        //{
+        //    // No sound when not playing.
+        //    return;
+        //}
+        AudioPoolController.PlayClip(clip);
     }
 
     /// <summary>
