@@ -10,21 +10,28 @@ public class Tower : MonoBehaviour
     public float BulletRange;
 
     private float _reloadDelay;
-
+    private DragSource _dragSource;
 
 
     // Use this for initialization
-    void Start () {
-	
-	}
+    void Start ()
+    {
+        _dragSource = GetComponent<DragSource>();
+    }
 	
 	// Update is called once per frame
 	void Update ()
 	{
 
-        _reloadDelay -= Time.deltaTime;
 
-	    if (_reloadDelay <= 0.0f)
+	    _reloadDelay -= Time.deltaTime;
+
+        if (_dragSource != null && _dragSource.Dragging)
+        {
+            return;
+        }
+
+        if (_reloadDelay <= 0.0f)
 	    {
 
 	        var enempy = FindClosestEnemy(BulletPrefab.BulletRange); // Should be related to bullet range.

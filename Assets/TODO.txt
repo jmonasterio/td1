@@ -6,7 +6,7 @@ x Dragged item should not be opaque.
 x Don't allow draggin things that are stationary.
 x Dragging tower goes behind palette.
 x STILL SHITTY CODE: Edge of map not detect properly.
-- After moving a human, he doesn't start pathing anymore.
+x After moving a human, he doesn't start pathing anymore.
 - Dragging tower should not shoot, or be a target.
 - Bong if illegal drop.
 - X icon if illegal drop cell.

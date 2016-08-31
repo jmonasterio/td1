@@ -2432,6 +2432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Score: 0
   Income: 0
+  SpawnRate: 0
   EnemyScore: 3
 --- !u!114 &601069457
 MonoBehaviour:
@@ -3279,6 +3280,10 @@ Prefab:
     - target: {fileID: 432570, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 136904, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
