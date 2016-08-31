@@ -17,9 +17,11 @@ x Dragging block makes a small block
 - human goes behind wall
 - Maybe option to autdrop if you go over city.
 - If money goes down while dragging below cost, we may not be able to drop.
+- Multiple entry points and multiple routes.
+- Mob explodes and does damage to the robot. Maybe stop to fight.
 
 
-- Real health
+x Real health
 - Hide reticle while dragging.
 - Enemies are walking through walls.
 - Instead of using RAYCAST, look in the grid.

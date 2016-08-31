@@ -206,7 +206,7 @@ public class GameGrid : MonoBehaviour
                 if (cell.BackgroundGameObject != null)
                 {
                     // There may be more than one shape on a square? What to do? Pick the top one???
-                    Debug.Assert(cell.BackgroundGameObject == null);
+                    //Debug.Assert(cell.BackgroundGameObject == null);
                     continue;
                 }
                 cell.BackgroundGameObject = obj;
