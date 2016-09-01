@@ -11,6 +11,11 @@ public class AudioPoolController : MonoBehaviour
     // Safer to play sounds on the game object, since bullets or or asteroids may get destroyed while sound is playing???
     public void PlayClip(AudioClip clip, bool loop = false)
     {
+        if (clip == null)
+        {
+            Debug.LogWarning("Missing audio clip");
+            return;
+        }
         var src = GetPooledAudioSource();
         src.loop = loop;
         src.PlayOneShot(clip, clip.length);

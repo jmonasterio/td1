@@ -10,6 +10,8 @@ x After moving a human, he doesn't start pathing anymore.
 x Dragging tower should not shoot, or be a target.
 x Bong if illegal drop.
 x Am I really reloading grid on every frame?
+- Drop a block, not blocking enemies.
+- Enemies not going back.
 - Enemies are routing around the bottom.
 x X icon if illegal drop cell.
 - When human or enemy moves, they need to be moved to another cell.

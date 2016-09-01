@@ -136,59 +136,55 @@ public class DragSource : MonoBehaviour
                     }
                 }
             }
-
-
-        }
-        else
-
-        {
-
-            var income = Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income;
-
-            // TBD: Race.
-            // TBD: Move to EndDragging !Cancel
-            var entity = this.GetComponent<Entity>();
-            var cost = entity.IncomeCost;
-            if (income >= cost)
-            {
-                Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income -= cost;
-            }
             else
             {
-                EndDragging(cancel: true);
-                return;
-            }
 
+                var income = Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income;
 
-            switch (entity.EntityClass)
-            {
-                case Entity.EntityClasses.Tower:
-                    if (dropCellOrNull.Tower != null)
-                    {
-                        CancelDragging();
-                        return;
-                    }
-                    dragSource.gameObject.layer = GameGrid.TOWER_LAYER;
-
-                    break;
-                case Entity.EntityClasses.Background:
-                    if (dropCellOrNull.Tower != null)
-                    {
-                        CancelDragging();
-                        return;
-                    }
-                    dragSource.gameObject.layer = GameGrid.BACKGROUND_LAYER;
-                    break;
-                default:
-                    CancelDragging();
+                // TBD: Race.
+                // TBD: Move to EndDragging !Cancel
+                var entity = this.GetComponent<Entity>();
+                var cost = entity.IncomeCost;
+                if (income >= cost)
+                {
+                    Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income -= cost;
+                }
+                else
+                {
+                    EndDragging(cancel: true);
                     return;
-                    break;
+                }
 
+                switch (entity.EntityClass)
+                {
+                    case Entity.EntityClasses.Tower:
+                        if (dropCellOrNull.Tower != null)
+                        {
+                            CancelDragging();
+                            return;
+                        }
+                        dragSource.gameObject.layer = GameGrid.TOWER_LAYER;
+                        dropCellOrNull.Tower = dragSource.GetComponent<Tower>();
+                        break;
+                    case Entity.EntityClasses.Background:
+                        if (dropCellOrNull.Background != null)
+                        {
+                            CancelDragging();
+                            return;
+                        }
+                        dragSource.gameObject.layer = GameGrid.BACKGROUND_LAYER;
+                        dropCellOrNull.Background = dragSource.gameObject;
+                        break;
+                    default:
+                        CancelDragging();
+                        return;
+
+                }
+
+                dragSource.gameObject.transform.position =
+                    SnapToGrid.RoundTransform(dragSource.gameObject.transform.position, 1.0f);
+                EndDragging(cancel: false);
             }
-
-            dragSource.gameObject.transform.position =
-                SnapToGrid.RoundTransform(dragSource.gameObject.transform.position, 1.0f);
-            EndDragging(cancel: false);
         }
     }
 
