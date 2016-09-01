@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 193896fea47820f4b8296166509fbc99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EntityClass: 2
   IncomeCost: 0
   Health: 4
   HealthMax: 5

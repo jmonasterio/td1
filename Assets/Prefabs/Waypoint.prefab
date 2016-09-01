@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11417882}
   - 114: {fileID: 11408468}
   - 114: {fileID: 11447310}
+  - 114: {fileID: 11448416}
   m_Layer: 8
   m_Name: Waypoint
   m_TagString: Untagged
@@ -27,8 +28,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 137806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.46774212, y: 0.081900366, z: 0}
-  m_LocalScale: {x: 0.022530222, y: 0.05632252, z: 1.1368788}
+  m_LocalPosition: {x: -0.464616, y: 0.4493453, z: 0}
+  m_LocalScale: {x: 0.045588482, y: 0.059043784, z: 1.1368788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -59,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210e5332839960d49bc500efc64fa00f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaypointType: 1
+  WaypointType: 0
   WaypointIndex: 0
 --- !u!114 &11447310
 MonoBehaviour:
@@ -76,6 +77,22 @@ MonoBehaviour:
   snapValue: 1
   sizeToGrid: 0
   sizeValue: 0.25
+--- !u!114 &11448416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 137806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193896fea47820f4b8296166509fbc99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EntityClass: 5
+  IncomeCost: 0
+  Health: 5
+  HealthMax: 5
+  Speed: 1
 --- !u!114 &11449178
 MonoBehaviour:
   m_ObjectHideFlags: 1

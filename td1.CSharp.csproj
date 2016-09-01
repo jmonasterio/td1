@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\Income.cs" />
     <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\LevelController.cs" />
+    <Compile Include="Assets\Scripts\ListExtension.cs" />
     <Compile Include="Assets\Scripts\MapController.cs" />
     <Compile Include="Assets\Scripts\MouseInput.cs" />
     <Compile Include="Assets\Scripts\PaletteController.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="Assets\Scripts\PathFollower.cs" />
     <Compile Include="Assets\Scripts\PathFollowerStartToEnd.cs" />
     <Compile Include="Assets\Scripts\RandomMove.cs" />
-    <Compile Include="Assets\Scripts\Resource.cs" />
     <Compile Include="Assets\Scripts\Robot.cs" />
     <Compile Include="Assets\Scripts\Score.cs" />
     <Compile Include="Assets\Scripts\ScoreController.cs" />

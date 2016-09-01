@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Algorithms;
+using Assets.Scripts;
 using UnityEngine.Assertions;
 
 public class GameManagerScript : MonoBehaviour

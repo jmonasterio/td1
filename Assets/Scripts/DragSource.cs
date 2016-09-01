@@ -76,15 +76,15 @@ public class DragSource : MonoBehaviour
         {
             return true; // Only allowed drop.
         }
-        var city = this.GetComponent<Resource>();
-        if (city != null)
+        var tower = this.GetComponent<Tower>();
+        if (tower != null)
         {
-            return dropCellOrNull.BackgroundGameObject == null;
+            return dropCellOrNull.Tower;
         }
         var block = this.GetComponent<Block>();
         if (block != null)
         {
-            return dropCellOrNull.BackgroundGameObject == null;
+            return dropCellOrNull.Background == null;
         }
         return true;
     }
@@ -103,39 +103,26 @@ public class DragSource : MonoBehaviour
             if (human != null)
             {
                 // We're only allowed to drop on intersting cells.
-                if (dropCellOrNull.BackgroundGameObject != null)
+                if (dropCellOrNull.Robot != null)
                 {
-                    var target = dropCellOrNull.BackgroundGameObject;
-                    if (target.GetComponent<Resource>())
-                    {
-                        var resource = target.GetComponent<Resource>();
-                        resource.DropHuman(human);
-                        Destroy(human.gameObject);
-                        GameManagerScript.PlayClip(DropSound);
-                        return;
-                    }
-                    else if (target.GetComponent<Robot>())
-                    {
-                        var robot = target.GetComponent<Robot>();
-                        robot.DropHuman(human);
-                        Destroy(human.gameObject);
-                        GameManagerScript.PlayClip(DropSound);
-                        return;
-                    }
-                    else if (target.GetComponent<Tower>())
-                    {
-                        var tower = target.GetComponent<Tower>();
-                        tower.DropHuman(human); // TBD: Should DropHuman be a component that everyone has?
-                        Destroy(human.gameObject);
-                        GameManagerScript.PlayClip(DropSound);
-                        return;
-                    }
-                    else if (target.GetComponent<Block>())
-                    {
-                        CancelDragging();
-                        return;
-                    }
-
+                    var robot = dropCellOrNull.Robot;
+                    robot.DropHuman(human);
+                    Destroy(human.gameObject);
+                    GameManagerScript.PlayClip(DropSound);
+                    return;
+                }
+                if (dropCellOrNull.Tower != null)
+                {
+                    var tower = dropCellOrNull.Tower;
+                    tower.DropHuman(human); // TBD: Should DropHuman be a component that everyone has?
+                    Destroy(human.gameObject);
+                    GameManagerScript.PlayClip(DropSound);
+                    return;
+                }
+                else if (dropCellOrNull.Background != null)
+                {
+                    CancelDragging();
+                    return;
                 }
                 else
                 {
@@ -145,57 +132,63 @@ public class DragSource : MonoBehaviour
                         human.gameObject.layer = GameGrid.BACKGROUND_LAYER;
                         var wander = human.GetComponent<Wander>();
                         wander.RestartWandering();
-                        EndDragging(cancel:false);
+                        EndDragging(cancel: false);
                     }
                 }
+            }
 
 
+        }
+        else
+
+        {
+
+            var income = Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income;
+
+            // TBD: Race.
+            // TBD: Move to EndDragging !Cancel
+            var entity = this.GetComponent<Entity>();
+            var cost = entity.IncomeCost;
+            if (income >= cost)
+            {
+                Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income -= cost;
             }
             else
             {
-
-                var income = Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income;
-                
-                // TBD: Race.
-                // TBD: Move to EndDragging !Cancel
-                var entity = this.GetComponent<Entity>();
-                var cost = entity.IncomeCost;
-                if (income >= cost)
-                {
-                    Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income -= cost;
-                }
-                else
-                {
-                    EndDragging( cancel:true);
-                    return;
-                }
+                EndDragging(cancel: true);
+                return;
+            }
 
 
-                // Disallow dups on 
-                if (dropCellOrNull.BackgroundGameObject != null)
-                {
+            switch (entity.EntityClass)
+            {
+                case Entity.EntityClasses.Tower:
+                    if (dropCellOrNull.Tower != null)
+                    {
+                        CancelDragging();
+                        return;
+                    }
+                    dragSource.gameObject.layer = GameGrid.TOWER_LAYER;
+
+                    break;
+                case Entity.EntityClasses.Background:
+                    if (dropCellOrNull.Tower != null)
+                    {
+                        CancelDragging();
+                        return;
+                    }
+                    dragSource.gameObject.layer = GameGrid.BACKGROUND_LAYER;
+                    break;
+                default:
                     CancelDragging();
                     return;
-                }
+                    break;
 
-                var city = dragSource.GetComponent<Resource>();
-                if (city != null)
-                {
-                    dragSource.gameObject.layer = GameGrid.RESOURCE_LAYER;
-
-
-                }
-                else
-                {
-                    dragSource.gameObject.layer = GameGrid.BACKGROUND_LAYER;
-                    dragSource.gameObject.transform.position = SnapToGrid.RoundTransform( dragSource.gameObject.transform.position, 1.0f);
-                }
-                EndDragging(cancel:false);
             }
-        }
-        else
-        {
-            CancelDragging();
+
+            dragSource.gameObject.transform.position =
+                SnapToGrid.RoundTransform(dragSource.gameObject.transform.position, 1.0f);
+            EndDragging(cancel: false);
         }
     }
 

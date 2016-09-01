@@ -1256,6 +1256,10 @@ Prefab:
       propertyPath: m_Name
       value: End
       objectReference: {fileID: 0}
+    - target: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
+      propertyPath: WaypointType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
   m_IsPrefabParent: 0
@@ -2149,18 +2153,6 @@ Prefab:
       propertyPath: m_Name
       value: Start
       objectReference: {fileID: 0}
-    - target: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
-      propertyPath: WaypointType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 467268, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.045588482
-      objectReference: {fileID: 0}
-    - target: {fileID: 467268, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.059043784
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
   m_IsPrefabParent: 0
@@ -2248,6 +2240,10 @@ Prefab:
     - target: {fileID: 400348, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
       propertyPath: m_LocalScale.y
       value: 0.15016928
+      objectReference: {fileID: 0}
+    - target: {fileID: 11496104, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
+      propertyPath: EntityClass
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
@@ -3297,14 +3293,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 136904, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 11403642, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-      propertyPath: DropSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 054f9d3e699642e4284d9c24046ff6f9, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
   m_IsPrefabParent: 0
@@ -5219,6 +5207,10 @@ Prefab:
     - target: {fileID: 137806, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
       propertyPath: m_Name
       value: End
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
+      propertyPath: WaypointType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}

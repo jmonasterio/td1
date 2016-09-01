@@ -5,9 +5,17 @@ using System.Linq;
 
 public class Tower : MonoBehaviour
 {
+
+    public enum TowerClasses
+    {
+        Shooter =1,
+        City = 2,
+    }
+
     public Bullet BulletPrefab;
     public float ReloadTime; // TBD-JM: Should be part of different types of bullets, that are in GUN SLOT
     public float BulletRange;
+    public TowerClasses TowerClass;
 
     private float _reloadDelay;
     private DragSource _dragSource;
@@ -31,15 +39,18 @@ public class Tower : MonoBehaviour
             return;
         }
 
-        if (_reloadDelay <= 0.0f)
+	    if (TowerClass == TowerClasses.Shooter)
 	    {
-
-	        var enempy = FindClosestEnemy(BulletPrefab.BulletRange); // Should be related to bullet range.
-	        if (enempy != null)
+	        if (_reloadDelay <= 0.0f)
 	        {
-	            FireBulletAt(enempy);
-	            _reloadDelay = ReloadTime;
 
+	            var enempy = FindClosestEnemy(BulletPrefab.BulletRange); // Should be related to bullet range.
+	            if (enempy != null)
+	            {
+	                FireBulletAt(enempy);
+	                _reloadDelay = ReloadTime;
+
+	            }
 	        }
 	    }
 	}

@@ -6,6 +6,19 @@ using System.Collections;
 /// </summary>
 public class Entity : MonoBehaviour
 {
+    public enum EntityClasses
+    {
+        Background = 0,
+        Tower = 1,
+        Human = 2,
+        Robot = 3,
+        Enemy = 4,
+        Waypoint = 5,
+
+
+    }
+
+    public EntityClasses EntityClass;
 
     /// <summary>
     /// Cost for player to add this type of entity.

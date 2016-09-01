@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 /// <summary>
 /// Goes to a random cell. When it gets there (or blocked), picks another random cell.

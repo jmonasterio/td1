@@ -33,6 +33,7 @@ public class MapController : MonoBehaviour {
 #endif
     }
 
+#if NOT_DRAGGING_FROM_SOURCE
     private void DropAPrefabAtSelector(GameObject prefab)
     {
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
@@ -46,4 +47,5 @@ public class MapController : MonoBehaviour {
 
         }
     }
+#endif
 }

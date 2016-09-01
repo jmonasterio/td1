@@ -31,7 +31,10 @@ namespace Algorithms
 
         public int X
         {
-            get { return (int) _point.x; }
+            get
+            {
+                return (int) _point.x;
+            }
         }
 
         public int Y
