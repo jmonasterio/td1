@@ -13,10 +13,10 @@ namespace Assets.Scripts
             Vector3 start = spriteBounds.min;
             Vector3 end = spriteBounds.max;
 
-            var xMin = Mathf.RoundToInt(start.x-0.5f)+0.5f;
-            var yMin = Mathf.RoundToInt(start.y-0.5f)+0.5f;
-            var xMax = Mathf.RoundToInt(end.x+0.5f)+1.0f;
-            var yMax = Mathf.RoundToInt(end.y+0.5f)+1.0f;
+            var xMin = Mathf.RoundToInt(start.x-0.5f)+1.0f;
+            var yMin = Mathf.RoundToInt(start.y-0.5f) + 1.0f;
+            var xMax = Mathf.RoundToInt(end.x-0.5f) + 1.0f;
+            var yMax = Mathf.RoundToInt(end.y-0.5f) + 1.0f;
             Rect rc = new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
             return rc;
         }

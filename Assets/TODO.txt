@@ -10,17 +10,19 @@ x After moving a human, he doesn't start pathing anymore.
 x Dragging tower should not shoot, or be a target.
 x Bong if illegal drop.
 x Am I really reloading grid on every frame?
-- Drop a block, not blocking enemies.
-- Enemies not going back.
-- Enemies are routing around the bottom.
+x Drop a block, not blocking enemies.
+x Enemies not going back.
 x X icon if illegal drop cell.
+- Can drop offscreen again.
+- Enemies are routing around the bottom.
 - When human or enemy moves, they need to be moved to another cell.
+- don't allow dropping wall on a human
 - Human should pause for a second after being dropped.
 - After a cancel, human seems to jump.
 - Animate back to palete
-- Offscreen ends up with items??? Why.
-- don't allow dropping wall on a human
-- human goes behind wall
+x Offscreen ends up with items??? Why.
+x human goes behind wall
+- Human needs to be shorter (and centered?) so they don't try to draw over wall.
 - Multiple entry points and multiple routes.
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
