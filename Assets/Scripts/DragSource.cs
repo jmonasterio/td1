@@ -186,6 +186,11 @@ public class DragSource : MonoBehaviour
                 EndDragging(cancel: false);
             }
         }
+        else
+        {
+            // Not a valid cell.
+            EndDragging(cancel:false);
+        }
     }
 
     private static bool CanHumanWalkOn(GameGrid.GameCell.GroundTypes groundType)

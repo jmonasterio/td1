@@ -13,8 +13,8 @@ x Am I really reloading grid on every frame?
 x Drop a block, not blocking enemies.
 x Enemies not going back.
 x X icon if illegal drop cell.
-- Can drop offscreen again.
-- Enemies are routing around the bottom.
+x Can drop offscreen again.
+x Enemies are routing around the bottom.
 - When human or enemy moves, they need to be moved to another cell.
 - don't allow dropping wall on a human
 - Human should pause for a second after being dropped.
