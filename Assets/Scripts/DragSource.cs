@@ -79,12 +79,12 @@ public class DragSource : MonoBehaviour
         var tower = this.GetComponent<Tower>();
         if (tower != null)
         {
-            return dropCellOrNull.Tower;
+            return dropCellOrNull.Tower == null;
         }
         var block = this.GetComponent<Block>();
         if (block != null)
         {
-            return dropCellOrNull.Background == null;
+            return dropCellOrNull.Background == null && dropCellOrNull.Humans.Count == 0 && dropCellOrNull.Tower == null && dropCellOrNull.Robot == null && dropCellOrNull.Enemies.Count == 0;
         }
         return true;
     }

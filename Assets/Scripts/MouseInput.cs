@@ -76,7 +76,7 @@ public class MouseInput : MonoBehaviour
 
 	            DraggingNow.transform.position = pos;
 
-	            if ((gameCellOrNull != null) && (gameCellOrNull.Background == null) && (gameCellOrNull.Tower == null) && DraggingNow.CanDropAt(gameCellOrNull))
+	            if ((gameCellOrNull != null) && DraggingNow.CanDropAt(gameCellOrNull))
 	            {
 	                // Snap dragbox to grid, but not the thing we're dragging.
 	                _dragBox.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);

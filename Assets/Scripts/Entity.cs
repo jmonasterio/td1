@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 /// <summary>
 /// Common properties that every entity in the system should have.
@@ -29,6 +30,45 @@ public class Entity : MonoBehaviour
     public int HealthMax = 5;
 
     public float Speed = 1.0f;
+    private GameGrid.GameCell _currentGameCell;
+
+    public GameGrid.GameCell GetCurrentGameCell()
+    {
+        return null;
+    }
+
+    /// <summary>
+    /// Must  be called whenever an entity moves or changes cells (drag, drop, teleport, etc). This keeps the Cells array up to date with the game.
+    /// </summary>
+    /// <param name="newGameCell"></param>
+    public void SetCurrentGameCell(GameGrid.GameCell newGameCell)
+    {
+        if (_currentGameCell != newGameCell)
+        {
+            if (_currentGameCell != null)
+            {
+            GameGrid.RemoveEntity(_currentGameCell, this.gameObject, EntityClass);
+        }
+        _currentGameCell = newGameCell;
+            if (_currentGameCell != null)
+            {
+                GameGrid.SetCellEntity(newGameCell, this.gameObject, EntityClass);
+            }
+        }
+
+    }
+
+    public void Update()
+    {
+        
+        var dragSource = this.GetComponent<DragSource>(); // Otherwise, we can never drop because it looks like the cell is occupied by the thing we're dragging.
+        if (dragSource == null || !dragSource.Dragging)
+        {
+            var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
+            SetCurrentGameCell(cell);
+        }
+    }
+
 
 }
 

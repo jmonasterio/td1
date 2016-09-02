@@ -195,6 +195,38 @@ namespace Assets.Scripts
             }
         }
 
+        public static void RemoveEntity(GameCell cell, GameObject go, Entity.EntityClasses entityClass)
+        {
+
+            switch (entityClass)
+            {
+                case Entity.EntityClasses.Background:
+                case Entity.EntityClasses.Waypoint:
+
+                    cell.Background = null;
+                    break;
+
+                case Entity.EntityClasses.Enemy:
+                    cell.Enemies.Remove(go.GetComponent<Enemy>());
+                    break;
+                case Entity.EntityClasses.Human:
+                    cell.Humans.Remove(go.GetComponent<Human>());
+                    break;
+                case Entity.EntityClasses.Robot:
+
+                    cell.Robot = null;
+                    break;
+                case Entity.EntityClasses.Tower:
+                    cell.Tower = null;
+                    break;
+                default:
+                    Debug.Assert(false, "Unsupported entity type.");
+                    break;
+
+            }
+        }
+
+
         public void InstaniatePrefabAtGameCell(GameObject prefab, GameCell cell)
         {
             var entity = prefab.GetComponent<Entity>();
