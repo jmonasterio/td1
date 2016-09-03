@@ -89,6 +89,7 @@
     <Compile Include="Assets\Scripts\MapController.cs" />
     <Compile Include="Assets\Scripts\MouseInput.cs" />
     <Compile Include="Assets\Scripts\PaletteController.cs" />
+    <Compile Include="Assets\Scripts\ParallelSupport.cs" />
     <Compile Include="Assets\Scripts\PathFinder\AuthorAttribute.cs" />
     <Compile Include="Assets\Scripts\PathFinder\IPathFinder.cs" />
     <Compile Include="Assets\Scripts\PathFinder\PathFinder.cs" />
