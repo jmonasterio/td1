@@ -27,6 +27,11 @@ namespace Algorithms
             _point = new Vector2(x, y);
         }
 
+        public GridPoint(float x, float y)
+        {
+            _point = new Vector2(x, y);
+        }
+
         private Vector2 _point;
 
         public int X

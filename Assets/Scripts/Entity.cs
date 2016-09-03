@@ -29,19 +29,24 @@ public class Entity : MonoBehaviour
     public int Health = 5;
     public int HealthMax = 5;
 
+    public bool IsAlive()
+    {
+        return Health > 0;
+    }
+
     public float Speed = 1.0f;
     private GameGrid.GameCell _currentGameCell;
 
     public GameGrid.GameCell GetCurrentGameCell()
     {
-        return null;
+        return _currentGameCell;
     }
 
     /// <summary>
     /// Must  be called whenever an entity moves or changes cells (drag, drop, teleport, etc). This keeps the Cells array up to date with the game.
     /// </summary>
     /// <param name="newGameCell"></param>
-    public void SetCurrentGameCell(GameGrid.GameCell newGameCell)
+    private void UpdateCurrentCell(GameGrid.GameCell newGameCell)
     {
         if (_currentGameCell != newGameCell)
         {
@@ -64,8 +69,9 @@ public class Entity : MonoBehaviour
         var dragSource = this.GetComponent<DragSource>(); // Otherwise, we can never drop because it looks like the cell is occupied by the thing we're dragging.
         if (dragSource == null || !dragSource.Dragging)
         {
+            // As entity moves around, we want to update the CellMap to know where entity is.
             var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
-            SetCurrentGameCell(cell);
+            UpdateCurrentCell(cell);
         }
     }
 

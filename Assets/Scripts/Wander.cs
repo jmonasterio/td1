@@ -9,14 +9,16 @@ public class Wander : MonoBehaviour
 {
     public float speed = 5;
     public GameGrid.GameCell _targetCell = null;
+    private PathFollower _pf;
 
     void Start()
     {
-        var pf = this.GetComponent<PathFollower>();
-        pf.AtFinish -= Pf_AtFinishOrBlocked;
-        pf.Blocked -= Pf_AtFinishOrBlocked;
-        pf.AtFinish += Pf_AtFinishOrBlocked;
-        pf.Blocked += Pf_AtFinishOrBlocked;
+        // Set random initial rotation
+        _pf = this.GetComponent<PathFollower>();
+        _pf.AtFinish -= Pf_AtFinishOrBlocked;
+        _pf.Blocked -= Pf_AtFinishOrBlocked;
+        _pf.AtFinish += Pf_AtFinishOrBlocked;
+        _pf.Blocked += Pf_AtFinishOrBlocked;
 
     }
 
@@ -38,8 +40,6 @@ public class Wander : MonoBehaviour
 
     private GameGrid.GameCell MakeRandomPath()
     {
-        // Set random initial rotation
-        var pf = this.GetComponent<PathFollower>();
 
         var worldPos = this.transform.position;
         worldPos.z = -10;
@@ -47,15 +47,20 @@ public class Wander : MonoBehaviour
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         var endCell = gameGrid.RandomGameCell(GameGrid.GameCell.GroundTypes.Dirt);
 
-        pf.CurrentGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
-        pf.PrevGameCell = pf.CurrentGameCell;
-        pf.TargetCell = endCell;
-        pf.FollowToTargetCell(gameGrid);
-        return pf.CurrentGameCell;
+        _pf.CurrentGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
+        _pf.PrevGameCell = _pf.CurrentGameCell;
+        _pf.TargetCell = endCell;
+        _pf.FollowToTargetCell(gameGrid, transform.position);
+        return _pf.CurrentGameCell;
     }
 
     public void RestartWandering()
     {
         _targetCell = null;
+    }
+
+    public void StopWandering()
+    {
+        _pf.TargetCell = null;
     }
 }

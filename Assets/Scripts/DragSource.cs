@@ -128,10 +128,7 @@ public class DragSource : MonoBehaviour
                 {
                     if (CanHumanWalkOn(dropCellOrNull.GroundType))
                     {
-                        this.transform.position = mapExactDrop;
-                        human.gameObject.layer = GameGrid.BACKGROUND_LAYER;
-                        var wander = human.GetComponent<Wander>();
-                        wander.RestartWandering();
+                        human.DropAt(mapExactDrop);
                         EndDragging(cancel: false);
                     }
                 }

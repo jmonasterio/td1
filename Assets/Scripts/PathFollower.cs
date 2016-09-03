@@ -44,9 +44,26 @@ public class PathFollower : MonoBehaviour
         set { _pathNodeList = value; }
     } 
 
-    public void FollowToTargetCell(GameGrid gameGrid)
+
+    public void FollowToTargetCell(GameGrid gameGrid, Vector3 currentPos /* May not be at center of a cell */)
     {
+        var exactMapPos = currentPos;
+        var exactGridPs = gameGrid.MapGridPointToVector(CurrentGameCell.GridPoint);
+        var distance = (exactMapPos - exactGridPs).magnitude;
+
+        // When not at center of cell, will start from current position going to center of NEXT cell instead.
+        bool atCenterOfCurrentCell =  distance <= 0.01f;
+
         PrevGameCell = CurrentGameCell;
+        if (atCenterOfCurrentCell)
+        {
+            GoToCenterPos = null;
+        }
+        else
+        {
+            // Make a "fake" prevGameCell for pathing from current position to center of currentCell
+            GoToCenterPos = exactMapPos;
+        }
 
         // Changed target, so find a new path.
         var ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell, this);
@@ -61,13 +78,12 @@ public class PathFollower : MonoBehaviour
             }
             return;
         }
-
         NextGameCell = gameGrid.GetNextPathGameCell(PrevGameCell, this);
-        //Debug.Assert(NextGameCell != null, "Should have something on path? What is up?");
 
 
     }
 
+    public Vector3? GoToCenterPos;
 
 
     void OnSceneGUI()
@@ -118,16 +134,13 @@ public class PathFollower : MonoBehaviour
         if (gameGrid != null)
         {
             var t = Time.time;
-
-            
-
             var map = gameGrid.GetMap();
 
             // Refigure the path on each update (in case the path has changed).
             // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
             //  and we're sure the target is still there ... more complex games might allow the user to drop
             /// walls to block paths.
-            var path = gameGrid.FindPath(PrevGameCell, TargetCell,this);
+            var path = gameGrid.FindPath(PrevGameCell, TargetCell, this);
 
             //var nextGameCell = FindNextGameCell( path, PrevGameCell);
 
@@ -143,6 +156,11 @@ public class PathFollower : MonoBehaviour
             Debug.Assert(NextGameCell != null);
             var nextPathVector = GridHelper.MapPointToVector(map, NextGameCell.GridPoint);
             var prevPathVector = GridHelper.MapPointToVector(map, PrevGameCell.GridPoint);
+            if (GoToCenterPos.HasValue)
+            {
+                prevPathVector = GoToCenterPos.Value;
+            }
+
             float fracJourney = distCovered/(nextPathVector - prevPathVector).magnitude;
 
             if (fracJourney <= 1.0f)
@@ -151,6 +169,7 @@ public class PathFollower : MonoBehaviour
             }
             else if (fracJourney < 2.0f)
             {
+                GoToCenterPos = null;
                 CurrentGameCell = NextGameCell;
                 // We moved past the point, so go on to the next point.
                 if (CurrentGameCell.GridPoint == TargetCell.GridPoint)
@@ -166,15 +185,16 @@ public class PathFollower : MonoBehaviour
 
                     // TBD: There may have been a little time left, so we have to move further past current point.
                     _startTime = t;
-                    FollowToTargetCell(gameGrid);
+                    FollowToTargetCell(gameGrid, transform.position);
                 }
             }
             else
             {
                 // Why would we ever need to go this far, unless we missed aframe?
+                GoToCenterPos = null;
                 DebugSystem.DebugAssert(false, "moved way to far");
                 _startTime = t;
-                FollowToTargetCell(gameGrid);
+                FollowToTargetCell(gameGrid, transform.position);
             }
         }
     }

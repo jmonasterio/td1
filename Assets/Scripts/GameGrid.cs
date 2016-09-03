@@ -48,7 +48,7 @@ namespace Assets.Scripts
         private Rect _mapInternalGrid;
         private Vector2 _mapDims;
 
-        public Vector3 MapScreenToMapPosition(Vector2 screenPos, out bool isOffScreen)
+        public Vector3 MapScreenToMapPosition(Vector3 screenPos, out bool isOffScreen)
         {
             var pos2 = Camera.main.ScreenToWorldPoint(screenPos);
             pos2.z = 0;
@@ -56,7 +56,7 @@ namespace Assets.Scripts
             return pos2;
         }
 
-        public GameCell MapScreenToGameCellOrNull(Vector2 screenPos)
+        public GameCell MapScreenToGameCellOrNull(Vector3 screenPos)
         {
             var pos2 = Camera.main.ScreenToWorldPoint(screenPos);
             pos2.z = 0;
@@ -348,6 +348,11 @@ namespace Assets.Scripts
                 Mathf.RoundToInt(position.y) - Mathf.RoundToInt(_mapInternalGrid.min.y));
         }
 
+        public Vector3 CalcExactMapCoords(Vector3 position)
+        {
+            return new Vector2(position.x - Mathf.RoundToInt(_mapInternalGrid.min.x),
+                position.y - Mathf.RoundToInt(_mapInternalGrid.min.y));
+        }
 
         private static Vector2 CalcMapDims(Rect b)
         {
@@ -446,14 +451,7 @@ namespace Assets.Scripts
             GUI.color = color;
         }
 
-        public GridPoint MapVectorToGridPoint(Vector2 vv)
-        {
-            var origin = _mapInternalGrid.min;
-            var p = new GridPoint(Mathf.RoundToInt(vv.x - origin.x), Mathf.RoundToInt(vv.y - origin.y));
-            return p;
-        }
-
-        private Vector3 MapGridPointToVector(GridPoint nodeGridPoint)
+        public Vector3 MapGridPointToVector(GridPoint nodeGridPoint)
         {
             var origin = _mapInternalGrid.min;
             origin.x += nodeGridPoint.X;

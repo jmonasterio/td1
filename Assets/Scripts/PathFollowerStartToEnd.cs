@@ -27,7 +27,7 @@ public class PathFollowerStartToEnd : PathFollower {
             // Go back to start.
             var gameGrid = Toolbox.Instance.GameManager.GameGrid;
             TargetCell = gameGrid.GetStartGameCell();
-            FollowToTargetCell(gameGrid);
+            FollowToTargetCell(gameGrid, transform.position);
             Debug.Assert(NextGameCell != null);
         }
     }
@@ -37,7 +37,7 @@ public class PathFollowerStartToEnd : PathFollower {
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 
         MakePathFromStartToEnd(gameGrid);
-        FollowToTargetCell(gameGrid);
+        FollowToTargetCell(gameGrid, transform.position);
         _startTime = Time.time;
         return;
 
