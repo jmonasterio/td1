@@ -19,10 +19,8 @@ x When human or enemy moves, they need to be moved to another cell.
 x don't allow dropping wall on a human
 x Human should pause for a second after being dropped.
 x After a drop/cancel, human seems to jump. Because when they start to wander, the wander code assumes the human is at the center of the cell to start. But they are not.
-- Animate back to palete
 x Offscreen ends up with items??? Why.
 x human goes behind wall
-- Human needs to be shorter (and centered?) so they don't try to draw over wall.
 - Multiple entry points and multiple routes.
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
@@ -39,6 +37,8 @@ x Dragging block makes a small block
 - Maybe option to autdrop if you go over city.
 - If money goes down while dragging below cost, we may not be able to drop.
 - Mob explodes and does damage to the robot. Maybe stop to fight.
+- Animate back to palete
+- Human needs to be shorter (and centered?) so they don't try to draw over wall.
 
 
 x Real health

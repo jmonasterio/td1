@@ -47,23 +47,9 @@ public class PathFollower : MonoBehaviour
 
     public void FollowToTargetCell(GameGrid gameGrid, Vector3 currentPos /* May not be at center of a cell */)
     {
-        var exactMapPos = currentPos;
-        var exactGridPs = gameGrid.MapGridPointToVector(CurrentGameCell.GridPoint);
-        var distance = (exactMapPos - exactGridPs).magnitude;
-
-        // When not at center of cell, will start from current position going to center of NEXT cell instead.
-        bool atCenterOfCurrentCell =  distance <= 0.01f;
+        StartPos = currentPos;
 
         PrevGameCell = CurrentGameCell;
-        if (atCenterOfCurrentCell)
-        {
-            GoToCenterPos = null;
-        }
-        else
-        {
-            // Make a "fake" prevGameCell for pathing from current position to center of currentCell
-            GoToCenterPos = exactMapPos;
-        }
 
         // Changed target, so find a new path.
         var ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell, this);
@@ -83,7 +69,7 @@ public class PathFollower : MonoBehaviour
 
     }
 
-    public Vector3? GoToCenterPos;
+    public Vector3? StartPos;
 
 
     void OnSceneGUI()
@@ -156,9 +142,10 @@ public class PathFollower : MonoBehaviour
             Debug.Assert(NextGameCell != null);
             var nextPathVector = GridHelper.MapPointToVector(map, NextGameCell.GridPoint);
             var prevPathVector = GridHelper.MapPointToVector(map, PrevGameCell.GridPoint);
-            if (GoToCenterPos.HasValue)
+            if (StartPos.HasValue)
             {
-                prevPathVector = GoToCenterPos.Value;
+                // At the very beginning, we may start off in a cell, but may not be center of cell.
+                prevPathVector = StartPos.Value;
             }
 
             float fracJourney = distCovered/(nextPathVector - prevPathVector).magnitude;
@@ -169,7 +156,7 @@ public class PathFollower : MonoBehaviour
             }
             else if (fracJourney < 2.0f)
             {
-                GoToCenterPos = null;
+                StartPos = null;
                 CurrentGameCell = NextGameCell;
                 // We moved past the point, so go on to the next point.
                 if (CurrentGameCell.GridPoint == TargetCell.GridPoint)
@@ -191,7 +178,7 @@ public class PathFollower : MonoBehaviour
             else
             {
                 // Why would we ever need to go this far, unless we missed aframe?
-                GoToCenterPos = null;
+                StartPos = null;
                 DebugSystem.DebugAssert(false, "moved way to far");
                 _startTime = t;
                 FollowToTargetCell(gameGrid, transform.position);
