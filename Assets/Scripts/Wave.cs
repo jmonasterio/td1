@@ -8,6 +8,9 @@ public class Wave : MonoBehaviour
     public float startDelayTime;
     public float endDelayTime;
 
+    public Waypoint StartWaypoint;
+    public Waypoint EndWaypoint;
+
 
 
 	// Use this for initialization

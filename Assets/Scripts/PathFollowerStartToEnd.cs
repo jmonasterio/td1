@@ -16,27 +16,21 @@ public class PathFollowerStartToEnd : PathFollower {
     {
         // TBD-Put in event handler for start to end follower.
 
-        if (TargetCell.GroundType == GameGrid.GameCell.GroundTypes.Start)
+        if (TargetCell.GroundType == GameGrid.GameCell.GroundTypes.End)
         {
             var enempyCmp = this.GetComponent<Enemy>();
             Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored(enempyCmp.FlagCount);
             Object.Destroy(this.gameObject);
-        }
-        else
-        {
-            // Go back to start.
-            var gameGrid = Toolbox.Instance.GameManager.GameGrid;
-            TargetCell = gameGrid.GetStartGameCell();
-            FollowToTargetCell(gameGrid, transform.position);
-            Debug.Assert(NextGameCell != null);
+
+            // TBD: Put damage on robot here.
         }
     }
 
-    public void SetRandomTarget()
+    public void SetPathFromStartToEndWayPoints(Waypoint startWaypoint, Waypoint endWaypoint)
     {
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 
-        MakePathFromStartToEnd(gameGrid);
+        MakePathFromStartToEnd(gameGrid, startWaypoint, endWaypoint);
         FollowToTargetCell(gameGrid, transform.position);
         _startTime = Time.time;
         return;
@@ -44,13 +38,12 @@ public class PathFollowerStartToEnd : PathFollower {
     }
 
 
-    private void MakePathFromStartToEnd(GameGrid gameGrid)
+    private void MakePathFromStartToEnd(GameGrid gameGrid, Waypoint startWaypoint, Waypoint endWaypoint)
     {
-        PrevGameCell = gameGrid.GetStartGameCell();
+        PrevGameCell = gameGrid.MapGridPointToGameCellOrNull(startWaypoint.GridPoint);
         CurrentGameCell = PrevGameCell;
         //gameGrid.RandomizeEndCell();
-        TargetCell = gameGrid.GetEndGameCell();
-
+        TargetCell = gameGrid.MapGridPointToGameCellOrNull(endWaypoint.GridPoint);
     }
 
 

@@ -326,25 +326,31 @@ namespace Assets.Scripts
 
         }
 
-        public GameCell MapPositionToGameCellOrNull(Vector3 position)
+        public GameCell MapGridPointToGameCellOrNull(GridPoint gp)
         {
             if (Cells == null)
             {
                 return null;
             }
-            var dims = CalcMapCoords(position);
-            if (dims.x < Cells.GetLength(0) && dims.y < Cells.GetLength(1) && dims.x >= 0 && dims.y >= 0)
+            if (gp.X < Cells.GetLength(0) && gp.Y < Cells.GetLength(1) && gp.X >= 0 && gp.Y >= 0)
             {
-                var cell = Cells[(int) dims.x, (int) dims.y];
+                var cell = Cells[gp.X, gp.Y];
                 return cell;
             }
             return null;
+
         }
 
-        private Vector2 CalcMapCoords( Vector3 position)
+        public GameCell MapPositionToGameCellOrNull(Vector3 position)
+        {
+            var gp = MapPositionToGridPoint(position);
+            return MapGridPointToGameCellOrNull(gp);
+        }
+
+        private GridPoint MapPositionToGridPoint( Vector3 position)
         {
 
-            return new Vector2(Mathf.RoundToInt( position.x) - Mathf.RoundToInt(_mapInternalGrid.min.x),
+            return new GridPoint(Mathf.RoundToInt( position.x) - Mathf.RoundToInt(_mapInternalGrid.min.x),
                 Mathf.RoundToInt(position.y) - Mathf.RoundToInt(_mapInternalGrid.min.y));
         }
 
@@ -457,16 +463,6 @@ namespace Assets.Scripts
             origin.x += nodeGridPoint.X;
             origin.y += nodeGridPoint.Y;
             return origin;
-        }
-
-        public GameCell GetStartGameCell()
-        {
-            return Cells[StartWaypoint.GridPoint.X, StartWaypoint.GridPoint.Y];
-        }
-
-        public GameCell GetEndGameCell()
-        {
-            return Cells[EndWaypoint.GridPoint.X, EndWaypoint.GridPoint.Y];
         }
 
         // Bad idea.

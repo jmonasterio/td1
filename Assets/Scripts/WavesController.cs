@@ -18,30 +18,10 @@ public class WavesController : MonoBehaviour
     void Start()
     {
         _enemiesCollection = GameObject.Find("Enemies"); // TBD: Maybe do this in the in the Enemy object.
-        StartCoroutine(SpawnWaves2());
+        StartCoroutine(SpawnWaves());
     }
 
-#if DEAD
     IEnumerator SpawnWaves()
-    {
-        yield return new WaitForSeconds(StartWait);
-        while (true)
-        {
-            for (int i = 0; i < HazardCount; i++)
-            {
-                Vector3 spawnPosition = SpawnWaypoint.transform.position;
-                var newEnemy = Instantiate<Enemy>(EnemyPrefab);
-                newEnemy.transform.SetParent(_enemiesCollection.transform);
-                newEnemy.transform.position = spawnPosition;
-                yield return new WaitForSeconds(SpawnWait);
-            }
-            yield return new WaitForSeconds(WaveWait);
-        }
-    }
-#endif
-
-
-    IEnumerator SpawnWaves2()
     {
         var waves = GameObject.Find("Waves");
         yield return new WaitForSeconds(StartWait);
@@ -79,7 +59,7 @@ public class WavesController : MonoBehaviour
                     newEnemy.gameObject.SetActive(true);
 
                     var pathFollower = newEnemy.GetComponent<PathFollowerStartToEnd>();
-                    pathFollower.SetRandomTarget(); // TBD-JM: Need to pick targets here if there is a choice.
+                    pathFollower.SetPathFromStartToEndWayPoints(wave.StartWaypoint, wave.EndWaypoint); // TBD-JM: Need to pick targets here if there is a choice.
 
                     this.LiveEnemyCount ++;
 

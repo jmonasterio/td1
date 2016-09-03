@@ -1,10 +1,11 @@
 ﻿using Algorithms;
+using UnityEditor;
 using UnityEngine;
 
 
 // TBD: Would be nice to be able to have multiple starts, and associated end.
 
-[RequireComponent(typeof (SpriteRenderer))]
+[ExecuteInEditMode]
 public class Waypoint : MonoBehaviour
 {
     public enum WaypointTypes
@@ -22,5 +23,32 @@ public class Waypoint : MonoBehaviour
     public int WaypointIndex = 0; // 0 = start, 
 
     public GridPoint GridPoint;
+
+    public int WaypointGroup = 0;
+
+    // Update is called once per frame
+    void OnGUI()
+    {
+        if (Application.isPlaying)
+        {
+           this.GetComponent<SpriteRenderer>().enabled = false;
+           return;
+        }
+
+        var vector = this.transform.position;
+        var color = GUI.color;
+        GUI.color = Color.black;
+        if (this.WaypointType == WaypointTypes.Start)
+        {
+            Handles.Label(vector, "Start: " + WaypointGroup);
+        }
+        else if (this.WaypointType == WaypointTypes.End)
+        {
+            Handles.Label(vector, "End: " + WaypointGroup);
+
+        }
+        GUI.color = color;
+
+    }
 
 }
