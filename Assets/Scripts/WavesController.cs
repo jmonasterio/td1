@@ -5,7 +5,6 @@ public class WavesController : MonoBehaviour
 {
     public int LiveEnemyCount = 0;
     public Enemy EnemyPrefab;
-    public Waypoint SpawnWaypoint;
     public int HazardCount;
     public float SpawnWait;
     public float StartWait;
@@ -31,7 +30,7 @@ public class WavesController : MonoBehaviour
             var wave = child.gameObject.GetComponent<Wave>();
             if (wave == null)
             {
-                Debug.Assert(false, "Only wave objects can be children of waves collection.");
+                Debug.LogError( "Only wave objects can be children of waves collection.");
             }
 
             // TBD-JM: Maybe use a custom yield instruction here to 
@@ -51,7 +50,7 @@ public class WavesController : MonoBehaviour
                 {
                     
 
-                    Vector3 spawnPosition = SpawnWaypoint.transform.position;
+                    Vector3 spawnPosition = wave.StartWaypoint.transform.position;
                     //var newEnemy = enemy.gameObject; 
                     var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
                     newEnemy.transform.parent = _enemiesCollection.transform;
@@ -68,16 +67,26 @@ public class WavesController : MonoBehaviour
                 }
                 else
                 {
-                    var buffer = subChild.GetComponent<WaveBuffer>();
-                    if (buffer != null)
+                    var pause = subChild.GetComponent<WavePause>();
+                    if (pause != null)
                     {
-                        buffer.transform.parent = _enemiesCollection.transform; // Make sure removed from tree, so that loop works, even if buffer.delay is 0.
-                        Destroy(buffer.gameObject);
-                        yield return new WaitForSeconds(buffer.delay);
+                        pause.transform.parent = _enemiesCollection.transform; // Make sure removed from tree, so that loop works, even if buffer.delay is 0.
+                        Destroy(pause.gameObject);
+                        yield return new WaitForSeconds(pause.delay);
                     }
                     else
                     {
-                    Debug.Assert(false, "Unknown wave child type: Only enemy and waveBuffer allowed.");
+                        var waveBreak = subChild.GetComponent<WaveBreak>();
+                        if (waveBreak != null)
+                        {
+                            //yield return new WaitForSeconds(1.0f); // TBD REPLACE SYNC POINT
+                            break;
+                        }
+                        else
+                        {
+
+                            Debug.Assert(false, "Unknown wave child type: Only enemy and waveBuffer allowed.");
+                        }
                     }
 
                 }

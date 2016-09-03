@@ -106,10 +106,11 @@
     <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\Scripts\Wander.cs" />
     <Compile Include="Assets\Scripts\Wave.cs" />
-    <Compile Include="Assets\Scripts\WaveBuffer.cs" />
+    <Compile Include="Assets\Scripts\WavePause.cs" />
     <Compile Include="Assets\Scripts\Waves.cs" />
     <Compile Include="Assets\Scripts\WavesController.cs" />
     <Compile Include="Assets\Scripts\Waypoint.cs" />
+    <Compile Include="Assets\WaveBreak.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\RELEASE NOTES.txt" />

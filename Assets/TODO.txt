@@ -22,6 +22,7 @@ x After a drop/cancel, human seems to jump. Because when they start to wander, t
 x Offscreen ends up with items??? Why.
 x human goes behind wall
 - Multiple entry points and multiple routes.
+- Wave co-routines: Need to stop if level ends in middle of a wave.
 - Can't drop on city.
 - Support real waypoints to help designer.
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.

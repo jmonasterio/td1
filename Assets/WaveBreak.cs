@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WaveBuffer : MonoBehaviour
-{
-
-    public float delay = 1.0f;
+public class WaveBreak : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
