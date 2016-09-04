@@ -11,7 +11,7 @@ public class Wave : MonoBehaviour
     public Waypoint StartWaypoint;
     public Waypoint EndWaypoint;
 
-
+    private Coroutine _coroutine; // So you can cancel
 
 	// Use this for initialization
 	void Start () {
@@ -22,4 +22,18 @@ public class Wave : MonoBehaviour
 	void Update () {
 	
 	}
+
+    public void CancelWaveCoroutine()
+    {
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+            _coroutine = null;
+        }
+    }
+
+    public void SetCoroutine(Coroutine coroutine)
+    {
+        _coroutine = coroutine;
+    }
 }
