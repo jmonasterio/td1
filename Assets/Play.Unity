@@ -2673,6 +2673,7 @@ GameObject:
   - 114: {fileID: 601069457}
   - 114: {fileID: 601069458}
   - 114: {fileID: 601069459}
+  - 114: {fileID: 601069460}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2810,6 +2811,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolSize: 10
+--- !u!114 &601069460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 601069449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa41f4c6261cc5a41ba825b622b6f762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &629098433
 Prefab:
   m_ObjectHideFlags: 0
@@ -3297,6 +3309,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 777507121}
+  - 114: {fileID: 777507122}
   m_Layer: 0
   m_Name: Waves
   m_TagString: Untagged
@@ -3319,6 +3332,17 @@ Transform:
   - {fileID: 128245317}
   m_Father: {fileID: 949766822}
   m_RootOrder: 0
+--- !u!114 &777507122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 777507120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47bf0ea39cdcde49be0c1d178ac6206, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &807454117
 Prefab:
   m_ObjectHideFlags: 0
@@ -6081,7 +6105,7 @@ MonoBehaviour:
   language:
     current: 
     lastLang: 
-  GameManager: {fileID: 0}
+  GameManager: {fileID: 601069450}
   DebugSys: {fileID: 0}
 --- !u!4 &1708420655
 Transform:

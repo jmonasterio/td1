@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using Assets.Scripts;
 
 public class WavesController : MonoBehaviour
 {
@@ -12,26 +14,26 @@ public class WavesController : MonoBehaviour
     private GameObject _enemiesCollection;
     private bool _skipToNextWave;
     private bool _skipWaveDelay;
+    private Waves _wavesOnThisLevel;
 
 
     void Start()
     {
         _enemiesCollection = GameObject.Find("Enemies"); // TBD: Maybe do this in the in the Enemy object.
+                                                         // StartCoroutine(SpawnWaves());
+        _wavesOnThisLevel = GameObject.Find("Waves").GetComponent<Waves>(); // Only finds waves on active level
+
         StartCoroutine(SpawnWaves());
     }
-
-    IEnumerator SpawnWaves()
+    
+  IEnumerator SpawnWaves()
     {
-        var waves = GameObject.Find("Waves");
         yield return new WaitForSeconds(StartWait);
-        for(int childIdx = 0; childIdx < waves.transform.childCount; childIdx++)
+        var waves = _wavesOnThisLevel.GetComponentsInChildren<Wave>();
+
+        foreach (Wave wave in waves)
         {
-            var child = waves.transform.GetChild(childIdx);
-            var wave = child.gameObject.GetComponent<Wave>();
-            if (wave == null)
-            {
-                Debug.LogError( "Only wave objects can be children of waves collection.");
-            }
+            //var child = _wavesOnThisLevel.transform.GetChild(childIdx);
 
             // TBD-JM: Maybe use a custom yield instruction here to 
             // avoid waiting if user wants to skip to next wave really fast.
@@ -80,6 +82,7 @@ public class WavesController : MonoBehaviour
                         if (waveBreak != null)
                         {
                             //yield return new WaitForSeconds(1.0f); // TBD REPLACE SYNC POINT
+                            Destroy(waveBreak.gameObject);
                             break;
                         }
                         else

@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.5f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -89,7 +87,6 @@
     <Compile Include="Assets\Scripts\MapController.cs" />
     <Compile Include="Assets\Scripts\MouseInput.cs" />
     <Compile Include="Assets\Scripts\PaletteController.cs" />
-    <Compile Include="Assets\Scripts\ParallelSupport.cs" />
     <Compile Include="Assets\Scripts\PathFinder\AuthorAttribute.cs" />
     <Compile Include="Assets\Scripts\PathFinder\IPathFinder.cs" />
     <Compile Include="Assets\Scripts\PathFinder\PathFinder.cs" />
@@ -111,6 +108,7 @@
     <Compile Include="Assets\Scripts\Waves.cs" />
     <Compile Include="Assets\Scripts\WavesController.cs" />
     <Compile Include="Assets\Scripts\Waypoint.cs" />
+    <Compile Include="Assets\Test.cs" />
     <Compile Include="Assets\WaveBreak.cs" />
   </ItemGroup>
   <ItemGroup>
