@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Assets.Scripts;
 
 /// <summary>
@@ -50,6 +51,7 @@ public class Wander : MonoBehaviour
         _pf.CurrentGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
         _pf.PrevGameCell = _pf.CurrentGameCell;
         _pf.TargetCell = endCell;
+        _pf.OrderedWaypointCells = new List<GameGrid.GameCell>(); // Empty. No way points.
         _pf.FollowToTargetCell(gameGrid, transform.position);
         return _pf.CurrentGameCell;
     }

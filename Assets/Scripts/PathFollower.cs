@@ -43,7 +43,8 @@ public class PathFollower : MonoBehaviour
 
         PrevGameCell = CurrentGameCell;
 
-        if ((OrderedWaypointCells.Count > 0) && (CurrentGameCell.GridPoint == OrderedWaypointCells[0].GridPoint)) // TBD: Some kind of equality needed here for gamecells.
+        if ((OrderedWaypointCells.Count > 0) && (CurrentGameCell.GridPoint == OrderedWaypointCells[0].GridPoint))
+            // TBD: Some kind of equality needed here for gamecells.
         {
             // remove each waypoint as we reach it. The idea is that the path may get changed (due to blockages) from here on out, but we won't go back to this particular waypoint once we reach it.
             // of course, we don't want to remove the last waypoint, either. That is the endpoint (for now).

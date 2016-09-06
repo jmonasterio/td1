@@ -74,7 +74,7 @@ public class DragSource : MonoBehaviour
         var human = this.GetComponent<Human>();
         if (human != null)
         {
-            return true; // Only allowed drop.
+            return dropCellOrNull.Background == null || (dropCellOrNull.GroundType != GameGrid.GameCell.GroundTypes.Path); // Only allowed drop.
         }
         var tower = this.GetComponent<Tower>();
         if (tower != null)

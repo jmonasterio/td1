@@ -20,17 +20,18 @@ public class GameManagerScript : MonoBehaviour
     // Use this for initialization (of me).
     void Awake()
     {
+        // Need to be in AWAKE because other components refer to this.
         Toolbox.Instance.GameManager = this;
         Toolbox.Instance.DebugSys = this.GetComponent<DebugSystem>();
+    }
+
+    void Start()
+    {
         AudioPoolController = GetComponent<AudioPoolController>();
         //if (HideMouseCuror)
         {
             Cursor.visible = true;
         }
-    }
-
-    void Start()
-    {
     }
 
     public GameGrid GameGrid

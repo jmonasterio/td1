@@ -2651,7 +2651,6 @@ GameObject:
   - 114: {fileID: 601069457}
   - 114: {fileID: 601069458}
   - 114: {fileID: 601069459}
-  - 114: {fileID: 601069460}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2789,17 +2788,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolSize: 10
---- !u!114 &601069460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 601069449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa41f4c6261cc5a41ba825b622b6f762, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &629098433
 Prefab:
   m_ObjectHideFlags: 0
