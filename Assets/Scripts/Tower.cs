@@ -10,6 +10,7 @@ public class Tower : MonoBehaviour
     {
         Shooter =1,
         City = 2,
+        GathererTower = 3, // Gathers's go get body of dead aliens. Humans get converted into gatherer.
     }
 
     public Bullet BulletPrefab;

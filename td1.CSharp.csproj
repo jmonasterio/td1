@@ -62,9 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Block.cs" />
     <Compile Include="Assets\Scripts\AudioPoolController.cs" />
     <Compile Include="Assets\Scripts\Background.cs" />
+    <Compile Include="Assets\Scripts\Block.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\DebugSystem.cs" />
     <Compile Include="Assets\Scripts\DragSource.cs" />
@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\MapController.cs" />
     <Compile Include="Assets\Scripts\MouseInput.cs" />
     <Compile Include="Assets\Scripts\PaletteController.cs" />
+    <Compile Include="Assets\Scripts\Path.cs" />
     <Compile Include="Assets\Scripts\PathFinder\AuthorAttribute.cs" />
     <Compile Include="Assets\Scripts\PathFinder\IPathFinder.cs" />
     <Compile Include="Assets\Scripts\PathFinder\PathFinder.cs" />
@@ -104,12 +105,11 @@
     <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\Scripts\Wander.cs" />
     <Compile Include="Assets\Scripts\Wave.cs" />
+    <Compile Include="Assets\Scripts\WaveBreak.cs" />
     <Compile Include="Assets\Scripts\WavePause.cs" />
     <Compile Include="Assets\Scripts\Waves.cs" />
     <Compile Include="Assets\Scripts\WavesController.cs" />
     <Compile Include="Assets\Scripts\Waypoint.cs" />
-    <Compile Include="Assets\Test.cs" />
-    <Compile Include="Assets\WaveBreak.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\RELEASE NOTES.txt" />
