@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using System.Linq;
 
 public class PathFollowerStartToEnd : PathFollower {
 
@@ -27,19 +28,19 @@ public class PathFollowerStartToEnd : PathFollower {
         }
     }
 
-    public void SetPathFromStartToEndWayPoints(Waypoint startWaypoint, List<Waypoint> midWaypoints, Waypoint endWaypoint)
+    public void SetPathWaypoints(Path path )
     {
+
+
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 
-        PrevGameCell = gameGrid.MapGridPointToGameCellOrNull(startWaypoint.GridPoint);
+        PrevGameCell = gameGrid.MapGridPointToGameCellOrNull(path.StartWaypoint.GridPoint);
         CurrentGameCell = PrevGameCell;
-        OrderedWaypointCells = GetCells(gameGrid, midWaypoints);
+        OrderedWaypointCells = GetCells(gameGrid, path.MidWaypoints);
         //gameGrid.RandomizeEndCell();
-        TargetCell = gameGrid.MapGridPointToGameCellOrNull(endWaypoint.GridPoint);
+        TargetCell = gameGrid.MapGridPointToGameCellOrNull(path.EndWaypoint.GridPoint);
         FollowToTargetCell(gameGrid, transform.position);
         _startTime = Time.time;
-        return;
-
     }
 
     private List<GameGrid.GameCell> GetCells(GameGrid gameGrid, List<Waypoint> midWaypoints)

@@ -9,9 +9,7 @@ public class Wave : MonoBehaviour
     public float startDelayTime;
     public float endDelayTime;
 
-    public Waypoint StartWaypoint;
-    public Waypoint EndWaypoint;
-    public List<Waypoint> MidWaypoints;
+    public Path Path;
 
     private Coroutine _coroutine; // So you can cancel
 

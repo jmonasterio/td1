@@ -49,7 +49,7 @@ public class WavesController : MonoBehaviour
             {
 
 
-                Vector3 spawnPosition = wave.StartWaypoint.transform.position;
+                Vector3 spawnPosition = wave.Path.StartWaypoint.transform.position;
                 //var newEnemy = enemy.gameObject; 
                 var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
                 newEnemy.transform.parent = _enemiesCollection.transform;
@@ -57,7 +57,7 @@ public class WavesController : MonoBehaviour
                 newEnemy.gameObject.SetActive(true);
 
                 var pathFollower = newEnemy.GetComponent<PathFollowerStartToEnd>();
-                pathFollower.SetPathFromStartToEndWayPoints(wave.StartWaypoint, wave.MidWaypoints, wave.EndWaypoint); // TBD-JM: Need to pick targets here if there is a choice.
+                pathFollower.SetPathWaypoints(wave.Path); // TBD-JM: Need to pick targets here if there is a choice.
 
                 this.LiveEnemyCount++;
 
@@ -136,7 +136,7 @@ public class WavesController : MonoBehaviour
                 {
                     
 
-                    Vector3 spawnPosition = wave.StartWaypoint.transform.position;
+                    Vector3 spawnPosition = wave.Path.StartWaypoint.transform.position;
                     //var newEnemy = enemy.gameObject; 
                     var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
                     newEnemy.transform.parent = _enemiesCollection.transform;
@@ -144,7 +144,7 @@ public class WavesController : MonoBehaviour
                     newEnemy.gameObject.SetActive(true);
 
                     var pathFollower = newEnemy.GetComponent<PathFollowerStartToEnd>();
-                    pathFollower.SetPathFromStartToEndWayPoints(wave.StartWaypoint, wave.MidWaypoints, wave.EndWaypoint); // TBD-JM: Need to pick targets here if there is a choice.
+                    pathFollower.SetPathWaypoints(wave.Path); // TBD-JM: Need to pick targets here if there is a choice.
 
                     this.LiveEnemyCount ++;
 
