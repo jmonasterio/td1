@@ -88,13 +88,44 @@ namespace Assets.Scripts
             }
         }
 
-        public List<GameCell> FindPathWithWaypoints(GameCell start, List<GameCell> waypoints, GameCell end,
-            PathFollower forFollower)
+        /// <summary>
+        /// From current cell, find a path that goes through the remaning waypoints to the end.
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="remainingWaypoints">Last point is the end.</param>
+        /// <returns></returns>
+        public List<GameCell> FindPathWithWaypoints(GameCell current, List<GameCell> remainingWaypoints)
         {
-            return null;
+            if (current == null || remainingWaypoints == null || remainingWaypoints.Count == 0)
+            {
+                return new List<GameCell>(); // TBD: Lame.
+            }
+
+            var fullPath = new List<GameCell>();
+            var firstLeg = FindPath(current, remainingWaypoints[0]);
+            if (firstLeg.Count == 0)
+            {
+                // No path
+                return new List<GameCell>(); 
+            }
+            fullPath.AddRange(firstLeg);
+            for (int ii = 0; ii < remainingWaypoints.Count - 1; ii++)
+            {
+                var nextLeg = FindPath(remainingWaypoints[ii], remainingWaypoints[ii + 1]);
+                if (nextLeg != null)
+                {
+                    fullPath.AddRange(nextLeg);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            // TBD: There may be some overlap we need to fix
+            return fullPath;
         }
 
-        public List<GameCell> FindPath(GameCell start, GameCell end)
+        private List<GameCell> FindPath(GameCell start, GameCell end)
         {
             if (start == null || end == null)
             {

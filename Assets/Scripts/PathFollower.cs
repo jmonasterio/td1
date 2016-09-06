@@ -44,7 +44,8 @@ public class PathFollower : MonoBehaviour
         PrevGameCell = CurrentGameCell;
 
         // Changed target, so find a new path.
-        CurrentPath = gameGrid.FindPath(CurrentGameCell, TargetCell);
+        var remainingWaypoints = new List<GameGrid.GameCell>() {TargetCell}; // TBD: Need more
+        CurrentPath = gameGrid.FindPathWithWaypoints(CurrentGameCell, remainingWaypoints);
         if (CurrentPath == null || CurrentPath.Count == 0)
         {
             // Couldn't find a path!!!!
@@ -149,7 +150,8 @@ public class PathFollower : MonoBehaviour
             // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
             //  and we're sure the target is still there ... more complex games might allow the user to drop
             /// walls to block paths.
-            CurrentPath = gameGrid.FindPath(PrevGameCell, TargetCell);
+            var remainingWaypoints = new List<GameGrid.GameCell>() {TargetCell}; // TBD: Need more
+            CurrentPath = gameGrid.FindPathWithWaypoints(PrevGameCell, remainingWaypoints);
 
             //var nextGameCell = FindNextGameCell( path, PrevGameCell);
 
