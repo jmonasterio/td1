@@ -14,8 +14,8 @@ public class PathFollower : MonoBehaviour
     public event EventHandler<EventArgs> Blocked;
     public event EventHandler<EventArgs> AtFinish;
 
-    private List<PathFinderNode> _pathNodeList;
-
+    public GameGrid.GameCell StartCell; // The one we orginally stared from
+    public List<GameGrid.GameCell> OrderedWaypointCells;
     public GameGrid.GameCell CurrentGameCell; // The one we are in.
     public GameGrid.GameCell PrevGameCell; // The one we are leaving.
     public GameGrid.GameCell NextGameCell; // The on we are going to.
@@ -34,15 +34,7 @@ public class PathFollower : MonoBehaviour
 
     }
 
-    public List<PathFinderNode> Path
-    {
-        get
-        {
-            return _pathNodeList;
-            
-        }
-        set { _pathNodeList = value; }
-    } 
+    public List<GameGrid.GameCell> CurrentPath;
 
 
     public void FollowToTargetCell(GameGrid gameGrid, Vector3 currentPos /* May not be at center of a cell */)
@@ -52,8 +44,8 @@ public class PathFollower : MonoBehaviour
         PrevGameCell = CurrentGameCell;
 
         // Changed target, so find a new path.
-        var ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell, this);
-        if (ignorePath == null || ignorePath.Count == 0)
+        CurrentPath = gameGrid.FindPath(CurrentGameCell, TargetCell);
+        if (CurrentPath == null || CurrentPath.Count == 0)
         {
             // Couldn't find a path!!!!
             //ignorePath = gameGrid.FindPath(CurrentGameCell, TargetCell, this);
@@ -64,10 +56,41 @@ public class PathFollower : MonoBehaviour
             }
             return;
         }
-        NextGameCell = gameGrid.GetNextPathGameCell(PrevGameCell, this);
+        NextGameCell = GetNextPathGameCell(PrevGameCell, CurrentPath);
 
 
     }
+
+
+    private static GameGrid.GameCell GetNextPathGameCell(GameGrid.GameCell curGameCell, List<GameGrid.GameCell> currentPath)
+    {
+        var path = currentPath;
+        if (path == null)
+        {
+            return null;
+        }
+
+        var curGridPoint = curGameCell.GridPoint;
+
+        for (int ii = 0; ii < path.Count; ii++)
+        {
+            var cel = currentPath[ii];
+            if (cel.GridPoint == curGridPoint)
+            {
+                GameGrid.GameCell node;
+                if (ii < 1)
+                {
+                    return null;
+                }
+                node = currentPath[ii - 1];
+                return node;
+            }
+        }
+        return null;
+
+    }
+
+
 
     public Vector3? StartPos;
 
@@ -79,15 +102,15 @@ public class PathFollower : MonoBehaviour
 
     void OnGUI()
     {
-        if (_pathNodeList != null)
+        if (CurrentPath != null)
         {
             var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 
-            foreach (var node in _pathNodeList)
+            foreach (var node in CurrentPath)
             {
                 // Draw lines between the nodes, just to see.
                 //Debug.DrawLine( );
-                var nodePoint = new GridPoint(node.X, node.Y);
+                var nodePoint = node.GridPoint;
                 if (Toolbox.Instance.DebugSys.ShowXOnPath)
                 {
                     gameGrid.DrawTextAtPoint(nodePoint, "X");
@@ -126,7 +149,7 @@ public class PathFollower : MonoBehaviour
             // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
             //  and we're sure the target is still there ... more complex games might allow the user to drop
             /// walls to block paths.
-            var path = gameGrid.FindPath(PrevGameCell, TargetCell, this);
+            CurrentPath = gameGrid.FindPath(PrevGameCell, TargetCell);
 
             //var nextGameCell = FindNextGameCell( path, PrevGameCell);
 

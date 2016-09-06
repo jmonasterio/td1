@@ -67,23 +67,6 @@ namespace Assets.Scripts
 
 
 
-        public List<GameCell> CurrentPath(PathFollower follwer)
-        {
-            var list = new List<GameCell>();
-
-            if (follwer.Path != null)
-            {
-                foreach (var node in follwer.Path)
-                {
-                    var gameCell = Cells[node.X, node.Y];
-                    list.Add(gameCell);
-
-                }
-            }
-            return list;
-
-        }
-
 
 
 
@@ -105,29 +88,53 @@ namespace Assets.Scripts
             }
         }
 
-        public List<GameCell> FindPath( GameCell start, GameCell end, PathFollower forFollower)
+        public List<GameCell> FindPathWithWaypoints(GameCell start, List<GameCell> waypoints, GameCell end,
+            PathFollower forFollower)
         {
+            return null;
+        }
+
+        public List<GameCell> FindPath(GameCell start, GameCell end)
+        {
+            if (start == null || end == null)
+            {
+                return new List<GameCell>(); // TBD: Lame.
+            }
+
             var byteGrid = ToByteGrid();
 
-            var pf = new PathFinderFast(byteGrid);
-            pf.Diagonals = true;
-            pf.Formula = HeuristicFormula.DiagonalShortCut;
-            pf.HeuristicEstimate = 2;
-            pf.HeavyDiagonals = true;
-            pf.PunishChangeDirection = false;
-            pf.SearchLimit = 15000;
-            pf.TieBreaker = false;
-            if (forFollower == null || start == null || end == null)
+            var pf = new PathFinderFast(byteGrid)
             {
-                return new List<GameCell>();
-            }
-            else
+                Diagonals = true,
+                Formula = HeuristicFormula.DiagonalShortCut,
+                HeuristicEstimate = 2,
+                HeavyDiagonals = true,
+                PunishChangeDirection = false,
+                SearchLimit = 15000,
+                TieBreaker = false
+            };
+            var path = pf.FindPath(start.GridPoint, end.GridPoint);
+            return MakeGameCellPath(path);
+        }
+
+        private List<GameCell> MakeGameCellPath(List<PathFinderNode> path)
+        {
+            var list = new List<GameCell>();
+
+            if (path != null)
             {
-                forFollower.Path = pf.FindPath(start.GridPoint, end.GridPoint);
-                return CurrentPath(forFollower);
+                foreach (var node in path)
+                {
+                    var gameCell = Cells[node.X, node.Y];
+                    list.Add(gameCell);
+
+                }
             }
+            return list;
 
         }
+
+
 
         // Update is called once per frame
         void Update()
@@ -489,34 +496,6 @@ namespace Assets.Scripts
                 Debug.Assert(list.Count > 0);
             }
             return list[UnityEngine.Random.Range(0, list.Count)];
-        }
-
-        public GameCell GetNextPathGameCell(GameCell curGameCell, PathFollower forFollower)
-        {
-            var path = forFollower.Path;
-            if (path == null)
-            {
-                return null;
-            }
-
-            var curGridPoint = curGameCell.GridPoint;
-
-            for (int ii = 0; ii < path.Count; ii++)
-            {
-                var cel = forFollower.Path[ii];
-                if (cel.X == curGridPoint.X && cel.Y == curGridPoint.Y)
-                {
-                    PathFinderNode node;
-                    if (ii < 1)
-                    {
-                        return null;
-                    }
-                    node = path[ii - 1];
-                    return Cells[node.X, node.Y];
-                }
-            }
-            return null;
-
         }
 
         public class GameCell

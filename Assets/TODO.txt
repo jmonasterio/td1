@@ -22,10 +22,11 @@ x After a drop/cancel, human seems to jump. Because when they start to wander, t
 x Offscreen ends up with items??? Why.
 x human goes behind wall
 x Multiple entry points and multiple routes.
+- Not getting X when dragging human.
+- Support real waypoints to help designer.
 - EntityClass on Entity out of sync with Tower Componenet. EntityClass not tower, for example. Could happen to others.
 - Wave co-routines: Need to stop if level ends in middle of a wave. I have Wave.CancelWave() method, but not called for now.
 x Can't drop on city.
-- Support real waypoints to help designer.
 - DEBUG: Loop level to restart waves when you lose
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
