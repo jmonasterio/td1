@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Wave : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Wave : MonoBehaviour
 
     public Waypoint StartWaypoint;
     public Waypoint EndWaypoint;
+    public List<Waypoint> MidWaypoints;
 
     private Coroutine _coroutine; // So you can cancel
 

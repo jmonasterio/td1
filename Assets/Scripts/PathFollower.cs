@@ -43,9 +43,15 @@ public class PathFollower : MonoBehaviour
 
         PrevGameCell = CurrentGameCell;
 
+        if ((OrderedWaypointCells.Count > 0) && (CurrentGameCell.GridPoint == OrderedWaypointCells[0].GridPoint)) // TBD: Some kind of equality needed here for gamecells.
+        {
+            // remove each waypoint as we reach it. The idea is that the path may get changed (due to blockages) from here on out, but we won't go back to this particular waypoint once we reach it.
+            // of course, we don't want to remove the last waypoint, either. That is the endpoint (for now).
+            OrderedWaypointCells.RemoveAt(0);
+        }
+
         // Changed target, so find a new path.
-        var remainingWaypoints = new List<GameGrid.GameCell>() {TargetCell}; // TBD: Need more
-        CurrentPath = gameGrid.FindPathWithWaypoints(CurrentGameCell, remainingWaypoints);
+        CurrentPath = gameGrid.FindPathWithWaypoints(CurrentGameCell, OrderedWaypointCells, TargetCell);
         if (CurrentPath == null || CurrentPath.Count == 0)
         {
             // Couldn't find a path!!!!
@@ -57,7 +63,7 @@ public class PathFollower : MonoBehaviour
             }
             return;
         }
-        NextGameCell = GetNextPathGameCell(PrevGameCell, CurrentPath);
+        NextGameCell = GetNextPathGameCell(CurrentGameCell, CurrentPath);
 
 
     }
@@ -150,8 +156,7 @@ public class PathFollower : MonoBehaviour
             // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
             //  and we're sure the target is still there ... more complex games might allow the user to drop
             /// walls to block paths.
-            var remainingWaypoints = new List<GameGrid.GameCell>() {TargetCell}; // TBD: Need more
-            CurrentPath = gameGrid.FindPathWithWaypoints(PrevGameCell, remainingWaypoints);
+            CurrentPath = gameGrid.FindPathWithWaypoints(PrevGameCell, OrderedWaypointCells, TargetCell);
 
             //var nextGameCell = FindNextGameCell( path, PrevGameCell);
 

@@ -206,6 +206,8 @@ MonoBehaviour:
   endDelayTime: 0.5
   StartWaypoint: {fileID: 762960615}
   EndWaypoint: {fileID: 429467809}
+  MidWaypoints:
+  - {fileID: 1805555612}
 --- !u!1001 &51603204
 Prefab:
   m_ObjectHideFlags: 0
@@ -520,6 +522,7 @@ MonoBehaviour:
   endDelayTime: 0
   StartWaypoint: {fileID: 1677125048}
   EndWaypoint: {fileID: 1903620796}
+  MidWaypoints: []
 --- !u!1 &148749102
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,6 +910,7 @@ MonoBehaviour:
   endDelayTime: 0.5
   StartWaypoint: {fileID: 0}
   EndWaypoint: {fileID: 0}
+  MidWaypoints: []
 --- !u!1001 &235951187
 Prefab:
   m_ObjectHideFlags: 0
@@ -5395,6 +5399,7 @@ MonoBehaviour:
   endDelayTime: 0
   StartWaypoint: {fileID: 0}
   EndWaypoint: {fileID: 0}
+  MidWaypoints: []
 --- !u!1001 &1523301509
 Prefab:
   m_ObjectHideFlags: 0

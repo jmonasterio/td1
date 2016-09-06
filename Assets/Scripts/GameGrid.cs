@@ -94,8 +94,13 @@ namespace Assets.Scripts
         /// <param name="current"></param>
         /// <param name="remainingWaypoints">Last point is the end.</param>
         /// <returns></returns>
-        public List<GameCell> FindPathWithWaypoints(GameCell current, List<GameCell> remainingWaypoints)
+        public List<GameCell> FindPathWithWaypoints(GameCell current, List<GameCell> orderedWayPointsGameCells, GameCell targetGameCell)
         {
+            var remainingWaypoints = new List<GameGrid.GameCell>();
+            remainingWaypoints.AddRange(orderedWayPointsGameCells);
+            remainingWaypoints.Add(targetGameCell); // TBD: Need more
+
+
             if (current == null || remainingWaypoints == null || remainingWaypoints.Count == 0)
             {
                 return new List<GameCell>(); // TBD: Lame.

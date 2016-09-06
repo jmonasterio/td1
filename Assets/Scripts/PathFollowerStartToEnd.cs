@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Assets.Scripts;
 
 public class PathFollowerStartToEnd : PathFollower {
@@ -26,27 +27,32 @@ public class PathFollowerStartToEnd : PathFollower {
         }
     }
 
-    public void SetPathFromStartToEndWayPoints(Waypoint startWaypoint, Waypoint endWaypoint)
+    public void SetPathFromStartToEndWayPoints(Waypoint startWaypoint, List<Waypoint> midWaypoints, Waypoint endWaypoint)
     {
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 
-        MakePathFromStartToEnd(gameGrid, startWaypoint, endWaypoint);
+        PrevGameCell = gameGrid.MapGridPointToGameCellOrNull(startWaypoint.GridPoint);
+        CurrentGameCell = PrevGameCell;
+        OrderedWaypointCells = GetCells(gameGrid, midWaypoints);
+        //gameGrid.RandomizeEndCell();
+        TargetCell = gameGrid.MapGridPointToGameCellOrNull(endWaypoint.GridPoint);
         FollowToTargetCell(gameGrid, transform.position);
         _startTime = Time.time;
         return;
 
     }
 
-
-    private void MakePathFromStartToEnd(GameGrid gameGrid, Waypoint startWaypoint, Waypoint endWaypoint)
+    private List<GameGrid.GameCell> GetCells(GameGrid gameGrid, List<Waypoint> midWaypoints)
     {
-        PrevGameCell = gameGrid.MapGridPointToGameCellOrNull(startWaypoint.GridPoint);
-        CurrentGameCell = PrevGameCell;
-        //gameGrid.RandomizeEndCell();
-        TargetCell = gameGrid.MapGridPointToGameCellOrNull(endWaypoint.GridPoint);
+        var ret = new List<GameGrid.GameCell>();
+
+        foreach (var waypoint in midWaypoints)
+        {
+            ret.Add( gameGrid.MapGridPointToGameCellOrNull(waypoint.GridPoint));
+        }
+
+        return ret;
     }
-
-
 
 
     // Update is called once per frame
