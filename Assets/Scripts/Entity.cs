@@ -64,6 +64,16 @@ public class Entity : MonoBehaviour
         return Health > 0;
     }
 
+    public void Explode(bool destroy)
+    {
+        var exp = GetComponent<ParticleSystem>();
+        exp.Play();
+        if (destroy)
+        {
+            Destroy(gameObject, exp.duration);
+        }
+    }
+
     public float Speed = 1.0f;
     private GameGrid.GameCell _currentGameCell;
 

@@ -26,9 +26,15 @@ x Not getting X when dragging human.
 x Support real waypoints to help designer.
 x Fill-in Waves.MidWaypoint from the Path object. Don't specifiy each one point, just specify the "path" gameObject in the Wave.
 x Can't drop on city.
-- Enemy collision with robot... damages robot. Kills enemy.
+x Enemy collision with robot... damages robot. Kills enemy.
+- Can't seem to drop blocks or towers.
+- Display dead people as carcas.
+- Colision with robot is too far away. 
+- Enemy seems to stop abruptly, when exploding.
 - Enemy reaches end of path, should just start wandering if for some reason there is no robot. Or maybe a new path to robot? Should never happen.
 - Robot dies... level over.
+- What happens when an enemy collides with a tower?
+- Enemy should not be deleted until they really decompose.
 - Enemies all die... next level.
 - DEBUG: Loop level to restart waves when you lose
 - Humans shoot. 

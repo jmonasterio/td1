@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         // Each object decides what to do if it hits a bullet.
 #if OLD_WAY

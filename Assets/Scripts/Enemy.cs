@@ -44,10 +44,10 @@ public class Enemy : MonoBehaviour {
 	
 	}
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        var bulletGo = collision.collider.gameObject;
-        var bullet = bulletGo.GetComponent<Bullet>();
+        var colliderGo = collision.gameObject;
+        var bullet = colliderGo.GetComponent<Bullet>();
 
         if (bullet != null)
         {
@@ -55,14 +55,39 @@ public class Enemy : MonoBehaviour {
            
             bullet.Destroy();
 
-            var health = this.gameObject.GetComponent<Health>();
-            _entity.Health--;
-            if (_entity.Health <= 0)
+            if (_entity.Health > 0)
             {
-                Toolbox.Instance.GameManager.Enemies().Remove(this);
-                Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Score += 100;
-                Toolbox.Instance.GameManager.GetComponent<WavesController>().LiveEnemyCount--;
-                Destroy(this.gameObject);
+                _entity.Health--;
+                if (_entity.Health <= 0)
+                {
+                    Toolbox.Instance.GameManager.Enemies().Remove(this);
+                    Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Score += 100;
+                    Toolbox.Instance.GameManager.GetComponent<WavesController>().LiveEnemyCount--;
+                    _entity.Explode(destroy: true);
+
+                    /* TBD: Start decomposing */
+                }
+            }
+        }
+        else
+        {
+            var robot = colliderGo.GetComponent<Robot>();
+            if (robot != null)
+            {
+                _entity.Health = 0; // Kills enemy. Will also STOP it.
+                _entity.Explode(destroy: true);
+
+                var robotEntity = robot.GetComponent<Entity>();
+                if (robotEntity.Health > 0)
+                {
+                    robotEntity.Health--;
+                    if (robotEntity.Health == 0)
+                    {
+                        robotEntity.Explode( destroy:true);
+                        Debug.Log("Game over.");
+                    }
+                }
+
             }
         }
     }
