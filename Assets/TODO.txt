@@ -25,7 +25,7 @@ x Multiple entry points and multiple routes.
 x Not getting X when dragging human.
 x Support real waypoints to help designer.
 x Fill-in Waves.MidWaypoint from the Path object. Don't specifiy each one point, just specify the "path" gameObject in the Wave.
-- Should path be a subobject of wave???
+- Should path be a subobject of wave??? I wouldn't need to connect anything...
 - EntityClass on Entity out of sync with Tower Componenet. EntityClass not tower, for example. Could happen to others.
 - Wave co-routines: Need to stop if level ends in middle of a wave. I have Wave.CancelWave() method, but not called for now.
 x Can't drop on city.

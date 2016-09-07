@@ -29,6 +29,29 @@ public class Entity : MonoBehaviour
     public int Health = 5;
     public int HealthMax = 5;
 
+    public void Start()
+    {
+        // TBD: Does some validation. Perhaps GetComponent should be source of truth and entity class should be calculated???
+        switch (EntityClass)
+        {
+            case EntityClasses.Background:
+                Debug.Assert( null != this.GetComponent<Block>());
+                break;
+            case EntityClasses.Tower:
+                Debug.Assert( null != this.GetComponent<Tower>());
+                break;
+            case EntityClasses.Human:
+                Debug.Assert(null != this.GetComponent<Human>());
+                break;
+            case EntityClasses.Enemy:
+                Debug.Assert(null != this.GetComponent<Enemy>());
+                break;
+            case EntityClasses.Waypoint:
+                Debug.Assert(null != this.GetComponent<Waypoint>());
+                break;
+        }
+    }
+
     public bool IsAlive()
     {
         return Health > 0;
