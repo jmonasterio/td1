@@ -10,6 +10,8 @@ using Object = UnityEngine.Object;
 
 public class PathFollower : MonoBehaviour
 {
+    public Vector3? StartPos;
+    public List<GameGrid.GameCell> CurrentPath;
 
     public event EventHandler<EventArgs> Blocked;
     public event EventHandler<EventArgs> AtFinish;
@@ -26,7 +28,7 @@ public class PathFollower : MonoBehaviour
     private Entity _entity;
 
     // Use this for initialization
-    public void Start()
+    new void Start()
     {
         // If dragging, pause the path.
         _dt = this.GetComponent<DragSource>();
@@ -34,7 +36,32 @@ public class PathFollower : MonoBehaviour
 
     }
 
-    public List<GameGrid.GameCell> CurrentPath;
+    public void SetPathWaypoints(Path path)
+    {
+        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+
+        PrevGameCell = gameGrid.MapGridPointToGameCellOrNull(path.StartWaypoint.GridPoint);
+        CurrentGameCell = PrevGameCell;
+        OrderedWaypointCells = GetCells(gameGrid, path.MidWaypoints);
+        //gameGrid.RandomizeEndCell();
+        TargetCell = gameGrid.MapGridPointToGameCellOrNull(path.EndWaypoint.GridPoint);
+        FollowToTargetCell(gameGrid, transform.position);
+        _startTime = Time.time;
+    }
+
+    private List<GameGrid.GameCell> GetCells(GameGrid gameGrid, List<Waypoint> midWaypoints)
+    {
+        var ret = new List<GameGrid.GameCell>();
+
+        foreach (var waypoint in midWaypoints)
+        {
+            ret.Add(gameGrid.MapGridPointToGameCellOrNull(waypoint.GridPoint));
+        }
+
+        return ret;
+    }
+
+
 
 
     public void FollowToTargetCell(GameGrid gameGrid, Vector3 currentPos /* May not be at center of a cell */)
@@ -100,8 +127,6 @@ public class PathFollower : MonoBehaviour
 
 
 
-    public Vector3? StartPos;
-
 
     void OnSceneGUI()
         {
@@ -134,6 +159,11 @@ public class PathFollower : MonoBehaviour
         if (this.gameObject == null)
         {
             return; // We are already destroyed. So weird.
+        }
+
+        if (!_entity.IsAlive())
+        {
+            return; // Dead, so don't move
         }
 
         if (_dt != null && _dt.Dragging)

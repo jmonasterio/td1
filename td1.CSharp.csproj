@@ -94,7 +94,6 @@
     <Compile Include="Assets\Scripts\PathFinder\PathFinderFast.cs" />
     <Compile Include="Assets\Scripts\PathFinder\PriorityQueueB.cs" />
     <Compile Include="Assets\Scripts\PathFollower.cs" />
-    <Compile Include="Assets\Scripts\PathFollowerStartToEnd.cs" />
     <Compile Include="Assets\Scripts\RandomMove.cs" />
     <Compile Include="Assets\Scripts\Robot.cs" />
     <Compile Include="Assets\Scripts\Score.cs" />

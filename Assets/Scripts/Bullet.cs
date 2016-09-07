@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
     public float BulletRange;
     private Transform _bulletsCollection;
 
+    public Entity BulletSource;
+
     // Use this for initialization
     void Start()
     {

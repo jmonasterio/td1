@@ -991,7 +991,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 166742, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
       propertyPath: m_Name
@@ -6518,6 +6518,7 @@ MonoBehaviour:
   IncomeCost: 0
   Health: 5
   HealthMax: 5
+  ReloadTime: 0.75
   Speed: 1
 --- !u!114 &1805555610
 MonoBehaviour:

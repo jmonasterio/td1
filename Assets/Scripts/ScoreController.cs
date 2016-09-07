@@ -35,7 +35,12 @@ public class ScoreController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+	{
+	    var waveController = Toolbox.Instance.GameManager.GetComponent<WavesController>();
+	    if (waveController.LiveEnemyCount <= 0 && Time.time > 2.0f)
+	    {
+            Debug.Log("TBD: Next level goes here.");
+	    }
 	}
 }

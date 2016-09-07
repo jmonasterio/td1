@@ -4,6 +4,12 @@ using Assets.Scripts;
 
 public class Human : MonoBehaviour
 {
+    public enum HumanClasses
+    {
+        Standard = 1,
+        Gatherer = 2, // Gathers's go get body of dead aliens. Humans get converted into gatherer.
+    }
+
 
     public int IncomeValue = 10;
     private Entity _entity;

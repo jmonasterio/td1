@@ -14,17 +14,18 @@ public class Tower : MonoBehaviour
     }
 
     public Bullet BulletPrefab;
-    public float ReloadTime; // TBD-JM: Should be part of different types of bullets, that are in GUN SLOT
     public float BulletRange;
     public TowerClasses TowerClass;
 
     private float _reloadDelay;
     private DragSource _dragSource;
+    private Entity _entity;
 
 
     // Use this for initialization
     void Start ()
     {
+        _entity = GetComponent<Entity>();
         _dragSource = GetComponent<DragSource>();
     }
 	
@@ -49,10 +50,14 @@ public class Tower : MonoBehaviour
 	            if (enempy != null)
 	            {
 	                FireBulletAt(enempy);
-	                _reloadDelay = ReloadTime;
+	                _reloadDelay = _entity.ReloadTime;;
 
 	            }
 	        }
+	    }
+	    else if( TowerClass == TowerClasses.GathererTower)
+	    {
+	        // TBD-DARRIN: When should gather towers shoot? When they're not birthing a gatherer? Never?
 	    }
 	}
 
@@ -62,6 +67,7 @@ public class Tower : MonoBehaviour
         var here = this.transform.position;
         bullet.direction = (enempy.transform.position - here).normalized;
         bullet.transform.position = here;
+        bullet.BulletSource = _entity;
     }
 
     private Enemy FindClosestEnemy(float fMax)

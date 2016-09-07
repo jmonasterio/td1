@@ -23,7 +23,7 @@ public class WavesController : MonoBehaviour
                                                          // StartCoroutine(SpawnWaves());
         _wavesOnThisLevel = GameObject.Find("Waves").GetComponent<Waves>(); // Only finds waves on active level
 
-        StartCoroutine(SpawnWaves2());
+        StartCoroutine(SpawnWaves());
     }
 
     IEnumerator SingleWave(Wave wave)
@@ -56,7 +56,7 @@ public class WavesController : MonoBehaviour
                 newEnemy.transform.position = spawnPosition;
                 newEnemy.gameObject.SetActive(true);
 
-                var pathFollower = newEnemy.GetComponent<PathFollowerStartToEnd>();
+                var pathFollower = newEnemy.GetComponent<PathFollower>();
                 pathFollower.SetPathWaypoints(wave.Path); // TBD-JM: Need to pick targets here if there is a choice.
 
                 this.LiveEnemyCount++;
@@ -96,7 +96,7 @@ public class WavesController : MonoBehaviour
     }
 
 
-    IEnumerator SpawnWaves2()
+    IEnumerator SpawnWaves()
     {
         yield return new WaitForSeconds(StartWait);
         var waves = _wavesOnThisLevel.GetComponentsInChildren<Wave>();
@@ -110,78 +110,6 @@ public class WavesController : MonoBehaviour
     }
 
 
-    IEnumerator SpawnWaves()
-    {
-        yield return new WaitForSeconds(StartWait);
-        var waves = _wavesOnThisLevel.GetComponentsInChildren<Wave>();
-
-        foreach (Wave wave in waves)
-        {
-            //var child = _wavesOnThisLevel.transform.GetChild(childIdx);
-
-            // TBD-JM: Maybe use a custom yield instruction here to 
-            // avoid waiting if user wants to skip to next wave really fast.
-            // User is only allowed to do this... when they're waiting for a wave anyway?
-            //if (!_skipWaveDelay)
-            //{
-                yield return new WaitForSeconds(wave.startDelayTime);
-
-            //}
-            //_skipWaveDelay = false;
-            while( wave.transform.childCount > 0)
-                {
-                var subChild = wave.transform.GetChild(0);
-                var enemy = subChild.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    
-
-                    Vector3 spawnPosition = wave.Path.StartWaypoint.transform.position;
-                    //var newEnemy = enemy.gameObject; 
-                    var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
-                    newEnemy.transform.parent = _enemiesCollection.transform;
-                    newEnemy.transform.position = spawnPosition;
-                    newEnemy.gameObject.SetActive(true);
-
-                    var pathFollower = newEnemy.GetComponent<PathFollowerStartToEnd>();
-                    pathFollower.SetPathWaypoints(wave.Path); // TBD-JM: Need to pick targets here if there is a choice.
-
-                    this.LiveEnemyCount ++;
-
-                    yield return new WaitForSeconds( 0.25f);
-
-                }
-                else
-                {
-                    var pause = subChild.GetComponent<WavePause>();
-                    if (pause != null)
-                    {
-                        pause.transform.parent = _enemiesCollection.transform; // Make sure removed from tree, so that loop works, even if buffer.delay is 0.
-                        Destroy(pause.gameObject);
-                        yield return new WaitForSeconds(pause.delay);
-                    }
-                    else
-                    {
-                        var waveBreak = subChild.GetComponent<WaveBreak>();
-                        if (waveBreak != null)
-                        {
-                            //yield return new WaitForSeconds(1.0f); // TBD REPLACE SYNC POINT
-                            Destroy(waveBreak.gameObject);
-                            break;
-                        }
-                        else
-                        {
-
-                            Debug.Assert(false, "Unknown wave child type: Only enemy and waveBuffer allowed.");
-                        }
-                    }
-
-                }
-            }
-            yield return new WaitForSeconds(WaveWait);
-
-        }
-    }
 
 }
 

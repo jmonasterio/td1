@@ -29,6 +29,13 @@ public class Entity : MonoBehaviour
     public int Health = 5;
     public int HealthMax = 5;
 
+    /// <summary>
+    /// Minimum time between shots, if there is a target available. 
+    /// 
+    /// TBD: Should be part of a gun object, or all part of entity?
+    /// </summary>
+    public float ReloadTime = 0.75f;
+
     public void Start()
     {
         // TBD: Does some validation. Perhaps GetComponent should be source of truth and entity class should be calculated???

@@ -25,22 +25,32 @@ x Multiple entry points and multiple routes.
 x Not getting X when dragging human.
 x Support real waypoints to help designer.
 x Fill-in Waves.MidWaypoint from the Path object. Don't specifiy each one point, just specify the "path" gameObject in the Wave.
-- Should path be a subobject of wave??? I wouldn't need to connect anything...
-- EntityClass on Entity out of sync with Tower Componenet. EntityClass not tower, for example. Could happen to others.
-- Wave co-routines: Need to stop if level ends in middle of a wave. I have Wave.CancelWave() method, but not called for now.
 x Can't drop on city.
+- Enemy collision with robot... damages robot. Kills enemy.
+- Enemy reaches end of path, should just start wandering if for some reason there is no robot. Or maybe a new path to robot? Should never happen.
+- Robot dies... level over.
+- Enemies all die... next level.
 - DEBUG: Loop level to restart waves when you lose
+- Humans shoot. 
+- Enemies shoot.
+- Humans die.
+- Enemies die.
+- After being dead a while, the body should decompose.
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
 - Need men and women.
 - Need a spawn rate indicator.
 - Humans to spawn at one city and go to other cities.
 - Humans should powerup if they hit a city or tower or robot.
-- Robot dies... level over.
+- Need different kinds of guns? Part of entity?
+- Need different types of bullets.
 - Planning screen...
 - # of cities on the map affects the spawn rate.
 - Build the love shack
 - Special tower that can generate humans... like a little hostpiatl
+- Should path be a subobject of wave??? I wouldn't need to connect anything...
+- EntityClass should be a derived value? on Entity out of sync with Tower Componenet. EntityClass not tower, for example. Could happen to others.
+- Wave co-routines: Need to stop if level ends in middle of a wave. I have Wave.CancelWave() method, but not called for now.
 x Dragging block makes a small block
 - Maybe option to autdrop if you go over city.
 - If money goes down while dragging below cost, we may not be able to drop.
