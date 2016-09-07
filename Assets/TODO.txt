@@ -28,8 +28,9 @@ x Fill-in Waves.MidWaypoint from the Path object. Don't specifiy each one point,
 x Can't drop on city.
 x Enemy collision with robot... damages robot. Kills enemy.
 - Preload scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
-- Connect explosion prefabs to prefabs, instead of making a child object.
+x Connect explosion prefabs to prefabs, instead of making a child object.
 x Can't seem to drop blocks or towers: GameManagerScript disabled which disabled audiocontroller.
+- Draw HUD on a canvas.
 - Display dead people as carcas.
 - Colision with robot is too far away. 
 - Enemy seems to stop abruptly, when exploding.

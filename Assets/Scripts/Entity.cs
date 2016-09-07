@@ -29,6 +29,8 @@ public class Entity : MonoBehaviour
     public int Health = 5;
     public int HealthMax = 5;
 
+    public ParticleSystem ExplosionPrefab;
+
     /// <summary>
     /// Minimum time between shots, if there is a target available. 
     /// 
@@ -66,12 +68,22 @@ public class Entity : MonoBehaviour
 
     public void Explode(bool destroy)
     {
-        var exp = GetComponent<ParticleSystem>();
+        if (ExplosionPrefab == null)
+        {
+            Debug.LogError("Missing explosion prefab");
+            return;
+        }
+        var exp = Instantiate<ParticleSystem>(ExplosionPrefab);
+        exp.transform.SetParent( this.transform.parent);
+        exp.transform.position = this.transform.position;
+        exp.gameObject.layer = GameGrid.BACKGROUND_LAYER;
+
         exp.Play();
         if (destroy)
         {
             Destroy(gameObject, exp.duration);
         }
+        Destroy(exp, exp.duration); // Destroy explosion.
     }
 
     public float Speed = 1.0f;
