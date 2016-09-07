@@ -25,7 +25,7 @@ public class GameManagerScript : MonoBehaviour
         Toolbox.Instance.DebugSys = this.GetComponent<DebugSystem>();
     }
 
-    void Start()
+    public void Start()
     {
         AudioPoolController = GetComponent<AudioPoolController>();
         //if (HideMouseCuror)
@@ -51,6 +51,11 @@ public class GameManagerScript : MonoBehaviour
         //    // No sound when not playing.
         //    return;
         //}
+        if (AudioPoolController == null)
+        {
+            Debug.LogWarning("No audio pool controller.");
+            return;
+        }
         AudioPoolController.PlayClip(clip);
     }
 

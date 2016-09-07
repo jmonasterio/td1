@@ -27,7 +27,9 @@ x Support real waypoints to help designer.
 x Fill-in Waves.MidWaypoint from the Path object. Don't specifiy each one point, just specify the "path" gameObject in the Wave.
 x Can't drop on city.
 x Enemy collision with robot... damages robot. Kills enemy.
-- Can't seem to drop blocks or towers.
+- Preload scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
+- Connect explosion prefabs to prefabs, instead of making a child object.
+x Can't seem to drop blocks or towers: GameManagerScript disabled which disabled audiocontroller.
 - Display dead people as carcas.
 - Colision with robot is too far away. 
 - Enemy seems to stop abruptly, when exploding.
