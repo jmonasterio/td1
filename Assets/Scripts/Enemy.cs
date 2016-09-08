@@ -7,11 +7,30 @@ public class Enemy : MonoBehaviour {
     public int FlagCount = 1;
     private Entity _entity;
     private PathFollower _pathFollower;
+    private Animator _animator;
 
+    public enum AnimStates
+    {
+        Alive = 0,
+        __UNUSED__ = 1,
+        Healing = 2,
+        Carcas = 4,
+        Wounded = 3,
+        Decomposing = 5,
+        Dead = 6,
+    }
+
+    public void SetAnimState(AnimStates animState)
+    {
+        _animator.SetInteger("AnimState", (int) animState );
+    }
+
+    
     // Use this for initialization
     void Start () {
 	    this.gameObject.SetActive(false);
         _entity = GetComponent<Entity>();
+        _animator = GetComponent<Animator>();
         _pathFollower = GetComponent<PathFollower>();
 
 
@@ -63,7 +82,8 @@ public class Enemy : MonoBehaviour {
                     Toolbox.Instance.GameManager.Enemies().Remove(this);
                     Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Score += 100;
                     Toolbox.Instance.GameManager.GetComponent<WavesController>().LiveEnemyCount--;
-                    _entity.Explode(destroy: true);
+                    _entity.Explode(destroy: false);
+                    SetAnimState(AnimStates.Carcas);
 
                     /* TBD: Start decomposing */
                 }
