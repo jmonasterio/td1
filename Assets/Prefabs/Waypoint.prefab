@@ -62,6 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaypointType: 0
   WaypointIndex: 0
+  WaypointGroup: 0
 --- !u!114 &11447310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -92,6 +93,8 @@ MonoBehaviour:
   IncomeCost: 0
   Health: 5
   HealthMax: 5
+  ExplosionPrefab: {fileID: 0}
+  ReloadTime: 0.75
   Speed: 1
 --- !u!114 &11449178
 MonoBehaviour:

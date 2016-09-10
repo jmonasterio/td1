@@ -39,22 +39,29 @@ public class WavesController : MonoBehaviour
 
         //}
         //_skipWaveDelay = false;
-        while (wave.transform.childCount > 0)
+        var children = wave.GetComponentsInChildren<Transform>(includeInactive: true);
+        foreach ( Transform childTransform in children)
         {
-            //wave.CancelWaveCoroutine();
+            if (childTransform == wave.transform)
+            {
+                continue;
+            }
 
-            var subChild = wave.transform.GetChild(0);
-            var enemy = subChild.GetComponent<Enemy>();
+            //wave.CancelWaveCoroutine();
+            var childGameObject = childTransform.gameObject;;
+            var enemy = childGameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-
-
                 Vector3 spawnPosition = wave.Path.StartWaypoint.transform.position;
-                //var newEnemy = enemy.gameObject; 
-                var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
-                newEnemy.transform.parent = _enemiesCollection.transform;
+                //var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
+                var newEnemy = Instantiate<Enemy>(enemy); // Make a copy, so we don't remove from tree and then we can run wave again.
+                
+                newEnemy.gameObject.name = enemy.gameObject.name;
+                newEnemy.transform.SetParent( _enemiesCollection.transform);
                 newEnemy.transform.position = spawnPosition;
                 newEnemy.gameObject.SetActive(true);
+
+                Debug.Assert(newEnemy.isActiveAndEnabled);
 
                 var pathFollower = newEnemy.GetComponent<PathFollower>();
                 pathFollower.SetPathWaypoints(wave.Path); // TBD-JM: Need to pick targets here if there is a choice.
@@ -66,21 +73,21 @@ public class WavesController : MonoBehaviour
             }
             else
             {
-                var pause = subChild.GetComponent<WavePause>();
+                var pause = childGameObject.GetComponent<WavePause>();
                 if (pause != null)
                 {
-                    pause.transform.parent = _enemiesCollection.transform; // Make sure removed from tree, so that loop works, even if buffer.delay is 0.
-                    Destroy(pause.gameObject);
+                    //pause.transform.parent = _enemiesCollection.transform; // Make sure removed from tree, so that loop works, even if buffer.delay is 0.
+                    //Destroy(pause.gameObject);
                     yield return new WaitForSeconds(pause.delay);
                 }
                 else
                 {
-                    var waveBreak = subChild.GetComponent<WaveBreak>();
+                    var waveBreak = childGameObject.GetComponent<WaveBreak>();
                     if (waveBreak != null)
                     {
                         //yield return new WaitForSeconds(1.0f); // TBD REPLACE SYNC POINT
-                        Destroy(waveBreak.gameObject);
-                        break;
+                        //Destroy(waveBreak.gameObject);
+                        yield return new WaitForSeconds(wave.startDelayTime);
                     }
                     else
                     {

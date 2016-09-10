@@ -23,12 +23,18 @@ public class Enemy : MonoBehaviour {
     public void SetAnimState(AnimStates animState)
     {
         _animator.SetInteger("AnimState", (int) animState );
+        //string stateName = animState.ToString();
+        //_animator.Play(stateName);
     }
 
     
     // Use this for initialization
-    void Start () {
-	    this.gameObject.SetActive(false);
+    void Start ()
+    {
+        if (this.GetComponentInParent<Wave>() != null)
+        {
+            this.gameObject.SetActive(false); // So enemies in the Waves controller start disabled.
+        }
         _entity = GetComponent<Entity>();
         _animator = GetComponent<Animator>();
         _pathFollower = GetComponent<PathFollower>();
@@ -36,6 +42,8 @@ public class Enemy : MonoBehaviour {
 
         _pathFollower.AtFinish -= PathFollower_AtFinish;
         _pathFollower.AtFinish += PathFollower_AtFinish;
+
+        SetAnimState(Enemy.AnimStates.Alive); // Starting animation.
 
         //_pathFollower.Blocked -= PathFollowerStartToEnd_Blocked;
         //_pathFollower.Blocked += PathFollowerStartToEnd_Blocked;
