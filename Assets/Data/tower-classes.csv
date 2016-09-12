@@ -1,0 +1,3 @@
+EntityId,	Entity.IncomeCost,        Entity.Health,     Entity.HealthMax,   Entity.ReloadTime,  Entity.Speed
+Shooter,	15,						  3,				 3,					 0.75,			     0
+Gatherer,	30,						  3,				 3,					 0.65,			     0

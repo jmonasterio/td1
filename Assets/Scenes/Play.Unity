@@ -179,7 +179,6 @@ Transform:
   - {fileID: 1111464854}
   - {fileID: 1733623396}
   - {fileID: 1133511619}
-  - {fileID: 235951188}
   - {fileID: 1663750902}
   - {fileID: 649376688}
   - {fileID: 910395883}
@@ -536,27 +535,6 @@ Transform:
 Transform:
   m_PrefabParentObject: {fileID: 432570, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
   m_PrefabInternal: {fileID: 894735439}
---- !u!1 &125073989 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 166742, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-  m_PrefabInternal: {fileID: 235951187}
---- !u!95 &125073990
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 125073989}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 33b248b85b397164f8997b6adbc7a489, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &128245316
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,61 +970,6 @@ MonoBehaviour:
   startDelayTime: 0.5
   endDelayTime: 0.5
   Path: {fileID: 0}
---- !u!1001 &235951187
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 43792473}
-    m_Modifications:
-    - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -18.39
-      objectReference: {fileID: 0}
-    - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -2.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 166742, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_Name
-      value: Enemy (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 21227480, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300008, guid: d6a224945e8f88640a6752d612b9e5c7,
-        type: 3}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-  m_IsPrefabParent: 0
---- !u!4 &235951188 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 412854, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-  m_PrefabInternal: {fileID: 235951187}
 --- !u!1001 &252007399
 Prefab:
   m_ObjectHideFlags: 0
@@ -2545,6 +2468,7 @@ GameObject:
   - 114: {fileID: 601069457}
   - 114: {fileID: 601069458}
   - 114: {fileID: 601069459}
+  - 114: {fileID: 601069460}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2682,6 +2606,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolSize: 10
+--- !u!114 &601069460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 601069449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01b3dccfd23491d41b303862ac6301dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &629098433
 Prefab:
   m_ObjectHideFlags: 0

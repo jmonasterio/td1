@@ -4,7 +4,6 @@ using Assets.Scripts;
 
 public class Enemy : MonoBehaviour {
 
-    public int FlagCount = 1;
     private Entity _entity;
     private PathFollower _pathFollower;
     private Animator _animator;
@@ -56,7 +55,7 @@ public class Enemy : MonoBehaviour {
         if (_pathFollower.TargetCell.GroundType == GameGrid.GameCell.GroundTypes.End)
         {
             var enempyCmp = this.GetComponent<Enemy>();
-            Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored(enempyCmp.FlagCount);
+            Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored(1);
             Toolbox.Instance.GameManager.GetComponent<WavesController>().LiveEnemyCount--;
             Object.Destroy(this.gameObject);
 

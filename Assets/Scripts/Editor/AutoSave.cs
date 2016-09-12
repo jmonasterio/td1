@@ -26,8 +26,11 @@ public class OnUnityLoad
 
                 Debug.Log("Auto-Saving scene before entering Play mode: " + UnityEngine.SceneManagement.SceneManager.GetSceneAt(0));
 
-                EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-                EditorApplication.SaveAssets();
+                bool ok = EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+                if (ok)
+                {
+                    EditorApplication.SaveAssets();
+                }
             }
 
         };

@@ -77,7 +77,8 @@ public class Tower : MonoBehaviour
         {
             var here = this.transform.position;
 
-            var found = nearby.OrderBy(_ => (_.transform.position - here).magnitude).FirstOrDefault();
+            var ordered = nearby.OrderBy(_ => (_.transform.position - here).magnitude);
+            var found = ordered.FirstOrDefault();
             if (found == null)
             {
                 return null;

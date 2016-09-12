@@ -76,7 +76,16 @@ public class GameManagerScript : MonoBehaviour
         var list = new List<Enemy>();
         foreach (Transform en in enemiesCollection.transform)
         {
-            list.Add( en.gameObject.GetComponent<Enemy>());
+            var enemy = en.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                list.Add(enemy);
+            }
+            else
+            {
+                // Maybe an explosion or something.
+            }
+             
         }
         return list;
     }
