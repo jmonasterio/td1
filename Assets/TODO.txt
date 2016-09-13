@@ -31,6 +31,7 @@ x Enemy collision with robot... damages robot. Kills enemy.
 - Preload scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
 x Connect explosion prefabs to prefabs, instead of making a child object.
 x Can't seem to drop blocks or towers: GameManagerScript disabled which disabled audiocontroller.
+- Csv should allow comment lines ;;;
 - Draw HUD on a canvas.
 - Display dead people as carcas.
 - Colision with robot is too far away. 

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.Assertions.Comparers;
 
 
@@ -122,7 +123,7 @@ public struct WavePoco : Poco
             var key = col.Header.ComponentName + "." + col.Header.ComponentField;
 
             // TBD: This switch statement could be generated with reflection, but can't see benefit yet.
-            switch (col.Header.ComponentField)
+            switch (key)
             {
                 case ".WaveId":
                     WaveId = Int32.Parse(col.Value);
@@ -141,6 +142,9 @@ public struct WavePoco : Poco
                     break;
                 case ".Notes":
                     Notes = col.Value;
+                    break;
+                default:
+                    Debug.LogError("Could not parse CSV at line: " + line.LineNumber + " for key: " + key);
                     break;
 
             }

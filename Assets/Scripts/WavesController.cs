@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 
 public class WavesController : MonoBehaviour
@@ -14,19 +16,19 @@ public class WavesController : MonoBehaviour
     private GameObject _enemiesCollection;
     private bool _skipToNextWave;
     private bool _skipWaveDelay;
-    private Waves _wavesOnThisLevel;
+    private IEnumerable<WavePoco> _wavesOnLevel;
 
 
     void Start()
     {
         _enemiesCollection = GameObject.Find("Enemies"); // TBD: Maybe do this in the in the Enemy object.
                                                          // StartCoroutine(SpawnWaves());
-        _wavesOnThisLevel = GameObject.Find("Waves").GetComponent<Waves>(); // Only finds waves on active level
+        _wavesOnLevel = Toolbox.Instance.GameManager.GetComponent<DataController>().WavesCsv;
 
         StartCoroutine(SpawnWaves());
     }
 
-    IEnumerator SingleWave(Wave wave)
+    IEnumerator SingleWave(IEnumerable<WavePoco> waveCsv)
     {
         //var child = _wavesOnThisLevel.transform.GetChild(childIdx);
 
@@ -35,28 +37,27 @@ public class WavesController : MonoBehaviour
         // User is only allowed to do this... when they're waiting for a wave anyway?
         //if (!_skipWaveDelay)
         //{
-        yield return new WaitForSeconds(wave.startDelayTime);
+
+        // TBD: There may need to be a waves classes CSV to do this.
+        //yield return new WaitForSeconds(wave.startDelayTime);
 
         //}
         //_skipWaveDelay = false;
-        var children = wave.GetComponentsInChildren<Transform>(includeInactive: true);
-        foreach ( Transform childTransform in children)
-        {
-            if (childTransform == wave.transform)
-            {
-                continue;
-            }
 
+        var paths = GetAvailablePaths();
+
+
+        foreach ( var poco in waveCsv)
+        {
             //wave.CancelWaveCoroutine();
-            var childGameObject = childTransform.gameObject;;
-            var enemy = childGameObject.GetComponent<Enemy>();
-            if (enemy != null)
+            if (poco.EntityType == "Enemy")
             {
-                Vector3 spawnPosition = wave.Path.StartWaypoint.transform.position;
+                Path path = paths.FirstOrDefault(_ => _.gameObject.name == poco.Path);
+                Vector3 spawnPosition = path.StartWaypoint.transform.position;
                 //var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
-                var newEnemy = Instantiate<Enemy>(enemy); // Make a copy, so we don't remove from tree and then we can run wave again.
-                
-                newEnemy.gameObject.name = enemy.gameObject.name;
+                var newEnemy = Instantiate<Enemy>(EnemyPrefab); // Make a copy, so we don't remove from tree and then we can run wave again.
+
+                newEnemy.gameObject.name = path.gameObject.name + DateTime.Now.Ticks;
                 newEnemy.transform.SetParent( _enemiesCollection.transform);
                 newEnemy.transform.position = spawnPosition;
                 newEnemy.gameObject.SetActive(true);
@@ -64,15 +65,16 @@ public class WavesController : MonoBehaviour
                 Debug.Assert(newEnemy.isActiveAndEnabled);
 
                 var pathFollower = newEnemy.GetComponent<PathFollower>();
-                pathFollower.SetPathWaypoints(wave.Path); // TBD-JM: Need to pick targets here if there is a choice.
+                pathFollower.SetPathWaypoints(path); // TBD-JM: Need to pick targets here if there is a choice.
 
                 this.LiveEnemyCount++;
 
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(poco.Delay);
 
             }
             else
             {
+#if OLD_WAY
                 var pause = childGameObject.GetComponent<WavePause>();
                 if (pause != null)
                 {
@@ -95,6 +97,7 @@ public class WavesController : MonoBehaviour
                         Debug.Assert(false, "Unknown wave child type: Only enemy and waveBuffer allowed.");
                     }
                 }
+#endif
 
             }
         }
@@ -102,21 +105,43 @@ public class WavesController : MonoBehaviour
 
     }
 
+    private static List<Path> GetAvailablePaths()
+    {
+        var pathsNode = GameObject.Find("Paths"); // Only finds waves on active level
+        var paths = new List<Path>();
+        foreach (Transform trans in pathsNode.transform)
+        {
+            var path = trans.gameObject.GetComponent<Path>();
+            paths.Add(path);
+        }
+        return paths;
+    }
+
 
     IEnumerator SpawnWaves()
     {
         yield return new WaitForSeconds(StartWait);
-        var waves = _wavesOnThisLevel.GetComponentsInChildren<Wave>();
+        var waveCsv = _wavesOnLevel.Where(_ => _.WaveId == 0);
 
-        foreach (Wave wave in waves)
-        {
-            var coroutine = StartCoroutine(SingleWave(wave));
-            wave.SetCoroutine(coroutine);
-        }
+        //foreach (Wave wave in waves)
+        //{
+            var coroutine = StartCoroutine(SingleWave(waveCsv));
+            _runningWaves.Add(coroutine); // TBD: When to remove?
+            //wave.SetCoroutine(coroutine);
+        //}
 
     }
 
+    private List<Coroutine> _runningWaves = new List<Coroutine>();
 
+    public void CancelActiveWaves()
+    {
+        foreach (var co in _runningWaves)
+        {
+            StopCoroutine(co);
+        }
+        _runningWaves.Clear();
+    }
 
 }
 

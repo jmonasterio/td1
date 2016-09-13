@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Wave : MonoBehaviour
 {
 
-    public string WaveName;
+    public int WaveId;
     public float startDelayTime;
     public float endDelayTime;
 
