@@ -25,10 +25,15 @@ public class WavesController : MonoBehaviour
                                                          // StartCoroutine(SpawnWaves());
         _wavesOnLevel = Toolbox.Instance.GameManager.GetComponent<DataController>().WavesCsv;
 
-        StartCoroutine(SpawnWaves());
+        var paths = GetAvailablePaths();
+        foreach (var path in paths)
+        {
+
+            StartCoroutine(SpawnWaves(path));
+        }
     }
 
-    IEnumerator SingleWave(IEnumerable<WavePoco> waveCsv)
+    IEnumerator SingleWave(IEnumerable<WavePoco> waveCsv, Path path)
     {
         //var child = _wavesOnThisLevel.transform.GetChild(childIdx);
 
@@ -44,15 +49,12 @@ public class WavesController : MonoBehaviour
         //}
         //_skipWaveDelay = false;
 
-        var paths = GetAvailablePaths();
-
 
         foreach ( var poco in waveCsv)
         {
             //wave.CancelWaveCoroutine();
             if (poco.EntityType == "Enemy")
             {
-                Path path = paths.FirstOrDefault(_ => _.gameObject.name == poco.Path);
                 Vector3 spawnPosition = path.StartWaypoint.transform.position;
                 //var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
                 var newEnemy = Instantiate<Enemy>(EnemyPrefab); // Make a copy, so we don't remove from tree and then we can run wave again.
@@ -118,14 +120,14 @@ public class WavesController : MonoBehaviour
     }
 
 
-    IEnumerator SpawnWaves()
+    IEnumerator SpawnWaves(Path path)
     {
         yield return new WaitForSeconds(StartWait);
-        var waveCsv = _wavesOnLevel.Where(_ => _.WaveId == 0);
+        var waveCsv = _wavesOnLevel.Where(_ => _.WaveId == 0 && _.Path == path.name);
 
         //foreach (Wave wave in waves)
         //{
-            var coroutine = StartCoroutine(SingleWave(waveCsv));
+            var coroutine = StartCoroutine(SingleWave(waveCsv, path));
             _runningWaves.Add(coroutine); // TBD: When to remove?
             //wave.SetCoroutine(coroutine);
         //}
