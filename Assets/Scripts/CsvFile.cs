@@ -19,7 +19,15 @@ public struct CsvFile
     {
         var ret = new List<CsvHeader>();
 
-        var parts = line.Split(',');
+        var trimmed = line.Trim();
+
+        int lastSemicolon = trimmed.LastIndexOf(';');
+        if (lastSemicolon >= 0)
+        {
+            trimmed = trimmed.Substring(0, lastSemicolon);
+        }
+
+        var parts = trimmed.Split(',');
         foreach (var part in parts)
         {
             var newHeader = new CsvHeader();
@@ -59,16 +67,30 @@ public struct CsvFile
         int lineNumber = 0;
         foreach (var line in lines)
         {
-            ret.Add( ParseLine(line, headers, lineNumber));
+            var trimmed = line.Trim();
+            var comment = "";
+
+            int lastSemicolon = trimmed.LastIndexOf(';');
+            if (lastSemicolon >= 0)
+            {
+                comment = trimmed.Substring(lastSemicolon);
+                trimmed = trimmed.Substring(0, lastSemicolon);
+            }
+
+            if (trimmed.Length > 0)
+            {
+                ret.Add(ParseLine(trimmed, headers, lineNumber, comment));
+            }
             lineNumber++;
         }
         return ret;
     }
 
-    private static CsvLine ParseLine(string line, CsvHeader[] headers, int lineNumber)
+    private static CsvLine ParseLine(string line, CsvHeader[] headers, int lineNumber, string comment)
     {
         var csvLine = new CsvLine();
         csvLine.LineNumber = lineNumber;
+        csvLine.Comment = comment;
         var parts = line.Split(',');
         csvLine.Columns = new List<CsvColumn>();
         int colIdx = 0;
@@ -87,6 +109,7 @@ public struct CsvFile
 public struct CsvLine
 {
     public int LineNumber;
+    public string Comment;
     public List<CsvColumn> Columns;
 }
 

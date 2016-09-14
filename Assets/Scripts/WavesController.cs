@@ -76,22 +76,17 @@ public class WavesController : MonoBehaviour
             }
             else
             {
-#if OLD_WAY
-                var pause = childGameObject.GetComponent<WavePause>();
-                if (pause != null)
+                if (poco.EntityType == "WavePause")
                 {
-                    //pause.transform.parent = _enemiesCollection.transform; // Make sure removed from tree, so that loop works, even if buffer.delay is 0.
-                    //Destroy(pause.gameObject);
-                    yield return new WaitForSeconds(pause.delay);
+                    yield return new WaitForSeconds(poco.Delay);
                 }
                 else
                 {
-                    var waveBreak = childGameObject.GetComponent<WaveBreak>();
-                    if (waveBreak != null)
+                    if( poco.EntityType == "WaveBreak")
                     {
                         //yield return new WaitForSeconds(1.0f); // TBD REPLACE SYNC POINT
                         //Destroy(waveBreak.gameObject);
-                        yield return new WaitForSeconds(wave.startDelayTime);
+                        yield return new WaitForSeconds(poco.Delay);
                     }
                     else
                     {
@@ -99,7 +94,6 @@ public class WavesController : MonoBehaviour
                         Debug.Assert(false, "Unknown wave child type: Only enemy and waveBuffer allowed.");
                     }
                 }
-#endif
 
             }
         }
