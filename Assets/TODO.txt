@@ -28,13 +28,13 @@ x Fill-in Waves.MidWaypoint from the Path object. Don't specifiy each one point,
 x Can't drop on city.
 x Enemy collision with robot... damages robot. Kills enemy.
 - Level editor scene can write a level to .CSV
-- How should waves.csv handle 
+- How should waves.csv handle levels.
 - Enemy seems to stop abruptly, when exploding.
 - Preload scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
 x Connect explosion prefabs to prefabs, instead of making a child object.
 x Can't seem to drop blocks or towers: GameManagerScript disabled which disabled audiocontroller.
 - In editor, draw lines on path.
-- Csv should allow comment lines ;;;
+x Csv should allow comment lines ;;;
 - Draw HUD on a canvas.
 - Display dead people as carcas.
 - Colision with robot is too far away. 
