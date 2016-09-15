@@ -21,16 +21,24 @@ public class WavesController : MonoBehaviour
 
     void Start()
     {
+        _levelStartTime = 0.0f;
         _enemiesCollection = GameObject.Find("Enemies"); // TBD: Maybe do this in the in the Enemy object.
                                                          // StartCoroutine(SpawnWaves());
         _wavesOnLevel = Toolbox.Instance.GameManager.GetComponent<DataController>().WavesCsv;
 
+        StartLevel( 0.0f );
+    }
+
+    public void StartLevel( float levelStartTime)
+    {
+        _levelStartTime = levelStartTime;
         var paths = GetAvailablePaths();
         foreach (var path in paths)
         {
 
             StartCoroutine(SpawnWaves(path));
         }
+
     }
 
     IEnumerator SingleWave(IEnumerable<WavePoco> waveCsv, Path path)
@@ -129,6 +137,7 @@ public class WavesController : MonoBehaviour
     }
 
     private List<Coroutine> _runningWaves = new List<Coroutine>();
+    private float _levelStartTime;
 
     public void CancelActiveWaves()
     {
@@ -138,6 +147,17 @@ public class WavesController : MonoBehaviour
         }
         _runningWaves.Clear();
     }
+
+    void Update()
+    {
+        if (LiveEnemyCount <= 0 && Time.time > _levelStartTime + 2.0f)
+        {
+            // Temporary hack
+            Debug.Log("TBD: Next level goes here.");
+            StartLevel(Time.time);
+        }
+    }
+
 
 }
 

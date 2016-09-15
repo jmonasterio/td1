@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+using Object = UnityEngine.Object;
 
 public class Enemy : MonoBehaviour {
 
@@ -35,6 +37,7 @@ public class Enemy : MonoBehaviour {
             this.gameObject.SetActive(false); // So enemies in the Waves controller start disabled.
         }
         _entity = GetComponent<Entity>();
+        _entity.Decomposed += _entity_Decomposed; 
         _animator = GetComponent<Animator>();
         _pathFollower = GetComponent<PathFollower>();
 
@@ -48,18 +51,24 @@ public class Enemy : MonoBehaviour {
         //_pathFollower.Blocked += PathFollowerStartToEnd_Blocked;
     }
 
+    private void _entity_Decomposed(object sender, EventArgs e)
+    {
+        // TBD: Sounds or graphics here.
+        Destroy(this.gameObject);
+    }
+
     // If at end, head back to start. Or if at START, then done.
     private void PathFollower_AtFinish(object sender, System.EventArgs e)
     {
         // TBD-Put in event handler for start to end follower.
         if (_pathFollower.TargetCell.GroundType == GameGrid.GameCell.GroundTypes.End)
         {
-            var enempyCmp = this.GetComponent<Enemy>();
-            Toolbox.Instance.GameManager.GetComponent<ScoreController>().EnemyScored(1);
-            Toolbox.Instance.GameManager.GetComponent<WavesController>().LiveEnemyCount--;
+            Toolbox.Instance.GameManager.ScoreController.EnemyScored(1);
+            Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
             Object.Destroy(this.gameObject);
 
             // TBD: Put damage on robot here.
+
         }
     }
 
@@ -67,8 +76,7 @@ public class Enemy : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-	
-	}
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -86,13 +94,13 @@ public class Enemy : MonoBehaviour {
                 _entity.Health--;
                 if (_entity.Health <= 0)
                 {
-                    Toolbox.Instance.GameManager.Enemies().Remove(this);
-                    Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Score += 100;
-                    Toolbox.Instance.GameManager.GetComponent<WavesController>().LiveEnemyCount--;
+                    Toolbox.Instance.GameManager.ScoreController.Score += 100;
+                    Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
                     _entity.Explode(destroy: false);
                     SetAnimState(AnimStates.Carcas);
+                    _entity.StartDecomposing(Time.time);
 
-                    /* TBD: Start decomposing */
+                    // Will fire OnDecomposed() when times out.
                 }
             }
         }
@@ -103,17 +111,7 @@ public class Enemy : MonoBehaviour {
             {
                 _entity.Health = 0; // Kills enemy. Will also STOP it.
                 _entity.Explode(destroy: true);
-
-                var robotEntity = robot.GetComponent<Entity>();
-                if (robotEntity.Health > 0)
-                {
-                    robotEntity.Health--;
-                    if (robotEntity.Health == 0)
-                    {
-                        robotEntity.Explode( destroy:true);
-                        Debug.Log("Game over.");
-                    }
-                }
+                Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
 
             }
         }

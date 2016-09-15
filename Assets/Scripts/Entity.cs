@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
 
@@ -7,6 +8,8 @@ using Assets.Scripts;
 /// </summary>
 public class Entity : MonoBehaviour
 {
+    public event EventHandler Decomposed;
+
     public enum EntityClasses
     {
         Background = 0,
@@ -83,11 +86,12 @@ public class Entity : MonoBehaviour
         {
             Destroy(gameObject, exp.duration);
         }
-        Destroy(exp, exp.duration); // Destroy explosion.
+        Destroy(exp.gameObject, exp.duration); // Destroy explosion.
     }
 
     public float Speed = 1.0f;
     private GameGrid.GameCell _currentGameCell;
+    private float _decomposeStartTime;
 
     public GameGrid.GameCell GetCurrentGameCell()
     {
@@ -125,9 +129,26 @@ public class Entity : MonoBehaviour
             var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
             UpdateCurrentCell(cell);
         }
+
+        if (_decomposeStartTime > 0)
+        {
+            // We're done decomposing.
+            // TBD: Sound and graphics here?
+            if (Time.time > _decomposeStartTime + 5.0f)
+            {
+                _decomposeStartTime = 0.0f;
+                if (Decomposed != null)
+                {
+                    Decomposed(this, new EventArgs());
+                }
+            }
+        }
     }
 
-
+    public void StartDecomposing( float decomposeStartTime)
+    {
+        _decomposeStartTime = decomposeStartTime;
+    }
 }
 
 

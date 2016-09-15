@@ -13,6 +13,8 @@ public class GameManagerScript : MonoBehaviour
     public string GameName;
 
     private static AudioPoolController AudioPoolController;
+    public WavesController WavesController;
+    public ScoreController ScoreController;
 
 
     // State
@@ -28,11 +30,16 @@ public class GameManagerScript : MonoBehaviour
     public void Start()
     {
         AudioPoolController = GetComponent<AudioPoolController>();
+        WavesController = GetComponent<WavesController>();
+        ScoreController = GetComponent<ScoreController>();
+
         //if (HideMouseCuror)
         {
             Cursor.visible = true;
         }
     }
+
+
 
     public GameGrid GameGrid
     {
