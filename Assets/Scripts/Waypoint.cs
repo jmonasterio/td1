@@ -3,9 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-// TBD: Would be nice to be able to have multiple starts, and associated end.
-
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class Waypoint : MonoBehaviour
 {
     public enum WaypointTypes

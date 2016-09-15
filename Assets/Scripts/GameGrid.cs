@@ -347,6 +347,11 @@ namespace Assets.Scripts
                                 EndWaypoint.GridPoint = cell.GridPoint; // new GridPoint(cell.GridPoint.X, cell.GridPoint.Y); // Lame. Why doesn't the component know it's gridpoint?
                                 cell.GroundType = GameCell.GroundTypes.End;
                             }
+                            else
+                            {
+                                wp.GridPoint = cell.GridPoint;
+                                cell.GroundType = GameCell.GroundTypes.Waypoint;
+                            }
                         }
                         else
                         {
@@ -419,7 +424,7 @@ namespace Assets.Scripts
                 .Where(go => go.transform.hideFlags == HideFlags.None).ToArray();
         }
 
-        private static EditorGrid FindActiveMap()
+        public static EditorGrid FindActiveMap()
         {
             return
                 Resources.FindObjectsOfTypeAll<EditorGrid>()
@@ -482,7 +487,7 @@ namespace Assets.Scripts
         private byte CalcCellValue(int xx, int yy)
         {
             var cell = Cells[xx, yy];
-            if (cell.IsStart || cell.IsEnd)
+            if (cell.IsStart || cell.IsEnd || cell.IsWaypoint) // TBD: Waypoint takes up whole cell. 
             {
                 return CELL_OPEN;
             }
@@ -544,7 +549,8 @@ namespace Assets.Scripts
                 Tree,
                 Path,
                 Start,
-                End
+                End, 
+                Waypoint
             }
 
             public GroundTypes GroundType;
@@ -568,6 +574,12 @@ namespace Assets.Scripts
             public bool IsEnd
             {
                 get { return GroundType == GroundTypes.End; }
+            }
+
+            public bool IsWaypoint
+            {
+                get { return GroundType == GroundTypes.Waypoint; }
+
             }
 
             public GridPoint GridPoint;
