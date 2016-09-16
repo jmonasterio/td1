@@ -124,7 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc6c14d27fa9fb479054d76fd242407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlagCount: 1
+  EnemyClass: 1
+  BulletPrefab: {fileID: 11459160, guid: 0fee6a7cb8f838740bcc320cbc050081, type: 2}
 --- !u!114 &11485934
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -36,8 +36,10 @@ x Can't seem to drop blocks or towers: GameManagerScript disabled which disabled
 x In editor, draw lines on path.
 x Csv should allow comment lines ;;;
 x Humans shoot. 
-- Humans die.
-- Display dead people as carcas.
+x Humans die.
+- Robot not dying?
+- Need decompose graphics for humans and towers.
+- Should AnimStates be for entities?
 
 - Draw HUD on a canvas.
 
@@ -48,8 +50,8 @@ x Humans shoot.
 x Enemy should not be deleted until they really decompose.
 x Enemies all die... next level.
 x DEBUG: Loop level to restart waves when you lose
-- Enemies shoot.
-- Enemies die.
+x Enemies shoot.
+x Enemies die.
 x After being dead a while, the body should decompose.
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.

@@ -70,6 +70,15 @@ public class WavesController : MonoBehaviour
                 newEnemy.transform.SetParent( _enemiesCollection.transform);
                 newEnemy.transform.position = spawnPosition;
                 newEnemy.gameObject.SetActive(true);
+                switch (poco.Data)
+                {
+                    case "Standard":
+                        newEnemy.EnemyClass = Enemy.EnemyClasses.Standard;
+                        break;
+                    default:
+                        newEnemy.EnemyClass = Enemy.EnemyClasses.Standard; // Need more types.
+                        break;
+                }
 
                 Debug.Assert(newEnemy.isActiveAndEnabled);
 

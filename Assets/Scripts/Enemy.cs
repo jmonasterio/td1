@@ -6,6 +6,14 @@ using Object = UnityEngine.Object;
 
 public class Enemy : MonoBehaviour {
 
+    public enum EnemyClasses
+    {
+        Standard = 1,
+    }
+
+    public EnemyClasses EnemyClass;
+    public Bullet BulletPrefab;
+
     private Entity _entity;
     private PathFollower _pathFollower;
     private Animator _animator;
@@ -51,6 +59,35 @@ public class Enemy : MonoBehaviour {
         //_pathFollower.Blocked += PathFollowerStartToEnd_Blocked;
     }
 
+    public void Update()
+    {
+        if (EnemyClass == EnemyClasses.Standard)
+        {
+            if (_entity.IsReloaded())
+            {
+                // TBD: Could do better job of targetting closes HUMAN or TOWER, for example.
+
+                var tower = _entity.FindClosestLiveTower(BulletPrefab.BulletRange); // Should be related to bullet range.
+                if (tower != null)
+                {
+                    _entity.FireBulletAt(tower, BulletPrefab);
+
+                }
+                else
+                {
+                    var human = _entity.FindClosestLiveHuman(BulletPrefab.BulletRange);
+                    if (human != null)
+                    {
+                        _entity.FireBulletAt(human, BulletPrefab);
+                    }
+
+
+                }
+            }
+        }
+
+    }
+
     private void _entity_Decomposed(object sender, EventArgs e)
     {
         // TBD: Sounds or graphics here.
@@ -74,9 +111,6 @@ public class Enemy : MonoBehaviour {
 
 
 
-    // Update is called once per frame
-    void Update () {
-    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -85,8 +119,16 @@ public class Enemy : MonoBehaviour {
 
         if (bullet != null)
         {
+            // Avoid hit to self
+            if (bullet.BulletSource.GetComponent<Enemy>() != null)
+            {
+                // Enemy bullets should not hurt enemies.
+                // TBD: Might be a cleaner way to do this.
+                return;
+            }
+
             Debug.Log("Hit!");
-           
+
             bullet.Destroy();
 
             if (_entity.Health > 0)
@@ -111,8 +153,8 @@ public class Enemy : MonoBehaviour {
             {
                 _entity.Health = 0; // Kills enemy. Will also STOP it.
                 _entity.Explode(destroy: true);
+                robot.GetComponent<Entity>().Health--;
                 Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
-
             }
         }
     }

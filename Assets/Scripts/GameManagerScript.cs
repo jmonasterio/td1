@@ -74,7 +74,24 @@ public class GameManagerScript : MonoBehaviour
     /// <returns></returns>
     public List<Tower> Towers()
     {
-        return GameGrid.GetActiveObjectsInLayer(GameGrid.TOWER_LAYER).Cast<Tower>().ToList();
+        var gos = GameGrid.GetActiveObjectsInLayer(GameGrid.TOWER_LAYER);
+        var ret = new List<Tower>();
+        foreach (var go in gos)
+        {
+            ret.Add(go.GetComponent<Tower>());
+        }
+        return ret;
+    }
+
+    public List<Human> Humans()
+    {
+        var gos = GameGrid.GetActiveObjectsInLayer(GameGrid.HUMAN_LAYER);
+        var ret = new List<Human>();
+        foreach (var go in gos)
+        {
+            ret.Add(go.GetComponent<Human>());
+        }
+        return ret;
     }
 
     public List<Enemy> Enemies()

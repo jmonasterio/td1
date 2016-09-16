@@ -38,9 +38,9 @@ namespace Assets.Scripts
         public const int TOWER_LAYER = 9;
         public const int ENEMY_LAYER = 10;
         public const int BULLET_LAYER = 11;
+        public const int HUMAN_LAYER = 12;
         public const int ROBOT_LAYER = 13;
         public const int DRAG_LAYER = 16;
-        public const int HUMAN_LAYER = 17;
 
         public GameCell[,] Cells;
         private Waypoint StartWaypoint;

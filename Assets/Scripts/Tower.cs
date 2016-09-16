@@ -8,7 +8,7 @@ public class Tower : MonoBehaviour
 
     public enum TowerClasses
     {
-        Shooter =1,
+        Shooter = 1,
         City = 2,
         GathererTower = 3, // Gathers's go get body of dead aliens. Humans get converted into gatherer.
     }
@@ -22,15 +22,23 @@ public class Tower : MonoBehaviour
 
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         _entity = GetComponent<Entity>();
+        _entity.Decomposed += _entity_Decomposed;
         _dragSource = GetComponent<DragSource>();
     }
-	
-	// Update is called once per frame
-	void Update ()
-	{
+
+    private void _entity_Decomposed(object sender, System.EventArgs e)
+    {
+        // TBD: Sounds and graphics. 
+        // TBD: Try /catch
+        Destroy(this.gameObject);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
 
 
@@ -39,40 +47,80 @@ public class Tower : MonoBehaviour
             return;
         }
 
-	    if (TowerClass == TowerClasses.Shooter)
-	    {
-	        if (_entity.IsReloaded())
-	        {
+        if (TowerClass == TowerClasses.Shooter)
+        {
+            if (_entity.IsReloaded())
+            {
 
-	            var enemy = _entity.FindClosestEnemy(BulletPrefab.BulletRange); // Should be related to bullet range.
-	            if (enemy != null)
-	            {
-	                FireBulletAt(enemy);
-	                _entity.StartReload();
+                var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
+                    // Should be related to bullet range.
+                if (enemy != null)
+                {
+                    _entity.FireBulletAt(enemy, BulletPrefab);
 
-	            }
-	        }
-	    }
-	    else if( TowerClass == TowerClasses.GathererTower)
-	    {
-	        // TBD-DARRIN: When should gather towers shoot? When they're not birthing a gatherer? Never?
-	    }
-	}
-
-    private void FireBulletAt(Enemy enempy)
-    {
-        var bullet = Instantiate<Bullet>(BulletPrefab);
-        var here = this.transform.position;
-        bullet.direction = (enempy.transform.position - here).normalized;
-        bullet.transform.position = here;
-        bullet.BulletSource = _entity;
+                }
+            }
+        }
+        else if (TowerClass == TowerClasses.GathererTower)
+        {
+            // TBD-DARRIN: When should gather towers shoot? When they're not birthing a gatherer? Never?
+        }
     }
-
 
     public void DropHuman(Human human)
     {
         /* TBD: Need to do something different here */
-        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += human.IncomeValue * 1;
+        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += human.IncomeValue*1;
 
+    }
+
+    // TBD: Probably should be state. On an interface???
+    public bool IsAlive()
+    {
+        return _entity.IsAlive();
+    }
+
+    // TBD: Same code in tower.
+    // TBD: Similar code in Enemy.
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        var colliderGo = collision.gameObject;
+        var bullet = colliderGo.GetComponent<Bullet>();
+
+        if (bullet != null)
+        {
+            // Avoid hit to self
+            if (bullet.BulletSource.GetComponent<Human>() != null)
+            {
+                // Enemy bullets should not hurt enemies.
+                // TBD: Might be a cleaner way to do this.
+                return;
+            }
+            if (bullet.BulletSource.GetComponent<Tower>() != null)
+            {
+                // Enemy bullets should not hurt enemies.
+                // TBD: Might be a cleaner way to do this.
+                return;
+            }
+
+            Debug.Log("Hit!");
+
+            bullet.Destroy();
+
+            if (_entity.Health > 0)
+            {
+                _entity.Health--;
+                if (_entity.Health <= 0)
+                {
+                    //Toolbox.Instance.GameManager.ScoreController.Score += 100;
+                    //Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
+                    _entity.Explode(destroy: false);
+                    //SetAnimState(AnimStates.Carcas);
+                    _entity.StartDecomposing(Time.time);
+
+                    // Will fire OnDecomposed() when times out.
+                }
+            }
+        }
     }
 }

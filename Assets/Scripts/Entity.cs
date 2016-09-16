@@ -11,11 +11,12 @@ using Assets.Scripts;
 public class Entity : MonoBehaviour
 {
     public event EventHandler Decomposed;
+    private Transform _bulletsCollection;
 
     public enum EntityClasses
     {
         Background = 0,
-        Tower = 1,
+        Tower = 1, // Cities are just special cases.
         Human = 2,
         Robot = 3,
         Enemy = 4,
@@ -65,9 +66,12 @@ public class Entity : MonoBehaviour
                 Debug.Assert(null != this.GetComponent<Waypoint>());
                 break;
         }
+
+    _bulletsCollection = GameObject.Find("Bullets").transform; // TBD: Maybe do this in the in the Enemy object.
+
     }
 
-    public bool IsAlive()
+public bool IsAlive()
     {
         return Health > 0;
     }
@@ -138,7 +142,7 @@ public class Entity : MonoBehaviour
         {
             // We're done decomposing.
             // TBD: Sound and graphics here?
-            if (Time.time > _decomposeStartTime + 5.0f)
+            if (Time.time > _decomposeStartTime + 5.0f) // Needs to be a constant
             {
                 _decomposeStartTime = 0.0f;
                 if (Decomposed != null)
@@ -159,9 +163,26 @@ public class Entity : MonoBehaviour
         return _reloadDelay <= 0;
     }
 
-    public Enemy FindClosestEnemy(float fMax)
+    public Tower FindClosestLiveTower(float fMaxDistance)
+    {
+        IEnumerable<Tower> nearby = Toolbox.Instance.GameManager.Towers().Where(_ => _.IsAlive());
+        return Closest<Tower>(nearby, fMaxDistance);
+    }
+
+    public Human FindClosestLiveHuman(float fMaxDistance)
+    {
+        IEnumerable<Human> nearby = Toolbox.Instance.GameManager.Humans().Where(_ => _.IsAlive());
+        return Closest<Human>(nearby, fMaxDistance);
+    }
+
+    public Enemy FindClosestLiveEnemy(float fMaxDistance)
     {
         IEnumerable<Enemy> nearby = Toolbox.Instance.GameManager.Enemies().Where( _ => _.IsAlive());
+        return Closest<Enemy>( nearby, fMaxDistance);
+    }
+
+    private T Closest<T>(IEnumerable<T> nearby, float fMaxDistance) where T:MonoBehaviour
+    {
         if (nearby.Any())
         {
             var here = this.transform.position;
@@ -172,7 +193,7 @@ public class Entity : MonoBehaviour
             {
                 return null;
             }
-            if ((found.transform.position - here).magnitude < fMax)
+            if ((found.transform.position - here).magnitude < fMaxDistance)
             {
                 return found;
             }
@@ -181,11 +202,16 @@ public class Entity : MonoBehaviour
         return null;
     }
 
-    public void StartReload()
+    public void FireBulletAt<T>(T target, Bullet bulletPrefab) where T:MonoBehaviour
     {
+        var bullet = Instantiate<Bullet>(bulletPrefab);
+        var here = this.transform.position;
+        bullet.direction = (target.transform.position - here).normalized;
+        bullet.transform.position = here;
+        bullet.BulletSource = this;
+        bullet.transform.SetParent(_bulletsCollection);
         _reloadDelay = ReloadTime;
     }
-
 
 
 
