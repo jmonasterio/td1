@@ -1,7 +1,7 @@
 WaveId,	Path,        Delay,     EntityType, Data, Notes ; What about here?
 ; Can I ignore a line
 0,		BasicPath,	 2.0,       WavePause,  ,			; This could be a comment here.				
-0,		BasicPath,	 0.0,       Enemy,		Pawn,							
+0,		BasicPath,	 1.5,       Enemy,		Pawn,							
 0,		BasicPath,	 0.3,	    Enemy,		Pawn,							
 0,		BasicPath,	 0.5,		Enemy,		Pawn,							
 0,		BasicPath,	 0.3,		Enemy,		Pawn,							

@@ -15,6 +15,7 @@ public class GameManagerScript : MonoBehaviour
     private static AudioPoolController AudioPoolController;
     public WavesController WavesController;
     public ScoreController ScoreController;
+    public DataController DataController;
 
 
     // State
@@ -32,6 +33,7 @@ public class GameManagerScript : MonoBehaviour
         AudioPoolController = GetComponent<AudioPoolController>();
         WavesController = GetComponent<WavesController>();
         ScoreController = GetComponent<ScoreController>();
+        DataController = GetComponent<DataController>();
 
         //if (HideMouseCuror)
         {
