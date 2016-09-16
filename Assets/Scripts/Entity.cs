@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 
 /// <summary>
@@ -40,6 +42,7 @@ public class Entity : MonoBehaviour
     /// TBD: Should be part of a gun object, or all part of entity?
     /// </summary>
     public float ReloadTime = 0.75f;
+    private float _reloadDelay;
 
     public void Start()
     {
@@ -121,7 +124,8 @@ public class Entity : MonoBehaviour
 
     public void Update()
     {
-        
+        _reloadDelay -= Time.deltaTime;
+
         var dragSource = this.GetComponent<DragSource>(); // Otherwise, we can never drop because it looks like the cell is occupied by the thing we're dragging.
         if (dragSource == null || !dragSource.Dragging)
         {
@@ -149,6 +153,45 @@ public class Entity : MonoBehaviour
     {
         _decomposeStartTime = decomposeStartTime;
     }
+
+    public bool IsReloaded()
+    {
+        return _reloadDelay <= 0;
+    }
+
+    public Enemy FindClosestEnemy(float fMax)
+    {
+        IEnumerable<Enemy> nearby = Toolbox.Instance.GameManager.Enemies().Where( _ => _.IsAlive());
+        if (nearby.Any())
+        {
+            var here = this.transform.position;
+
+            var ordered = nearby.OrderBy(_ => (_.transform.position - here).magnitude);
+            var found = ordered.FirstOrDefault();
+            if (found == null)
+            {
+                return null;
+            }
+            if ((found.transform.position - here).magnitude < fMax)
+            {
+                return found;
+            }
+            return null;
+        }
+        return null;
+    }
+
+    public void StartReload()
+    {
+        _reloadDelay = ReloadTime;
+    }
+
+
+
+
 }
+
+
+
 
 

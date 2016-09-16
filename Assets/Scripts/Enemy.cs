@@ -116,4 +116,10 @@ public class Enemy : MonoBehaviour {
             }
         }
     }
+
+    // TBD: Probably should be state. On an interface???
+    public bool IsAlive()
+    {
+        return _entity.IsAlive();
+    }
 }

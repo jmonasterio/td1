@@ -2233,6 +2233,7 @@ MonoBehaviour:
   GameName: td1
   WavesController: {fileID: 0}
   ScoreController: {fileID: 0}
+  DataController: {fileID: 0}
 --- !u!4 &601069451
 Transform:
   m_ObjectHideFlags: 0
@@ -3670,6 +3671,10 @@ Prefab:
     - target: {fileID: 136904, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
       propertyPath: m_Name
       value: Human (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405522, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+      propertyPath: HumanClass
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}

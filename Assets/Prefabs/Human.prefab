@@ -31,7 +31,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.44, y: 4.22, z: 0}
+  m_LocalPosition: {x: 8.16, y: 5.58, z: 0}
   m_LocalScale: {x: 1, y: 0.6, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -78,6 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc7677bde0eaf74b9d6851fbbff6c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 11459160, guid: 1a9f9e8281d06634799f721078ce41f2, type: 2}
+  HumanClass: 1
   IncomeValue: 10
 --- !u!114 &11406142
 MonoBehaviour:
@@ -120,6 +122,7 @@ MonoBehaviour:
   IncomeCost: 0
   Health: 4
   HealthMax: 5
+  ExplosionPrefab: {fileID: 0}
   ReloadTime: 0.75
   Speed: 1
 --- !u!114 &11495622
