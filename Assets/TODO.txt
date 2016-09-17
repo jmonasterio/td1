@@ -27,67 +27,70 @@ x Support real waypoints to help designer.
 x Fill-in Waves.MidWaypoint from the Path object. Don't specifiy each one point, just specify the "path" gameObject in the Wave.
 x Can't drop on city.
 x Enemy collision with robot... damages robot. Kills enemy.
-- Level editor scene can write a level to .CSV
-- How should waves.csv handle levels.
-- Enemy seems to stop abruptly, when exploding.
-- Preload scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
 x Connect explosion prefabs to prefabs, instead of making a child object.
 x Can't seem to drop blocks or towers: GameManagerScript disabled which disabled audiocontroller.
 x In editor, draw lines on path.
 x Csv should allow comment lines ;;;
 x Humans shoot. 
 x Humans die.
-- Robot not dying?
-- Need decompose graphics for humans and towers.
-- Should AnimStates be for entities?
-
-- Draw HUD on a canvas.
-
-- Colision with robot is too far away. 
-- Enemy reaches end of path, should just start wandering if for some reason there is no robot. Or maybe a new path to robot? Should never happen.
-- Robot dies... level over.
-- What happens when an enemy collides with a tower?
+x Robot not dying?
+x Not needed: Enemy reaches end of path, should just start wandering if for some reason there is no robot. Or maybe a new path to robot? Should never happen.
+x Robot dies... level over.
 x Enemy should not be deleted until they really decompose.
 x Enemies all die... next level.
 x DEBUG: Loop level to restart waves when you lose
 x Enemies shoot.
 x Enemies die.
 x After being dead a while, the body should decompose.
-- Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
+x Dragging block makes a small block
+x Real health
+x xlsx wave integration
+x Hide reticle while dragging.
+x Enemies are walking through walls.
+x Shooting enemies.
+
 - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
+- Humans to spawn at one city and go to other cities.
+- If human wanders into a city or robot, it should go inside...
+- Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
+- Humans should powerup if they hit a city or tower or robot.
+
+
+- Level editor scene can write a level to .CSV
+- How should waves.csv handle levels.
+- Enemy seems to stop abruptly, when exploding.
+- Preload scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
+- Planning screen...
+
+
+- Need decompose graphics for humans and towers.
+- Should AnimStates be for entities?
+- Draw HUD on a canvas.
+- Colision with robot is too far away. 
+- What happens when an enemy collides with a tower? Nothing?
 - Need men and women.
 - Need a spawn rate indicator.
-- Humans to spawn at one city and go to other cities.
-- Humans should powerup if they hit a city or tower or robot.
 - Need different kinds of guns? Part of entity?
 - Need different types of bullets.
-- Planning screen...
 - # of cities on the map affects the spawn rate.
 - Build the love shack
 - Special tower that can generate humans... like a little hostpiatl
-- Should path be a subobject of wave??? I wouldn't need to connect anything...
 - EntityClass should be a derived value? on Entity out of sync with Tower Componenet. EntityClass not tower, for example. Could happen to others.
 - Wave co-routines: Need to stop if level ends in middle of a wave. I have Wave.CancelWave() method, but not called for now.
-x Dragging block makes a small block
 - Maybe option to autdrop if you go over city.
-- If money goes down while dragging below cost, we may not be able to drop.
+- If money goes down while dragging below cost, we may not be able to drop. OR take money at start of drop, and return if not used.
 - Mob explodes and does damage to the robot. Maybe stop to fight.
 - Animate back to palete
 - Human needs to be shorter (and centered?) so they don't try to draw over wall.
 
 
-x Real health
-- Hide reticle while dragging.
-- Enemies are walking through walls.
 - Instead of using RAYCAST, look in the grid.
 - xlsx entity integration
-- xlsx wave integration
 
 - Spawn humans randomly.
 
 - Cities
 - Humans
-- Shooting enemies.
 - Move level to correct spot in 
 
 - Start with enough "pwer" to make one towner.
@@ -103,7 +106,7 @@ x Real health
 
 - Humans, Resources (cities), Mobs, and Robots should come from spreadsheets
 
-- Mob Waves should come from spreadsheets
+x Mob Waves should come from spreadsheets
 - When switching levels in editor (at runtime), we should move the level to the camera
 	and into the chrome. We don't move the camera at design time.
 - It might make sense at runtime to COPY a level, so that we can re-run from original copy.
@@ -114,7 +117,7 @@ x Real health
 - Need to look, when I am about to enter a new cell, to see whether the path follower is blocked, and needs to turn back.
 - Need to prevent block a cell that already has an enemy in it.
 - Need to keep track of which cells have enemies.
-- If human wanders into a city or robot, it should go inside...
+
 - Multiselect humans would be a powerup.
 
 
