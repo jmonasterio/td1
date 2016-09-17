@@ -16,6 +16,7 @@ public class GameManagerScript : MonoBehaviour
     public WavesController WavesController;
     public ScoreController ScoreController;
     public DataController DataController;
+    public GameController GameController;
 
 
     // State
@@ -34,6 +35,7 @@ public class GameManagerScript : MonoBehaviour
         WavesController = GetComponent<WavesController>();
         ScoreController = GetComponent<ScoreController>();
         DataController = GetComponent<DataController>();
+        GameController = GetComponent<GameController>();
 
         //if (HideMouseCuror)
         {

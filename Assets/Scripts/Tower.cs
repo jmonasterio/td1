@@ -49,7 +49,7 @@ public class Tower : MonoBehaviour
 
         if (TowerClass == TowerClasses.Shooter)
         {
-            if (_entity.IsReloaded())
+            if (_entity.IsAlive() && _entity.IsReloaded())
             {
 
                 var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);

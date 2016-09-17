@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
   BulletSpeed: 5
-  BulletRange: 4
+  BulletRange: 6
   BulletSource: {fileID: 0}
 --- !u!212 &21246376
 SpriteRenderer:

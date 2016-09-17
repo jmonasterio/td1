@@ -32,7 +32,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     public int IncomeCost;
 
-    public int Health = 5;
+    public float Health = 5;
     public int HealthMax = 5;
 
     public ParticleSystem ExplosionPrefab;

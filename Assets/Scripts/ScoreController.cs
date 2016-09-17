@@ -19,11 +19,6 @@ public class ScoreController : MonoBehaviour {
         this.EnemyScore -= numberOfFlags;
     }
 
-    public bool EnemyCaptureAllFlags()
-    {
-        return EnemyScore <= 0;
-    }
-
     public void PlayerScored(int points)
     {
         Score += points;

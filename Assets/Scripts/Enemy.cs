@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour {
     {
         if (EnemyClass == EnemyClasses.Standard)
         {
-            if (_entity.IsReloaded())
+            if (_entity.IsAlive() && _entity.IsReloaded())
             {
                 // TBD: Could do better job of targetting closes HUMAN or TOWER, for example.
 
@@ -153,9 +153,9 @@ public class Enemy : MonoBehaviour {
             {
                 _entity.Health = 0; // Kills enemy. Will also STOP it.
                 _entity.Explode(destroy: true);
-                robot.GetComponent<Entity>().Health--;
                 Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
             }
+
         }
     }
 

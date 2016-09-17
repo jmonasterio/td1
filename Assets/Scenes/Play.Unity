@@ -2161,6 +2161,23 @@ Prefab:
       propertyPath: m_Name
       value: Robot
       objectReference: {fileID: 0}
+    - target: {fileID: 6139894, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11496104, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
+      propertyPath: ReloadTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11496104, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
+      propertyPath: Speed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11444708, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
+      propertyPath: BulletPrefab
+      value: 
+      objectReference: {fileID: 11459160, guid: 1a9f9e8281d06634799f721078ce41f2,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
   m_IsPrefabParent: 0
