@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Assets.Scripts;
 
 /// <summary>
@@ -44,6 +45,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     public float ReloadTime = 0.75f;
     private float _reloadDelay;
+    public float DecomposeTimeInterval = 7.0f;
 
     public void Start()
     {
@@ -67,11 +69,12 @@ public class Entity : MonoBehaviour
                 break;
         }
 
-    _bulletsCollection = GameObject.Find("Bullets").transform; // TBD: Maybe do this in the in the Enemy object.
+        _bulletsCollection = GameObject.Find("Bullets").transform; // TBD: Maybe do this in the in the Enemy object.
+        _dragSource = this.GetComponent<DragSource>();
 
     }
 
-public bool IsAlive()
+    public bool IsAlive()
     {
         return Health > 0;
     }
@@ -99,6 +102,7 @@ public bool IsAlive()
     public float Speed = 1.0f;
     private GameGrid.GameCell _currentGameCell;
     private float _decomposeStartTime;
+    private DragSource _dragSource; // TBD: Kinda gross. So many interconnections. Maybe all entities should be draggable.
 
     public GameGrid.GameCell GetCurrentGameCell()
     {
@@ -140,10 +144,15 @@ public bool IsAlive()
 
         if (_decomposeStartTime > 0)
         {
-            // We're done decomposing.
-            // TBD: Sound and graphics here?
-            if (Time.time > _decomposeStartTime + 5.0f) // Needs to be a constant
+            if ((_dragSource != null) && (_dragSource.Dragging))
             {
+                _decomposeStartTime += Time.time + DecomposeTimeInterval;
+            }
+            else if (Time.time > _decomposeStartTime + DecomposeTimeInterval) // Needs to be a constant
+            {
+                // We're done decomposing.
+                // TBD: Sound and graphics here?
+
                 _decomposeStartTime = 0.0f;
                 if (Decomposed != null)
                 {

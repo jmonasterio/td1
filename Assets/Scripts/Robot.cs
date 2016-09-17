@@ -46,6 +46,13 @@ public class Robot : MonoBehaviour
 
     }
 
+    public void DropEnemyCarcas(Enemy enemy)
+    {
+        // TBD: Need to do different things, depending on the type of tower.
+        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += enemy.CarcasIncomeValue;
+    }
+
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         var colliderGo = collision.gameObject;
@@ -95,4 +102,5 @@ public class Robot : MonoBehaviour
             }
         }
     }
+
 }

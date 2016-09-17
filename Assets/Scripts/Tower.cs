@@ -39,9 +39,6 @@ public class Tower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-
         if (_dragSource != null && _dragSource.Dragging)
         {
             return;
@@ -67,12 +64,6 @@ public class Tower : MonoBehaviour
         }
     }
 
-    public void DropHuman(Human human)
-    {
-        /* TBD: Need to do something different here */
-        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += human.IncomeValue*1;
-
-    }
 
     // TBD: Probably should be state. On an interface???
     public bool IsAlive()
@@ -123,4 +114,18 @@ public class Tower : MonoBehaviour
             }
         }
     }
+
+    public void DropEnemyCarcas(Enemy enemy)
+    {
+        // TBD: Need to do different things, depending on the type of tower.
+        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += enemy.CarcasIncomeValue;
+    }
+
+    public void DropHuman(Human human)
+    {
+        /* TBD: Need to do something different here */
+        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += human.IncomeValue * 1;
+
+    }
+
 }

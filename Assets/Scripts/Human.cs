@@ -16,6 +16,7 @@ public class Human : MonoBehaviour
     private Entity _entity;
     private Wander _wander;
     private float _dropTime;
+    private DragSource _dragSource;
 
     // Use this for initialization
     void Start()
@@ -23,6 +24,7 @@ public class Human : MonoBehaviour
         _entity = GetComponent<Entity>();
         _entity.Decomposed += _entity_Decomposed;
         _wander = GetComponent<Wander>();
+        _dragSource = GetComponent<DragSource>();
     }
 
     private void _entity_Decomposed(object sender, System.EventArgs e)
@@ -35,6 +37,11 @@ public class Human : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_dragSource != null && _dragSource.Dragging)
+        {
+            return;
+        }
+
         const float DELAY_BEFORE_NEXT_PATH_MOVE = 0.3f;
         // After being dropped, wait 0.5 seconds before wandering again.
         if (_dropTime != 0 && Time.time > _dropTime + DELAY_BEFORE_NEXT_PATH_MOVE)

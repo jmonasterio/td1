@@ -49,6 +49,7 @@ x Hide reticle while dragging.
 x Enemies are walking through walls.
 x Shooting enemies.
 
+- City needs to be a special kind of tower. Right now, they're not related.
 - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
 - Humans to spawn at one city and go to other cities.
 - If human wanders into a city or robot, it should go inside...

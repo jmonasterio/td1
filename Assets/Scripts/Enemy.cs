@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour {
 
     public EnemyClasses EnemyClass;
     public Bullet BulletPrefab;
+    public int CarcasIncomeValue = 10;
 
     private Entity _entity;
     private PathFollower _pathFollower;
