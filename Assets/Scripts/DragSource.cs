@@ -89,6 +89,11 @@ public class DragSource : MonoBehaviour
             return false;
         }
 
+        if ((CostPaidToBuild > 0.0f) && (dropCellOrNull.Robot != null))
+        {
+            return false; // Can't drag from Palette to robot.
+        }
+
         switch (_entity.EntityClass)
         {
             case Entity.EntityClasses.Human:
@@ -102,7 +107,7 @@ public class DragSource : MonoBehaviour
 
             case Entity.EntityClasses.Tower:
                 var tower = this.GetComponent<Tower>();
-                if (tower != null)
+                if (tower != null && !tower.IsAlive())
                 {
                     return dropCellOrNull.Tower == null;
                 }
@@ -125,6 +130,13 @@ public class DragSource : MonoBehaviour
                 }
                 break;
             }
+            case Entity.EntityClasses.Robot:
+            {
+                return true;
+            }
+            default:
+                Debug.LogError("unhandled case: " + _entity.EntityClass);
+                break;
         }
         return true;
     }
@@ -143,6 +155,12 @@ public class DragSource : MonoBehaviour
                 if (dropCellOrNull.Robot != null)
                 {
                     var robot = dropCellOrNull.Robot;
+                    // TBD: Wouldn't be needed if we had a Carcas entity.
+                    if (!_entity.IsAlive())
+                    {
+                        CancelDragging();
+                        return;
+                    }
                     robot.DropHuman(human);
                     Destroy(human.gameObject);
                     GameManagerScript.PlayClip(DropSound);
@@ -151,37 +169,49 @@ public class DragSource : MonoBehaviour
                 if (dropCellOrNull.Tower != null)
                 {
                     var tower = dropCellOrNull.Tower;
+
+                    // TBD: Wouldn't be needed if we had a Carcas entity.
+                    if (!tower.IsAlive())
+                    {
+                        CancelDragging();
+                        return;
+                    }
                     tower.DropHuman(human); // TBD: Should DropHuman be a component that everyone has?
                     Destroy(human.gameObject);
                     GameManagerScript.PlayClip(DropSound);
                     return;
                 }
-                else if (dropCellOrNull.Background != null)
+                if (dropCellOrNull.Background != null)
                 {
                     CancelDragging();
                     return;
                 }
-                else
+                if (CanHumanWalkOn(dropCellOrNull.GroundType))
                 {
-                    if (CanHumanWalkOn(dropCellOrNull.GroundType))
-                    {
-                        human.DropAt(mapExactDrop);
-                        EndDragging(cancel: false);
-                    }
+                    human.DropAt(mapExactDrop);
+                    EndDragging(cancel: false);
+                    return;
                 }
+                CancelDragging();
             }
             else
             {
                 switch (_entity.EntityClass)
                 {
                     case Entity.EntityClasses.Tower:
-                        if (dropCellOrNull.Tower != null)
+                        if (dropCellOrNull.Tower != null && dropCellOrNull.Tower.IsAlive())
                         {
                             // TBD: Cell already occupied. Need a sound
                             CancelDragging();
                             return;
                         }
                         this.gameObject.layer = GameGrid.TOWER_LAYER;
+
+                        if (dropCellOrNull.Tower != null)
+                        {
+                            Debug.LogWarning("Dropped new tower on a tower carcas.");
+                        }
+
                         dropCellOrNull.Tower = this.GetComponent<Tower>();
                         break;
                     case Entity.EntityClasses.Background:
@@ -226,6 +256,7 @@ public class DragSource : MonoBehaviour
                 this.gameObject.transform.position =
                     SnapToGrid.RoundTransform(this.gameObject.transform.position, 1.0f);
                 EndDragging(cancel: false);
+                return;
             }
         }
         else
@@ -234,7 +265,10 @@ public class DragSource : MonoBehaviour
             // TBD: Need a sound.
 
             EndDragging(cancel:false);
+            return;
         }
+
+        Debug.LogError("Fell thru.");
     }
 
     private static bool CanHumanWalkOn(GameGrid.GameCell.GroundTypes groundType)

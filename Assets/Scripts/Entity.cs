@@ -221,9 +221,11 @@ public class Entity : MonoBehaviour
 
     public void ResumeDecompose()
     {
-        Debug.Assert( _decomposeTimeRemainingAtStartOfDrag > 0.0f);
-        _decomposeStartTime = Time.time - _decomposeTimeRemainingAtStartOfDrag;
-        _decomposeTimeRemainingAtStartOfDrag = 0.0f;
+        if (_decomposeTimeRemainingAtStartOfDrag > 0.0f)
+        {
+            _decomposeStartTime = Time.time - _decomposeTimeRemainingAtStartOfDrag;
+            _decomposeTimeRemainingAtStartOfDrag = 0.0f;
+        }
     }
 
     public void PauseDecomposing()

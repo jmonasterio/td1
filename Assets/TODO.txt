@@ -51,7 +51,7 @@ x Shooting enemies.
 
 x Dropped carcas does not resume decomposing (if cancel drop) with correct amount of remaining time.
 x Dropping carcases on city/robot not working.
-- Don't allow dropping human on decomposing city.
+x Don't allow dropping human on decomposing city.
 - Do allow dropping new city on decomposing city.
 - Maybe a "Decomposer" ought to be a kind of entity, that keeps track of related entity that was decomposed.
 	- Benefit would be, we don't need special logic like: Don't allow dropping on while decomposing.
