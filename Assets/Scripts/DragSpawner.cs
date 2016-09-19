@@ -22,20 +22,12 @@ public class DragSpawner : MonoBehaviour
 
     public void OnMouseDown()
     {
-        var newGameObject = Instantiate(SpawnPF);
-        newGameObject.transform.SetParent(SpawnParent.transform, worldPositionStays:false);
-        newGameObject.transform.position = this.transform.position;
-        //newGameObject.transform.localScale = this.transform.localScale;
-        newGameObject.gameObject.layer = GameGrid.DRAG_LAYER;
+        var newGameObject = Entity.InstantiateAt(SpawnPF, SpawnParent, this.transform.position, isSnap: false);
         newGameObject.DeleteOnCancel = true;
-        var snap = newGameObject.GetComponent<SnapToGrid>();
-        snap.snapToGrid = false;
         var dragSource = newGameObject.GetComponent<DragSource>();
         Debug.Assert( dragSource != null);
-
         BuyFromPalette(this.SpawnPF.GetComponent<Entity>(), dragSource); // TBD: Assume, item not pickable if you don't have money for it.
         _mouseInput.StartDraggingSpawnedObject(dragSource );
-
     }
 
     public void BuyFromPalette(Entity entityToBuy, DragSource dragSource)

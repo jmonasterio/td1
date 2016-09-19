@@ -252,7 +252,22 @@ public class Entity : MonoBehaviour
         return (_decomposeStartTime > 0.0f) && (Time.time > _decomposeStartTime + DecomposeTimeInterval);
     }
 
+    public static T InstantiateAt<T>(T prefab, GameObject parent, Vector3 pos, bool isSnap) where T:MonoBehaviour
+    {
+        var newGameObject = Instantiate<T>(prefab);
+        newGameObject.transform.SetParent(parent.transform, worldPositionStays: false);
+        newGameObject.transform.position = pos;
+        //newGameObject.transform.localScale = this.transform.localScale;
+        newGameObject.gameObject.layer = GameGrid.DRAG_LAYER;
 
+        if (isSnap)
+        {
+            var snap = newGameObject.GetComponent<SnapToGrid>();
+            snap.snapToGrid = false;
+        }
+
+        return newGameObject;
+    }
 }
 
 

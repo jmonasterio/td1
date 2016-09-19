@@ -16,9 +16,11 @@ public class Tower : MonoBehaviour
     public Bullet BulletPrefab;
     public float BulletRange;
     public TowerClasses TowerClass;
+    public Human Spawn1Prefab; // TBD: Could be different types of things to spawn.
 
     private DragSource _dragSource;
     private Entity _entity;
+    private float _timeSinceLastSpawn = 0.0f;
 
 
     // Use this for initialization
@@ -58,11 +60,40 @@ public class Tower : MonoBehaviour
                 }
             }
         }
-        else if (TowerClass == TowerClasses.GathererTower)
+        else if (TowerClass == TowerClasses.City)
+        {
+            // Spawn humans every once in a while.
+            if (IsTimeToSpawnAgain())
+            {
+                var parent = GameObject.Find("Humans");
+
+                // TBD: Humans settings should come from CSV... not from prefab.
+                var newHuman = Entity.InstantiateAt(Spawn1Prefab, parent, this.transform.position, isSnap: false);
+                _timeSinceLastSpawn = Time.time;
+            }
+        }
+        else if ( TowerClass == TowerClasses.GathererTower)
         {
             // TBD-DARRIN: When should gather towers shoot? When they're not birthing a gatherer? Never?
         }
     }
+
+    private bool IsTimeToSpawnAgain()
+    {
+        if (_timeSinceLastSpawn == 0)
+        {
+            _timeSinceLastSpawn = Time.time;
+            return false;
+        }
+        float spawnRate = Toolbox.Instance.GameManager.ScoreController.SpawnRate;
+
+        if (Time.time - _timeSinceLastSpawn > spawnRate)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
 
     // TBD: Probably should be state. On an interface???
