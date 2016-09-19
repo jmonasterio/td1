@@ -78,6 +78,11 @@ public class Tower : MonoBehaviour
         var colliderGo = collision.gameObject;
         var bullet = colliderGo.GetComponent<Bullet>();
 
+        if (_dragSource.Dragging)
+        {
+            return;
+        }
+
         if (bullet != null)
         {
             // Avoid hit to self
@@ -107,7 +112,7 @@ public class Tower : MonoBehaviour
                     //Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
                     _entity.Explode(destroy: false);
                     //SetAnimState(AnimStates.Carcas);
-                    _entity.StartDecomposing(Time.time);
+                    _entity.StartDecomposing();
 
                     // Will fire OnDecomposed() when times out.
                 }

@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour {
     private Entity _entity;
     private PathFollower _pathFollower;
     private Animator _animator;
+    private DragSource _dragSource;
 
     public enum AnimStates
     {
@@ -46,7 +47,8 @@ public class Enemy : MonoBehaviour {
             this.gameObject.SetActive(false); // So enemies in the Waves controller start disabled.
         }
         _entity = GetComponent<Entity>();
-        _entity.Decomposed += _entity_Decomposed; 
+        _entity.Decomposed += _entity_Decomposed;
+        _dragSource = GetComponent<DragSource>();
         _animator = GetComponent<Animator>();
         _pathFollower = GetComponent<PathFollower>();
 
@@ -109,14 +111,15 @@ public class Enemy : MonoBehaviour {
 
         }
     }
-
-
-
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         var colliderGo = collision.gameObject;
         var bullet = colliderGo.GetComponent<Bullet>();
+
+        if (_dragSource.Dragging)
+        {
+            return;
+        }
 
         if (bullet != null)
         {
@@ -141,7 +144,7 @@ public class Enemy : MonoBehaviour {
                     Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
                     _entity.Explode(destroy: false);
                     SetAnimState(AnimStates.Carcas);
-                    _entity.StartDecomposing(Time.time);
+                    _entity.StartDecomposing();
 
                     // Will fire OnDecomposed() when times out.
                 }

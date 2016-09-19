@@ -13,6 +13,7 @@ public class Entity : MonoBehaviour
 {
     public event EventHandler Decomposed;
     private Transform _bulletsCollection;
+    private DragSource _dragSourceOrNull;
 
     public enum EntityClasses
     {
@@ -46,6 +47,7 @@ public class Entity : MonoBehaviour
     public float ReloadTime = 0.75f;
     private float _reloadDelay;
     public float DecomposeTimeInterval = 7.0f;
+    private float _decomposeTimeRemainingAtStartOfDrag;
 
     public void Start()
     {
@@ -70,7 +72,7 @@ public class Entity : MonoBehaviour
         }
 
         _bulletsCollection = GameObject.Find("Bullets").transform; // TBD: Maybe do this in the in the Enemy object.
-        _dragSource = this.GetComponent<DragSource>();
+        _dragSourceOrNull = this.GetComponent<DragSource>(); // TBD: Gross: Too many interactions between dragsource and entity.
 
     }
 
@@ -83,7 +85,7 @@ public class Entity : MonoBehaviour
     {
         if (ExplosionPrefab == null)
         {
-            Debug.LogError("Missing explosion prefab");
+            Debug.LogError("Missing explosion prefab: " + this.gameObject.name);
             return;
         }
         var exp = Instantiate<ParticleSystem>(ExplosionPrefab);
@@ -102,7 +104,6 @@ public class Entity : MonoBehaviour
     public float Speed = 1.0f;
     private GameGrid.GameCell _currentGameCell;
     private float _decomposeStartTime;
-    private DragSource _dragSource; // TBD: Kinda gross. So many interconnections. Maybe all entities should be draggable.
 
     public GameGrid.GameCell GetCurrentGameCell()
     {
@@ -130,42 +131,31 @@ public class Entity : MonoBehaviour
 
     }
 
+    private bool IsDragging()
+    {
+        return ((_dragSourceOrNull != null) && _dragSourceOrNull.Dragging);
+
+    }
+
     public void Update()
     {
         _reloadDelay -= Time.deltaTime;
 
-        var dragSource = this.GetComponent<DragSource>(); // Otherwise, we can never drop because it looks like the cell is occupied by the thing we're dragging.
-        if (dragSource == null || !dragSource.Dragging)
+        if (!IsDragging())
         {
             // As entity moves around, we want to update the CellMap to know where entity is.
             var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
             UpdateCurrentCell(cell);
-        }
+            if (IsDecomposingDone()) // Needs to be a constant
+            {
 
-        if (_decomposeStartTime > 0)
-        {
-            if ((_dragSource != null) && (_dragSource.Dragging))
-            {
-                _decomposeStartTime += Time.time + DecomposeTimeInterval;
-            }
-            else if (Time.time > _decomposeStartTime + DecomposeTimeInterval) // Needs to be a constant
-            {
                 // We're done decomposing.
                 // TBD: Sound and graphics here?
-
-                _decomposeStartTime = 0.0f;
-                if (Decomposed != null)
-                {
-                    Decomposed(this, new EventArgs());
-                }
+                EndDecomposing();
             }
         }
     }
 
-    public void StartDecomposing( float decomposeStartTime)
-    {
-        _decomposeStartTime = decomposeStartTime;
-    }
 
     public bool IsReloaded()
     {
@@ -222,6 +212,43 @@ public class Entity : MonoBehaviour
         _reloadDelay = ReloadTime;
     }
 
+    public void StartDecomposing()
+    {
+        Debug.Assert( _decomposeStartTime == 0.0f);
+        _decomposeStartTime = Time.time;
+        _decomposeTimeRemainingAtStartOfDrag = 0.0f;
+    }
+
+    public void ResumeDecompose()
+    {
+        Debug.Assert( _decomposeTimeRemainingAtStartOfDrag > 0.0f);
+        _decomposeStartTime = Time.time - _decomposeTimeRemainingAtStartOfDrag;
+        _decomposeTimeRemainingAtStartOfDrag = 0.0f;
+    }
+
+    public void PauseDecomposing()
+    {
+        if (_decomposeStartTime > 0.0f)
+        {
+            _decomposeTimeRemainingAtStartOfDrag = (Time.time - _decomposeStartTime);
+        }
+    }
+
+    private void EndDecomposing()
+    {
+        Debug.Assert( !IsDragging());
+        Debug.Assert( _decomposeStartTime > 0.0f);
+        if (Decomposed != null)
+        {
+            Decomposed(this, new EventArgs());
+        }
+        _decomposeStartTime = 0.0f;
+    }
+
+    private bool IsDecomposingDone()
+    {
+        return (_decomposeStartTime > 0.0f) && (Time.time > _decomposeStartTime + DecomposeTimeInterval);
+    }
 
 
 }

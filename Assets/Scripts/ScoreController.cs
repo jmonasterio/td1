@@ -6,7 +6,7 @@ public class ScoreController : MonoBehaviour {
 
     public int Score;
 
-    public int Income;
+    public float Income;
 
     public float SpawnRate;
 

@@ -122,8 +122,9 @@ MonoBehaviour:
   IncomeCost: 0
   Health: 4
   HealthMax: 5
-  ExplosionPrefab: {fileID: 0}
+  ExplosionPrefab: {fileID: 19810918, guid: 09cc11c0a0073524f912801859b0185f, type: 2}
   ReloadTime: 0.75
+  DecomposeTimeInterval: 7
   Speed: 1
 --- !u!114 &11495622
 MonoBehaviour:

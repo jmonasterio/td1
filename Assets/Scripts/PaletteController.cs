@@ -12,7 +12,7 @@ public class PaletteController : MonoBehaviour {
 	void Update ()
 	{
         // Enable all items whose cost is less than the income we have.
-	    var scoreController = Toolbox.Instance.GameManager.GetComponent<ScoreController>();
+	    var scoreController = Toolbox.Instance.GameManager.ScoreController;
 	    foreach (var child in this.gameObject.GetComponentsInChildren<DragSpawner>(includeInactive:true))
 	    {
 	        int incomeCost = child.SpawnPF.GetComponent<Entity>().IncomeCost;

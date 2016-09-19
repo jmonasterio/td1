@@ -27,6 +27,13 @@ public class DragSource : MonoBehaviour
     // Does the final cleanup. Will hand
     private void EndDragging( bool cancel)
     {
+        // If canceling, return any money paid to buy an item from the palette.
+        if (cancel && (this.CostPaidToBuild > 0.0f))
+        {
+            Toolbox.Instance.GameManager.ScoreController.Income += this.CostPaidToBuild;
+            this.CostPaidToBuild = 0.0f;
+        }
+
         if (this.DeleteOnCancel && cancel)
         {
             Object.Destroy(this.gameObject);
@@ -44,6 +51,7 @@ public class DragSource : MonoBehaviour
                 GameManagerScript.PlayClip(DropSound);
             }
             Dragging = false;
+            _entity.ResumeDecompose();
         }
     }
 
@@ -69,6 +77,9 @@ public class DragSource : MonoBehaviour
         _originalColor = _spriteRender.color;
         const float TRANSPARENT_50 = 0.5f;
         _spriteRender.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, TRANSPARENT_50);
+        var entity = dragSource.GetComponent<Entity>();
+        Debug.Assert(entity != null);
+        entity.PauseDecomposing();
     }
 
     public bool CanDropAt(GameGrid.GameCell dropCellOrNull)
@@ -161,28 +172,12 @@ public class DragSource : MonoBehaviour
             }
             else
             {
-
-                var income = Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income;
-
-                // TBD: Race.
-                // TBD: Move to EndDragging !Cancel
-                var entity = this.GetComponent<Entity>();
-                var cost = entity.IncomeCost;
-                if (income >= cost)
-                {
-                    Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income -= cost;
-                }
-                else
-                {
-                    EndDragging(cancel: true);
-                    return;
-                }
-
-                switch (entity.EntityClass)
+                switch (_entity.EntityClass)
                 {
                     case Entity.EntityClasses.Tower:
                         if (dropCellOrNull.Tower != null)
                         {
+                            // TBD: Cell already occupied. Need a sound
                             CancelDragging();
                             return;
                         }
@@ -192,6 +187,7 @@ public class DragSource : MonoBehaviour
                     case Entity.EntityClasses.Background:
                         if (dropCellOrNull.Background != null)
                         {
+                            // TBD: Cell already occupied. Need a sound
                             CancelDragging();
                             return;
                         }
@@ -200,7 +196,7 @@ public class DragSource : MonoBehaviour
                         break;
                     case Entity.EntityClasses.Enemy:
                     {
-                        var enemy = entity.GetComponent<Enemy>();
+                        var enemy = _entity.GetComponent<Enemy>();
                         if (dropCellOrNull.Tower != null)
                         {
                             var tower = dropCellOrNull.Tower;
@@ -235,6 +231,8 @@ public class DragSource : MonoBehaviour
         else
         {
             // Not a valid cell.
+            // TBD: Need a sound.
+
             EndDragging(cancel:false);
         }
     }
@@ -265,4 +263,6 @@ public class DragSource : MonoBehaviour
 
         }
     }
+
+    public float CostPaidToBuild { get; set; }
 }

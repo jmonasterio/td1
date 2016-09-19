@@ -31,6 +31,7 @@ public class OnUnityLoad
                 {
                     EditorApplication.SaveAssets();
                 }
+
             }
 
         };

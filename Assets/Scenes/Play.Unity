@@ -714,6 +714,7 @@ MonoBehaviour:
   HealthMax: 5
   ExplosionPrefab: {fileID: 0}
   ReloadTime: 0.75
+  DecomposeTimeInterval: 0.75
   Speed: 1
 --- !u!114 &209729853
 MonoBehaviour:
@@ -2287,6 +2288,7 @@ MonoBehaviour:
   WavesController: {fileID: 0}
   ScoreController: {fileID: 0}
   DataController: {fileID: 0}
+  GameController: {fileID: 0}
 --- !u!4 &601069451
 Transform:
   m_ObjectHideFlags: 0
@@ -5188,6 +5190,7 @@ MonoBehaviour:
   HealthMax: 5
   ExplosionPrefab: {fileID: 0}
   ReloadTime: 0.75
+  DecomposeTimeInterval: 0.75
   Speed: 1
 --- !u!114 &1720576003
 MonoBehaviour:
@@ -5604,6 +5607,7 @@ MonoBehaviour:
   HealthMax: 5
   ExplosionPrefab: {fileID: 0}
   ReloadTime: 0.75
+  DecomposeTimeInterval: 0.75
   Speed: 1
 --- !u!114 &1805555610
 MonoBehaviour:

@@ -32,9 +32,21 @@ public class DragSpawner : MonoBehaviour
         snap.snapToGrid = false;
         var dragSource = newGameObject.GetComponent<DragSource>();
         Debug.Assert( dragSource != null);
+
+        BuyFromPalette(this.SpawnPF.GetComponent<Entity>(), dragSource); // TBD: Assume, item not pickable if you don't have money for it.
         _mouseInput.StartDraggingSpawnedObject(dragSource );
 
     }
+
+    public void BuyFromPalette(Entity entityToBuy, DragSource dragSource)
+    {
+        var cost = entityToBuy.IncomeCost;
+        Toolbox.Instance.GameManager.ScoreController.Income -= cost;
+        Debug.Assert(Toolbox.Instance.GameManager.ScoreController.Income >= 0.0f);
+        dragSource.CostPaidToBuild = cost; // Used later, if we need to refund money if drag canceled.
+    }
+
+
 
     // Update is called once per frame
     private void OnGUI()

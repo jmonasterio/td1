@@ -49,6 +49,13 @@ x Hide reticle while dragging.
 x Enemies are walking through walls.
 x Shooting enemies.
 
+x Dropped carcas does not resume decomposing (if cancel drop) with correct amount of remaining time.
+x Dropping carcases on city/robot not working.
+- Don't allow dropping human on decomposing city.
+- Do allow dropping new city on decomposing city.
+- Maybe a "Decomposer" ought to be a kind of entity, that keeps track of related entity that was decomposed.
+	- Benefit would be, we don't need special logic like: Don't allow dropping on while decomposing.
+	- You could build another city on a decomposing one, and it wouldn't use up the "slot".
 - City needs to be a special kind of tower. Right now, they're not related.
 - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
 - Humans to spawn at one city and go to other cities.

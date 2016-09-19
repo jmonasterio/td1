@@ -6,12 +6,14 @@ public class Robot : MonoBehaviour
     private Entity _entity;
 
     public Bullet BulletPrefab;
+    private DragSource _dragSource;
 
     // Use this for initialization
     void Start()
     {
         _entity = GetComponent <Entity>();
         _entity.Decomposed += _entity_Decomposed;
+        _dragSource = GetComponent<DragSource>();
     }
 
     private void _entity_Decomposed(object sender, System.EventArgs e)
@@ -60,6 +62,11 @@ public class Robot : MonoBehaviour
 
         bool robotDestroying = false;
 
+        if (_dragSource != null && _dragSource.Dragging)
+        {
+            return;
+        }
+
         if (bullet != null)
         {
             // Avoid hit to self
@@ -96,7 +103,7 @@ public class Robot : MonoBehaviour
             {
                 _entity.Explode(destroy: false);
                 // TBD: SetAnimState(AnimStates.Carcas);
-                _entity.StartDecomposing(Time.time);
+                _entity.StartDecomposing();
 
                 // Will fire OnDecomposed() when times out.
             }
