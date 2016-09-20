@@ -22,23 +22,15 @@ public class Human : MonoBehaviour
     void Start()
     {
         _entity = GetComponent<Entity>();
-        _entity.Decomposed += _entity_Decomposed;
         _wander = GetComponent<Wander>();
         _dragSource = GetComponent<DragSource>();
 
         if (HumanClass == HumanClasses.Gatherer)
         {
-            _wander.WanderMode = Wander.WanderModes.ToCity;
+            _wander.WanderMode = Wander.WanderModes.ToCarcas;
         }
 
 
-    }
-
-    private void _entity_Decomposed(object sender, System.EventArgs e)
-    {
-        // TBD: Sounds and graphics. 
-        // TBD: Try /catch
-        Destroy(this.gameObject);
     }
 
     // Update is called once per frame
@@ -82,11 +74,6 @@ public class Human : MonoBehaviour
 
     }
 
-    public bool IsAlive()
-    {
-        return _entity.IsAlive();
-    }
-
     // TBD: Same code in tower.
     // TBD: Similar code in Enemy.
     void OnTriggerEnter2D(Collider2D collision)
@@ -102,16 +89,8 @@ public class Human : MonoBehaviour
         if (bullet != null)
         {
             // Avoid hit to self
-            if (bullet.BulletSource.GetComponent<Human>() != null)
+            if (bullet.BulletSource != Entity.EntityClasses.Enemy)
             {
-                // Enemy bullets should not hurt enemies.
-                // TBD: Might be a cleaner way to do this.
-                return;
-            }
-            if (bullet.BulletSource.GetComponent<Tower>() != null)
-            {
-                // Enemy bullets should not hurt enemies.
-                // TBD: Might be a cleaner way to do this.
                 return;
             }
 
@@ -119,6 +98,7 @@ public class Human : MonoBehaviour
 
             bullet.Destroy();
 
+            // TBD: This is common code.
             if (_entity.Health > 0)
             {
                 _entity.Health--;
@@ -128,9 +108,7 @@ public class Human : MonoBehaviour
                     //Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
                     _entity.Explode(destroy: false);
                     //SetAnimState(AnimStates.Carcas);
-                    _entity.StartDecomposing();
-
-                    // Will fire OnDecomposed() when times out.
+                    _entity.SwitchToCarcas();
                 }
             }
         }

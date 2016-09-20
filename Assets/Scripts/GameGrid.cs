@@ -40,6 +40,8 @@ namespace Assets.Scripts
         public const int BULLET_LAYER = 11;
         public const int HUMAN_LAYER = 12;
         public const int ROBOT_LAYER = 13;
+        public const int SOURCE_LAYER = 14; // TBD: Not used.
+        public const int CARCAS_LAYER = 15;
         public const int DRAG_LAYER = 16;
 
         public GameCell[,] Cells;
@@ -231,6 +233,9 @@ namespace Assets.Scripts
                 case Entity.EntityClasses.Tower:
                     cell.Tower = go.GetComponent<Tower>();
                     break;
+                case Entity.EntityClasses.Carcas:
+                    cell.Carcases.Merge(go.GetComponent<Carcas>());
+                    break;
                 default:
                     Debug.Assert(false, "Unsupported entity type.");
                     break;
@@ -254,6 +259,9 @@ namespace Assets.Scripts
                     break;
                 case Entity.EntityClasses.Human:
                     cell.Humans.Remove(go.GetComponent<Human>());
+                    break;
+                case Entity.EntityClasses.Carcas:
+                    cell.Carcases.Remove(go.GetComponent<Carcas>());
                     break;
                 case Entity.EntityClasses.Robot:
 
@@ -515,7 +523,7 @@ namespace Assets.Scripts
 
         // TBD: Bad idea.
         // TBD: Should we be able to select enemy/human/city/robot carcas?
-        public GameCell RandomCarcas(Tower.TowerClasses towerClass)
+        public GameCell RandomCarcasOrNull()
         {
             if (Cells == null)
             {
@@ -527,42 +535,22 @@ namespace Assets.Scripts
             {
                 for (int col = 0; col < Cells.GetLength(1); col++)
                 {
-                    if (Cells[row, col].Tower != null)
+                    foreach (var  carcas in Cells[row, col].Carcases)
                     {
-                        if (Cells[row, col].Tower.IsAlive())
-                        {
-                            list.Add(Cells[row, col]);
-                        }
-                    }
-                    foreach(var  enemy in Cells[row, col].Enemies)
-                    {
-                        if (!enemy.IsAlive())
-                        {
-                            list.Add(Cells[row, col]);
-                        }
-                    }
-                    foreach (var human in Cells[row, col].Enemies)
-                    {
-                        if (!human.IsAlive())
-                        {
-                            list.Add(Cells[row, col]);
-                        }
+                        list.Add(Cells[row, col]);
                     }
                 }
             }
             if (list.Count <= 0)
             {
-                Debug.Assert(list.Count > 0);
+                return null;
             }
             return list[UnityEngine.Random.Range(0, list.Count)];
-
         }
 
-
         // TBD: Bad idea.
-        public GameCell RandomTowerCell(Tower.TowerClasses towerClass)
+        public GameCell RandomTowerCellOrNull(Tower.TowerClasses towerClass)
         {
-
             if (Cells == null)
             {
                 return null;
@@ -591,7 +579,7 @@ namespace Assets.Scripts
 
 
         // TBD: Bad idea.
-        public GameCell RandomGameCell(GameCell.GroundTypes OfGroundType)
+        public GameCell RandomGameCellOrNull(GameCell.GroundTypes OfGroundType)
         {
             if (Cells == null)
             {
@@ -639,6 +627,7 @@ namespace Assets.Scripts
 
             public List<Human> Humans = new List<Human>();
             public List<Enemy> Enemies = new List<Enemy>();
+            public List<Carcas> Carcases = new List<Carcas>();
             public Tower Tower;
             public Robot Robot;
 
@@ -672,11 +661,6 @@ namespace Assets.Scripts
         {
             wp.GridPoint = dst;
             wp.GetComponent<Transform>().position = MapGridPointToVector(dst);
-        }
-
-        public void RandomizeEndCell()
-        {
-            MoveWayPointToGridPoint(EndWaypoint, RandomGameCell(GameCell.GroundTypes.Dirt).GridPoint);
         }
 
         public void MoveStartToEnd()

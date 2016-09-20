@@ -11,7 +11,6 @@ using Assets.Scripts;
 /// </summary>
 public class Entity : MonoBehaviour
 {
-    public event EventHandler Decomposed;
     private Transform _bulletsCollection;
     private DragSource _dragSourceOrNull;
 
@@ -23,8 +22,7 @@ public class Entity : MonoBehaviour
         Robot = 3,
         Enemy = 4,
         Waypoint = 5,
-
-
+        Carcas = 6,
     }
 
     public EntityClasses EntityClass;
@@ -38,6 +36,7 @@ public class Entity : MonoBehaviour
     public int HealthMax = 5;
 
     public ParticleSystem ExplosionPrefab;
+    public Carcas CarcasPrefab;
 
     /// <summary>
     /// Minimum time between shots, if there is a target available. 
@@ -46,8 +45,6 @@ public class Entity : MonoBehaviour
     /// </summary>
     public float ReloadTime = 0.75f;
     private float _reloadDelay;
-    public float DecomposeTimeInterval = 7.0f;
-    private float _decomposeTimeRemainingAtStartOfDrag;
 
     public void Start()
     {
@@ -64,7 +61,13 @@ public class Entity : MonoBehaviour
                 Debug.Assert(null != this.GetComponent<Human>());
                 break;
             case EntityClasses.Enemy:
-                Debug.Assert(null != this.GetComponent<Enemy>());
+                if (null == this.GetComponent<Enemy>())
+                {
+                    Debug.LogError( "Missing enemy component: " + this.transform.name);
+                }
+                break;
+            case EntityClasses.Carcas:
+                Debug.Assert(null != this.GetComponent<Carcas>());
                 break;
             case EntityClasses.Waypoint:
                 Debug.Assert(null != this.GetComponent<Waypoint>());
@@ -103,7 +106,6 @@ public class Entity : MonoBehaviour
 
     public float Speed = 1.0f;
     private GameGrid.GameCell _currentGameCell;
-    private float _decomposeStartTime;
 
     public GameGrid.GameCell GetCurrentGameCell()
     {
@@ -146,13 +148,6 @@ public class Entity : MonoBehaviour
             // As entity moves around, we want to update the CellMap to know where entity is.
             var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
             UpdateCurrentCell(cell);
-            if (IsDecomposingDone()) // Needs to be a constant
-            {
-
-                // We're done decomposing.
-                // TBD: Sound and graphics here?
-                EndDecomposing();
-            }
         }
     }
 
@@ -162,21 +157,27 @@ public class Entity : MonoBehaviour
         return _reloadDelay <= 0;
     }
 
+    public Carcas FindClosestCarcas(float fMaxDistance)
+    {
+        var nearby = Toolbox.Instance.GameManager.Carcases();
+        return Closest<Carcas>(nearby, fMaxDistance);
+    }
+
     public Tower FindClosestLiveTower(float fMaxDistance)
     {
-        IEnumerable<Tower> nearby = Toolbox.Instance.GameManager.Towers().Where(_ => _.IsAlive());
+        IEnumerable<Tower> nearby = Toolbox.Instance.GameManager.Towers();
         return Closest<Tower>(nearby, fMaxDistance);
     }
 
     public Human FindClosestLiveHuman(float fMaxDistance)
     {
-        IEnumerable<Human> nearby = Toolbox.Instance.GameManager.Humans().Where(_ => _.IsAlive());
+        IEnumerable<Human> nearby = Toolbox.Instance.GameManager.Humans();
         return Closest<Human>(nearby, fMaxDistance);
     }
 
     public Enemy FindClosestLiveEnemy(float fMaxDistance)
     {
-        IEnumerable<Enemy> nearby = Toolbox.Instance.GameManager.Enemies().Where( _ => _.IsAlive());
+        IEnumerable<Enemy> nearby = Toolbox.Instance.GameManager.Enemies();
         return Closest<Enemy>( nearby, fMaxDistance);
     }
 
@@ -207,49 +208,9 @@ public class Entity : MonoBehaviour
         var here = this.transform.position;
         bullet.direction = (target.transform.position - here).normalized;
         bullet.transform.position = here;
-        bullet.BulletSource = this;
+        bullet.BulletSource = EntityClass;
         bullet.transform.SetParent(_bulletsCollection);
         _reloadDelay = ReloadTime;
-    }
-
-    public void StartDecomposing()
-    {
-        Debug.Assert( _decomposeStartTime == 0.0f);
-        _decomposeStartTime = Time.time;
-        _decomposeTimeRemainingAtStartOfDrag = 0.0f;
-    }
-
-    public void ResumeDecompose()
-    {
-        if (_decomposeTimeRemainingAtStartOfDrag > 0.0f)
-        {
-            _decomposeStartTime = Time.time - _decomposeTimeRemainingAtStartOfDrag;
-            _decomposeTimeRemainingAtStartOfDrag = 0.0f;
-        }
-    }
-
-    public void PauseDecomposing()
-    {
-        if (_decomposeStartTime > 0.0f)
-        {
-            _decomposeTimeRemainingAtStartOfDrag = (Time.time - _decomposeStartTime);
-        }
-    }
-
-    private void EndDecomposing()
-    {
-        Debug.Assert( !IsDragging());
-        Debug.Assert( _decomposeStartTime > 0.0f);
-        if (Decomposed != null)
-        {
-            Decomposed(this, new EventArgs());
-        }
-        _decomposeStartTime = 0.0f;
-    }
-
-    private bool IsDecomposingDone()
-    {
-        return (_decomposeStartTime > 0.0f) && (Time.time > _decomposeStartTime + DecomposeTimeInterval);
     }
 
     public static T InstantiateAt<T>(T prefab, GameObject parent, Vector3 pos, bool isSnap) where T:MonoBehaviour
@@ -267,6 +228,30 @@ public class Entity : MonoBehaviour
         }
 
         return newGameObject;
+    }
+
+    public void SwitchToCarcas()
+    {
+        if (CarcasPrefab == null)
+        {
+            Debug.LogError("Missing carcas prefab: " + this.transform.name);
+        }
+
+        GameObject parentGo;
+        var parent = this.transform.parent;
+        if (parent == null)
+        {
+            parentGo = null;
+            Debug.LogWarning("No parent for: " + this.transform.name);
+        }
+        else
+        {
+            parentGo = parent.gameObject;
+        }
+
+        var carcas = InstantiateAt(CarcasPrefab, parentGo, this.transform.position, isSnap: false);
+        carcas.CarcasClass = this.EntityClass;
+        UnityEngine.Object.Destroy(this.gameObject);
     }
 }
 

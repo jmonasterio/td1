@@ -9,7 +9,6 @@ public class DragSpawner : MonoBehaviour
 
     public DragSource SpawnPF;
     public GameObject SpawnParent;
-    private GameGrid _gameGrid;
 
     private MouseInput _mouseInput;
 

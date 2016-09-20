@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     public float BulletSpeed;
     public float BulletRange;
 
-    public Entity BulletSource;
+    public Entity.EntityClasses BulletSource;
 
     // Use this for initialization
     void Start()

@@ -14,8 +14,6 @@ public class WavesController : MonoBehaviour
     public float StartWait;
     public float WaveWait;
     private GameObject _enemiesCollection;
-    private bool _skipToNextWave;
-    private bool _skipWaveDelay;
 
 
     void Start()
@@ -65,6 +63,8 @@ public class WavesController : MonoBehaviour
                 Vector3 spawnPosition = path.StartWaypoint.transform.position;
                 //var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
                 var newEnemy = Instantiate<Enemy>(EnemyPrefab); // Make a copy, so we don't remove from tree and then we can run wave again.
+
+                Debug.Assert(newEnemy.GetComponent<Enemy>() != null );
 
                 newEnemy.gameObject.name = path.gameObject.name + DateTime.Now.Ticks;
                 newEnemy.transform.SetParent( _enemiesCollection.transform);

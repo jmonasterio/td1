@@ -112,8 +112,8 @@ MonoBehaviour:
   Health: 3
   HealthMax: 3
   ExplosionPrefab: {fileID: 19810918, guid: d011930b5b2d12a41803cf7970043463, type: 2}
+  CarcasPrefab: {fileID: 11402070, guid: 778f9a7ece33db74d989240e9eb361fa, type: 2}
   ReloadTime: 0.75
-  DecomposeTimeInterval: 7
   Speed: 3
 --- !u!114 &11455086
 MonoBehaviour:

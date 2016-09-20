@@ -1,92 +1,102 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts;
+using UnityEngine;
 
-/// <summary>
-/// Goes to a random cell. When it gets there (or blocked), picks another random cell.
-/// </summary>
-public class Wander : MonoBehaviour
+namespace Assets.Scripts
 {
-    public float speed = 5;
-    public GameGrid.GameCell _targetCell = null;
-    private PathFollower _pf;
-
-    public enum WanderModes
+    /// <summary>
+    /// Goes to a random cell. When it gets there (or blocked), picks another random cell.
+    /// </summary>
+    public class Wander : MonoBehaviour
     {
-        Random,
-        ToCity, // TBD: Needs work to be "other city".
-        ToCarcas,
-    }
+        public float speed = 5;
+        public GameGrid.GameCell _targetCell = null;
+        private PathFollower _pf;
 
-    public WanderModes WanderMode = WanderModes.Random;
-
-    void Start()
-    {
-        // Set random initial rotation
-        _pf = this.GetComponent<PathFollower>();
-        _pf.AtFinish -= Pf_AtFinishOrBlocked;
-        _pf.Blocked -= Pf_AtFinishOrBlocked;
-        _pf.AtFinish += Pf_AtFinishOrBlocked;
-        _pf.Blocked += Pf_AtFinishOrBlocked;
-
-    }
-
-    private void Pf_AtFinishOrBlocked(object sender, System.EventArgs e)
-    {
-        // Will try to make a new path on next update.
-        _targetCell = null;
-    }
-
-    void Update()
-    {
-
-        // TBD: Are we there, yet?
-        if (_targetCell == null)
+        public enum WanderModes
         {
-            _targetCell = MakePath();
+            Random,
+            ToCity, // TBD: Needs work to be "other city".
+            ToCarcas,
         }
-    }
 
-    private GameGrid.GameCell MakePath()
-    {
+        public WanderModes WanderMode = WanderModes.Random;
 
-        var worldPos = this.transform.position;
-        worldPos.z = -10;
-
-        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
-
-        var endCell = GetTargetCellForWanderMode(gameGrid);
-
-        _pf.CurrentGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
-        _pf.PrevGameCell = _pf.CurrentGameCell;
-        _pf.TargetCell = endCell;
-        _pf.OrderedWaypointCells = new List<GameGrid.GameCell>(); // Empty. No way points.
-        _pf.FollowToTargetCell(gameGrid, transform.position);
-        return _pf.CurrentGameCell;
-    }
-
-    private GameGrid.GameCell GetTargetCellForWanderMode(GameGrid gameGrid)
-    {
-        if (WanderMode == WanderModes.Random)
+        void Start()
         {
-            return gameGrid.RandomGameCell(GameGrid.GameCell.GroundTypes.Dirt);
+            // Set random initial rotation
+            _pf = this.GetComponent<PathFollower>();
+            _pf.AtFinish -= Pf_AtFinishOrBlocked;
+            _pf.Blocked -= Pf_AtFinishOrBlocked;
+            _pf.AtFinish += Pf_AtFinishOrBlocked;
+            _pf.Blocked += Pf_AtFinishOrBlocked;
+
         }
-        if (WanderMode == WanderModes.ToCity)
+
+        private void Pf_AtFinishOrBlocked(object sender, System.EventArgs e)
         {
-            return gameGrid.RandomCarcas(Tower.TowerClasses.City);
+            // Will try to make a new path on next update.
+            _targetCell = null;
         }
-        Debug.LogError("Unknown wander mode.");
-        return null;
-    }
 
-    public void RestartWandering()
-    {
-        _targetCell = null;
-    }
+        void Update()
+        {
 
-    public void StopWandering()
-    {
-        _pf.TargetCell = null;
+            // TBD: Are we there, yet?
+            if (_targetCell == null)
+            {
+                _targetCell = MakePathOrNull();
+            }
+        }
+
+        private GameGrid.GameCell MakePathOrNull()
+        {
+
+            var worldPos = this.transform.position;
+            worldPos.z = -10;
+
+            var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+
+            var endCell = GetTargetCellForWanderModeOrNull(gameGrid);
+            if (endCell == null)
+            {
+                return null;
+            }
+
+            _pf.CurrentGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
+            _pf.PrevGameCell = _pf.CurrentGameCell;
+            _pf.TargetCell = endCell;
+            _pf.OrderedWaypointCells = new List<GameGrid.GameCell>(); // Empty. No way points.
+            _pf.FollowToTargetCell(gameGrid, transform.position);
+            return _pf.CurrentGameCell;
+        }
+
+        private GameGrid.GameCell GetTargetCellForWanderModeOrNull(GameGrid gameGrid)
+        {
+            if (WanderMode == WanderModes.Random)
+            {
+                return gameGrid.RandomGameCellOrNull(GameGrid.GameCell.GroundTypes.Dirt);
+            }
+            if (WanderMode == WanderModes.ToCarcas)
+            {
+                return gameGrid.RandomCarcasOrNull();
+            }
+            if (WanderMode == WanderModes.ToCity)
+            {
+                return gameGrid.RandomTowerCellOrNull(Tower.TowerClasses.City);
+            }
+            Debug.LogError("Unknown wander mode.");
+            return null;
+        }
+
+        public void RestartWandering()
+        {
+            _targetCell = null;
+        }
+
+        public void StopWandering()
+        {
+            _pf.TargetCell = null;
+        }
     }
 }

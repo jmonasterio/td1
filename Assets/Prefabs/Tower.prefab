@@ -65,8 +65,8 @@ MonoBehaviour:
   Health: 10
   HealthMax: 10
   ExplosionPrefab: {fileID: 19810918, guid: 59c2377a6a5d0fb40be71d7107c107ac, type: 2}
+  CarcasPrefab: {fileID: 11402070, guid: 778f9a7ece33db74d989240e9eb361fa, type: 2}
   ReloadTime: 0.75
-  DecomposeTimeInterval: 7
   Speed: 1
 --- !u!114 &11440518
 MonoBehaviour:
@@ -124,6 +124,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 11459160, guid: 1a9f9e8281d06634799f721078ce41f2, type: 2}
   BulletRange: 4
   TowerClass: 1
+  Spawn1Prefab: {fileID: 0}
 --- !u!212 &21285554
 SpriteRenderer:
   m_ObjectHideFlags: 1

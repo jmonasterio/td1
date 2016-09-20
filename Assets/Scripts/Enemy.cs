@@ -13,7 +13,6 @@ public class Enemy : MonoBehaviour {
 
     public EnemyClasses EnemyClass;
     public Bullet BulletPrefab;
-    public int CarcasIncomeValue = 10;
 
     private Entity _entity;
     private PathFollower _pathFollower;
@@ -25,7 +24,6 @@ public class Enemy : MonoBehaviour {
         Alive = 0,
         __UNUSED__ = 1,
         Healing = 2,
-        Carcas = 4,
         Wounded = 3,
         Decomposing = 5,
         Dead = 6,
@@ -47,7 +45,6 @@ public class Enemy : MonoBehaviour {
             this.gameObject.SetActive(false); // So enemies in the Waves controller start disabled.
         }
         _entity = GetComponent<Entity>();
-        _entity.Decomposed += _entity_Decomposed;
         _dragSource = GetComponent<DragSource>();
         _animator = GetComponent<Animator>();
         _pathFollower = GetComponent<PathFollower>();
@@ -91,12 +88,6 @@ public class Enemy : MonoBehaviour {
 
     }
 
-    private void _entity_Decomposed(object sender, EventArgs e)
-    {
-        // TBD: Sounds or graphics here.
-        Destroy(this.gameObject);
-    }
-
     // If at end, head back to start. Or if at START, then done.
     private void PathFollower_AtFinish(object sender, System.EventArgs e)
     {
@@ -124,7 +115,7 @@ public class Enemy : MonoBehaviour {
         if (bullet != null)
         {
             // Avoid hit to self
-            if (bullet.BulletSource.GetComponent<Enemy>() != null)
+            if (bullet.BulletSource == Entity.EntityClasses.Enemy)
             {
                 // Enemy bullets should not hurt enemies.
                 // TBD: Might be a cleaner way to do this.
@@ -143,8 +134,7 @@ public class Enemy : MonoBehaviour {
                     Toolbox.Instance.GameManager.ScoreController.Score += 100;
                     Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
                     _entity.Explode(destroy: false);
-                    SetAnimState(AnimStates.Carcas);
-                    _entity.StartDecomposing();
+                    _entity.SwitchToCarcas();
 
                     // Will fire OnDecomposed() when times out.
                 }
@@ -163,9 +153,4 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    // TBD: Probably should be state. On an interface???
-    public bool IsAlive()
-    {
-        return _entity.IsAlive();
-    }
 }

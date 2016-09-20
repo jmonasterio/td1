@@ -51,7 +51,6 @@ public class DragSource : MonoBehaviour
                 GameManagerScript.PlayClip(DropSound);
             }
             Dragging = false;
-            _entity.ResumeDecompose();
         }
     }
 
@@ -79,7 +78,6 @@ public class DragSource : MonoBehaviour
         _spriteRender.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, TRANSPARENT_50);
         var entity = dragSource.GetComponent<Entity>();
         Debug.Assert(entity != null);
-        entity.PauseDecomposing();
     }
 
     public bool CanDropAt(GameGrid.GameCell dropCellOrNull)
@@ -107,16 +105,14 @@ public class DragSource : MonoBehaviour
 
             case Entity.EntityClasses.Tower:
                 var tower = this.GetComponent<Tower>();
-                if (tower != null && !tower.IsAlive())
+                if (tower != null)
                 {
                     return dropCellOrNull.Tower == null;
                 }
                 break;
-            case Entity.EntityClasses.Enemy:
+            case Entity.EntityClasses.Carcas:
             {
                 // It's ok to drop an enemy carcas on a tower or robot.
-                var enemy = this.GetComponent<Enemy>();
-                Debug.Assert( !enemy.IsAlive());
                 return (dropCellOrNull.Tower != null) || (dropCellOrNull.Robot != null);
             }
             case Entity.EntityClasses.Background:
@@ -148,126 +144,108 @@ public class DragSource : MonoBehaviour
     {
         if (dropCellOrNull != null)
         {
-            if( _entity.EntityClass == Entity.EntityClasses.Human)
+            switch (_entity.EntityClass)
             {
-                var human = this.GetComponent<Human>();
-                // We're only allowed to drop on intersting cells.
-                if (dropCellOrNull.Robot != null)
-                {
-                    var robot = dropCellOrNull.Robot;
-                    // TBD: Wouldn't be needed if we had a Carcas entity.
-                    if (!_entity.IsAlive())
+                case Entity.EntityClasses.Human:
+                    var human = this.GetComponent<Human>();
+                    // We're only allowed to drop on intersting cells.
+                    if (dropCellOrNull.Robot != null)
+                    {
+                        var robot = dropCellOrNull.Robot;
+                        robot.DropHuman(human);
+                        Destroy(human.gameObject);
+                        GameManagerScript.PlayClip(DropSound);
+                        return;
+                    }
+                    if (dropCellOrNull.Tower != null)
+                    {
+                        var tower = dropCellOrNull.Tower;
+                        tower.DropHuman(human); // TBD: Should DropHuman be a component that everyone has?
+                        Destroy(human.gameObject);
+                        GameManagerScript.PlayClip(DropSound);
+                        return;
+                    }
+                    if (dropCellOrNull.Background != null)
                     {
                         CancelDragging();
                         return;
                     }
-                    robot.DropHuman(human);
-                    Destroy(human.gameObject);
-                    GameManagerScript.PlayClip(DropSound);
-                    return;
-                }
-                if (dropCellOrNull.Tower != null)
-                {
-                    var tower = dropCellOrNull.Tower;
+                    if (CanHumanWalkOn(dropCellOrNull.GroundType))
+                    {
+                        human.DropAt(mapExactDrop);
+                        EndDragging(cancel: false);
+                        return;
+                    }
+                    CancelDragging();
+                    break;
 
-                    // TBD: Wouldn't be needed if we had a Carcas entity.
-                    if (!tower.IsAlive())
+
+                case Entity.EntityClasses.Carcas:
+                    var carcas = GetComponent<Carcas>();
+
+                    if (dropCellOrNull.Robot != null)
+                    {
+                        var robot = dropCellOrNull.Robot;
+                        robot.DropCarcas(carcas);
+                        Destroy(carcas.gameObject);
+                        GameManagerScript.PlayClip(DropSound);
+                        return;
+                    }
+                    if (dropCellOrNull.Tower != null)
+                    {
+                        var tower = dropCellOrNull.Tower;
+                        tower.DropCarcas(carcas); // TBD: Should DropHuman be a component that everyone has?
+                        Destroy(carcas.gameObject);
+                        GameManagerScript.PlayClip(DropSound);
+                        return;
+                    }
+                    if (dropCellOrNull.Background != null)
                     {
                         CancelDragging();
                         return;
                     }
-                    tower.DropHuman(human); // TBD: Should DropHuman be a component that everyone has?
-                    Destroy(human.gameObject);
-                    GameManagerScript.PlayClip(DropSound);
-                    return;
-                }
-                if (dropCellOrNull.Background != null)
-                {
+                    CancelDragging();
+                    break;
+
+                    break;
+                case Entity.EntityClasses.Tower:
+                    if (dropCellOrNull.Tower != null)
+                    {
+                        // TBD: Cell already occupied. Need a sound
+                        CancelDragging();
+                        return;
+                    }
+                    this.gameObject.layer = GameGrid.TOWER_LAYER;
+
+                    if (dropCellOrNull.Tower != null)
+                    {
+                        Debug.LogWarning("Dropped new tower on a tower carcas.");
+                    }
+
+                    dropCellOrNull.Tower = this.GetComponent<Tower>();
+                    break;
+                case Entity.EntityClasses.Background:
+                    if (dropCellOrNull.Background != null)
+                    {
+                        // TBD: Cell already occupied. Need a sound
+                        CancelDragging();
+                        return;
+                    }
+                    this.gameObject.layer = GameGrid.BACKGROUND_LAYER;
+                    dropCellOrNull.Background = this.gameObject;
+                    break;
+
+                default:
                     CancelDragging();
                     return;
-                }
-                if (CanHumanWalkOn(dropCellOrNull.GroundType))
-                {
-                    human.DropAt(mapExactDrop);
-                    EndDragging(cancel: false);
-                    return;
-                }
-                CancelDragging();
+
             }
-            else
-            {
-                switch (_entity.EntityClass)
-                {
-                    case Entity.EntityClasses.Tower:
-                        if (dropCellOrNull.Tower != null && dropCellOrNull.Tower.IsAlive())
-                        {
-                            // TBD: Cell already occupied. Need a sound
-                            CancelDragging();
-                            return;
-                        }
-                        this.gameObject.layer = GameGrid.TOWER_LAYER;
 
-                        if (dropCellOrNull.Tower != null)
-                        {
-                            Debug.LogWarning("Dropped new tower on a tower carcas.");
-                        }
-
-                        dropCellOrNull.Tower = this.GetComponent<Tower>();
-                        break;
-                    case Entity.EntityClasses.Background:
-                        if (dropCellOrNull.Background != null)
-                        {
-                            // TBD: Cell already occupied. Need a sound
-                            CancelDragging();
-                            return;
-                        }
-                        this.gameObject.layer = GameGrid.BACKGROUND_LAYER;
-                        dropCellOrNull.Background = this.gameObject;
-                        break;
-                    case Entity.EntityClasses.Enemy:
-                    {
-                        var enemy = _entity.GetComponent<Enemy>();
-                        if (dropCellOrNull.Tower != null)
-                        {
-                            var tower = dropCellOrNull.Tower;
-                            tower.DropEnemyCarcas(enemy); // TBD: Should DropHuman be a component that everyone has?
-                        }
-                        else if (dropCellOrNull.Robot != null)
-                        {
-                            var robot = dropCellOrNull.Robot;
-                            robot.DropEnemyCarcas(enemy); // TBD: Should DropHuman be a component that everyone has?
-
-                        }
-                        else
-                        {
-                            CancelDragging();
-                            return;
-                        }
-
-                        break;
-                    }
-
-                    default:
-                        CancelDragging();
-                        return;
-
-                }
-
-                this.gameObject.transform.position =
-                    SnapToGrid.RoundTransform(this.gameObject.transform.position, 1.0f);
-                EndDragging(cancel: false);
-                return;
-            }
-        }
-        else
-        {
-            // Not a valid cell.
-            // TBD: Need a sound.
-
-            EndDragging(cancel:false);
+            this.gameObject.transform.position =
+                SnapToGrid.RoundTransform(this.gameObject.transform.position, 1.0f);
+            EndDragging(cancel: false);
             return;
         }
-
         Debug.LogError("Fell thru.");
     }
 
@@ -287,11 +265,9 @@ public class DragSource : MonoBehaviour
         switch (entity.EntityClass)
         {
             case Entity.EntityClasses.Human:
-                var human = this.GetComponent<Human>();
-                return (human != null && human.IsAlive());
-            case Entity.EntityClasses.Enemy:
-                var enemy = this.GetComponent<Enemy>();
-                return (enemy != null && !enemy.IsAlive()); // Can only drag carcas.
+                return true;
+            case Entity.EntityClasses.Carcas:
+                return true;
             default:
                 return false;
 

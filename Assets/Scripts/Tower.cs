@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts;
 
 public class Tower : MonoBehaviour
 {
@@ -27,15 +28,7 @@ public class Tower : MonoBehaviour
     void Start()
     {
         _entity = GetComponent<Entity>();
-        _entity.Decomposed += _entity_Decomposed;
         _dragSource = GetComponent<DragSource>();
-    }
-
-    private void _entity_Decomposed(object sender, System.EventArgs e)
-    {
-        // TBD: Sounds and graphics. 
-        // TBD: Try /catch
-        Destroy(this.gameObject);
     }
 
     // Update is called once per frame
@@ -95,14 +88,6 @@ public class Tower : MonoBehaviour
         return false;
     }
 
-
-
-    // TBD: Probably should be state. On an interface???
-    public bool IsAlive()
-    {
-        return _entity.IsAlive();
-    }
-
     // TBD: Same code in tower.
     // TBD: Similar code in Enemy.
     void OnTriggerEnter2D(Collider2D collision)
@@ -118,20 +103,10 @@ public class Tower : MonoBehaviour
         if (bullet != null)
         {
             // Avoid hit to self
-            if (bullet.BulletSource.GetComponent<Human>() != null)
+            if (bullet.BulletSource != Entity.EntityClasses.Enemy)
             {
-                // Enemy bullets should not hurt enemies.
-                // TBD: Might be a cleaner way to do this.
                 return;
             }
-            if (bullet.BulletSource.GetComponent<Tower>() != null)
-            {
-                // Enemy bullets should not hurt enemies.
-                // TBD: Might be a cleaner way to do this.
-                return;
-            }
-
-            Debug.Log("Hit!");
 
             bullet.Destroy();
 
@@ -143,19 +118,12 @@ public class Tower : MonoBehaviour
                     //Toolbox.Instance.GameManager.ScoreController.Score += 100;
                     //Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
                     _entity.Explode(destroy: false);
-                    //SetAnimState(AnimStates.Carcas);
-                    _entity.StartDecomposing();
+                    _entity.SwitchToCarcas();
 
                     // Will fire OnDecomposed() when times out.
                 }
             }
         }
-    }
-
-    public void DropEnemyCarcas(Enemy enemy)
-    {
-        // TBD: Need to do different things, depending on the type of tower.
-        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += enemy.CarcasIncomeValue;
     }
 
     public void DropHuman(Human human)
@@ -165,4 +133,9 @@ public class Tower : MonoBehaviour
 
     }
 
+    public void DropCarcas(Carcas carcas)
+    {
+        // TBD: Need to do different things, depending on the type of tower.
+        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += carcas.IncomeValue;
+    }
 }

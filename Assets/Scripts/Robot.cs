@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 public class Robot : MonoBehaviour
 {
@@ -12,18 +13,8 @@ public class Robot : MonoBehaviour
     void Start()
     {
         _entity = GetComponent <Entity>();
-        _entity.Decomposed += _entity_Decomposed;
         _dragSource = GetComponent<DragSource>();
     }
-
-    private void _entity_Decomposed(object sender, System.EventArgs e)
-    {
-        // TBD: Sounds and graphics. 
-        // TBD: Try /catch
-        Destroy(this.gameObject);
-        Toolbox.Instance.GameManager.GameController.GameOver();
-    }
-
 
     // Update is called once per frame
     void Update()
@@ -48,10 +39,10 @@ public class Robot : MonoBehaviour
 
     }
 
-    public void DropEnemyCarcas(Enemy enemy)
+    public void DropCarcas(Carcas carcas)
     {
         // TBD: Need to do different things, depending on the type of tower.
-        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += enemy.CarcasIncomeValue;
+        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += carcas.IncomeValue;
     }
 
 
@@ -59,8 +50,6 @@ public class Robot : MonoBehaviour
     {
         var colliderGo = collision.gameObject;
         var bullet = colliderGo.GetComponent<Bullet>();
-
-        bool robotDestroying = false;
 
         if (_dragSource != null && _dragSource.Dragging)
         {
@@ -70,7 +59,7 @@ public class Robot : MonoBehaviour
         if (bullet != null)
         {
             // Avoid hit to self
-            if (bullet.BulletSource.GetComponent<Enemy>() == null)
+            if (bullet.BulletSource != Entity.EntityClasses.Enemy)
             {
                 // Only enemy bullets hurt robot.
                 return;
@@ -103,7 +92,10 @@ public class Robot : MonoBehaviour
             {
                 _entity.Explode(destroy: false);
                 // TBD: SetAnimState(AnimStates.Carcas);
-                _entity.StartDecomposing();
+
+                Toolbox.Instance.GameManager.GameController.GameOver();
+
+                _entity.SwitchToCarcas();
 
                 // Will fire OnDecomposed() when times out.
             }

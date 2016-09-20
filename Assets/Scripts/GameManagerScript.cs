@@ -85,6 +85,17 @@ public class GameManagerScript : MonoBehaviour
         return ret;
     }
 
+    public List<Carcas> Carcases()
+    {
+        var gos = GameGrid.GetActiveObjectsInLayer(GameGrid.CARCAS_LAYER);
+        var ret = new List<Carcas>();
+        foreach (var go in gos)
+        {
+            ret.Add(go.GetComponent<Carcas>());
+        }
+        return ret;
+    }
+
     public List<Human> Humans()
     {
         var gos = GameGrid.GetActiveObjectsInLayer(GameGrid.HUMAN_LAYER);

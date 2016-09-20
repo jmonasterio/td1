@@ -123,8 +123,8 @@ MonoBehaviour:
   Health: 4
   HealthMax: 5
   ExplosionPrefab: {fileID: 19810918, guid: 09cc11c0a0073524f912801859b0185f, type: 2}
+  CarcasPrefab: {fileID: 11402070, guid: 778f9a7ece33db74d989240e9eb361fa, type: 2}
   ReloadTime: 0.75
-  DecomposeTimeInterval: 7
   Speed: 1
 --- !u!114 &11495622
 MonoBehaviour:
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  WanderMode: 0
 --- !u!212 &21298246
 SpriteRenderer:
   m_ObjectHideFlags: 1
