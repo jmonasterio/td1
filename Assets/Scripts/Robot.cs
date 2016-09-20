@@ -1,105 +1,107 @@
-﻿using UnityEngine;
-using System.Collections;
-using Assets.Scripts;
+﻿using System.Collections;
+using UnityEngine;
 
-public class Robot : MonoBehaviour
+namespace Assets.Scripts
 {
-    private Entity _entity;
-
-    public Bullet BulletPrefab;
-    private DragSource _dragSource;
-
-    // Use this for initialization
-    void Start()
+    public class Robot : MonoBehaviour
     {
-        _entity = GetComponent <Entity>();
-        _dragSource = GetComponent<DragSource>();
-    }
+        private Entity _entity;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_entity.IsAlive() && _entity.IsReloaded())
+        public Bullet BulletPrefab;
+        private DragSource _dragSource;
+
+        // Use this for initialization
+        void Start()
         {
+            _entity = GetComponent <Entity>();
+            _dragSource = GetComponent<DragSource>();
+        }
 
-            var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
-            // Should be related to bullet range.
-            if (enemy != null)
+        // Update is called once per frame
+        void Update()
+        {
+            if (_entity.IsAlive() && _entity.IsReloaded())
             {
-                _entity.FireBulletAt(enemy, BulletPrefab);
+
+                var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
+                // Should be related to bullet range.
+                if (enemy != null)
+                {
+                    _entity.FireBulletAt(enemy, BulletPrefab);
+                }
             }
+
         }
 
-    }
-
-    public void DropHuman(Human human)
-    {
-        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += human.IncomeValue*2;
-
-
-    }
-
-    public void DropCarcas(Carcas carcas)
-    {
-        // TBD: Need to do different things, depending on the type of tower.
-        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += carcas.IncomeValue;
-    }
-
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        var colliderGo = collision.gameObject;
-        var bullet = colliderGo.GetComponent<Bullet>();
-
-        if (_dragSource != null && _dragSource.Dragging)
+        public void DropHuman(Human human)
         {
-            return;
+            Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().BuildScore += human.BuildValue;
+
+
         }
 
-        if (bullet != null)
+        public void DropCarcas(Carcas carcas)
         {
-            // Avoid hit to self
-            if (bullet.BulletSource != Entity.EntityClasses.Enemy)
+            // TBD: Need to do different things, depending on the type of tower.
+            Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().GrowScore += carcas.Entity.BuildValue;
+        }
+
+
+        void OnTriggerEnter2D(Collider2D collision)
+        {
+            var colliderGo = collision.gameObject;
+            var bullet = colliderGo.GetComponent<Bullet>();
+
+            if (_dragSource != null && _dragSource.Dragging)
             {
-                // Only enemy bullets hurt robot.
                 return;
             }
 
-            Debug.Log("Hit!");
-
-            bullet.Destroy();
-
-            RobotTookDamage(0.25f);
-        }
-        else
-        {
-            // Did we hit an enemy?
-            var enemy = colliderGo.GetComponent<Enemy>();
-            if (enemy != null)
+            if (bullet != null)
             {
-                RobotTookDamage(1.0f);
+                // Avoid hit to self
+                if (bullet.BulletSource != Entity.EntityClasses.Enemy)
+                {
+                    // Only enemy bullets hurt robot.
+                    return;
+                }
+
+                Debug.Log("Hit!");
+
+                bullet.Destroy();
+
+                RobotTookDamage(0.25f);
+            }
+            else
+            {
+                // Did we hit an enemy?
+                var enemy = colliderGo.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    RobotTookDamage(1.0f);
+                }
             }
         }
-    }
 
-    private void RobotTookDamage( float amountOfDamage)
-    {
-
-        if (_entity.Health > 0)
+        private void RobotTookDamage( float amountOfDamage)
         {
-            _entity.Health-= amountOfDamage;
-            if (_entity.Health <= 0)
+
+            if (_entity.Health > 0)
             {
-                _entity.Explode(destroy: false);
-                // TBD: SetAnimState(AnimStates.Carcas);
+                _entity.Health-= amountOfDamage;
+                if (_entity.Health <= 0)
+                {
+                    _entity.Explode(destroy: false);
+                    // TBD: SetAnimState(AnimStates.Carcas);
 
-                Toolbox.Instance.GameManager.GameController.GameOver();
+                    Toolbox.Instance.GameManager.GameController.GameOver();
 
-                _entity.SwitchToCarcas();
+                    _entity.SwitchToCarcas();
 
-                // Will fire OnDecomposed() when times out.
+                    // Will fire OnDecomposed() when times out.
+                }
             }
         }
-    }
 
+    }
 }

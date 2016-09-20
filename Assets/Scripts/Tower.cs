@@ -21,7 +21,8 @@ public class Tower : MonoBehaviour
 
     private DragSource _dragSource;
     private Entity _entity;
-    private float _timeSinceLastSpawn = 0.0f;
+    private float _availableGrowPower = 0.0f;
+    private float _humanGrowTotal = 0.0f;
 
 
     // Use this for initialization
@@ -55,15 +56,29 @@ public class Tower : MonoBehaviour
         }
         else if (TowerClass == TowerClasses.City)
         {
-            // Spawn humans every once in a while.
-            if (IsTimeToSpawnAgain())
+            // Grow humans every once in a while.
+            // Use up some resource to grow human
+            var result = GrowHumanALittleBit(Time.deltaTime);
+            
+            if (result == GrowHumanResult.NotEnoughGrowPower)
+            {
+                TakeSomeGrowPowerFromScore();
+            }
+            else if ( result == GrowHumanResult.Finished)
             {
                 var parent = GameObject.Find("Humans");
 
                 // TBD: Humans settings should come from CSV... not from prefab.
                 var newHuman = Entity.InstantiateAt(Spawn1Prefab, parent, this.transform.position, isSnap: false);
                 newHuman.HumanClass = Human.HumanClasses.Gatherer;
-                _timeSinceLastSpawn = Time.time;
+            }
+            else if( result == GrowHumanResult.InProgress)
+            {
+                // TBD: Update progress
+            }
+            else
+            {
+                Debug.LogError("Unknown result growing human");
             }
         }
         else if ( TowerClass == TowerClasses.GathererTower)
@@ -72,20 +87,55 @@ public class Tower : MonoBehaviour
         }
     }
 
-    private bool IsTimeToSpawnAgain()
+    // Not thread safe.
+    private void TakeSomeGrowPowerFromScore()
     {
-        if (_timeSinceLastSpawn == 0)
+        var available = Toolbox.Instance.GameManager.ScoreController.GrowScore;
+        if (available > 1.0f)
         {
-            _timeSinceLastSpawn = Time.time;
-            return false;
+            _availableGrowPower += 1.0f;
+            Toolbox.Instance.GameManager.ScoreController.GrowScore -= 1.0f;
         }
-        float spawnRate = Toolbox.Instance.GameManager.ScoreController.SpawnRate;
+    }
 
-        if (Time.time - _timeSinceLastSpawn > spawnRate)
+    private enum GrowHumanResult
+    {
+        InProgress,
+        NotEnoughGrowPower,
+        Finished,
+    }
+
+    private const float MAX_GROW_POWER_PER_SECOND = 1.0f;
+    private const float NEEDED_FOR_HUMAN = 0.5f;
+
+    private GrowHumanResult GrowHumanALittleBit(float deltaTime)
+    {
+        if (_availableGrowPower <= 0.01f)
         {
-            return true;
+            return GrowHumanResult.NotEnoughGrowPower;
         }
-        return false;
+
+        float powerToUserPerSecond = Mathf.Min(_availableGrowPower, MAX_GROW_POWER_PER_SECOND);
+        float used = deltaTime*powerToUserPerSecond;
+        _availableGrowPower -= used;
+
+
+        // TBD: How to use         float spawnRate = Toolbox.Instance.GameManager.ScoreController.GrowRate;
+
+
+        _humanGrowTotal += used;
+
+        if (_humanGrowTotal > NEEDED_FOR_HUMAN)
+        {
+            _availableGrowPower += (_humanGrowTotal - NEEDED_FOR_HUMAN);
+            _humanGrowTotal = 0.0f;
+            return GrowHumanResult.Finished;
+        }
+        else
+        {
+            return GrowHumanResult.InProgress;
+        }
+
     }
 
     // TBD: Same code in tower.
@@ -129,13 +179,13 @@ public class Tower : MonoBehaviour
     public void DropHuman(Human human)
     {
         /* TBD: Need to do something different here */
-        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += human.IncomeValue * 1;
+        Toolbox.Instance.GameManager.ScoreController.BuildScore += human.BuildValue;
 
     }
 
     public void DropCarcas(Carcas carcas)
     {
         // TBD: Need to do different things, depending on the type of tower.
-        Toolbox.Instance.GameManager.gameObject.GetComponent<ScoreController>().Income += carcas.IncomeValue;
+        Toolbox.Instance.GameManager.ScoreController.GrowScore += carcas.Entity.BuildValue;
     }
 }

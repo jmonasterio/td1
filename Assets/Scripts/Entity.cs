@@ -30,7 +30,8 @@ public class Entity : MonoBehaviour
     /// <summary>
     /// Cost for player to add this type of entity.
     /// </summary>
-    public int IncomeCost;
+    public float BuildValue = 5;
+    public float SpawnValue;
 
     public float Health = 5;
     public int HealthMax = 5;
@@ -251,6 +252,9 @@ public class Entity : MonoBehaviour
 
         var carcas = InstantiateAt(CarcasPrefab, parentGo, this.transform.position, isSnap: false);
         carcas.CarcasClass = this.EntityClass;
+        Debug.Assert(this.BuildValue > 0.0f);
+        var carcasEntity = carcas.GetComponent<Entity>();
+        carcasEntity.BuildValue = this.BuildValue;
         UnityEngine.Object.Destroy(this.gameObject);
     }
 }

@@ -713,7 +713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EntityClass: 5
-  IncomeCost: 0
+  BuildValue: 0
+  SpawnValue: 0
   Health: 5
   HealthMax: 5
   ExplosionPrefab: {fileID: 0}
@@ -963,8 +964,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 277658536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.04, y: 8.8, z: 0}
-  m_LocalScale: {x: 5.2015505, y: 1.5299246, z: 1}
+  m_LocalPosition: {x: -10.82, y: 10, z: 0}
+  m_LocalScale: {x: 5.636512, y: 3.9222076, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 500857977}
@@ -2462,9 +2463,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Score: 0
-  Income: 0
-  SpawnRate: 2
-  EnemyScore: 3
+  BuildScore: 0
+  GrowScore: 0
+  GrowRate: 1
 --- !u!114 &601069457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5240,7 +5241,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EntityClass: 5
-  IncomeCost: 0
+  BuildValue: 0
+  SpawnValue: 0
   Health: 5
   HealthMax: 5
   ExplosionPrefab: {fileID: 0}
@@ -5657,7 +5659,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EntityClass: 5
-  IncomeCost: 0
+  BuildValue: 0
+  SpawnValue: 0
   Health: 5
   HealthMax: 5
   ExplosionPrefab: {fileID: 0}

@@ -12,7 +12,7 @@ public class Human : MonoBehaviour
 
     public Bullet BulletPrefab;
     public HumanClasses HumanClass;
-    public int IncomeValue = 10;
+    public float BuildValue = 10.0f;
     private Entity _entity;
     private Wander _wander;
     private float _dropTime;

@@ -16,8 +16,6 @@ namespace Assets.Scripts
         public Entity.EntityClasses CarcasClass;
 
         public float DecomposeTimeInterval = 7.0f; // TBD: Where should this come from?
-        public float IncomeValue = 10; // TBD: Should be set from thing that died.
-
 
         private float _decomposeTimeRemainingAtStartOfDrag;
         private float _decomposeStartTime;
@@ -30,10 +28,21 @@ namespace Assets.Scripts
             Normal = 1,
         }
 
+        /// <summary>
+        /// TBD: Is this a good pattern?
+        /// </summary>
+        public Entity Entity
+        {
+            get
+            {
+                return _entity;
+            }
+        }
 
         public void Start()
         {
             _entity = GetComponent<Entity>();
+            Debug.Assert( _entity != null);
             _dragSourceOrNull = GetComponent<DragSource>();
             _animator = GetComponent<Animator>();
             SetAnimState(AnimStates.Normal);

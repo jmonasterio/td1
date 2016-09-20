@@ -31,9 +31,9 @@ public class DragSpawner : MonoBehaviour
 
     public void BuyFromPalette(Entity entityToBuy, DragSource dragSource)
     {
-        var cost = entityToBuy.IncomeCost;
-        Toolbox.Instance.GameManager.ScoreController.Income -= cost;
-        Debug.Assert(Toolbox.Instance.GameManager.ScoreController.Income >= 0.0f);
+        var cost = entityToBuy.BuildValue;
+        Toolbox.Instance.GameManager.ScoreController.BuildScore -= cost;
+        Debug.Assert(Toolbox.Instance.GameManager.ScoreController.BuildScore >= 0.0f);
         dragSource.CostPaidToBuild = cost; // Used later, if we need to refund money if drag canceled.
     }
 
@@ -42,7 +42,7 @@ public class DragSpawner : MonoBehaviour
     // Update is called once per frame
     private void OnGUI()
     {
-        var income = SpawnPF.GetComponent<Entity>().IncomeCost;
+        var income = SpawnPF.GetComponent<Entity>().BuildValue;
         var vector = this.transform.position + new Vector3(-1, 1, 0);
         var color = GUI.color;
         GUI.color = Color.black;

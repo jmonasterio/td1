@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 public class PaletteController : MonoBehaviour {
 
@@ -15,8 +16,8 @@ public class PaletteController : MonoBehaviour {
 	    var scoreController = Toolbox.Instance.GameManager.ScoreController;
 	    foreach (var child in this.gameObject.GetComponentsInChildren<DragSpawner>(includeInactive:true))
 	    {
-	        int incomeCost = child.SpawnPF.GetComponent<Entity>().IncomeCost;
-            bool enable = incomeCost <= scoreController.Income;
+	        float incomeCost = child.SpawnPF.GetComponent<Entity>().BuildValue;
+            bool enable = incomeCost <= scoreController.BuildScore;
             child.gameObject.SetActive(enable);
 	    }
 	}

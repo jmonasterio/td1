@@ -30,7 +30,7 @@ public class DragSource : MonoBehaviour
         // If canceling, return any money paid to buy an item from the palette.
         if (cancel && (this.CostPaidToBuild > 0.0f))
         {
-            Toolbox.Instance.GameManager.ScoreController.Income += this.CostPaidToBuild;
+            Toolbox.Instance.GameManager.ScoreController.BuildScore += this.CostPaidToBuild;
             this.CostPaidToBuild = 0.0f;
         }
 

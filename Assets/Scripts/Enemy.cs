@@ -92,7 +92,6 @@ public class Enemy : MonoBehaviour {
         // TBD-Put in event handler for start to end follower.
         if (_pathFollower.TargetCell.GroundType == GameGrid.GameCell.GroundTypes.End)
         {
-            Toolbox.Instance.GameManager.ScoreController.EnemyScored(1);
             Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
             Object.Destroy(this.gameObject);
 

@@ -13,7 +13,7 @@ public class Income : MonoBehaviour {
     private void OnGUI()
     {
 
-        var income = Toolbox.Instance.GameManager.GetComponent<ScoreController>().Income;
+        var income = Toolbox.Instance.GameManager.GetComponent<ScoreController>().BuildScore;
         var vector = this.transform.position;
         var color = GUI.color;
         GUI.color = Color.black;

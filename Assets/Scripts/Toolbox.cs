@@ -2,13 +2,23 @@
 
 public class Toolbox : Singleton<Toolbox>
 {
-    protected Toolbox() { } // guarantee this will be always a singleton only - can't use the constructor!
+    
+
+    protected Toolbox()
+    {
+        //_gm = Instance.GameManager; 
+    } // guarantee this will be always a singleton only - can't use the constructor!
+    //private GameManagerScript _gm;
 
     public Language language = new Language();
 
     public GameManagerScript GameManager;
     public DebugSystem DebugSys;
 
+    //public ScoreController SC
+   // {
+   //     get { return _gm.ScoreController; }
+   // }
 
     void Awake()
     {

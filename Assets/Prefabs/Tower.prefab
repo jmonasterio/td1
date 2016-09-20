@@ -61,7 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EntityClass: 1
-  IncomeCost: 10
+  BuildValue: 5
+  SpawnValue: 0
   Health: 10
   HealthMax: 10
   ExplosionPrefab: {fileID: 19810918, guid: 59c2377a6a5d0fb40be71d7107c107ac, type: 2}

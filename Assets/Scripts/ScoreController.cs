@@ -1,28 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices.ComTypes;
+using Assets.Scripts;
 
 public class ScoreController : MonoBehaviour {
 
+    /// <summary>
+    /// Overall score from killing enemies.
+    /// </summary>
     public int Score;
 
-    public float Income;
+    /// <summary>
+    /// All the money you have available for building
+    /// </summary>
+    public float BuildScore;
 
-    public float SpawnRate;
-
-    // How many enemies have
-    public int EnemyScore = 3;
-
-    // calling them flags like "capture the flag".
-    public void EnemyScored(int numberOfFlags)
-    {
-        this.EnemyScore -= numberOfFlags;
-    }
-
-    public void PlayerScored(int points)
-    {
-        Score += points;
-    }
+    /// <summary>
+    /// All the money you have available for growing humans.
+    /// </summary>
+    public float GrowScore;
+    public float GrowRate;
 
     // Use this for initialization
 	void Start () {
