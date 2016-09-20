@@ -25,6 +25,13 @@ public class Human : MonoBehaviour
         _entity.Decomposed += _entity_Decomposed;
         _wander = GetComponent<Wander>();
         _dragSource = GetComponent<DragSource>();
+
+        if (HumanClass == HumanClasses.Gatherer)
+        {
+            _wander.WanderMode = Wander.WanderModes.ToCity;
+        }
+
+
     }
 
     private void _entity_Decomposed(object sender, System.EventArgs e)

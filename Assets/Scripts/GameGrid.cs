@@ -513,7 +513,84 @@ namespace Assets.Scripts
             return origin;
         }
 
-        // Bad idea.
+        // TBD: Bad idea.
+        // TBD: Should we be able to select enemy/human/city/robot carcas?
+        public GameCell RandomCarcas(Tower.TowerClasses towerClass)
+        {
+            if (Cells == null)
+            {
+                return null;
+            }
+
+            var list = new List<GameCell>();
+            for (int row = 0; row < Cells.GetLength(0); row++)
+            {
+                for (int col = 0; col < Cells.GetLength(1); col++)
+                {
+                    if (Cells[row, col].Tower != null)
+                    {
+                        if (Cells[row, col].Tower.IsAlive())
+                        {
+                            list.Add(Cells[row, col]);
+                        }
+                    }
+                    foreach(var  enemy in Cells[row, col].Enemies)
+                    {
+                        if (!enemy.IsAlive())
+                        {
+                            list.Add(Cells[row, col]);
+                        }
+                    }
+                    foreach (var human in Cells[row, col].Enemies)
+                    {
+                        if (!human.IsAlive())
+                        {
+                            list.Add(Cells[row, col]);
+                        }
+                    }
+                }
+            }
+            if (list.Count <= 0)
+            {
+                Debug.Assert(list.Count > 0);
+            }
+            return list[UnityEngine.Random.Range(0, list.Count)];
+
+        }
+
+
+        // TBD: Bad idea.
+        public GameCell RandomTowerCell(Tower.TowerClasses towerClass)
+        {
+
+            if (Cells == null)
+            {
+                return null;
+            }
+
+            var list = new List<GameCell>();
+            for (int row = 0; row < Cells.GetLength(0); row++)
+            {
+                for (int col = 0; col < Cells.GetLength(1); col++)
+                {
+                    if (Cells[row, col].Tower != null)
+                    {
+                        if (Cells[row, col].Tower.TowerClass != towerClass)
+                        {
+                            list.Add(Cells[row, col]);
+                        }
+                    }
+                }
+            }
+            if (list.Count <= 0)
+            {
+                Debug.Assert(list.Count > 0);
+            }
+            return list[UnityEngine.Random.Range(0, list.Count)];
+        }
+
+
+        // TBD: Bad idea.
         public GameCell RandomGameCell(GameCell.GroundTypes OfGroundType)
         {
             if (Cells == null)

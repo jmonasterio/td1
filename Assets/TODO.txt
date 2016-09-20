@@ -58,12 +58,18 @@ x Do allow dropping new city on decomposing city.
 	- You could build another city on a decomposing one, and it wouldn't use up the "slot".
 - MANUAL WORKAROUND: City needs to be a special kind of tower. Right now, they're not related.
 
+- If gatherer in cell with carcas, should pick up some. 
+    - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
+
+- What stops a city from spawning humans?
 - Humans to spawn at one city and go to other cities.
-- City spawned human should get settings from CSV. Not from PREFAB.
-- Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
 - If human wanders into a city or robot, it should go inside...
-- Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 - Humans should powerup if they hit a city or tower or robot.
+
+- RandomTowerCell should exclude the tower where the human was spawned.
+- City spawned human should get settings from CSV. Not from PREFAB.
+
+- Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 
 
 - Level editor scene can write a level to .CSV

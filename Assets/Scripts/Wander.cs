@@ -12,6 +12,15 @@ public class Wander : MonoBehaviour
     public GameGrid.GameCell _targetCell = null;
     private PathFollower _pf;
 
+    public enum WanderModes
+    {
+        Random,
+        ToCity, // TBD: Needs work to be "other city".
+        ToCarcas,
+    }
+
+    public WanderModes WanderMode = WanderModes.Random;
+
     void Start()
     {
         // Set random initial rotation
@@ -35,18 +44,19 @@ public class Wander : MonoBehaviour
         // TBD: Are we there, yet?
         if (_targetCell == null)
         {
-            _targetCell = MakeRandomPath();
+            _targetCell = MakePath();
         }
     }
 
-    private GameGrid.GameCell MakeRandomPath()
+    private GameGrid.GameCell MakePath()
     {
 
         var worldPos = this.transform.position;
         worldPos.z = -10;
 
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
-        var endCell = gameGrid.RandomGameCell(GameGrid.GameCell.GroundTypes.Dirt);
+
+        var endCell = GetTargetCellForWanderMode(gameGrid);
 
         _pf.CurrentGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
         _pf.PrevGameCell = _pf.CurrentGameCell;
@@ -54,6 +64,20 @@ public class Wander : MonoBehaviour
         _pf.OrderedWaypointCells = new List<GameGrid.GameCell>(); // Empty. No way points.
         _pf.FollowToTargetCell(gameGrid, transform.position);
         return _pf.CurrentGameCell;
+    }
+
+    private GameGrid.GameCell GetTargetCellForWanderMode(GameGrid gameGrid)
+    {
+        if (WanderMode == WanderModes.Random)
+        {
+            return gameGrid.RandomGameCell(GameGrid.GameCell.GroundTypes.Dirt);
+        }
+        if (WanderMode == WanderModes.ToCity)
+        {
+            return gameGrid.RandomCarcas(Tower.TowerClasses.City);
+        }
+        Debug.LogError("Unknown wander mode.");
+        return null;
     }
 
     public void RestartWandering()
