@@ -15,8 +15,7 @@ namespace Assets.Scripts
         /// </summary>
         public Entity.EntityClasses CarcasClass;
 
-        public event EventHandler Decomposed;
-        public float DecomposeTimeInterval = 7.0f;
+        public float DecomposeTimeInterval = 7.0f; // TBD: Where should this come from?
         public float IncomeValue = 10; // TBD: Should be set from thing that died.
 
 
@@ -28,7 +27,7 @@ namespace Assets.Scripts
 
         public enum AnimStates
         {
-            Decomposing = 5,
+            Normal = 1,
         }
 
 
@@ -37,14 +36,15 @@ namespace Assets.Scripts
             _entity = GetComponent<Entity>();
             _dragSourceOrNull = GetComponent<DragSource>();
             _animator = GetComponent<Animator>();
-            SetAnimState(AnimStates.Decomposing);
+            SetAnimState(AnimStates.Normal);
+            StartDecomposing();
         }
 
         public void SetAnimState(AnimStates animState)
         {
             _animator.SetInteger("AnimState", (int)animState);
-            //string stateName = animState.ToString();
-            //_animator.Play(stateName);
+            string stateName = animState.ToString();
+            _animator.Play(stateName);
         }
 
         public void Update()
@@ -58,6 +58,14 @@ namespace Assets.Scripts
                     // TBD: Sound and graphics here?
                     EndDecomposing();
                 }
+                else
+                {
+                    ResumeDecompose();
+                }
+            }
+            else
+            {
+                PauseDecomposing();
             }
         }
 
@@ -68,14 +76,14 @@ namespace Assets.Scripts
         }
 
 
-        public void StartDecomposing()
+        private void StartDecomposing()
         {
             Debug.Assert(_decomposeStartTime == 0.0f);
             _decomposeStartTime = Time.time;
             _decomposeTimeRemainingAtStartOfDrag = 0.0f;
         }
 
-        public void ResumeDecompose()
+        private void ResumeDecompose()
         {
             if (_decomposeTimeRemainingAtStartOfDrag > 0.0f)
             {
@@ -84,11 +92,15 @@ namespace Assets.Scripts
             }
         }
 
-        public void PauseDecomposing()
+        private void PauseDecomposing()
         {
-            if (_decomposeStartTime > 0.0f)
+            if (_decomposeTimeRemainingAtStartOfDrag == 0.0f)
             {
-                _decomposeTimeRemainingAtStartOfDrag = (Time.time - _decomposeStartTime);
+
+                if (_decomposeStartTime > 0.0f)
+                {
+                    _decomposeTimeRemainingAtStartOfDrag = (Time.time - _decomposeStartTime);
+                }
             }
         }
 
@@ -96,11 +108,9 @@ namespace Assets.Scripts
         {
             Debug.Assert(!IsDragging());
             Debug.Assert(_decomposeStartTime > 0.0f);
-            if (Decomposed != null)
-            {
-                Decomposed(this, new EventArgs());
-            }
+            UnityEngine.Object.Destroy(this.transform.gameObject);
             _decomposeStartTime = 0.0f;
+            _decomposeTimeRemainingAtStartOfDrag = 0.0f;
         }
 
         private bool IsDecomposingDone()

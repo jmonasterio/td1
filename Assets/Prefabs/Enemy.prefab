@@ -31,8 +31,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166742}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.64, y: -1.21, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 12.52, y: 14.52, z: 0}
+  m_LocalScale: {x: 0.847055, y: 0.58326375, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -128,7 +128,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyClass: 1
   BulletPrefab: {fileID: 11459160, guid: 0fee6a7cb8f838740bcc320cbc050081, type: 2}
-  CarcasIncomeValue: 10
 --- !u!114 &11474440
 MonoBehaviour:
   m_ObjectHideFlags: 1

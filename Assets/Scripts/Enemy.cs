@@ -25,8 +25,6 @@ public class Enemy : MonoBehaviour {
         __UNUSED__ = 1,
         Healing = 2,
         Wounded = 3,
-        Decomposing = 5,
-        Dead = 6,
     }
 
     public void SetAnimState(AnimStates animState)

@@ -535,7 +535,7 @@ namespace Assets.Scripts
             {
                 for (int col = 0; col < Cells.GetLength(1); col++)
                 {
-                    foreach (var  carcas in Cells[row, col].Carcases)
+                    if( Cells[row,col].Carcases.Count > 0)
                     {
                         list.Add(Cells[row, col]);
                     }
