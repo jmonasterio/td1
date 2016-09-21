@@ -74,8 +74,10 @@ x Carcas income value not set when created.
     - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
 
 - What stops a city from spawning humans? Run out of spawn money.
-- Gatherer city makes gatherers.
-- Regular city makes standard.
+x Gatherer city makes gatherers.
+x Regular city makes standard.
+- Some kinds of humans should take longer to make.
+
 - Humans to spawn at one city and go to other cities.
 - If human wanders into a city or robot, it should go inside...
 - Humans should powerup if they hit a city or tower or robot.

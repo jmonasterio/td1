@@ -68,7 +68,6 @@ public class Tower : MonoBehaviour
 
                 // TBD: Humans settings should come from CSV... not from prefab.
                 var newHuman = Entity.InstantiateAt(Spawn1Prefab, parent, this.transform.position, isSnap: false);
-                newHuman.HumanClass = Human.HumanClasses.Gatherer;
             }
             else if( result == GrowHumanResult.InProgress)
             {
