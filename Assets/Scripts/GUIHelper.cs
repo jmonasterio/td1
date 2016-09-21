@@ -73,7 +73,7 @@ public class GUIHelper
         clippingBounds = new Rect(0, 0, Screen.width, Screen.height);
         clippingEnabled = false;
     }
-
+#if DEAD
     public static void DrawLine(Vector2 pointA, Vector2 pointB, Color color)
     {
         if (clippingEnabled)
@@ -100,4 +100,5 @@ public class GUIHelper
         GL.Vertex3(pointB.x, pointB.y, 0);
         GL.End();
     }
+#endif
 }

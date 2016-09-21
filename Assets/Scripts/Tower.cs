@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 
-public class Tower : MonoBehaviour
+public class Tower : EntityBehavior
 {
 
     public enum TowerClasses
@@ -20,15 +20,14 @@ public class Tower : MonoBehaviour
     public Human Spawn1Prefab; // TBD: Could be different types of things to spawn.
 
     private DragSource _dragSource;
-    private Entity _entity;
     private float _availableGrowPower = 0.0f;
     private float _humanGrowTotal = 0.0f;
 
 
     // Use this for initialization
-    void Start()
+    new void Start()
     {
-        _entity = GetComponent<Entity>();
+        base.Start();
         _dragSource = GetComponent<DragSource>();
     }
 

@@ -9,7 +9,7 @@ using Assets.Scripts;
 /// <summary>
 /// Common properties that every entity in the system should have.
 /// </summary>
-public class Entity : MonoBehaviour
+public class Entity : EntityBehavior
 {
     private Transform _bulletsCollection;
     private DragSource _dragSourceOrNull;
@@ -47,8 +47,9 @@ public class Entity : MonoBehaviour
     public float ReloadTime = 0.75f;
     private float _reloadDelay;
 
-    public void Start()
+    new void Start()
     {
+        base.Start();
         // TBD: Does some validation. Perhaps GetComponent should be source of truth and entity class should be calculated???
         switch (EntityClass)
         {

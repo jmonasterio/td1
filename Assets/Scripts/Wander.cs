@@ -12,6 +12,11 @@ namespace Assets.Scripts
         public float speed = 5;
         public GameGrid.GameCell _targetCell = null;
         private PathFollower _pf;
+        private bool _stopped;
+
+        public bool IsStopped {
+            get { return _stopped; }
+        }
 
         public enum WanderModes
         {
@@ -46,6 +51,10 @@ namespace Assets.Scripts
             if (_targetCell == null)
             {
                 _targetCell = MakePathOrNull();
+            }
+            if (_targetCell == null)
+            {
+                _stopped = true;
             }
         }
 

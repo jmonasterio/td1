@@ -8,7 +8,7 @@ namespace Assets.Scripts
     /// (1) It decomposes
     /// (2) Or is repaired.
     /// </summary>
-    public class Carcas : MonoBehaviour
+    public class Carcas : EntityBehavior
     {
         /// <summary>
         /// What type of entity is this a carcas of?
@@ -19,7 +19,6 @@ namespace Assets.Scripts
 
         private float _decomposeTimeRemainingAtStartOfDrag;
         private float _decomposeStartTime;
-        private Entity _entity;
         private DragSource _dragSourceOrNull;
         private Animator _animator;
 
@@ -28,20 +27,9 @@ namespace Assets.Scripts
             Normal = 1,
         }
 
-        /// <summary>
-        /// TBD: Is this a good pattern?
-        /// </summary>
-        public Entity Entity
+        public new void Start()
         {
-            get
-            {
-                return _entity;
-            }
-        }
-
-        public void Start()
-        {
-            _entity = GetComponent<Entity>();
+            base.Start();
             Debug.Assert( _entity != null);
             _dragSourceOrNull = GetComponent<DragSource>();
             _animator = GetComponent<Animator>();

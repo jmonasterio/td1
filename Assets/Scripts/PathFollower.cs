@@ -28,7 +28,7 @@ public class PathFollower : MonoBehaviour
     private Entity _entity;
 
     // Use this for initialization
-    new void Start()
+    void Start()
     {
         // If dragging, pause the path.
         _dt = this.GetComponent<DragSource>();

@@ -4,9 +4,7 @@ using System.Collections;
 using Assets.Scripts;
 using UnityEditor;
 
-
-
-public class Human : MonoBehaviour
+public class Human : EntityBehavior
 {
     public enum HumanClasses
     {
@@ -42,16 +40,14 @@ public class Human : MonoBehaviour
     [Header("test")]
     public float BuildValue = 10.0f;
 
-
-    private Entity _entity;
     private Wander _wander;
     private float _dropTime;
     private DragSource _dragSource;
 
     // Use this for initialization
-    void Start()
+    new void Start()
     {
-        _entity = GetComponent<Entity>();
+        base.Start();
         _wander = GetComponent<Wander>();
         _dragSource = GetComponent<DragSource>();
 
@@ -89,6 +85,31 @@ public class Human : MonoBehaviour
                 if (enemy != null)
                 {
                     _entity.FireBulletAt(enemy, BulletPrefab);
+                }
+            }
+        }
+        else if (HumanClass == HumanClasses.Gatherer)
+        {
+            var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+            var cell = gameGrid.MapPositionToGameCellOrNull(this.transform.position);
+            if (cell.Carcases.Count > 0)
+            {
+                if (_wander.IsStopped)
+                {
+                    _wander.StopWandering(); // TBD: Maybe only stop really near the carcas.
+                }
+
+                if( GatherState.GrowValue < GatherState.MaxGrowValue)
+                {
+                    float wantToGatherThisMuch = (GatherState.MaxGrowValue - GatherState.GrowValue)*GatherState.Rate*
+                                                 Time.deltaTime;
+                }
+            }
+            else
+            {
+                if (_wander.IsStopped)
+                {
+                    _wander.RestartWandering();
                 }
             }
         }

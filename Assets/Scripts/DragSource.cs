@@ -206,8 +206,6 @@ public class DragSource : MonoBehaviour
                     }
                     CancelDragging();
                     break;
-
-                    break;
                 case Entity.EntityClasses.Tower:
                     if (dropCellOrNull.Tower != null)
                     {

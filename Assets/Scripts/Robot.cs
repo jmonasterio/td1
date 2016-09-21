@@ -3,17 +3,15 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class Robot : MonoBehaviour
+    public class Robot : EntityBehavior
     {
-        private Entity _entity;
-
         public Bullet BulletPrefab;
         private DragSource _dragSource;
 
         // Use this for initialization
-        void Start()
+        new void Start()
         {
-            _entity = GetComponent <Entity>();
+            base.Start();
             _dragSource = GetComponent<DragSource>();
         }
 
