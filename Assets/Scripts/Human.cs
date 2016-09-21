@@ -51,7 +51,7 @@ public class Human : MonoBehaviour
 
         if (HumanClass == HumanClasses.Standard)
         {
-            if (_entity.IsAlive() && _entity.IsReloaded())
+            if ( _entity.IsReloaded())
             {
 
                 var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);

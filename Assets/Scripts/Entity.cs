@@ -80,11 +80,6 @@ public class Entity : MonoBehaviour
 
     }
 
-    public bool IsAlive()
-    {
-        return Health > 0;
-    }
-
     public void Explode(bool destroy)
     {
         if (ExplosionPrefab == null)

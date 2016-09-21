@@ -20,7 +20,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-            if (_entity.IsAlive() && _entity.IsReloaded())
+            if (_entity.IsReloaded())
             {
 
                 var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);

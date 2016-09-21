@@ -42,11 +42,9 @@ public class Tower : MonoBehaviour
 
         if (TowerClass == TowerClasses.Shooter)
         {
-            if (_entity.IsAlive() && _entity.IsReloaded())
+            if ( _entity.IsReloaded())
             {
-
                 var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
-                    // Should be related to bullet range.
                 if (enemy != null)
                 {
                     _entity.FireBulletAt(enemy, BulletPrefab);
@@ -54,7 +52,7 @@ public class Tower : MonoBehaviour
                 }
             }
         }
-        else if (TowerClass == TowerClasses.City)
+        else if (TowerClass == TowerClasses.GathererTower || TowerClass == TowerClasses.City)
         {
             // Grow humans every once in a while.
             // Use up some resource to grow human
@@ -62,7 +60,7 @@ public class Tower : MonoBehaviour
             
             if (result == GrowHumanResult.NotEnoughGrowPower)
             {
-                TakeSomeGrowPowerFromScore();
+                AttemptToTakeSomeGrowPowerFromScore();
             }
             else if ( result == GrowHumanResult.Finished)
             {
@@ -88,13 +86,12 @@ public class Tower : MonoBehaviour
     }
 
     // Not thread safe.
-    private void TakeSomeGrowPowerFromScore()
+    private void AttemptToTakeSomeGrowPowerFromScore()
     {
-        var available = Toolbox.Instance.GameManager.ScoreController.GrowScore;
-        if (available > 1.0f)
+        if (Toolbox.Instance.GameManager.ScoreController.GrowScore > AMOUNT_TO_TAKE)
         {
-            _availableGrowPower += 1.0f;
-            Toolbox.Instance.GameManager.ScoreController.GrowScore -= 1.0f;
+            _availableGrowPower += AMOUNT_TO_TAKE;
+            Toolbox.Instance.GameManager.ScoreController.GrowScore -= AMOUNT_TO_TAKE;
         }
     }
 
@@ -106,11 +103,13 @@ public class Tower : MonoBehaviour
     }
 
     private const float MAX_GROW_POWER_PER_SECOND = 1.0f;
-    private const float NEEDED_FOR_HUMAN = 0.5f;
+    private const float NEEDED_FOR_HUMAN = 0.8f;
+    private const float AMOUNT_TO_TAKE = 1.0f;
+    private const float AMOUNT_TO_RELOAD_AT = 0.01f;
 
     private GrowHumanResult GrowHumanALittleBit(float deltaTime)
     {
-        if (_availableGrowPower <= 0.01f)
+        if (_availableGrowPower <= AMOUNT_TO_RELOAD_AT)
         {
             return GrowHumanResult.NotEnoughGrowPower;
         }

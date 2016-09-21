@@ -161,11 +161,6 @@ public class PathFollower : MonoBehaviour
             return; // We are already destroyed. So weird.
         }
 
-        if (!_entity.IsAlive())
-        {
-            return; // Dead, so don't move
-        }
-
         if (_dt != null && _dt.Dragging)
         {
             return;

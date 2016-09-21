@@ -61,7 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EntityClass: 1
-  IncomeCost: 10
+  BuildValue: 5
+  SpawnValue: 0
   Health: 10
   HealthMax: 10
   ExplosionPrefab: {fileID: 19810918, guid: 59c2377a6a5d0fb40be71d7107c107ac, type: 2}
@@ -124,7 +125,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 11459160, guid: 1a9f9e8281d06634799f721078ce41f2, type: 2}
   BulletRange: 4
   TowerClass: 3
-  Spawn1Prefab: {fileID: 0}
+  Spawn1Prefab: {fileID: 11405522, guid: e8bd9e7c327f65b4d89eff06f906f4b5, type: 2}
 --- !u!212 &21285554
 SpriteRenderer:
   m_ObjectHideFlags: 1

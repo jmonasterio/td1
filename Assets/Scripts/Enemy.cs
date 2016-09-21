@@ -61,26 +61,28 @@ public class Enemy : MonoBehaviour {
     {
         if (EnemyClass == EnemyClasses.Standard)
         {
-            if (_entity.IsAlive() && _entity.IsReloaded())
+            if ( _entity.IsReloaded())
             {
                 // TBD: Could do better job of targetting closes HUMAN or TOWER, for example.
 
                 var tower = _entity.FindClosestLiveTower(BulletPrefab.BulletRange); // Should be related to bullet range.
-                if (tower != null)
+                var human = _entity.FindClosestLiveHuman(BulletPrefab.BulletRange);
+                if (tower != null && human != null)
+                {
+                    // pick
+                    _entity.FireBulletAt(tower, BulletPrefab);
+                    _entity.FireBulletAt(human, BulletPrefab);
+                }
+                else if (tower != null)
                 {
                     _entity.FireBulletAt(tower, BulletPrefab);
 
                 }
-                else
+                else if (human != null)
                 {
-                    var human = _entity.FindClosestLiveHuman(BulletPrefab.BulletRange);
-                    if (human != null)
-                    {
-                        _entity.FireBulletAt(human, BulletPrefab);
-                    }
-
-
+                    _entity.FireBulletAt(human, BulletPrefab);
                 }
+
             }
         }
 
