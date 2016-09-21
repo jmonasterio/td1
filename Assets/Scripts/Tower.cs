@@ -117,13 +117,10 @@ public class Tower : MonoBehaviour
         float used = deltaTime*powerToUserPerSecond;
         _availableGrowPower -= used;
 
+     
+        _humanGrowTotal += used*Toolbox.Instance.GameManager.ScoreController.GrowRate;
 
-        // TBD: How to use         float spawnRate = Toolbox.Instance.GameManager.ScoreController.GrowRate;
-
-
-        _humanGrowTotal += used;
-
-        if (_humanGrowTotal > NEEDED_FOR_HUMAN)
+        if (_humanGrowTotal > NEEDED_FOR_HUMAN) // TBD: Each kind of human could take longer
         {
             _availableGrowPower += (_humanGrowTotal - NEEDED_FOR_HUMAN);
             _humanGrowTotal = 0.0f;

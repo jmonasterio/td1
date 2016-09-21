@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+using UnityEditor;
+
+
 
 public class Human : MonoBehaviour
 {
@@ -10,9 +14,35 @@ public class Human : MonoBehaviour
         Gatherer = 2, // Gathers's go get body of dead aliens. Humans get converted into gatherer.
     }
 
-    public Bullet BulletPrefab;
+    [Serializable]
+    public class GathererState
+    {
+
+        /// <summary>
+        /// A gatherer should grab carcas and keep "grow" value of the carcas here until deposited in city.
+        /// </summary>
+        public float GrowValue;
+
+        public float Rate;
+        public float MaxGrowValue;
+
+        public GathererState()
+        {
+            GrowValue = 0.0f;
+            Rate = 1.0f;
+            MaxGrowValue = 2.0f;
+        }
+    }
+
+
     public HumanClasses HumanClass;
+    public Bullet BulletPrefab;
+    public GathererState GatherState;
+
+    [Header("test")]
     public float BuildValue = 10.0f;
+
+
     private Entity _entity;
     private Wander _wander;
     private float _dropTime;

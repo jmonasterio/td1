@@ -72,22 +72,28 @@ x Carcas income value not set when created.
 
 - If gatherer in cell with carcas, should pick up some. 
     - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
+- Drag to tower, should add "grow" to that one tower. Drag to robot put's it in the pot.
+- Some kinds of humans should take longer to make.
+- Humans should powerup if they hit a city or tower or robot.
+	- If human wanders into a city or robot, it should go inside...
+- Hurt humans should head to a city/tower.
 
-- What stops a city from spawning humans? Run out of spawn money.
+- Maybe robot should be keep track of All Available g
+
+x What stops a city from spawning humans? Run out of spawn money.
 x Gatherer city makes gatherers.
 x Regular city makes standard.
-- Some kinds of humans should take longer to make.
 
 - Humans to spawn at one city and go to other cities.
-- If human wanders into a city or robot, it should go inside...
-- Humans should powerup if they hit a city or tower or robot.
 
 - RandomTowerCell should exclude the tower where the human was spawned.
 - City spawned human should get settings from CSV. Not from PREFAB.
 
+- Carcas should only be worth some part for growing stuff.
+
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
-- Do we need a build rate
-- How to include GrowRate in part of human growth calc
+x Do we need a build rate
+x How to include GrowRate in part of human growth calc
 
 - Level editor scene can write a level to .CSV
 - How should waves.csv handle levels.
@@ -102,17 +108,19 @@ x Regular city makes standard.
 - Colision with robot is too far away. 
 - What happens when an enemy collides with a tower? Nothing?
 - Need men and women.
-- Need a spawn rate indicator.
+x Need a spawn rate indicator.
 - Need different kinds of guns? Part of entity?
 - Need different types of bullets.
 - # of cities on the map affects the spawn rate.
 - Build the love shack
-- Special tower that can generate humans... like a little hostpiatl
+- Tower that creates random humans should look like a little hostpiatl
+
 - EntityClass should be a derived value? on Entity out of sync with Tower Componenet. EntityClass not tower, for example. Could happen to others.
 - Wave co-routines: Need to stop if level ends in middle of a wave. I have Wave.CancelWave() method, but not called for now.
 - Maybe option to autdrop if you go over city.
 - If money goes down while dragging below cost, we may not be able to drop. OR take money at start of drop, and return if not used.
-- Mob explodes and does damage to the robot. Maybe stop to fight.
+x Mob explodes and does damage to the robot. 
+- Mob may stop to fight robot? Maybe stop to fight.
 - Animate back to palete
 - Human needs to be shorter (and centered?) so they don't try to draw over wall.
 
