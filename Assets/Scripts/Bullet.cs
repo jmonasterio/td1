@@ -38,19 +38,6 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        // Each object decides what to do if it hits a bullet.
-#if OLD_WAY
-        var bullet = collision.collider.gameObject;
-        if (bullet.GetComponent<Enemy>() != null)
-        {
-            Debug.Log("Hit! Enemy");
-            Destroy(this.gameObject);
-
-        }
-#endif
-    }
 
 }
 

@@ -40,7 +40,7 @@ namespace Assets.Scripts
         public const int BULLET_LAYER = 11;
         public const int HUMAN_LAYER = 12;
         public const int ROBOT_LAYER = 13;
-        public const int SOURCE_LAYER = 14; // TBD: Not used.
+        // 14
         public const int CARCAS_LAYER = 15;
         public const int DRAG_LAYER = 16;
 
@@ -95,17 +95,17 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="current"></param>
         /// <param name="remainingWaypoints">Last point is the end.</param>
+        /// <param name="orderedWayPointsGameCells"></param>
         /// <returns></returns>
         public List<GameCell> FindPathWithWaypoints(GameCell current, List<GameCell> orderedWayPointsGameCells, GameCell targetGameCell)
         {
             var remainingWaypoints = new List<GameGrid.GameCell>();
             remainingWaypoints.AddRange(orderedWayPointsGameCells);
-            remainingWaypoints.Add(targetGameCell); // TBD: Need more
+            remainingWaypoints.Add(targetGameCell); 
 
-
-            if (current == null || remainingWaypoints == null || remainingWaypoints.Count == 0)
+            if (current == null || remainingWaypoints.Count == 0)
             {
-                return new List<GameCell>(); // TBD: Lame.
+                return null; //new List<GameCell>(); 
             }
 
             var fullPath = new List<GameCell>();
@@ -215,11 +215,11 @@ namespace Assets.Scripts
             switch (entityClass)
             {
                 case Entity.EntityClasses.Background:
-                case Entity.EntityClasses.Waypoint:
-                
-                    cell.Background = go;
+                    cell.Background = go.GetComponent<Block>();
                     break;
-                
+                case Entity.EntityClasses.Waypoint:
+                    cell.WayPoint = go.GetComponent<Waypoint>();
+                    break;
                 case Entity.EntityClasses.Enemy:
                     cell.Enemies.Merge(go.GetComponent<Enemy>());
                     break;
@@ -249,9 +249,11 @@ namespace Assets.Scripts
             switch (entityClass)
             {
                 case Entity.EntityClasses.Background:
+                    cell.Background = null;
+                    break;
                 case Entity.EntityClasses.Waypoint:
 
-                    cell.Background = null;
+                    cell.WayPoint = null;
                     break;
 
                 case Entity.EntityClasses.Enemy:
@@ -623,8 +625,8 @@ namespace Assets.Scripts
             /// <summary>
             /// Towers or Squares that block enemies.
             /// </summary>
-            public GameObject Background; // TBD: Need a base type
-
+            public Block Background; 
+            public Waypoint WayPoint; 
             public List<Human> Humans = new List<Human>();
             public List<Enemy> Enemies = new List<Enemy>();
             public List<Carcas> Carcases = new List<Carcas>();

@@ -11,7 +11,6 @@ using Assets.Scripts;
 /// </summary>
 public class Entity : EntityBehavior
 {
-    private Transform _bulletsCollection;
     private DragSource _dragSourceOrNull;
 
     public enum EntityClasses
@@ -50,7 +49,9 @@ public class Entity : EntityBehavior
     new void Start()
     {
         base.Start();
-        // TBD: Does some validation. Perhaps GetComponent should be source of truth and entity class should be calculated???
+
+        // Does some validation. 
+        // TBD: Perhaps GetComponent should be source of truth and entity class should be calculated???
         switch (EntityClass)
         {
             case EntityClasses.Background:
@@ -76,8 +77,7 @@ public class Entity : EntityBehavior
                 break;
         }
 
-        _bulletsCollection = GameObject.Find("Bullets").transform; // TBD: Maybe do this in the in the Enemy object.
-        _dragSourceOrNull = this.GetComponent<DragSource>(); // TBD: Gross: Too many interactions between dragsource and entity.
+        _dragSourceOrNull = this.GetComponent<DragSource>(); 
 
     }
 
@@ -206,7 +206,9 @@ public class Entity : EntityBehavior
         bullet.direction = (target.transform.position - here).normalized;
         bullet.transform.position = here;
         bullet.BulletSource = EntityClass;
-        bullet.transform.SetParent(_bulletsCollection);
+
+        var bulletsCollection = Toolbox.Instance.GameManager.Nodes.BulletsCollection;
+        bullet.transform.SetParent(bulletsCollection);
         _reloadDelay = ReloadTime;
     }
 

@@ -63,15 +63,19 @@ public class Enemy : MonoBehaviour {
         {
             if ( _entity.IsReloaded())
             {
-                // TBD: Could do better job of targetting closes HUMAN or TOWER, for example.
-
                 var tower = _entity.FindClosestLiveTower(BulletPrefab.BulletRange); // Should be related to bullet range.
                 var human = _entity.FindClosestLiveHuman(BulletPrefab.BulletRange);
                 if (tower != null && human != null)
                 {
                     // pick
-                    _entity.FireBulletAt(tower, BulletPrefab);
-                    _entity.FireBulletAt(human, BulletPrefab);
+                    if (UnityEngine.Random.Range(0.0f, 1.0f) > 0.5f)
+                    {
+                        _entity.FireBulletAt(tower, BulletPrefab);
+                    }
+                    else
+                    {
+                        _entity.FireBulletAt(human, BulletPrefab);
+                    }
                 }
                 else if (tower != null)
                 {
@@ -88,17 +92,14 @@ public class Enemy : MonoBehaviour {
 
     }
 
-    // If at end, head back to start. Or if at START, then done.
     private void PathFollower_AtFinish(object sender, System.EventArgs e)
     {
-        // TBD-Put in event handler for start to end follower.
         if (_pathFollower.TargetCell.GroundType == GameGrid.GameCell.GroundTypes.End)
         {
             Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
             Object.Destroy(this.gameObject);
 
-            // TBD: Put damage on robot here.
-
+            // Damage to robot happens in collision??? TBD
         }
     }
     void OnTriggerEnter2D(Collider2D collision)
@@ -117,7 +118,6 @@ public class Enemy : MonoBehaviour {
             if (bullet.BulletSource == Entity.EntityClasses.Enemy)
             {
                 // Enemy bullets should not hurt enemies.
-                // TBD: Might be a cleaner way to do this.
                 return;
             }
 

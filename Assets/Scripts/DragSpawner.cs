@@ -3,7 +3,6 @@ using System.Collections;
 using Assets.Scripts;
 using UnityEditor;
 
-// TBD: Combine with drag transform.
 public class DragSpawner : MonoBehaviour
 {
 
@@ -25,7 +24,7 @@ public class DragSpawner : MonoBehaviour
         newGameObject.DeleteOnCancel = true;
         var dragSource = newGameObject.GetComponent<DragSource>();
         Debug.Assert( dragSource != null);
-        BuyFromPalette(this.SpawnPF.GetComponent<Entity>(), dragSource); // TBD: Assume, item not pickable if you don't have money for it.
+        BuyFromPalette(this.SpawnPF.GetComponent<Entity>(), dragSource); 
         _mouseInput.StartDraggingSpawnedObject(dragSource );
     }
 

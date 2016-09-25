@@ -18,8 +18,19 @@ public class GameManagerScript : MonoBehaviour
     public DataController DataController;
     public GameController GameController;
 
+    public struct TreeNodes
+    {
+        public Transform BulletsCollection;
+    }
+
 
     // State
+    private TreeNodes _nodes;
+
+    public TreeNodes Nodes
+    {
+        get { return _nodes; }
+    }
 
     // Use this for initialization (of me).
     void Awake()
@@ -36,6 +47,11 @@ public class GameManagerScript : MonoBehaviour
         ScoreController = GetComponent<ScoreController>();
         DataController = GetComponent<DataController>();
         GameController = GetComponent<GameController>();
+
+        _nodes = new TreeNodes();
+        _nodes.BulletsCollection = GameObject.Find("Bullets").transform; 
+
+
 
         //if (HideMouseCuror)
         {

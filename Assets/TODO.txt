@@ -65,7 +65,7 @@ x Carcas not animating.
 x Carcas income value not set when created.
 - Weird giant graphic flickers on gameover.
 
-- Entity should either store the current cell, or be really good at getting it back.
+x Entity should either store the current cell, or be really good at getting it back.
 
 - Different kinds of money
 	- Money to spawn humans.

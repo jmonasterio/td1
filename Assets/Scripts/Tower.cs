@@ -20,7 +20,15 @@ public class Tower : EntityBehavior
     public Human Spawn1Prefab; // TBD: Could be different types of things to spawn.
 
     private DragSource _dragSource;
-    private float _availableGrowPower = 0.0f;
+
+    /// <summary>
+    /// Power that tower currently has available to grow a human.
+    /// </summary>
+    public float AvailableGrowPower = 0.0f;
+
+    /// <summary>
+    /// Progress on Human that we're growing.
+    /// </summary>
     private float _humanGrowTotal = 0.0f;
 
 
@@ -88,7 +96,7 @@ public class Tower : EntityBehavior
     {
         if (Toolbox.Instance.GameManager.ScoreController.GrowScore > AMOUNT_TO_TAKE)
         {
-            _availableGrowPower += AMOUNT_TO_TAKE;
+            AvailableGrowPower += AMOUNT_TO_TAKE;
             Toolbox.Instance.GameManager.ScoreController.GrowScore -= AMOUNT_TO_TAKE;
         }
     }
@@ -107,21 +115,21 @@ public class Tower : EntityBehavior
 
     private GrowHumanResult GrowHumanALittleBit(float deltaTime)
     {
-        if (_availableGrowPower <= AMOUNT_TO_RELOAD_AT)
+        if (AvailableGrowPower <= AMOUNT_TO_RELOAD_AT)
         {
             return GrowHumanResult.NotEnoughGrowPower;
         }
 
-        float powerToUserPerSecond = Mathf.Min(_availableGrowPower, MAX_GROW_POWER_PER_SECOND);
+        float powerToUserPerSecond = Mathf.Min(AvailableGrowPower, MAX_GROW_POWER_PER_SECOND);
         float used = deltaTime*powerToUserPerSecond;
-        _availableGrowPower -= used;
+        AvailableGrowPower -= used;
 
      
         _humanGrowTotal += used*Toolbox.Instance.GameManager.ScoreController.GrowRate;
 
         if (_humanGrowTotal > NEEDED_FOR_HUMAN) // TBD: Each kind of human could take longer
         {
-            _availableGrowPower += (_humanGrowTotal - NEEDED_FOR_HUMAN);
+            AvailableGrowPower += (_humanGrowTotal - NEEDED_FOR_HUMAN);
             _humanGrowTotal = 0.0f;
             return GrowHumanResult.Finished;
         }

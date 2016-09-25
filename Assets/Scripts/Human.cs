@@ -90,8 +90,8 @@ public class Human : EntityBehavior
         }
         else if (HumanClass == HumanClasses.Gatherer)
         {
-            var gameGrid = Toolbox.Instance.GameManager.GameGrid;
-            var cell = gameGrid.MapPositionToGameCellOrNull(this.transform.position);
+            var cell = _entity.GetCurrentGameCell();
+            Debug.Assert(cell != null); // Human kinda has to be in a cell, rigth?
             if (cell.Carcases.Count > 0)
             {
                 if (_wander.IsStopped)
@@ -99,10 +99,33 @@ public class Human : EntityBehavior
                     _wander.StopWandering(); // TBD: Maybe only stop really near the carcas.
                 }
 
-                if( GatherState.GrowValue < GatherState.MaxGrowValue)
+                if (GatherState.GrowValue < GatherState.MaxGrowValue)
                 {
                     float wantToGatherThisMuch = (GatherState.MaxGrowValue - GatherState.GrowValue)*GatherState.Rate*
                                                  Time.deltaTime;
+                    foreach (var carcas in cell.Carcases)
+                    {
+                        if (carcas.Entity.BuildValue > wantToGatherThisMuch)
+                        {
+                            this.GatherState.GrowValue += wantToGatherThisMuch;
+                            carcas.Entity.BuildValue -= wantToGatherThisMuch;
+                            break;
+                        }
+                        else
+                        {
+
+                            float availableInThisCarcas = carcas.Entity.BuildValue;
+                            this.GatherState.GrowValue += availableInThisCarcas;
+                            wantToGatherThisMuch -= availableInThisCarcas;
+                            UnityEngine.Object.Destroy(carcas.gameObject);
+                        }
+                    }
+                }
+                else
+                {
+                    // TBD: Need to wander to a gatherer city.
+                    _wander.WanderMode = Wander.WanderModes.ToCity;
+                    _wander.RestartWandering();
                 }
             }
             else
@@ -110,6 +133,19 @@ public class Human : EntityBehavior
                 if (_wander.IsStopped)
                 {
                     _wander.RestartWandering();
+                }
+            }
+            if (cell.Tower != null)
+            {
+                if (cell.Tower.TowerClass != Tower.TowerClasses.GathererTower)
+                {
+                    Debug.LogError( "Only really works for gatherer towers.");
+                }
+                if (this.GatherState.GrowValue > 0)
+                {
+                    // TBD: Need some sounds an graphics when the gather deposits into a tower.
+                    cell.Tower.AvailableGrowPower += this.GatherState.GrowValue;
+                    this.GatherState.GrowValue = 0.0f;
                 }
             }
         }

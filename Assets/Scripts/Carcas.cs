@@ -15,7 +15,7 @@ namespace Assets.Scripts
         /// </summary>
         public Entity.EntityClasses CarcasClass;
 
-        public float DecomposeTimeInterval = 7.0f; // TBD: Where should this come from?
+        public float DecomposeTimeInterval = 7.0f; 
 
         private float _decomposeTimeRemainingAtStartOfDrag;
         private float _decomposeStartTime;
@@ -52,7 +52,7 @@ namespace Assets.Scripts
                 if (IsDecomposingDone()) // Needs to be a constant
                 {
                     // We're done decomposing.
-                    // TBD: Sound and graphics here?
+                    PlayDecomposingSoundAndGraphics();
                     EndDecomposing();
                 }
                 else
@@ -64,6 +64,11 @@ namespace Assets.Scripts
             {
                 PauseDecomposing();
             }
+        }
+
+        private void PlayDecomposingSoundAndGraphics()
+        {
+            // TBD: Sound and graphics here?
         }
 
         private bool IsDragging()

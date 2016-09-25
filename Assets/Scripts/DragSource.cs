@@ -137,9 +137,6 @@ public class DragSource : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// TBD: We probably already know gamecell in caller, so why not pass in?
-    /// </summary>
     public void FinishOrCancelDragging(GameGrid.GameCell dropCellOrNull, Vector3 mapExactDrop)
     {
         if (dropCellOrNull != null)
@@ -160,7 +157,7 @@ public class DragSource : MonoBehaviour
                     if (dropCellOrNull.Tower != null)
                     {
                         var tower = dropCellOrNull.Tower;
-                        tower.DropHuman(human); // TBD: Should DropHuman be a component that everyone has?
+                        tower.DropHuman(human); 
                         Destroy(human.gameObject);
                         GameManagerScript.PlayClip(DropSound);
                         return;
@@ -194,7 +191,7 @@ public class DragSource : MonoBehaviour
                     if (dropCellOrNull.Tower != null)
                     {
                         var tower = dropCellOrNull.Tower;
-                        tower.DropCarcas(carcas); // TBD: Should DropHuman be a component that everyone has?
+                        tower.DropCarcas(carcas); 
                         Destroy(carcas.gameObject);
                         GameManagerScript.PlayClip(DropSound);
                         return;
@@ -209,7 +206,7 @@ public class DragSource : MonoBehaviour
                 case Entity.EntityClasses.Tower:
                     if (dropCellOrNull.Tower != null)
                     {
-                        // TBD: Cell already occupied. Need a sound
+                        PlayCancelSound();
                         CancelDragging();
                         return;
                     }
@@ -225,12 +222,12 @@ public class DragSource : MonoBehaviour
                 case Entity.EntityClasses.Background:
                     if (dropCellOrNull.Background != null)
                     {
-                        // TBD: Cell already occupied. Need a sound
+                        PlayCancelSound();
                         CancelDragging();
                         return;
                     }
                     this.gameObject.layer = GameGrid.BACKGROUND_LAYER;
-                    dropCellOrNull.Background = this.gameObject;
+                    dropCellOrNull.Background = this.GetComponent<Block>();
                     break;
 
                 default:
@@ -245,6 +242,11 @@ public class DragSource : MonoBehaviour
             return;
         }
         Debug.LogError("Fell thru.");
+    }
+
+    private void PlayCancelSound()
+    {
+        // TBD: Cell already occupied. Need a sound
     }
 
     private static bool CanHumanWalkOn(GameGrid.GameCell.GroundTypes groundType)
