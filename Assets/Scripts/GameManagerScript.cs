@@ -21,6 +21,7 @@ public class GameManagerScript : MonoBehaviour
     public struct TreeNodes
     {
         public Transform BulletsCollection;
+        public Transform Enemies;
     }
 
 
@@ -50,8 +51,7 @@ public class GameManagerScript : MonoBehaviour
 
         _nodes = new TreeNodes();
         _nodes.BulletsCollection = GameObject.Find("Bullets").transform; 
-
-
+        _nodes.Enemies = GameObject.Find("Enemies").transform; 
 
         //if (HideMouseCuror)
         {

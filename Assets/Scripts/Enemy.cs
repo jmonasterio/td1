@@ -4,8 +4,7 @@ using System.Collections;
 using Assets.Scripts;
 using Object = UnityEngine.Object;
 
-public class Enemy : MonoBehaviour {
-
+public class Enemy : EntityBehavior {
     public enum EnemyClasses
     {
         Standard = 1,
@@ -14,7 +13,6 @@ public class Enemy : MonoBehaviour {
     public EnemyClasses EnemyClass;
     public Bullet BulletPrefab;
 
-    private Entity _entity;
     private PathFollower _pathFollower;
     private Animator _animator;
     private DragSource _dragSource;
@@ -27,6 +25,11 @@ public class Enemy : MonoBehaviour {
         Wounded = 3,
     }
 
+    public PathFollower PathFollower
+    {
+        get { return GetComponent<PathFollower>(); }
+    }
+
     public void SetAnimState(AnimStates animState)
     {
         _animator.SetInteger("AnimState", (int) animState );
@@ -36,13 +39,13 @@ public class Enemy : MonoBehaviour {
 
     
     // Use this for initialization
-    void Start ()
+    new void Start ()
     {
+        base.Start();
         if (this.GetComponentInParent<Wave>() != null)
         {
             this.gameObject.SetActive(false); // So enemies in the Waves controller start disabled.
         }
-        _entity = GetComponent<Entity>();
         _dragSource = GetComponent<DragSource>();
         _animator = GetComponent<Animator>();
         _pathFollower = GetComponent<PathFollower>();
@@ -61,7 +64,7 @@ public class Enemy : MonoBehaviour {
     {
         if (EnemyClass == EnemyClasses.Standard)
         {
-            if ( _entity.IsReloaded())
+            if ( Entity.IsReloaded())
             {
                 var tower = _entity.FindClosestLiveTower(BulletPrefab.BulletRange); // Should be related to bullet range.
                 var human = _entity.FindClosestLiveHuman(BulletPrefab.BulletRange);
@@ -123,21 +126,14 @@ public class Enemy : MonoBehaviour {
 
             Debug.Log("Hit!");
 
-            bullet.Destroy();
-
-            if (_entity.Health > 0)
+            bool justDied = Entity.TakeDamageFromBullet(bullet);
+            if (justDied)
             {
-                _entity.Health--;
-                if (_entity.Health <= 0)
-                {
-                    Toolbox.Instance.GameManager.ScoreController.Score += 100;
-                    Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
-                    _entity.Explode(destroy: false);
-                    _entity.SwitchToCarcas();
-
-                    // Will fire OnDecomposed() when times out.
-                }
+                Toolbox.Instance.GameManager.ScoreController.Score += 100;
+                Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
             }
+
+            bullet.Destroy();
         }
         else
         {

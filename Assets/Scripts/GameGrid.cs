@@ -97,15 +97,20 @@ namespace Assets.Scripts
         /// <param name="remainingWaypoints">Last point is the end.</param>
         /// <param name="orderedWayPointsGameCells"></param>
         /// <returns></returns>
-        public List<GameCell> FindPathWithWaypoints(GameCell current, List<GameCell> orderedWayPointsGameCells, GameCell targetGameCell)
+        public List<GameCell> FindPathWithWaypointsOrNull(GameCell current, List<GameCell> orderedWayPointsGameCells, GameCell targetGameCell)
         {
+            if (current == null)
+            {
+                return null;
+            }
+
             var remainingWaypoints = new List<GameGrid.GameCell>();
             remainingWaypoints.AddRange(orderedWayPointsGameCells);
             remainingWaypoints.Add(targetGameCell); 
 
-            if (current == null || remainingWaypoints.Count == 0)
+            if ( remainingWaypoints.Count == 0)
             {
-                return null; //new List<GameCell>(); 
+                return null; 
             }
 
             var fullPath = new List<GameCell>();
@@ -113,7 +118,7 @@ namespace Assets.Scripts
             if (firstLeg.Count == 0)
             {
                 // No path
-                return new List<GameCell>(); 
+                return null;
             }
             fullPath.AddRange(firstLeg);
             for (int ii = 0; ii < remainingWaypoints.Count - 1; ii++)
@@ -522,6 +527,8 @@ namespace Assets.Scripts
             origin.y += nodeGridPoint.Y;
             return origin;
         }
+
+        // TBD: Add a FindCellsWhere(predicate)
 
         // TBD: Bad idea.
         // TBD: Should we be able to select enemy/human/city/robot carcas?

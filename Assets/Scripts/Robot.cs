@@ -83,20 +83,16 @@ namespace Assets.Scripts
 
         private void RobotTookDamage( float amountOfDamage)
         {
-
             if (_entity.Health > 0)
             {
                 _entity.Health-= amountOfDamage;
                 if (_entity.Health <= 0)
                 {
                     _entity.Explode(destroy: false);
-                    // TBD: SetAnimState(AnimStates.Carcas);
 
                     Toolbox.Instance.GameManager.GameController.GameOver();
 
                     _entity.SwitchToCarcas();
-
-                    // Will fire OnDecomposed() when times out.
                 }
             }
         }

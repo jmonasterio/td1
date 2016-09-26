@@ -255,6 +255,22 @@ public class Entity : EntityBehavior
         carcasEntity.BuildValue = this.BuildValue;
         UnityEngine.Object.Destroy(this.gameObject);
     }
+
+    public bool TakeDamageFromBullet(Bullet bullet)
+    {
+        bool justDied = false;
+        if (_entity.Health > 0)
+        {
+            _entity.Health--;
+            if (_entity.Health <= 0)
+            {
+                _entity.Explode(destroy: false);
+                _entity.SwitchToCarcas();
+                justDied = true;
+            }
+        }
+        return justDied;
+    }
 }
 
 

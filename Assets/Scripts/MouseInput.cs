@@ -156,29 +156,6 @@ public class MouseInput : MonoBehaviour
         return OFF_SCREEN;
     }
 
-    private DragTarget FindFirstDragTargetAtMousePositionOrNull()
-    {
-        Vector2 v = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        Collider2D[] col = Physics2D.OverlapPointAll(v);
-
-        if (col.Length > 0)
-        {
-            foreach (Collider2D c in col)
-            {
-                //Debug.Log("Collided with: " + c.collider2D.gameObject.name);
-
-                var target = c.GetComponent<DragTarget>();
-                if (target != null)
-                {
-                    // TBD: For now drag the first one.
-                    return target;
-                }
-            }
-        }
-        return null;
-    }
-
     private DragSource FindFirstDragSourceAtMousePositionOrNull()
     {
         Vector2 v = Camera.main.ScreenToWorldPoint(Input.mousePosition);

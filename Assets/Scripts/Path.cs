@@ -76,7 +76,7 @@ public class PathEditor : Editor
             var midCells = GetCells(gameGrid, path.MidWaypoints);
             var endCell = gameGrid.MapGridPointToGameCellOrNull(path.EndWaypoint.GridPoint);
 
-            var foundPath = gameGrid.FindPathWithWaypoints(startCell, midCells, endCell);
+            var foundPath = gameGrid.FindPathWithWaypointsOrNull(startCell, midCells, endCell);
             if (foundPath != null)
             {
                 foreach (var node in foundPath)

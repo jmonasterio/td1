@@ -144,14 +144,14 @@ public class Tower : EntityBehavior
     // TBD: Similar code in Enemy.
     void OnTriggerEnter2D(Collider2D collision)
     {
-        var colliderGo = collision.gameObject;
-        var bullet = colliderGo.GetComponent<Bullet>();
-
         if (_dragSource.Dragging)
         {
             return;
         }
+        var colliderGo = collision.gameObject;
 
+
+        var bullet = colliderGo.GetComponent<Bullet>();
         if (bullet != null)
         {
             // Avoid hit to self
@@ -160,21 +160,11 @@ public class Tower : EntityBehavior
                 return;
             }
 
+
+            bool justDied = Entity.TakeDamageFromBullet(bullet);
+
             bullet.Destroy();
 
-            if (_entity.Health > 0)
-            {
-                _entity.Health--;
-                if (_entity.Health <= 0)
-                {
-                    //Toolbox.Instance.GameManager.ScoreController.Score += 100;
-                    //Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
-                    _entity.Explode(destroy: false);
-                    _entity.SwitchToCarcas();
-
-                    // Will fire OnDecomposed() when times out.
-                }
-            }
         }
     }
 

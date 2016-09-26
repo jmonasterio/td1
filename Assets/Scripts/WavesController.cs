@@ -13,15 +13,14 @@ public class WavesController : MonoBehaviour
     public float SpawnWait;
     public float StartWait;
     public float WaveWait;
-    private GameObject _enemiesCollection;
+    private Transform _enemiesCollection;
 
 
     void Start()
     {
         _levelStartTime = 0.0f;
-        _enemiesCollection = GameObject.Find("Enemies"); // TBD: Maybe do this in the in the Enemy object.
+        _enemiesCollection = Toolbox.Instance.GameManager.Nodes.Enemies;
                                                          // StartCoroutine(SpawnWaves());
-
         StartLevel( 0.0f );
     }
 
@@ -67,7 +66,7 @@ public class WavesController : MonoBehaviour
                 Debug.Assert(newEnemy.GetComponent<Enemy>() != null );
 
                 newEnemy.gameObject.name = path.gameObject.name + DateTime.Now.Ticks;
-                newEnemy.transform.SetParent( _enemiesCollection.transform);
+                newEnemy.transform.SetParent( _enemiesCollection);
                 newEnemy.transform.position = spawnPosition;
                 newEnemy.gameObject.SetActive(true);
                 switch (poco.Data)
@@ -82,8 +81,11 @@ public class WavesController : MonoBehaviour
 
                 Debug.Assert(newEnemy.isActiveAndEnabled);
 
+                // Start() on enemy not called until just before first update,
+                // so we can't use newEnemy.PathFollower;
+
                 var pathFollower = newEnemy.GetComponent<PathFollower>();
-                pathFollower.SetPathWaypoints(path); // TBD-JM: Need to pick targets here if there is a choice.
+                pathFollower.SetPathWaypoints(path); 
 
                 this.LiveEnemyCount++;
 
@@ -100,8 +102,6 @@ public class WavesController : MonoBehaviour
                 {
                     if( poco.EntityType == "WaveBreak")
                     {
-                        //yield return new WaitForSeconds(1.0f); // TBD REPLACE SYNC POINT
-                        //Destroy(waveBreak.gameObject);
                         yield return new WaitForSeconds(poco.Delay);
                     }
                     else
@@ -136,12 +136,8 @@ public class WavesController : MonoBehaviour
         var wavesOnLevel = Toolbox.Instance.GameManager.GetComponent<DataController>().WavesCsv;
         var waveCsv = wavesOnLevel.Where(_ => _.WaveId == 0 && _.Path == path.name);
 
-        //foreach (Wave wave in waves)
-        //{
-            var coroutine = StartCoroutine(SingleWave(waveCsv, path));
-            _runningWaves.Add(coroutine); // TBD: When to remove?
-            //wave.SetCoroutine(coroutine);
-        //}
+        var coroutine = StartCoroutine(SingleWave(waveCsv, path));
+        _runningWaves.Add(coroutine);
 
     }
 

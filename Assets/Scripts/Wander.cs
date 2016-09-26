@@ -46,8 +46,6 @@ namespace Assets.Scripts
 
         void Update()
         {
-
-            // TBD: Are we there, yet?
             if (_targetCell == null)
             {
                 _targetCell = MakePathOrNull();

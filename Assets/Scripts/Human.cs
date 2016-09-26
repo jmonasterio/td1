@@ -161,8 +161,6 @@ public class Human : EntityBehavior
 
     }
 
-    // TBD: Same code in tower.
-    // TBD: Similar code in Enemy.
     void OnTriggerEnter2D(Collider2D collision)
     {
         var colliderGo = collision.gameObject;
@@ -183,21 +181,13 @@ public class Human : EntityBehavior
 
             Debug.Log("Hit!");
 
-            bullet.Destroy();
-
-            // TBD: This is common code.
-            if (_entity.Health > 0)
+            bool justDied = _entity.TakeDamageFromBullet(bullet);
+            if (justDied)
             {
-                _entity.Health--;
-                if (_entity.Health <= 0)
-                {
-                    //Toolbox.Instance.GameManager.ScoreController.Score += 100;
-                    //Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
-                    _entity.Explode(destroy: false);
-                    //SetAnimState(AnimStates.Carcas);
-                    _entity.SwitchToCarcas();
-                }
+                // TBD: Change score or reduce counts, or whatever.
             }
+
+            bullet.Destroy();
         }
     }
 }

@@ -71,7 +71,6 @@ public class PathFollower : MonoBehaviour
         PrevGameCell = CurrentGameCell;
 
         if ((OrderedWaypointCells.Count > 0) && (CurrentGameCell.GridPoint == OrderedWaypointCells[0].GridPoint))
-            // TBD: Some kind of equality needed here for gamecells.
         {
             // remove each waypoint as we reach it. The idea is that the path may get changed (due to blockages) from here on out, but we won't go back to this particular waypoint once we reach it.
             // of course, we don't want to remove the last waypoint, either. That is the endpoint (for now).
@@ -79,7 +78,7 @@ public class PathFollower : MonoBehaviour
         }
 
         // Changed target, so find a new path.
-        CurrentPath = gameGrid.FindPathWithWaypoints(CurrentGameCell, OrderedWaypointCells, TargetCell);
+        CurrentPath = gameGrid.FindPathWithWaypointsOrNull(CurrentGameCell, OrderedWaypointCells, TargetCell);
         if (CurrentPath == null || CurrentPath.Count == 0)
         {
             // Couldn't find a path!!!!
@@ -175,14 +174,12 @@ public class PathFollower : MonoBehaviour
         var gameGrid = Toolbox.Instance.GameManager.GameGrid;
         if (gameGrid != null)
         {
-            var t = Time.time;
-            var map = gameGrid.GetMap();
 
             // Refigure the path on each update (in case the path has changed).
             // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
             //  and we're sure the target is still there ... more complex games might allow the user to drop
             /// walls to block paths.
-            CurrentPath = gameGrid.FindPathWithWaypoints(PrevGameCell, OrderedWaypointCells, TargetCell);
+            CurrentPath = gameGrid.FindPathWithWaypointsOrNull(PrevGameCell, OrderedWaypointCells, TargetCell);
 
             //var nextGameCell = FindNextGameCell( path, PrevGameCell);
 
@@ -192,10 +189,12 @@ public class PathFollower : MonoBehaviour
             //    //DebugSystem.DebugAssert(false, "Need to handle case where next cell is blocked (no longer on path).");
             //}
 
+            var t = Time.time;
             float deltaT = t - _startTime;
             float distCovered = deltaT*GetSpeedFromEntity();
 
             Debug.Assert(NextGameCell != null);
+            var map = gameGrid.GetMap();
             var nextPathVector = GridHelper.MapPointToVector(map, NextGameCell.GridPoint);
             var prevPathVector = GridHelper.MapPointToVector(map, PrevGameCell.GridPoint);
             if (StartPos.HasValue)
@@ -226,7 +225,7 @@ public class PathFollower : MonoBehaviour
                 else
                 {
 
-                    // TBD: There may have been a little time left, so we have to move further past current point.
+                    // There may have been a little time left, so we have to move further past current point.
                     _startTime = t;
                     FollowToTargetCell(gameGrid, transform.position);
                 }
