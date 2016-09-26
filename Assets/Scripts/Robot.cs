@@ -11,21 +11,20 @@ namespace Assets.Scripts
         // Use this for initialization
         new void Start()
         {
-            base.Start();
             _dragSource = GetComponent<DragSource>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (_entity.IsReloaded())
+            if (Entity.IsReloaded())
             {
 
-                var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
+                var enemy = Entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
                 // Should be related to bullet range.
                 if (enemy != null)
                 {
-                    _entity.FireBulletAt(enemy, BulletPrefab);
+                    Entity.FireBulletAt(enemy, BulletPrefab);
                 }
             }
 
@@ -83,16 +82,16 @@ namespace Assets.Scripts
 
         private void RobotTookDamage( float amountOfDamage)
         {
-            if (_entity.Health > 0)
+            if (Entity.Health > 0)
             {
-                _entity.Health-= amountOfDamage;
-                if (_entity.Health <= 0)
+                Entity.Health-= amountOfDamage;
+                if (Entity.Health <= 0)
                 {
-                    _entity.Explode(destroy: false);
+                    Entity.Explode(destroy: false);
 
                     Toolbox.Instance.GameManager.GameController.GameOver();
 
-                    _entity.SwitchToCarcas();
+                    Entity.SwitchToCarcas();
                 }
             }
         }

@@ -29,8 +29,7 @@ namespace Assets.Scripts
 
         public new void Start()
         {
-            base.Start();
-            Debug.Assert( _entity != null);
+            Debug.Assert( Entity != null);
             _dragSourceOrNull = GetComponent<DragSource>();
             _animator = GetComponent<Animator>();
             SetAnimState(AnimStates.Normal);
@@ -110,7 +109,8 @@ namespace Assets.Scripts
         {
             Debug.Assert(!IsDragging());
             Debug.Assert(_decomposeStartTime > 0.0f);
-            UnityEngine.Object.Destroy(this.transform.gameObject);
+
+            Entity.DestroyAndUpdateGrid();
             _decomposeStartTime = 0.0f;
             _decomposeTimeRemainingAtStartOfDrag = 0.0f;
         }

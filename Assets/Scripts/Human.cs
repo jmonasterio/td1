@@ -47,7 +47,6 @@ public class Human : EntityBehavior
     // Use this for initialization
     new void Start()
     {
-        base.Start();
         _wander = GetComponent<Wander>();
         _dragSource = GetComponent<DragSource>();
 
@@ -77,79 +76,85 @@ public class Human : EntityBehavior
 
         if (HumanClass == HumanClasses.Standard)
         {
-            if ( _entity.IsReloaded())
+            if (Entity.IsReloaded())
             {
 
-                var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
+                var enemy = Entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
                     // Should be related to bullet range.
                 if (enemy != null)
                 {
-                    _entity.FireBulletAt(enemy, BulletPrefab);
+                    Entity.FireBulletAt(enemy, BulletPrefab);
                 }
             }
         }
         else if (HumanClass == HumanClasses.Gatherer)
         {
-            var cell = _entity.GetCurrentGameCell();
-            Debug.Assert(cell != null); // Human kinda has to be in a cell, rigth?
-            if (cell.Carcases.Count > 0)
+            var cell = Entity.GetCurrentGameCell();
+            if (cell == null)
             {
-                if (_wander.IsStopped)
+                // This happens, because the HUMAN component seems to "Update()" before the ENTITY component.
+                Debug.LogWarning("Could not find cell for gatherer.");
+            }
+            else
+            {
+                if (cell.Carcases.Count > 0)
                 {
-                    _wander.StopWandering(); // TBD: Maybe only stop really near the carcas.
-                }
-
-                if (GatherState.GrowValue < GatherState.MaxGrowValue)
-                {
-                    float wantToGatherThisMuch = (GatherState.MaxGrowValue - GatherState.GrowValue)*GatherState.Rate*
-                                                 Time.deltaTime;
-                    foreach (var carcas in cell.Carcases)
+                    if (_wander.IsStopped)
                     {
-                        if (carcas.Entity.BuildValue > wantToGatherThisMuch)
-                        {
-                            this.GatherState.GrowValue += wantToGatherThisMuch;
-                            carcas.Entity.BuildValue -= wantToGatherThisMuch;
-                            break;
-                        }
-                        else
-                        {
+                        _wander.StopWandering(); // TBD: Maybe only stop really near the carcas.
+                    }
 
-                            float availableInThisCarcas = carcas.Entity.BuildValue;
-                            this.GatherState.GrowValue += availableInThisCarcas;
-                            wantToGatherThisMuch -= availableInThisCarcas;
-                            UnityEngine.Object.Destroy(carcas.gameObject);
+                    if (GatherState.GrowValue < GatherState.MaxGrowValue)
+                    {
+                        float wantToGatherThisMuch = (GatherState.MaxGrowValue - GatherState.GrowValue)*GatherState.Rate*
+                                                     Time.deltaTime;
+                        foreach (var carcas in cell.Carcases)
+                        {
+                            if (carcas.Entity.BuildValue > wantToGatherThisMuch)
+                            {
+                                this.GatherState.GrowValue += wantToGatherThisMuch;
+                                carcas.Entity.BuildValue -= wantToGatherThisMuch;
+                                break;
+                            }
+                            else
+                            {
+
+                                float availableInThisCarcas = carcas.Entity.BuildValue;
+                                this.GatherState.GrowValue += availableInThisCarcas;
+                                wantToGatherThisMuch -= availableInThisCarcas;
+                                carcas.Entity.DestroyAndUpdateGrid();
+                            }
                         }
+                    }
+                    else
+                    {
+                        // TBD: Need to wander to a gatherer city.
+                        _wander.WanderMode = Wander.WanderModes.ToGathererCity;
+                        _wander.RestartWandering();
                     }
                 }
                 else
                 {
-                    // TBD: Need to wander to a gatherer city.
-                    _wander.WanderMode = Wander.WanderModes.ToCity;
-                    _wander.RestartWandering();
+                    if (_wander.IsStopped)
+                    {
+                        _wander.RestartWandering();
+                    }
                 }
-            }
-            else
-            {
-                if (_wander.IsStopped)
+                if (cell.Tower != null)
                 {
-                    _wander.RestartWandering();
-                }
-            }
-            if (cell.Tower != null)
-            {
-                if (cell.Tower.TowerClass != Tower.TowerClasses.GathererTower)
-                {
-                    Debug.LogError( "Only really works for gatherer towers.");
-                }
-                if (this.GatherState.GrowValue > 0)
-                {
-                    // TBD: Need some sounds an graphics when the gather deposits into a tower.
-                    cell.Tower.AvailableGrowPower += this.GatherState.GrowValue;
-                    this.GatherState.GrowValue = 0.0f;
+                    if (cell.Tower.TowerClass != Tower.TowerClasses.GathererTower)
+                    {
+                        Debug.LogError("Only really works for gatherer towers.");
+                    }
+                    if (this.GatherState.GrowValue > 0)
+                    {
+                        // TBD: Need some sounds an graphics when the gather deposits into a tower.
+                        cell.Tower.AvailableGrowPower += this.GatherState.GrowValue;
+                        this.GatherState.GrowValue = 0.0f;
+                    }
                 }
             }
         }
-
     }
 
     public void DropAt(Vector3 mapExactDrop)
@@ -181,7 +186,7 @@ public class Human : EntityBehavior
 
             Debug.Log("Hit!");
 
-            bool justDied = _entity.TakeDamageFromBullet(bullet);
+            bool justDied = Entity.TakeDamageFromBullet(bullet);
             if (justDied)
             {
                 // TBD: Change score or reduce counts, or whatever.

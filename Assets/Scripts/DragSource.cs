@@ -36,7 +36,7 @@ public class DragSource : MonoBehaviour
 
         if (this.DeleteOnCancel && cancel)
         {
-            Object.Destroy(this.gameObject);
+            _entity.DestroyAndUpdateGrid();
         }
         else
         {
@@ -150,7 +150,7 @@ public class DragSource : MonoBehaviour
                     {
                         var robot = dropCellOrNull.Robot;
                         robot.DropHuman(human);
-                        Destroy(human.gameObject);
+                        human.Entity.DestroyAndUpdateGrid();
                         GameManagerScript.PlayClip(DropSound);
                         return;
                     }
@@ -158,7 +158,7 @@ public class DragSource : MonoBehaviour
                     {
                         var tower = dropCellOrNull.Tower;
                         tower.DropHuman(human); 
-                        Destroy(human.gameObject);
+                        human.Entity.DestroyAndUpdateGrid();
                         GameManagerScript.PlayClip(DropSound);
                         return;
                     }
@@ -184,7 +184,7 @@ public class DragSource : MonoBehaviour
                     {
                         var robot = dropCellOrNull.Robot;
                         robot.DropCarcas(carcas);
-                        Destroy(carcas.gameObject);
+                        carcas.Entity.DestroyAndUpdateGrid();
                         GameManagerScript.PlayClip(DropSound);
                         return;
                     }
@@ -192,7 +192,7 @@ public class DragSource : MonoBehaviour
                     {
                         var tower = dropCellOrNull.Tower;
                         tower.DropCarcas(carcas); 
-                        Destroy(carcas.gameObject);
+                        carcas.Entity.DestroyAndUpdateGrid();
                         GameManagerScript.PlayClip(DropSound);
                         return;
                     }

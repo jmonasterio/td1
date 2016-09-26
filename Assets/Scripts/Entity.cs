@@ -48,8 +48,6 @@ public class Entity : EntityBehavior
 
     new void Start()
     {
-        base.Start();
-
         // Does some validation. 
         // TBD: Perhaps GetComponent should be source of truth and entity class should be calculated???
         switch (EntityClass)
@@ -106,6 +104,16 @@ public class Entity : EntityBehavior
 
     public GameGrid.GameCell GetCurrentGameCell()
     {
+        if (_currentGameCell == null)
+        {
+            if (!Entity.IsDragging())
+            {
+                // Could happen if HUMAN's update called before ENTITY.
+                var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
+                Debug.Assert(cell != null);
+                UpdateCurrentCell(cell);
+            }
+        }
         return _currentGameCell;
     }
 
@@ -144,6 +152,7 @@ public class Entity : EntityBehavior
         {
             // As entity moves around, we want to update the CellMap to know where entity is.
             var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
+            Debug.Assert(cell != null);
             UpdateCurrentCell(cell);
         }
     }
@@ -253,23 +262,32 @@ public class Entity : EntityBehavior
         Debug.Assert(this.BuildValue > 0.0f);
         var carcasEntity = carcas.GetComponent<Entity>();
         carcasEntity.BuildValue = this.BuildValue;
-        UnityEngine.Object.Destroy(this.gameObject);
+        this.DestroyAndUpdateGrid();
     }
 
     public bool TakeDamageFromBullet(Bullet bullet)
     {
         bool justDied = false;
-        if (_entity.Health > 0)
+        if (Entity.Health > 0)
         {
-            _entity.Health--;
-            if (_entity.Health <= 0)
+            Entity.Health--;
+            if (Entity.Health <= 0)
             {
-                _entity.Explode(destroy: false);
-                _entity.SwitchToCarcas();
+                Entity.Explode(destroy: false);
+                Entity.SwitchToCarcas();
                 justDied = true;
             }
         }
         return justDied;
+    }
+
+    /// <summary>
+    /// Every time we destroy an object, we need to remove from gamegrid.
+    /// </summary>
+    public void DestroyAndUpdateGrid()
+    {
+        GameGrid.RemoveEntity(GetCurrentGameCell(), this.gameObject, this.EntityClass);
+        Destroy(this.transform.gameObject);
     }
 }
 

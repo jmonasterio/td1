@@ -35,7 +35,6 @@ public class Tower : EntityBehavior
     // Use this for initialization
     new void Start()
     {
-        base.Start();
         _dragSource = GetComponent<DragSource>();
     }
 
@@ -49,12 +48,12 @@ public class Tower : EntityBehavior
 
         if (TowerClass == TowerClasses.Shooter)
         {
-            if ( _entity.IsReloaded())
+            if (Entity.IsReloaded())
             {
-                var enemy = _entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
+                var enemy = Entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
                 if (enemy != null)
                 {
-                    _entity.FireBulletAt(enemy, BulletPrefab);
+                    Entity.FireBulletAt(enemy, BulletPrefab);
 
                 }
             }

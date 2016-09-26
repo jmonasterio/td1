@@ -74,6 +74,9 @@ x Entity should either store the current cell, or be really good at getting it b
 
  -Human:126 - Human gatherer, should try to go to gatherer city.
 
+ - Gatherers - seem to jump around. 
+ - Gatherers - clump
+
 - If gatherer in cell with carcas, should pick up some. 
     - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.
 - Drag to tower, should add "grow" to that one tower. Drag to robot put's it in the pot.

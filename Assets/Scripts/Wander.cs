@@ -21,8 +21,9 @@ namespace Assets.Scripts
         public enum WanderModes
         {
             Random,
-            ToCity, // TBD: Needs work to be "other city".
+            ToTower, 
             ToCarcas,
+            ToGathererCity,
         }
 
         public WanderModes WanderMode = WanderModes.Random;
@@ -88,9 +89,13 @@ namespace Assets.Scripts
             {
                 return gameGrid.RandomCarcasOrNull();
             }
-            if (WanderMode == WanderModes.ToCity)
+            if (WanderMode == WanderModes.ToTower)
             {
                 return gameGrid.RandomTowerCellOrNull(Tower.TowerClasses.City);
+            }
+            if (WanderMode == WanderModes.ToGathererCity)
+            {
+                return gameGrid.RandomTowerCellOrNull(Tower.TowerClasses.GathererTower);
             }
             Debug.LogError("Unknown wander mode.");
             return null;

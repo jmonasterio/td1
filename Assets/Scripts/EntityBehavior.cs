@@ -2,15 +2,17 @@
 
 public class EntityBehavior : MonoBehaviour
 {
-    protected Entity _entity;
-
-    public void Start()
-    {
-        _entity = GetComponent<Entity>();
-    }
+    private Entity _entity;
 
     public Entity Entity
     {
-        get { return _entity;  }
+        get
+        {
+            if (_entity == null)
+            {
+                _entity = GetComponent<Entity>();
+            }
+            return _entity;
+        }
     }
 }

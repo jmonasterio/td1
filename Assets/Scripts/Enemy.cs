@@ -41,7 +41,6 @@ public class Enemy : EntityBehavior {
     // Use this for initialization
     new void Start ()
     {
-        base.Start();
         if (this.GetComponentInParent<Wave>() != null)
         {
             this.gameObject.SetActive(false); // So enemies in the Waves controller start disabled.
@@ -66,28 +65,28 @@ public class Enemy : EntityBehavior {
         {
             if ( Entity.IsReloaded())
             {
-                var tower = _entity.FindClosestLiveTower(BulletPrefab.BulletRange); // Should be related to bullet range.
-                var human = _entity.FindClosestLiveHuman(BulletPrefab.BulletRange);
+                var tower = Entity.FindClosestLiveTower(BulletPrefab.BulletRange); // Should be related to bullet range.
+                var human = Entity.FindClosestLiveHuman(BulletPrefab.BulletRange);
                 if (tower != null && human != null)
                 {
                     // pick
                     if (UnityEngine.Random.Range(0.0f, 1.0f) > 0.5f)
                     {
-                        _entity.FireBulletAt(tower, BulletPrefab);
+                        Entity.FireBulletAt(tower, BulletPrefab);
                     }
                     else
                     {
-                        _entity.FireBulletAt(human, BulletPrefab);
+                        Entity.FireBulletAt(human, BulletPrefab);
                     }
                 }
                 else if (tower != null)
                 {
-                    _entity.FireBulletAt(tower, BulletPrefab);
+                    Entity.FireBulletAt(tower, BulletPrefab);
 
                 }
                 else if (human != null)
                 {
-                    _entity.FireBulletAt(human, BulletPrefab);
+                    Entity.FireBulletAt(human, BulletPrefab);
                 }
 
             }
@@ -100,7 +99,7 @@ public class Enemy : EntityBehavior {
         if (_pathFollower.TargetCell.GroundType == GameGrid.GameCell.GroundTypes.End)
         {
             Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
-            Object.Destroy(this.gameObject);
+            Entity.DestroyAndUpdateGrid();
 
             // Damage to robot happens in collision??? TBD
         }
@@ -140,8 +139,8 @@ public class Enemy : EntityBehavior {
             var robot = colliderGo.GetComponent<Robot>();
             if (robot != null)
             {
-                _entity.Health = 0; // Kills enemy. Will also STOP it.
-                _entity.Explode(destroy: true);
+                Entity.Health = 0; // Kills enemy. Will also STOP it.
+                Entity.Explode(destroy: true);
                 Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
             }
 
