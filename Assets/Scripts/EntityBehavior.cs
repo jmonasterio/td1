@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 
 public class EntityBehavior : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class EntityBehavior : MonoBehaviour
 
     public Entity Entity
     {
+        [DebuggerStepThrough]
         get
         {
             if (_entity == null)

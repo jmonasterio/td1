@@ -51,10 +51,6 @@ namespace Assets.Scripts
             {
                 _targetCell = MakePathOrNull();
             }
-            if (_targetCell == null)
-            {
-                _stopped = true;
-            }
         }
 
         private GameGrid.GameCell MakePathOrNull()
@@ -68,6 +64,7 @@ namespace Assets.Scripts
             var endCell = GetTargetCellForWanderModeOrNull(gameGrid);
             if (endCell == null)
             {
+                _stopped = true;
                 return null;
             }
 
@@ -76,6 +73,7 @@ namespace Assets.Scripts
             _pf.TargetCell = endCell;
             _pf.OrderedWaypointCells = new List<GameGrid.GameCell>(); // Empty. No way points.
             _pf.FollowToTargetCell(gameGrid, transform.position);
+            _stopped = false;
             return _pf.CurrentGameCell;
         }
 
@@ -104,11 +102,13 @@ namespace Assets.Scripts
         public void RestartWandering()
         {
             _targetCell = null;
+            _stopped = true;
         }
 
         public void StopWandering()
         {
             _pf.TargetCell = null;
+            _stopped = true;
         }
     }
 }

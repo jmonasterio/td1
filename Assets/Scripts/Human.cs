@@ -80,7 +80,7 @@ public class Human : EntityBehavior
             {
 
                 var enemy = Entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
-                    // Should be related to bullet range.
+                // Should be related to bullet range.
                 if (enemy != null)
                 {
                     Entity.FireBulletAt(enemy, BulletPrefab);
@@ -99,16 +99,17 @@ public class Human : EntityBehavior
             {
                 if (cell.Carcases.Count > 0)
                 {
-                    if (_wander.IsStopped)
-                    {
-                        _wander.StopWandering(); // TBD: Maybe only stop really near the carcas.
-                    }
 
                     if (GatherState.GrowValue < GatherState.MaxGrowValue)
                     {
+                        if (!_wander.IsStopped)
+                        {
+                            _wander.StopWandering(); // TBD: Maybe only stop really near the carcas.
+                        }
+
                         float wantToGatherThisMuch = (GatherState.MaxGrowValue - GatherState.GrowValue)*GatherState.Rate*
                                                      Time.deltaTime;
-                        foreach (var carcas in cell.Carcases)
+                        foreach (var carcas in cell.Carcases.ToArray()) // Switch to ARRAY, because we delete items in loop
                         {
                             if (carcas.Entity.BuildValue > wantToGatherThisMuch)
                             {
@@ -126,20 +127,8 @@ public class Human : EntityBehavior
                             }
                         }
                     }
-                    else
-                    {
-                        // TBD: Need to wander to a gatherer city.
-                        _wander.WanderMode = Wander.WanderModes.ToGathererCity;
-                        _wander.RestartWandering();
-                    }
                 }
-                else
-                {
-                    if (_wander.IsStopped)
-                    {
-                        _wander.RestartWandering();
-                    }
-                }
+
                 if (cell.Tower != null)
                 {
                     if (cell.Tower.TowerClass != Tower.TowerClasses.GathererTower)
@@ -148,9 +137,40 @@ public class Human : EntityBehavior
                     }
                     if (this.GatherState.GrowValue > 0)
                     {
+                        // TBD: Unloading should take a little time???
                         // TBD: Need some sounds an graphics when the gather deposits into a tower.
+                        Debug.Log("Added growth to tower.");
                         cell.Tower.AvailableGrowPower += this.GatherState.GrowValue;
                         this.GatherState.GrowValue = 0.0f;
+                        _wander.StopWandering();
+
+                    }
+                }
+
+                if (_wander.IsStopped)
+                {
+                    if ((GatherState.GrowValue >= GatherState.MaxGrowValue))
+                    {
+                        if (cell.Tower != null)
+                        {
+                            _wander.WanderMode = Wander.WanderModes.ToGathererCity;
+                            _wander.RestartWandering();
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Should have dumped all our growValue into tower up above." ); // TBD: May happen if we take a while to unload.
+                        }
+                    }
+                    else if (cell.Carcases.Count == 0)
+                    {
+                        // Otherwise, will just keep wandering back to this city.
+                        _wander.WanderMode = Wander.WanderModes.ToCarcas;
+                        _wander.RestartWandering();
+                    }
+                    else
+                    {
+                        // Just sit here collecting more.
+                        Debug.Assert(cell.Carcases.Count > 0);
                     }
                 }
             }

@@ -13,6 +13,7 @@ public class DragSource : MonoBehaviour
     private Color _originalColor;
     private SpriteRenderer _spriteRender;
     private Entity _entity;
+    private int _originalLayer;
 
     public void Start()
     {
@@ -50,6 +51,7 @@ public class DragSource : MonoBehaviour
             {
                 GameManagerScript.PlayClip(DropSound);
             }
+            this.gameObject.layer = _originalLayer;
             Dragging = false;
         }
     }
@@ -69,6 +71,7 @@ public class DragSource : MonoBehaviour
     {
         var dragSource = this;
         dragSource.Dragging = true;
+        _originalLayer = dragSource.gameObject.layer;
         dragSource.gameObject.layer = GameGrid.DRAG_LAYER;
         _startPos = dragSource.transform.position;
         _startMousePos = mousePosition;
@@ -157,7 +160,7 @@ public class DragSource : MonoBehaviour
                     if (dropCellOrNull.Tower != null)
                     {
                         var tower = dropCellOrNull.Tower;
-                        tower.DropHuman(human); 
+                        tower.DropHuman(human);
                         human.Entity.DestroyAndUpdateGrid();
                         GameManagerScript.PlayClip(DropSound);
                         return;
@@ -191,7 +194,7 @@ public class DragSource : MonoBehaviour
                     if (dropCellOrNull.Tower != null)
                     {
                         var tower = dropCellOrNull.Tower;
-                        tower.DropCarcas(carcas); 
+                        tower.DropCarcas(carcas);
                         carcas.Entity.DestroyAndUpdateGrid();
                         GameManagerScript.PlayClip(DropSound);
                         return;
@@ -235,13 +238,15 @@ public class DragSource : MonoBehaviour
                     return;
 
             }
-
-            this.gameObject.transform.position =
-                SnapToGrid.RoundTransform(this.gameObject.transform.position, 1.0f);
+            this.gameObject.transform.position = SnapToGrid.RoundTransform(this.gameObject.transform.position, 1.0f);
             EndDragging(cancel: false);
             return;
+
         }
-        Debug.LogError("Fell thru.");
+
+        this.gameObject.transform.position = SnapToGrid.RoundTransform(this.gameObject.transform.position, 1.0f);
+        EndDragging(cancel: true);
+        return;
     }
 
     private void PlayCancelSound()

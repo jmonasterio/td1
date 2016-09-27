@@ -104,15 +104,15 @@ public class Entity : EntityBehavior
 
     public GameGrid.GameCell GetCurrentGameCell()
     {
+        if (Entity.IsDragging())
+        {
+            return null;
+        }
         if (_currentGameCell == null)
         {
-            if (!Entity.IsDragging())
-            {
-                // Could happen if HUMAN's update called before ENTITY.
-                var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
-                Debug.Assert(cell != null);
-                UpdateCurrentCell(cell);
-            }
+            // Could happen if HUMAN's update called before ENTITY.
+            var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
+            _currentGameCell = cell;
         }
         return _currentGameCell;
     }
@@ -121,22 +121,66 @@ public class Entity : EntityBehavior
     /// Must  be called whenever an entity moves or changes cells (drag, drop, teleport, etc). This keeps the Cells array up to date with the game.
     /// </summary>
     /// <param name="newGameCell"></param>
-    private void UpdateCurrentCell(GameGrid.GameCell newGameCell)
+    private void UpdateCurrentCellAndGameGrid(GameGrid.GameCell newGameCell)
     {
-        if (_currentGameCell != newGameCell)
+        if ( _currentGameCell != newGameCell)
         {
-            if (_currentGameCell != null)
+            if ((_currentGameCell != null) && (newGameCell != null) && _currentGameCell.GridPoint == newGameCell.GridPoint)
             {
-            GameGrid.RemoveEntity(_currentGameCell, this.gameObject, EntityClass);
-        }
-        _currentGameCell = newGameCell;
-            if (_currentGameCell != null)
+                // no change
+            }
+            else
             {
-                GameGrid.SetCellEntity(newGameCell, this.gameObject, EntityClass);
+                if (_currentGameCell != null)
+                {
+                    RemoveEntityFromGameGrid(_currentGameCell, this.gameObject, this.EntityClass);
+                }
+                _currentGameCell = newGameCell;
+                if (_currentGameCell != null)
+                {
+                    GameGrid.AddEntityToGameGrid(_currentGameCell, this.gameObject, this.EntityClass);
+                }
             }
         }
 
     }
+
+    private static void RemoveEntityFromGameGrid(GameGrid.GameCell cell, GameObject go, Entity.EntityClasses entityClass)
+    {
+
+        switch (entityClass)
+        {
+            case Entity.EntityClasses.Background:
+                cell.Background = null;
+                break;
+            case Entity.EntityClasses.Waypoint:
+
+                cell.WayPoint = null;
+                break;
+
+            case Entity.EntityClasses.Enemy:
+                cell.Enemies.Remove(go.GetComponent<Enemy>());
+                break;
+            case Entity.EntityClasses.Human:
+                cell.Humans.Remove(go.GetComponent<Human>());
+                break;
+            case Entity.EntityClasses.Carcas:
+                cell.Carcases.Remove(go.GetComponent<Carcas>());
+                break;
+            case Entity.EntityClasses.Robot:
+
+                cell.Robot = null;
+                break;
+            case Entity.EntityClasses.Tower:
+                cell.Tower = null;
+                break;
+            default:
+                Debug.Assert(false, "Unsupported entity type.");
+                break;
+
+        }
+    }
+
 
     private bool IsDragging()
     {
@@ -152,8 +196,7 @@ public class Entity : EntityBehavior
         {
             // As entity moves around, we want to update the CellMap to know where entity is.
             var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
-            Debug.Assert(cell != null);
-            UpdateCurrentCell(cell);
+            UpdateCurrentCellAndGameGrid(cell);
         }
     }
 
@@ -226,8 +269,6 @@ public class Entity : EntityBehavior
         var newGameObject = Instantiate<T>(prefab);
         newGameObject.transform.SetParent(parent.transform, worldPositionStays: false);
         newGameObject.transform.position = pos;
-        //newGameObject.transform.localScale = this.transform.localScale;
-        newGameObject.gameObject.layer = GameGrid.DRAG_LAYER;
 
         if (isSnap)
         {
@@ -262,6 +303,7 @@ public class Entity : EntityBehavior
         Debug.Assert(this.BuildValue > 0.0f);
         var carcasEntity = carcas.GetComponent<Entity>();
         carcasEntity.BuildValue = this.BuildValue;
+
         this.DestroyAndUpdateGrid();
     }
 
@@ -286,7 +328,15 @@ public class Entity : EntityBehavior
     /// </summary>
     public void DestroyAndUpdateGrid()
     {
-        GameGrid.RemoveEntity(GetCurrentGameCell(), this.gameObject, this.EntityClass);
+        var cell = GetCurrentGameCell();
+        if (cell != null)
+        {
+            RemoveEntityFromGameGrid(cell, this.gameObject, this.EntityClass);
+        }
+        else
+        {
+            cell = GetCurrentGameCell();
+        }
         Destroy(this.transform.gameObject);
     }
 }
