@@ -239,7 +239,9 @@ namespace Assets.Scripts
                     cell.Tower = go.GetComponent<Tower>();
                     break;
                 case Entity.EntityClasses.Carcas:
-                    cell.Carcases.Merge(go.GetComponent<Carcas>());
+                    var carcas = go.GetComponent<Carcas>();
+                    Debug.Assert(carcas != null);
+                    cell.Carcases.Merge(carcas);
                     break;
                 default:
                     Debug.Assert(false, "Unsupported entity type.");

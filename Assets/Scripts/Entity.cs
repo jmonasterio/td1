@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -94,7 +92,7 @@ public class Entity : EntityBehavior
         exp.Play();
         if (destroy)
         {
-            Destroy(gameObject, exp.duration);
+            this.DestroyAndUpdateGrid(exp.duration);
         }
         Destroy(exp.gameObject, exp.duration); // Destroy explosion.
     }
@@ -133,51 +131,64 @@ public class Entity : EntityBehavior
             {
                 if (_currentGameCell != null)
                 {
-                    RemoveEntityFromGameGrid(_currentGameCell, this.gameObject, this.EntityClass);
+                    RemoveEntityFromGameGrid();
                 }
                 _currentGameCell = newGameCell;
                 if (_currentGameCell != null)
                 {
-                    GameGrid.AddEntityToGameGrid(_currentGameCell, this.gameObject, this.EntityClass);
+                    GameGrid.AddEntityToGameGrid(_currentGameCell,this.gameObject, this.EntityClass);
                 }
             }
         }
 
     }
 
-    private static void RemoveEntityFromGameGrid(GameGrid.GameCell cell, GameObject go, Entity.EntityClasses entityClass)
+ 
+
+
+    private void RemoveEntityFromGameGrid()
     {
-
-        switch (entityClass)
+        var cell = _currentGameCell;
+        if (cell == null)
         {
-            case Entity.EntityClasses.Background:
-                cell.Background = null;
-                break;
-            case Entity.EntityClasses.Waypoint:
+            Debug.LogWarning("Could not get current cell for entity: " + this.name);
+        }
+        else
+        {
+            switch (this.EntityClass)
+            {
+                case Entity.EntityClasses.Background:
+                    cell.Background = null;
+                    break;
+                case Entity.EntityClasses.Waypoint:
 
-                cell.WayPoint = null;
-                break;
+                    cell.WayPoint = null;
+                    break;
 
-            case Entity.EntityClasses.Enemy:
-                cell.Enemies.Remove(go.GetComponent<Enemy>());
-                break;
-            case Entity.EntityClasses.Human:
-                cell.Humans.Remove(go.GetComponent<Human>());
-                break;
-            case Entity.EntityClasses.Carcas:
-                cell.Carcases.Remove(go.GetComponent<Carcas>());
-                break;
-            case Entity.EntityClasses.Robot:
+                case Entity.EntityClasses.Enemy:
+                    cell.Enemies.Remove(GetComponent<Enemy>());
+                    break;
+                case Entity.EntityClasses.Human:
+                    cell.Humans.Remove(GetComponent<Human>());
+                    break;
+                case Entity.EntityClasses.Carcas:
+                    var carcas = GetComponent<Carcas>();
+                    Debug.Assert(carcas != null);
+                    bool removed = cell.Carcases.Remove(carcas);
+                    Debug.Assert(removed);
+                    break;
+                case Entity.EntityClasses.Robot:
 
-                cell.Robot = null;
-                break;
-            case Entity.EntityClasses.Tower:
-                cell.Tower = null;
-                break;
-            default:
-                Debug.Assert(false, "Unsupported entity type.");
-                break;
+                    cell.Robot = null;
+                    break;
+                case Entity.EntityClasses.Tower:
+                    cell.Tower = null;
+                    break;
+                default:
+                    Debug.Assert(false, "Unsupported entity type.");
+                    break;
 
+            }
         }
     }
 
@@ -310,13 +321,13 @@ public class Entity : EntityBehavior
     public bool TakeDamageFromBullet(Bullet bullet)
     {
         bool justDied = false;
-        if (Entity.Health > 0)
+        if (this.Health > 0)
         {
-            Entity.Health--;
-            if (Entity.Health <= 0)
+            this.Health--;
+            if (this.Health <= 0)
             {
-                Entity.Explode(destroy: false);
-                Entity.SwitchToCarcas();
+                this.Explode(destroy: false);
+                this.SwitchToCarcas();
                 justDied = true;
             }
         }
@@ -326,22 +337,25 @@ public class Entity : EntityBehavior
     /// <summary>
     /// Every time we destroy an object, we need to remove from gamegrid.
     /// </summary>
-    public void DestroyAndUpdateGrid()
+    public void DestroyAndUpdateGrid( float delayBeforeDestroy = 0.0f)
     {
-        var cell = GetCurrentGameCell();
-        if (cell != null)
+        if (delayBeforeDestroy == 0.0f)
         {
-            RemoveEntityFromGameGrid(cell, this.gameObject, this.EntityClass);
+            RemoveEntityFromGameGrid();
+            Destroy(this.gameObject);
         }
         else
         {
-            cell = GetCurrentGameCell();
+            StartCoroutine(
+                CoroutineUtils.Chain(
+                    CoroutineUtils.WaitForSeconds(delayBeforeDestroy),
+                    CoroutineUtils.Do(() =>
+                    {
+                
+                        RemoveEntityFromGameGrid();
+                        Destroy(this.gameObject);
+                    }
+                 )));
         }
-        Destroy(this.transform.gameObject);
     }
 }
-
-
-
-
-

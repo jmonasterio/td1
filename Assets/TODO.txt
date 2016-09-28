@@ -69,7 +69,10 @@ x Entity should either store the current cell, or be really good at getting it b
 
 x Fuck: I can drag items off the grid.
 
-- People seem to get lost? Maybe carcases out of sync between tree and gamegrid.
+
+x People seem to get lost? Maybe carcases out of sync between tree and gamegrid.
+
+- If user is wandering to a target that has been killed, then it should rewander.
 
 - Different kinds of money
 	- Money to spawn humans.

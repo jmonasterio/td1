@@ -131,25 +131,24 @@ public class Human : EntityBehavior
 
                 if (cell.Tower != null)
                 {
-                    if (cell.Tower.TowerClass != Tower.TowerClasses.GathererTower)
+                    if (cell.Tower.TowerClass == Tower.TowerClasses.GathererTower)
                     {
-                        Debug.LogError("Only really works for gatherer towers.");
-                    }
-                    if (this.GatherState.GrowValue > 0)
-                    {
-                        // TBD: Unloading should take a little time???
-                        // TBD: Need some sounds an graphics when the gather deposits into a tower.
-                        Debug.Log("Added growth to tower.");
-                        cell.Tower.AvailableGrowPower += this.GatherState.GrowValue;
-                        this.GatherState.GrowValue = 0.0f;
-                        _wander.StopWandering();
+                        if (this.GatherState.GrowValue > 0)
+                        {
+                            // TBD: Unloading should take a little time???
+                            // TBD: Need some sounds an graphics when the gather deposits into a tower.
+                            Debug.Log("Added growth to tower.");
+                            cell.Tower.AvailableGrowPower += this.GatherState.GrowValue;
+                            this.GatherState.GrowValue = 0.0f;
+                            _wander.StopWandering();
 
+                        }
                     }
                 }
 
                 if (_wander.IsStopped)
                 {
-                    if ((GatherState.GrowValue >= GatherState.MaxGrowValue))
+                    if (GatherState.GrowValue >= GatherState.MaxGrowValue)
                     {
                         if (cell.Tower != null)
                         {
@@ -186,7 +185,7 @@ public class Human : EntityBehavior
 
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         var colliderGo = collision.gameObject;
         var bullet = colliderGo.GetComponent<Bullet>();
