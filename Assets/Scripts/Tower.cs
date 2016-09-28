@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +22,29 @@ public class Tower : EntityBehavior
 
     private DragSource _dragSource;
 
-    /// <summary>
-    /// Power that tower currently has available to grow a human.
-    /// </summary>
-    public float AvailableGrowPower = 0.0f;
+    [Serializable]
+    public class TowerGatherState
+    {
+        /// <summary>
+        /// Power that tower currently has available to grow a human.
+        /// </summary>
+        public float AvailableGrowPower = 0.0f;
 
-    /// <summary>
-    /// Progress on Human that we're growing.
-    /// </summary>
-    private float _humanGrowTotal = 0.0f;
+        /// <summary>
+        /// Progress on Human that we're growing.
+        /// </summary>
+        public float HumanGrowTotal = 0.0f;
 
+
+
+        public TowerGatherState()
+        {
+            AvailableGrowPower = 0.0f;
+            HumanGrowTotal = 0.0f;
+        }
+    }
+
+    public TowerGatherState GatherState;
 
     // Use this for initialization
     new void Start()
@@ -95,7 +109,7 @@ public class Tower : EntityBehavior
     {
         if (Toolbox.Instance.GameManager.ScoreController.GrowScore > AMOUNT_TO_TAKE)
         {
-            AvailableGrowPower += AMOUNT_TO_TAKE;
+            GatherState.AvailableGrowPower += AMOUNT_TO_TAKE;
             Toolbox.Instance.GameManager.ScoreController.GrowScore -= AMOUNT_TO_TAKE;
         }
     }
@@ -114,22 +128,22 @@ public class Tower : EntityBehavior
 
     private GrowHumanResult GrowHumanALittleBit(float deltaTime)
     {
-        if (AvailableGrowPower <= AMOUNT_TO_RELOAD_AT)
+        if (GatherState.AvailableGrowPower <= AMOUNT_TO_RELOAD_AT)
         {
             return GrowHumanResult.NotEnoughGrowPower;
         }
 
-        float powerToUserPerSecond = Mathf.Min(AvailableGrowPower, MAX_GROW_POWER_PER_SECOND);
+        float powerToUserPerSecond = Mathf.Min(GatherState.AvailableGrowPower, MAX_GROW_POWER_PER_SECOND);
         float used = deltaTime*powerToUserPerSecond;
-        AvailableGrowPower -= used;
+        GatherState.AvailableGrowPower -= used;
 
-     
-        _humanGrowTotal += used*Toolbox.Instance.GameManager.ScoreController.GrowRate;
 
-        if (_humanGrowTotal > NEEDED_FOR_HUMAN) // TBD: Each kind of human could take longer
+        GatherState.HumanGrowTotal += used*Toolbox.Instance.GameManager.ScoreController.GrowRate;
+
+        if (GatherState.HumanGrowTotal > NEEDED_FOR_HUMAN) // TBD: Each kind of human could take longer
         {
-            AvailableGrowPower += (_humanGrowTotal - NEEDED_FOR_HUMAN);
-            _humanGrowTotal = 0.0f;
+            GatherState.AvailableGrowPower += (GatherState.HumanGrowTotal - NEEDED_FOR_HUMAN);
+            GatherState.HumanGrowTotal = 0.0f;
             return GrowHumanResult.Finished;
         }
         else
@@ -177,6 +191,6 @@ public class Tower : EntityBehavior
     public void DropCarcas(Carcas carcas)
     {
         // TBD: Need to do different things, depending on the type of tower.
-        Toolbox.Instance.GameManager.ScoreController.GrowScore += carcas.Entity.BuildValue;
+        GatherState.AvailableGrowPower += carcas.Entity.BuildValue;
     }
 }

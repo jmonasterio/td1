@@ -99,7 +99,7 @@ public class Human : EntityBehavior
             {
                 if (cell.Carcases.Count > 0)
                 {
-
+                    float distanceToCenterOfCell = (this.transform.position - cell.GetPosition(Toolbox.Instance.GameManager.GameGrid)).magnitude;
                     if (GatherState.GrowValue < GatherState.MaxGrowValue)
                     {
                         if (!_wander.IsStopped)
@@ -133,12 +133,14 @@ public class Human : EntityBehavior
                 {
                     if (cell.Tower.TowerClass == Tower.TowerClasses.GathererTower)
                     {
-                        if (this.GatherState.GrowValue > 0)
+                        float distanceToTower = (this.transform.position - cell.Tower.transform.position).magnitude;
+
+                        if ((distanceToTower < 1.0) && this.GatherState.GrowValue > 0)
                         {
                             // TBD: Unloading should take a little time???
                             // TBD: Need some sounds an graphics when the gather deposits into a tower.
                             Debug.Log("Added growth to tower.");
-                            cell.Tower.AvailableGrowPower += this.GatherState.GrowValue;
+                            cell.Tower.GatherState.AvailableGrowPower += this.GatherState.GrowValue;
                             this.GatherState.GrowValue = 0.0f;
                             _wander.StopWandering();
 

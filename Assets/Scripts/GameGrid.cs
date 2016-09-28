@@ -626,6 +626,11 @@ namespace Assets.Scripts
 
             public GridPoint GridPoint;
 
+            public Vector3 GetPosition(GameGrid gameGrid)
+            {
+                return gameGrid.MapGridPointToPosition(this.GridPoint);
+            }
+
             public bool IsBlocked()
             {
                 bool open = this.GroundType == GroundTypes.Path || this.GroundType == GroundTypes.Start || this.GroundType == GroundTypes.End;

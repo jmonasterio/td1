@@ -63,7 +63,7 @@ x Maybe a "Decomposer" ought to be a kind of entity, that keeps track of related
 x Carcas not decomposing.
 x Carcas not animating.
 x Carcas income value not set when created.
-- Human should go to center of carcas.
+x Human should go to center of carcas.
 - Weird giant graphic flickers on gameover.
 
 x Entity should either store the current cell, or be really good at getting it back.
@@ -99,13 +99,16 @@ x What stops a city from spawning humans? Run out of spawn money.
 x Gatherer city makes gatherers.
 x Regular city makes standard.
 
+- Wanderers are jumpy when they switch targets. Because should only switch targets near center of cell? Or lerp to new path.
+- Why is regular city spawning humans???
+
 - Humans to spawn at one city and go to other cities.
 
 - RandomTowerCell should exclude the tower where the human was spawned.
 - City spawned human should get settings from CSV. Not from PREFAB.
 
 - Carcas should only be worth some part for growing stuff.
-
+- Can gatherers pick up dead humans? Or just dead enemies?
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 x Do we need a build rate
 x How to include GrowRate in part of human growth calc
