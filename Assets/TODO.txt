@@ -63,6 +63,7 @@ x Maybe a "Decomposer" ought to be a kind of entity, that keeps track of related
 x Carcas not decomposing.
 x Carcas not animating.
 x Carcas income value not set when created.
+- Human should go to center of carcas.
 - Weird giant graphic flickers on gameover.
 
 x Entity should either store the current cell, or be really good at getting it back.
@@ -72,7 +73,7 @@ x Fuck: I can drag items off the grid.
 
 x People seem to get lost? Maybe carcases out of sync between tree and gamegrid.
 
-- If user is wandering to a target that has been killed, then it should rewander.
+x If user is wandering to a target that has been killed, then it should rewander.
 
 - Different kinds of money
 	- Money to spawn humans.

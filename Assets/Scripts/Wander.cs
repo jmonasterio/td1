@@ -9,8 +9,8 @@ namespace Assets.Scripts
     /// </summary>
     public class Wander : MonoBehaviour
     {
-        public float speed = 5;
-        public GameGrid.GameCell _targetCell = null;
+        public float Speed = 5;
+        private GameGrid.GameCell _targetCell = null;
         private PathFollower _pf;
         private bool _stopped;
 
@@ -47,6 +47,38 @@ namespace Assets.Scripts
 
         void Update()
         {
+            if (_targetCell != null)
+            {
+                switch (WanderMode)
+                {
+                    case WanderModes.Random:
+                        break;
+                    case WanderModes.ToCarcas:
+                        if (_targetCell.Carcases.Count == 0)
+                        {
+                            _targetCell = null;
+                        }
+                        break;
+                    case WanderModes.ToGathererCity:
+                        if (_targetCell.Tower == null ||
+                            _targetCell.Tower.TowerClass != Tower.TowerClasses.GathererTower)
+                        {
+                            _targetCell = null;
+                        }
+                        break;
+                    case WanderModes.ToTower:
+                        if (_targetCell.Tower == null)
+                        {
+                            _targetCell = null;
+                        }
+                        break;
+                    default:
+                        Debug.LogError("Wander mode not implemented.");
+                        break;
+
+                }
+            }
+
             if (_targetCell == null)
             {
                 _targetCell = MakePathOrNull();
@@ -74,7 +106,7 @@ namespace Assets.Scripts
             _pf.OrderedWaypointCells = new List<GameGrid.GameCell>(); // Empty. No way points.
             _pf.FollowToTargetCell(gameGrid, transform.position);
             _stopped = false;
-            return _pf.CurrentGameCell;
+            return _pf.TargetCell;
         }
 
         private GameGrid.GameCell GetTargetCellForWanderModeOrNull(GameGrid gameGrid)
