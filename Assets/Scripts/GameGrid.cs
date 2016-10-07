@@ -525,7 +525,7 @@ namespace Assets.Scripts
         }
 
         // TBD: Bad idea.
-        public GameCell RandomTowerCellOrNull(Tower.TowerClasses towerClass)
+        public GameCell RandomTowerCellOrNull(Tower.TowerClasses towerClass, GameCell exclude)
         {
             if (Cells == null)
             {
@@ -537,11 +537,13 @@ namespace Assets.Scripts
             {
                 for (int col = 0; col < Cells.GetLength(1); col++)
                 {
-                    if (Cells[row, col].Tower != null)
+                    var curCel = Cells[row, col];
+
+                    if (curCel.Tower != null && (curCel != exclude) )
                     {
-                        if (Cells[row, col].Tower.TowerClass == towerClass)
+                        if (curCel.Tower.TowerClass == towerClass)
                         {
-                            list.Add(Cells[row, col]);
+                            list.Add(curCel);
                         }
                     }
                 }

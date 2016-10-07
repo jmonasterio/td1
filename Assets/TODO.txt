@@ -99,12 +99,11 @@ x What stops a city from spawning humans? Run out of spawn money.
 x Gatherer city makes gatherers.
 x Regular city makes standard.
 
-- Wanderers are jumpy when they switch targets. Because should only switch targets near center of cell? Or lerp to new path.
-- Why is regular city spawning humans???
+- CNR: Wanderers are jumpy when they switch targets. Because should only switch targets near center of cell? Or lerp to new path.
 
-- Humans to spawn at one city and go to other cities.
+x Humans to spawn at one city and go to other cities.
 
-- RandomTowerCell should exclude the tower where the human was spawned.
+x RandomTowerCell should exclude the tower where the human was spawned.
 - City spawned human should get settings from CSV. Not from PREFAB.
 
 - Carcas should only be worth some part for growing stuff.
@@ -112,6 +111,9 @@ x Regular city makes standard.
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
 x Do we need a build rate
 x How to include GrowRate in part of human growth calc
+
+- Different texture for various carcas types.
+- Different texture for various human types.
 
 - Level editor scene can write a level to .CSV
 - How should waves.csv handle levels.

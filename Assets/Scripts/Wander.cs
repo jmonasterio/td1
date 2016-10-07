@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Internal;
 
 namespace Assets.Scripts
 {
@@ -37,6 +38,7 @@ namespace Assets.Scripts
             _pf.AtFinish += Pf_AtFinishOrBlocked;
             _pf.Blocked += Pf_AtFinishOrBlocked;
 
+
         }
 
         private void Pf_AtFinishOrBlocked(object sender, System.EventArgs e)
@@ -47,7 +49,7 @@ namespace Assets.Scripts
 
         void Update()
         {
-            if (_targetCell != null)
+            if (_targetCell != null )
             {
                 switch (WanderMode)
                 {
@@ -93,14 +95,16 @@ namespace Assets.Scripts
 
             var gameGrid = Toolbox.Instance.GameManager.GameGrid;
 
-            var endCell = GetTargetCellForWanderModeOrNull(gameGrid);
+            var curGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
+
+            var endCell = GetTargetCellForWanderModeOrNull(gameGrid, curGameCell);
             if (endCell == null)
             {
                 _stopped = true;
                 return null;
             }
 
-            _pf.CurrentGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
+            _pf.CurrentGameCell = curGameCell;
             _pf.PrevGameCell = _pf.CurrentGameCell;
             _pf.TargetCell = endCell;
             _pf.OrderedWaypointCells = new List<GameGrid.GameCell>(); // Empty. No way points.
@@ -109,7 +113,7 @@ namespace Assets.Scripts
             return _pf.TargetCell;
         }
 
-        private GameGrid.GameCell GetTargetCellForWanderModeOrNull(GameGrid gameGrid)
+        private GameGrid.GameCell GetTargetCellForWanderModeOrNull(GameGrid gameGrid, GameGrid.GameCell exclude)
         {
             if (WanderMode == WanderModes.Random)
             {
@@ -121,11 +125,11 @@ namespace Assets.Scripts
             }
             if (WanderMode == WanderModes.ToTower)
             {
-                return gameGrid.RandomTowerCellOrNull(Tower.TowerClasses.City);
+                return gameGrid.RandomTowerCellOrNull(Tower.TowerClasses.City, exclude);
             }
             if (WanderMode == WanderModes.ToGathererCity)
             {
-                return gameGrid.RandomTowerCellOrNull(Tower.TowerClasses.GathererTower);
+                return gameGrid.RandomTowerCellOrNull(Tower.TowerClasses.GathererTower, exclude);
             }
             Debug.LogError("Unknown wander mode.");
             return null;

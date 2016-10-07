@@ -54,6 +54,7 @@ public class Human : EntityBehavior
         {
             _wander.WanderMode = Wander.WanderModes.ToCarcas;
         }
+        
 
 
     }
