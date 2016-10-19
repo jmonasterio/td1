@@ -97,15 +97,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Editor\AutoSave.cs" />
-    <Compile Include="Assets\SpriteAnimationPreview\Editor\OverrideEditor.cs" />
-    <Compile Include="Assets\SpriteAnimationPreview\Editor\SpriteAnimationClipEditor.cs" />
-    <Compile Include="Assets\SpriteAnimationPreview\Editor\SpriteAnimationTimeControl.cs" />
-    <Compile Include="Assets\SpriteAnimationPreview\Editor\TimeControl.cs" />
+    <Compile Include="Assets\Scripts\Editor\SpriteAnimationPreview\Editor\OverrideEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\SpriteAnimationPreview\Editor\SpriteAnimationClipEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\SpriteAnimationPreview\Editor\SpriteAnimationTimeControl.cs" />
+    <Compile Include="Assets\Scripts\Editor\SpriteAnimationPreview\Editor\TimeControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\RELEASE NOTES.txt" />
+    <None Include="Assets\Docs\RELEASE NOTES.txt" />
+    <None Include="Assets\Docs\TODO.txt" />
     <None Include="Assets\SETUP DEV SYSTEM.TXT" />
-    <None Include="Assets\TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
