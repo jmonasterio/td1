@@ -71,7 +71,7 @@ public class WavesController : MonoBehaviour
                 newEnemy.gameObject.SetActive(true);
                 switch (poco.Data)
                 {
-                    case "Standard":
+                    case "StandardMale":
                         newEnemy.EnemyClass = Enemy.EnemyClasses.Standard;
                         break;
                     default:

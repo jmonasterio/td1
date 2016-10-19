@@ -1,8 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 using Assets.Scripts;
 using UnityEditor;
+using UnityEditor.Animations;
 
 public class Human : EntityBehavior
 {
@@ -32,7 +34,6 @@ public class Human : EntityBehavior
         }
     }
 
-
     public HumanClasses HumanClass;
     public Bullet BulletPrefab;
     public GathererState GatherState;
@@ -43,18 +44,57 @@ public class Human : EntityBehavior
     private Wander _wander;
     private float _dropTime;
     private DragSource _dragSource;
+    private Animator _animator;
 
     // Use this for initialization
     new void Start()
     {
         _wander = GetComponent<Wander>();
         _dragSource = GetComponent<DragSource>();
+        _animator = GetComponent<Animator>();
+
+#if HANGS
+        // Get controller
+        // Add an animation clip to it
+        AnimationClip animationClip = Toolbox.Instance.GameManager.AtlasController.StandardMaleWalking;
+        animationClip.name = "StandardMaleWalking";
+
+
+        while( _animator.runtimeAnimatorController.animationClips.Length > 0)
+        {
+            UnityEngine.Object.DestroyImmediate( _animator.runtimeAnimatorController.animationClips[0]);
+        }
+
+        //if (!_animator.runtimeAnimatorController.animationClips.Any( _ => _.name == animationClip.name))
+        {
+            AssetDatabase.AddObjectToAsset(animationClip, _animator.runtimeAnimatorController);
+        }
+        //AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(animationClip));
+
+        //_animator.(, "StandardMaleWalking");
+        //_animation.Play("StandardMaleWalking");
+#endif
 
         if (HumanClass == HumanClasses.Gatherer)
         {
             _wander.WanderMode = Wander.WanderModes.ToCarcas;
         }
-        
+
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        switch (HumanClass)
+        {
+            case HumanClasses.Gatherer:
+            {
+                spriteRenderer.sprite = Toolbox.Instance.GameManager.AtlasController.Humans.GathererMale;
+                break;
+            }
+            case HumanClasses.Standard:
+            {
+                spriteRenderer.sprite = Toolbox.Instance.GameManager.AtlasController.Humans.StandardMale;
+                break;
+            }
+        }
+
 
 
     }

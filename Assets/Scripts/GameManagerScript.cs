@@ -17,6 +17,7 @@ public class GameManagerScript : MonoBehaviour
     public ScoreController ScoreController;
     public DataController DataController;
     public GameController GameController;
+    public AtlasController AtlasController;
 
     public struct TreeNodes
     {
@@ -39,15 +40,16 @@ public class GameManagerScript : MonoBehaviour
         // Need to be in AWAKE because other components refer to this.
         Toolbox.Instance.GameManager = this;
         Toolbox.Instance.DebugSys = this.GetComponent<DebugSystem>();
-    }
-
-    public void Start()
-    {
         AudioPoolController = GetComponent<AudioPoolController>();
         WavesController = GetComponent<WavesController>();
         ScoreController = GetComponent<ScoreController>();
         DataController = GetComponent<DataController>();
         GameController = GetComponent<GameController>();
+        AtlasController = GetComponent<AtlasController>();
+    }
+
+    public void Start()
+    {
 
         _nodes = new TreeNodes();
         _nodes.BulletsCollection = GameObject.Find("Bullets").transform; 

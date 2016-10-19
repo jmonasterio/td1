@@ -75,6 +75,10 @@ x People seem to get lost? Maybe carcases out of sync between tree and gamegrid.
 
 x If user is wandering to a target that has been killed, then it should rewander.
 
+-         I think I could make an Animation editor. It would have an animator with an animator controller, that just had one state.
+            You could set the clip in it.
+
+
 - Different kinds of money
 	- Money to spawn humans.
 	- Money to create towers
@@ -84,6 +88,23 @@ x If user is wandering to a target that has been killed, then it should rewander
 
  x Gatherers - seem to jump around. 
  x Gatherers - clump
+
+ - I shouldn't really be using sprites for HUMANS, ENEMIES, ROBOT, TOWERS, CARCAS
+	 - All should be animations (even if just one frame).
+	 - This will let me have a much sexier game.
+	 - Animations should come from AtlasController and be loaded from disk (maybe from an asset bundle?)
+	 - State changes will be handled all in code. Not state machine driven.
+	 - Maybe my code should do the animating of various sprites.
+
+ - There should only be one HUMAN prefab (now I have Gatherer + normal).
+    - Sprites should be loaded at startup 
+	- Size should be data driven.
+	- Maybe all the sprites should be on a Sprite controller.
+
+- Maybe my entities should have no methods, and all work should be done in controllers. Like that paper I read.
+
+ - What to do when human dropped on shooter towere and city tower.
+ - What to do when carcas dropped on shooter towere and city tower.
 
 x If gatherer in cell with carcas, should pick up some. 
     - Alien bodies, when gathered, get taken to the soylent power plant or robot. And that gives you a higher spawn rate of humans.

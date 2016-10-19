@@ -190,7 +190,20 @@ public class Tower : EntityBehavior
 
     public void DropCarcas(Carcas carcas)
     {
-        // TBD: Need to do different things, depending on the type of tower.
-        GatherState.AvailableGrowPower += carcas.Entity.BuildValue;
+        switch (this.TowerClass)
+        {
+            case TowerClasses.GathererTower:
+                // TBD: Need to do different things, depending on the type of tower.
+                GatherState.AvailableGrowPower += carcas.Entity.BuildValue;
+                break;
+            case TowerClasses.City:
+            {
+                break;
+            }
+            case TowerClasses.Shooter:
+            {
+                break;
+            }
+        }
+        }
     }
-}
