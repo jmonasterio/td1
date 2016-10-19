@@ -9,7 +9,7 @@ public class MouseInput : MonoBehaviour
 {
 
     public DragSource DraggingNow;
-    private GameObject _selector;
+    private Selector _selector;
     private GameObject _dragBox;
     private GameObject _disallowed;
     private DragSource _attachOnNextUpdate;

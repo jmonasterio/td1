@@ -18,11 +18,11 @@ namespace Assets.Scripts
             return _map;
         }
 
-        public GameObject _selector;
+        public Selector _selector;
         public GameObject _dragBox;
         public GameObject _disallowed;
 
-        public GameObject GetSelector()
+        public Selector GetSelector()
         {
             return _selector;
         }
@@ -196,7 +196,7 @@ namespace Assets.Scripts
         public void Start()
         {
             _map = FindActiveMap().gameObject;
-            _selector = FindSelector().gameObject;
+            _selector = FindSelector();
 
             // Initialize connection to others.
             InitCellMapFromLevelMap(_map);
@@ -415,10 +415,10 @@ namespace Assets.Scripts
                     .FirstOrDefault();
         }
 
-        private static MouseInput FindSelector()
+        private static Selector FindSelector()
         {
             return
-                Resources.FindObjectsOfTypeAll<MouseInput>()
+                Resources.FindObjectsOfTypeAll<Selector>()
                     .Where(go => go.gameObject.activeInHierarchy && go.gameObject.name == "Selector")
                     .ToList()
                     .FirstOrDefault();

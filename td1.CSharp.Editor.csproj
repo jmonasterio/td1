@@ -104,8 +104,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Docs\RELEASE NOTES.txt" />
+    <None Include="Assets\Docs\SETUP DEV SYSTEM.TXT" />
     <None Include="Assets\Docs\TODO.txt" />
-    <None Include="Assets\SETUP DEV SYSTEM.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
