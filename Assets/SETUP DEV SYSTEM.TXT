@@ -1,0 +1,7 @@
+﻿- Install Unity Personal (64-bit)
+- SourceTree  https://www.sourcetreeapp.com/
+- Need a github account.
+   - https://github.com/jmonasterio/td1
+- Visual Studio 2015? 
+- Some kind of image editing program, like paint.net
+
