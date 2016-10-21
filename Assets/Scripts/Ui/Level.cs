@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
 using UnityEditor;
 
 [ExecuteInEditMode]
@@ -7,9 +8,15 @@ public class Level : MonoBehaviour
 {
 
     public string LevelName;
+    public string WaveCsv;
 
-	// Use this for initialization
-	void Start () {
+    [Multiline]
+    [TextArea(3,10)]
+    public string LevelNotes;
+
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	

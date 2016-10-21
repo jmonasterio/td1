@@ -18,6 +18,7 @@ public class GameManagerScript : MonoBehaviour
     public DataController DataController;
     public GameController GameController;
     public AtlasController AtlasController;
+    public LevelController LevelController;
 
     public struct TreeNodes
     {
@@ -46,14 +47,19 @@ public class GameManagerScript : MonoBehaviour
         DataController = GetComponent<DataController>();
         GameController = GetComponent<GameController>();
         AtlasController = GetComponent<AtlasController>();
+        LevelController = GetComponent<LevelController>();
+    }
+
+    public void RebuildTreeNodes()
+    {
+        _nodes = new TreeNodes();
+        _nodes.BulletsCollection = GameObject.Find("Bullets").transform;
+        _nodes.Enemies = GameObject.Find("Enemies").transform;
     }
 
     public void Start()
     {
-
-        _nodes = new TreeNodes();
-        _nodes.BulletsCollection = GameObject.Find("Bullets").transform; 
-        _nodes.Enemies = GameObject.Find("Enemies").transform; 
+        RebuildTreeNodes();
 
         //if (HideMouseCuror)
         {

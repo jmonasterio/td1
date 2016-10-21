@@ -36,6 +36,13 @@ public class Entity : EntityBehavior
     public ParticleSystem ExplosionPrefab;
     public Carcas CarcasPrefab;
 
+    [Multiline]
+    [TextArea(3, 10)]
+    public string Notes;
+
+    [Multiline] [TextArea(3, 10)] public string ClassNotes;
+
+
     /// <summary>
     /// Minimum time between shots, if there is a target available. 
     /// 

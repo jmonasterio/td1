@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        //Toolbox.Instance.GameManager.LevelController.ActiveLevel = LevelController.Levels.Level1;
     }
 
     // Update is called once per frame

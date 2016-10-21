@@ -118,6 +118,7 @@
     <Compile Include="Assets\Scripts\Util\ListExtension.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Docs\D.TODO.txt" />
     <None Include="Assets\Docs\RELEASE NOTES.txt" />
     <None Include="Assets\Docs\SETUP DEV SYSTEM.TXT" />
     <None Include="Assets\Docs\TODO.txt" />

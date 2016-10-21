@@ -195,11 +195,17 @@ namespace Assets.Scripts
 
         public void Start()
         {
-            _map = FindActiveMap().gameObject;
             _selector = FindSelector();
+            RebuildMapConnection();
+        }
+
+        public void RebuildMapConnection()
+        {
+            _map = FindActiveMap().gameObject;
 
             // Initialize connection to others.
             InitCellMapFromLevelMap(_map);
+
         }
 
         public static GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)

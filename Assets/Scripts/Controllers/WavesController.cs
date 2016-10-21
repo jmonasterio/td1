@@ -19,9 +19,16 @@ public class WavesController : MonoBehaviour
     void Start()
     {
         _levelStartTime = 0.0f;
-        _enemiesCollection = Toolbox.Instance.GameManager.Nodes.Enemies;
                                                          // StartCoroutine(SpawnWaves());
         StartLevel( 0.0f );
+
+        RebuildConnections();
+    }
+
+
+    public void RebuildConnections()
+    {
+        _enemiesCollection = Toolbox.Instance.GameManager.Nodes.Enemies;
     }
 
     public void StartLevel( float levelStartTime)
