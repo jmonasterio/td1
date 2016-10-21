@@ -263,7 +263,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 467250, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.06876408
+      value: -0.030561814
       objectReference: {fileID: 0}
     - target: {fileID: 467250, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1627,7 +1627,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 467250, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.14516863
+      value: -0.22157316
       objectReference: {fileID: 0}
     - target: {fileID: 467250, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
       propertyPath: m_LocalPosition.y
@@ -2048,8 +2048,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d59f970176c6c4b937a0931ef70364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelName: 'Level #1'
-  WaveCsv: 
   LevelNotes: 'This is a good place to right some notes, Darrin.
 
     You can even have multiline stuff, so that isksdfjlksjdfk sldkfjsldf sldjflksjflkj
@@ -2783,7 +2781,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 467250, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.14516863
+      value: -0.06876408
       objectReference: {fileID: 0}
     - target: {fileID: 467250, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
       propertyPath: m_LocalPosition.y
