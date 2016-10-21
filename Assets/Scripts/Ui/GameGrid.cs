@@ -206,6 +206,12 @@ namespace Assets.Scripts
             // Initialize connection to others.
             InitCellMapFromLevelMap(_map);
 
+            // Drag spawners need to know where to put created objects in level
+            var ds1 = GameObject.Find("DragSpawn_Tower").GetComponent<DragSpawner>();
+            ds1.SpawnParent = GameObject.Find("Towers").gameObject;
+            ds1 = GameObject.Find("DragSpawn_Wall").GetComponent<DragSpawner>();
+            ds1.SpawnParent = GameObject.Find("Map").gameObject;
+
         }
 
         public static GameGrid.GameCell FindPointOnPath(GridPoint nextGridPoint, List<GameGrid.GameCell> path)

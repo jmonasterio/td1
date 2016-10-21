@@ -7,8 +7,6 @@ using UnityEditor;
 public class Level : MonoBehaviour
 {
 
-    public string LevelName;
-    public string WaveCsv;
 
     [Multiline]
     [TextArea(3,10)]
@@ -41,7 +39,7 @@ public class Level : MonoBehaviour
         GUIStyle myStyle = new GUIStyle(GUI.skin.GetStyle("label"));
         myStyle.fontSize = 32;
 
-        Handles.Label(this.transform.position + new Vector3(-5.0f, +10.0f, 0f), "" + this.LevelName, myStyle);
+        Handles.Label(this.transform.position + new Vector3(-5.0f, +10.0f, 0f), "" + Toolbox.Instance.GameManager.LevelController.ActiveLevel.ToString(), myStyle);
         GUI.color = color;
         }
     }

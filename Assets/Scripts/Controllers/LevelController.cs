@@ -34,7 +34,9 @@ public class LevelController : MonoBehaviour
             // Fix up connections after changing scenes
             // TBD: This is so hacky. maybe there is some way I don't need this.
             Toolbox.Instance.GameManager.RebuildTreeNodes();
+
             Toolbox.Instance.GameManager.GameGrid.RebuildMapConnection();
+
             Toolbox.Instance.GameManager.WavesController.RebuildConnections();
             Toolbox.Instance.GameManager.WavesController.StartLevel(Time.time);
 
