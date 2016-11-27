@@ -3,7 +3,9 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 using Assets.Scripts;
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
+#endif
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,6 +15,7 @@ public class LevelController : MonoBehaviour
 
     public Levels ActiveLevel;
     private Levels _activeLevel;
+    private Level _currentLevel;
 
     public enum Levels
     {
@@ -20,10 +23,19 @@ public class LevelController : MonoBehaviour
         Level2
     }
 
+    public Level CurrentLevel
+    {
+        get
+        {
+            return _currentLevel;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        _currentLevel = Resources.FindObjectsOfTypeAll<Level>().ToList().FirstOrDefault();
     }
 
 
@@ -31,14 +43,9 @@ public class LevelController : MonoBehaviour
     {
         try
         {
+            _currentLevel = Resources.FindObjectsOfTypeAll<Level>().ToList().FirstOrDefault();
+
             // Fix up connections after changing scenes
-            // TBD: This is so hacky. maybe there is some way I don't need this.
-            Toolbox.Instance.GameManager.RebuildTreeNodes();
-
-            Toolbox.Instance.GameManager.GameGrid.RebuildMapConnection();
-
-            Toolbox.Instance.GameManager.WavesController.RebuildConnections();
-            Toolbox.Instance.GameManager.WavesController.StartLevel(Time.time);
 
         }
         catch (Exception ex)
@@ -49,9 +56,9 @@ public class LevelController : MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-	    Debug.Log( "Switched Level");
         if (ActiveLevel != _activeLevel)
         {
+            Debug.Log("Switched Level");
             ChangeLevel(ActiveLevel, _activeLevel);
             _activeLevel = ActiveLevel;
         }
@@ -65,26 +72,32 @@ public class LevelController : MonoBehaviour
     {
         Debug.Log("Change level");
 
-        Toolbox.Instance.GameManager.WavesController.CancelActiveWaves();
+        Toolbox.Instance.GameManager.LevelController.CurrentLevel.WavesController.CancelActiveWaves();
 
         if (!Application.isPlaying)
         {
-           // Debug.Assert(EditorSceneManager.GetActiveScene().name == oldActiveLevel.ToString());
-          //  var scene = EditorSceneManager.GetSceneByName(oldActiveLevel.ToString());
+            // Debug.Assert(EditorSceneManager.GetActiveScene().name == oldActiveLevel.ToString());
+            //  var scene = EditorSceneManager.GetSceneByName(oldActiveLevel.ToString());
             // ReSharper disable once AccessToStaticMemberViaDerivedType
-         //   if (EditorSceneManager.CloseScene(scene, true))
-         //   {
-          //      // ReSharper disable once AccessToStaticMemberViaDerivedType
-                EditorSceneManager.LoadScene(activeLevel.ToString(), LoadSceneMode.Additive);
-           // }
+            //   if (EditorSceneManager.CloseScene(scene, true))
+            //   {
+            //      // ReSharper disable once AccessToStaticMemberViaDerivedType
+#if UNITY_EDITOR
+
+            EditorSceneManager.LoadScene(activeLevel.ToString(), LoadSceneMode.Additive);
+#endif
+            // }
         }
         else
         {
             // Only works at runtime.
-           // Debug.Assert(SceneManager.GetActiveScene().name == oldActiveLevel.ToString());
+            // Debug.Assert(SceneManager.GetActiveScene().name == oldActiveLevel.ToString());
             // ReSharper disable once AccessToStaticMemberViaDerivedType
+
             if (SceneManager.UnloadScene(oldActiveLevel.ToString()))
             {
+                _currentLevel = null;
+
                 // ReSharper disable once AccessToStaticMemberViaDerivedType
                 SceneManager.LoadScene(activeLevel.ToString(), LoadSceneMode.Additive);
             }

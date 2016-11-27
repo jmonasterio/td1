@@ -98,7 +98,7 @@ public class Enemy : EntityBehavior {
     {
         if (_pathFollower.TargetCell.GroundType == GameGrid.GameCell.GroundTypes.End)
         {
-            Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
+            Toolbox.Instance.GameManager.LevelController.CurrentLevel.WavesController.LiveEnemyCount--;
             Entity.DestroyAndUpdateGrid();
 
             // Damage to robot happens in collision??? TBD
@@ -129,7 +129,7 @@ public class Enemy : EntityBehavior {
             if (justDied)
             {
                 Toolbox.Instance.GameManager.ScoreController.Score += 100;
-                Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
+                Toolbox.Instance.GameManager.LevelController.CurrentLevel.WavesController.LiveEnemyCount--;
             }
 
             bullet.Destroy();
@@ -141,7 +141,7 @@ public class Enemy : EntityBehavior {
             {
                 Entity.Health = 0; // Kills enemy. Will also STOP it.
                 Entity.Explode(destroy: true);
-                Toolbox.Instance.GameManager.WavesController.LiveEnemyCount--;
+                Toolbox.Instance.GameManager.LevelController.CurrentLevel.WavesController.LiveEnemyCount--;
             }
 
         }

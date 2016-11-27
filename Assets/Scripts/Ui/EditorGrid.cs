@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using Algorithms;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Assets.Scripts
 {
@@ -36,7 +39,9 @@ namespace Assets.Scripts
             var vector = MapGridPointToVector(rcInternalGrid, nodeGridPoint);
             var color = GUI.color;
             GUI.color = Color.green;
+#if UNITY_EDITOR
             Handles.Label(vector, s);
+#endif
             GUI.color = color;
         }
 

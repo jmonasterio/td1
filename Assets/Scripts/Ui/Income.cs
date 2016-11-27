@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class Income : MonoBehaviour {
 
@@ -17,7 +19,9 @@ public class Income : MonoBehaviour {
         var vector = this.transform.position;
         var color = GUI.color;
         GUI.color = Color.black;
+#if UNITY_EDITOR
         Handles.Label(vector, "Income: " + income);
+#endif
         GUI.color = color;
 
     }

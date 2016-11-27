@@ -38,7 +38,7 @@ public class PathFollower : MonoBehaviour
 
     public void SetPathWaypoints(Path path)
     {
-        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+        var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
 
         PrevGameCell = gameGrid.MapGridPointToGameCellOrNull(path.StartWaypoint.GridPoint);
         CurrentGameCell = PrevGameCell;
@@ -136,7 +136,7 @@ public class PathFollower : MonoBehaviour
     {
         if (CurrentPath != null)
         {
-            var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+            var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
 
             foreach (var node in CurrentPath)
             {
@@ -171,7 +171,7 @@ public class PathFollower : MonoBehaviour
             return;
         }
 
-        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+        var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
         if (gameGrid != null)
         {
 

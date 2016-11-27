@@ -13,28 +13,27 @@ public class GameManagerScript : MonoBehaviour
     public string GameName;
 
     private static AudioPoolController AudioPoolController;
-    public WavesController WavesController;
     public ScoreController ScoreController;
     public DataController DataController;
     public GameController GameController;
     public AtlasController AtlasController;
     public LevelController LevelController;
 
-    public struct TreeNodes
+    public Selector _selector;
+    public GameObject _dragBox;
+    public GameObject _disallowed;
+
+    public Selector GetSelector()
     {
-        public Transform BulletsCollection;
-        public Transform Enemies;
-        public Transform Towers;
-        public Transform Humans;
+        return _selector;
     }
-
-
-    // State
-    private TreeNodes _nodes;
-
-    public TreeNodes Nodes
+    public GameObject GetDragBox()
     {
-        get { return _nodes; }
+        return _dragBox;
+    }
+    public GameObject GetDisallowed()
+    {
+        return _disallowed;
     }
 
     // Use this for initialization (of me).
@@ -44,7 +43,6 @@ public class GameManagerScript : MonoBehaviour
         Toolbox.Instance.GameManager = this;
         Toolbox.Instance.DebugSys = this.GetComponent<DebugSystem>();
         AudioPoolController = GetComponent<AudioPoolController>();
-        WavesController = GetComponent<WavesController>();
         ScoreController = GetComponent<ScoreController>();
         DataController = GetComponent<DataController>();
         GameController = GetComponent<GameController>();
@@ -52,36 +50,21 @@ public class GameManagerScript : MonoBehaviour
         LevelController = GetComponent<LevelController>();
     }
 
-    public void RebuildTreeNodes()
-    {
-        _nodes = new TreeNodes();
-        _nodes.BulletsCollection = GameObject.Find("Bullets").transform;
-        _nodes.Enemies = GameObject.Find("Enemies").transform;
-        _nodes.Towers = GameObject.Find("Towers").transform;
-        _nodes.Humans = GameObject.Find("Humans").transform;
-    }
-
     public void Start()
     {
-        RebuildTreeNodes();
-
-        //if (HideMouseCuror)
-        {
-            Cursor.visible = true;
-        }
+        Cursor.visible = true;
+        _selector = FindSelector();
     }
 
-
-
-    public GameGrid GameGrid
+    private static Selector FindSelector()
     {
-        get
-        {
-            var ret = Toolbox.Instance.GameManager.GetComponent<GameGrid>();
-            return ret;
-
-        }
+        return
+            Resources.FindObjectsOfTypeAll<Selector>()
+                .Where(go => go.gameObject.activeInHierarchy && go.gameObject.name == "Selector")
+                .ToList()
+                .FirstOrDefault();
     }
+
 
     public static void PlayClip(AudioClip clip)
     {
@@ -98,22 +81,4 @@ public class GameManagerScript : MonoBehaviour
         AudioPoolController.PlayClip(clip);
     }
 
-    /// <summary>
-    /// TBD-JM: Next two methods are probably really slow.
-    /// </summary>
-    /// <returns></returns>
-    public List<Tower> Towers()
-    {
-        return GameGrid.GetSceneObjectsInTranform<Tower>(_nodes.Towers);
-    }
-
-    public List<Human> Humans()
-    {
-        return GameGrid.GetSceneObjectsInTranform<Human>(_nodes.Humans);
-    }
-
-    public List<Enemy> Enemies()
-    {
-        return GameGrid.GetSceneObjectsInTranform<Enemy>(_nodes.Enemies);
-    }
 }

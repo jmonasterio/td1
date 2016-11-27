@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class Health : MonoBehaviour
 {
@@ -26,7 +27,9 @@ public class Health : MonoBehaviour
     {
         var origColor = GUI.color;
         GUI.color = Color.gray;
+#if UNITY_EDITOR
         Handles.Label(this.transform.position - labelOffset, "" + _entity.Health);
+#endif
         GUI.color = origColor;
 
         var pos = this.transform.position - labelOffset;
@@ -35,6 +38,7 @@ public class Health : MonoBehaviour
         GUI.color = Color.red;
         var boxSize = new Vector3(1, 0, 0);
 
+#if UNITY_EDITOR
         var origHandleColor = Handles.color;
         Handles.color = Color.green;
         Handles.DrawAAPolyLine(Texture2D.whiteTexture, 3.0f,
@@ -48,6 +52,7 @@ public class Health : MonoBehaviour
 
 
         Handles.color = origHandleColor;
+#endif
     }
 
     void Update()

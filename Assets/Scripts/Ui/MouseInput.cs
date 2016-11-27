@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Net;
 using Assets.Scripts;
-using UnityEditor;
-using UnityEngine.UI;
 
 public class MouseInput : MonoBehaviour
 {
@@ -22,9 +18,9 @@ public class MouseInput : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        _selector = Toolbox.Instance.GameManager.GameGrid.GetSelector();
-        _dragBox = Toolbox.Instance.GameManager.GameGrid.GetDragBox();
-        _disallowed = Toolbox.Instance.GameManager.GameGrid.GetDisallowed();
+        _selector = Toolbox.Instance.GameManager.GetSelector();
+        _dragBox = Toolbox.Instance.GameManager.GetDragBox();
+        _disallowed = Toolbox.Instance.GameManager.GetDisallowed();
     }
 
 #if TEST
@@ -136,7 +132,7 @@ public class MouseInput : MonoBehaviour
         var screenPos = Input.mousePosition;
         screenPos.z = -5;
 
-        var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+        var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
         if (gameGrid != null)
         {
             bool offScreen;

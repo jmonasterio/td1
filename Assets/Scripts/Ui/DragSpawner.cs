@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class DragSpawner : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class DragSpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        _mouseInput = Toolbox.Instance.GameManager.GameGrid.GetSelector().GetComponent<MouseInput>();
+        _mouseInput = Toolbox.Instance.GameManager.GetSelector().GetComponent<MouseInput>();
         
     }
 
@@ -45,7 +47,9 @@ public class DragSpawner : MonoBehaviour
         var vector = this.transform.position + new Vector3(-1, 1, 0);
         var color = GUI.color;
         GUI.color = Color.black;
+#if UNITY_EDITOR
         Handles.Label(vector, "Cost: " + income);
+#endif
         GUI.color = color;
     }
 }

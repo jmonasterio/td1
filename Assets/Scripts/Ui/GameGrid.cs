@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Algorithms;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -18,22 +20,6 @@ namespace Assets.Scripts
             return _map;
         }
 
-        public Selector _selector;
-        public GameObject _dragBox;
-        public GameObject _disallowed;
-
-        public Selector GetSelector()
-        {
-            return _selector;
-        }
-        public GameObject GetDragBox()
-        {
-            return _dragBox;
-        }
-        public GameObject GetDisallowed()
-        {
-            return _disallowed;
-        }
         public const int BACKGROUND_LAYER = 8;
         public const int TOWER_LAYER = 9;
         public const int ENEMY_LAYER = 10;
@@ -41,7 +27,6 @@ namespace Assets.Scripts
         public const int HUMAN_LAYER = 12;
         public const int ROBOT_LAYER = 13;
         // 14
-        public const int CARCAS_LAYER = 15;
         public const int DRAG_LAYER = 16;
 
         public GameCell[,] Cells;
@@ -195,7 +180,6 @@ namespace Assets.Scripts
 
         public void Start()
         {
-            _selector = FindSelector();
             RebuildMapConnection();
         }
 
@@ -297,15 +281,12 @@ namespace Assets.Scripts
             Debug.Assert(StartWaypoint != null, "Did not find start.");
             Debug.Assert(EndWaypoint != null, "Did not find end.");
 
-            var towers = (GetActiveObjectsInLayer(TOWER_LAYER));
-            AddToMap(towers);
+            AddToMap(Toolbox.Instance.GameManager.LevelController.CurrentLevel.Towers().Cast<GameObject>().ToList());
 
             var robots = (GetActiveObjectsInLayer(ROBOT_LAYER));
             AddToMap(robots);
 
-            var humans = (GetActiveObjectsInLayer(HUMAN_LAYER));
-            AddToMap(humans);
-
+            AddToMap(Toolbox.Instance.GameManager.LevelController.CurrentLevel.Humans().Cast<GameObject>().ToList());
         }
 
         public void AddToMap( IList<GameObject> entities)
@@ -418,25 +399,6 @@ namespace Assets.Scripts
                 .Where(go => go.transform.hideFlags == HideFlags.None).ToArray();
         }
 
-        public static List<T> GetSceneObjectsInTranform<T>(Transform t) where T : UnityEngine.Object
-        {
-            var ret = new List<T>();
-            foreach (Transform x in t)
-            {
-                if (t.hideFlags == HideFlags.None)
-                {
-                    var ent = x.gameObject.GetComponent<T>();
-
-                    if (ent != null)
-                    {
-                        ret.Add(ent);
-                    }
-                }
-            }
-            return ret;
-        }
-
-
         public static EditorGrid FindActiveMap()
         {
             return
@@ -445,16 +407,6 @@ namespace Assets.Scripts
                     .ToList()
                     .FirstOrDefault();
         }
-
-        private static Selector FindSelector()
-        {
-            return
-                Resources.FindObjectsOfTypeAll<Selector>()
-                    .Where(go => go.gameObject.activeInHierarchy && go.gameObject.name == "Selector")
-                    .ToList()
-                    .FirstOrDefault();
-        }
-
 
         public static List<GameObject> GetActiveObjectsInLayer(int layer)
         {
@@ -514,7 +466,9 @@ namespace Assets.Scripts
             var vector = MapGridPointToVector(nodeGridPoint) - _textOffset;
             var color = GUI.color;
             GUI.color = Color.green;
+#if UNITY_EDITOR
             Handles.Label(vector, s);
+#endif
             GUI.color = color;
         }
 
@@ -684,7 +638,7 @@ namespace Assets.Scripts
 
         public GameCell GetSelectorCellOrNull()
         {
-            var worldPos = this.GetSelector().transform.position;
+            var worldPos = Toolbox.Instance.GameManager.GetSelector().transform.position;
             worldPos.z = -10;
             GameCell dropCell = this.MapPositionToGameCellOrNull(worldPos);
             return dropCell;

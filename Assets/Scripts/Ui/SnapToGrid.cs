@@ -4,7 +4,6 @@ using System.Collections;
 [ExecuteInEditMode]
 public class SnapToGrid : MonoBehaviour {
 
-#if UNITY_EDITOR
     public bool snapToGrid = true;
     public float snapValue = 1f;
 
@@ -39,5 +38,4 @@ public class SnapToGrid : MonoBehaviour {
             v.z
         );
     }
-#endif
 }

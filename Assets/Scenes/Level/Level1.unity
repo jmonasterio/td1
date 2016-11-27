@@ -2157,6 +2157,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 949766822}
   - 114: {fileID: 949766823}
+  - 114: {fileID: 949766825}
+  - 114: {fileID: 949766824}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -2194,10 +2196,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d59f970176c6c4b937a0931ef70364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WavesController: {fileID: 0}
   LevelNotes: 'This is a good place to right some notes, Darrin.
 
     You can even have multiline stuff, so that isksdfjlksjdfk sldkfjsldf sldjflksjflkj
     sf dljsflk'
+--- !u!114 &949766824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 949766821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94eebff8234c4a9438a1605ff5dbf89e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LiveEnemyCount: 0
+  EnemyPrefab: {fileID: 11455086, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
+  HazardCount: 1
+  SpawnWait: 1
+  StartWait: 0.5
+  WaveWait: 1
+--- !u!114 &949766825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 949766821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71c96e3c88280bf4abcfcea0c94d0490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963594027
 GameObject:
   m_ObjectHideFlags: 0

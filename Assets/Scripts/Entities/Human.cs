@@ -1,10 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
-using System.Linq;
 using Assets.Scripts;
-using UnityEditor;
-using UnityEditor.Animations;
 
 public class Human : EntityBehavior
 {
@@ -140,7 +136,7 @@ public class Human : EntityBehavior
             {
                 if (cell.Carcases.Count > 0)
                 {
-                    float distanceToCenterOfCell = (this.transform.position - cell.GetPosition(Toolbox.Instance.GameManager.GameGrid)).magnitude;
+                    float distanceToCenterOfCell = (this.transform.position - cell.GetPosition(Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid)).magnitude;
                     if (GatherState.GrowValue < GatherState.MaxGrowValue)
                     {
                         if (!_wander.IsStopped)

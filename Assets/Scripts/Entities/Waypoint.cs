@@ -1,5 +1,7 @@
 ﻿using Algorithms;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 
@@ -38,11 +40,15 @@ public class Waypoint : MonoBehaviour
         GUI.color = Color.black;
         if (this.WaypointType == WaypointTypes.Start)
         {
+#if UNITY_EDITOR
             Handles.Label(vector, "Start: " + WaypointGroup);
+#endif
         }
         else if (this.WaypointType == WaypointTypes.End)
         {
+#if UNITY_EDITOR
             Handles.Label(vector, "End: " + WaypointGroup);
+#endif
 
         }
         GUI.color = color;

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class Score : MonoBehaviour {
     private SpriteRenderer _renderer;
@@ -19,6 +21,7 @@ public class Score : MonoBehaviour {
         var color = GUI.color;
         GUI.color = Color.black;
         float lineSpacing = 0.45f;
+#if UNITY_EDITOR
         Handles.Label(vector, "Score: " + Toolbox.Instance.GameManager.ScoreController.Score);
         vector.Set(vector.x, vector.y- lineSpacing, vector.z);
         Handles.Label(vector, "Build Score: " + Toolbox.Instance.GameManager.ScoreController.BuildScore);
@@ -26,6 +29,7 @@ public class Score : MonoBehaviour {
         Handles.Label(vector, "Grow Score: " + Toolbox.Instance.GameManager.ScoreController.GrowScore);
         vector.Set(vector.x, vector.y - lineSpacing, vector.z);
         Handles.Label(vector, "Grow rate: " + Toolbox.Instance.GameManager.ScoreController.GrowRate);
+#endif
         GUI.color = color;
     }
 }

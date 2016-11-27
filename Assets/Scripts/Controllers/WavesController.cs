@@ -13,23 +13,13 @@ public class WavesController : MonoBehaviour
     public float SpawnWait;
     public float StartWait;
     public float WaveWait;
-    private Transform _enemiesCollection;
 
 
     void Start()
     {
-        _levelStartTime = 0.0f;
-                                                         // StartCoroutine(SpawnWaves());
-        StartLevel( 0.0f );
-
-        RebuildConnections();
+        StartLevel( Time.time );
     }
 
-
-    public void RebuildConnections()
-    {
-        _enemiesCollection = Toolbox.Instance.GameManager.Nodes.Enemies;
-    }
 
     public void StartLevel( float levelStartTime)
     {
@@ -61,6 +51,10 @@ public class WavesController : MonoBehaviour
         //_skipWaveDelay = false;
 
 
+        var enemiesCollection = GetComponent<Level>().Nodes.Enemies;
+
+
+
         foreach ( var poco in waveCsv)
         {
             //wave.CancelWaveCoroutine();
@@ -73,7 +67,7 @@ public class WavesController : MonoBehaviour
                 Debug.Assert(newEnemy.GetComponent<Enemy>() != null );
 
                 newEnemy.gameObject.name = path.gameObject.name + DateTime.Now.Ticks;
-                newEnemy.transform.SetParent( _enemiesCollection);
+                newEnemy.transform.SetParent( enemiesCollection);
                 newEnemy.transform.position = spawnPosition;
                 newEnemy.gameObject.SetActive(true);
                 switch (poco.Data)

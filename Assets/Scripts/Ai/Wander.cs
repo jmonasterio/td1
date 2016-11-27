@@ -93,7 +93,7 @@ namespace Assets.Scripts
             var worldPos = this.transform.position;
             worldPos.z = -10;
 
-            var gameGrid = Toolbox.Instance.GameManager.GameGrid;
+            var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
 
             var curGameCell = gameGrid.MapPositionToGameCellOrNull(worldPos);
 

@@ -587,8 +587,6 @@ GameObject:
   - 4: {fileID: 601069451}
   - 114: {fileID: 601069450}
   - 114: {fileID: 601069452}
-  - 114: {fileID: 601069453}
-  - 114: {fileID: 601069455}
   - 114: {fileID: 601069456}
   - 114: {fileID: 601069457}
   - 114: {fileID: 601069458}
@@ -614,12 +612,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameName: td1
-  WavesController: {fileID: 0}
   ScoreController: {fileID: 0}
   DataController: {fileID: 0}
   GameController: {fileID: 0}
   AtlasController: {fileID: 0}
   LevelController: {fileID: 0}
+  _selector: {fileID: 1846754589}
+  _dragBox: {fileID: 454299322}
+  _disallowed: {fileID: 942336605}
 --- !u!4 &601069451
 Transform:
   m_ObjectHideFlags: 0
@@ -646,37 +646,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowXOnPath: 0
   ShowGridAtRuntime: 0
---- !u!114 &601069453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 601069449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71c96e3c88280bf4abcfcea0c94d0490, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _selector: {fileID: 1846754589}
-  _dragBox: {fileID: 454299322}
-  _disallowed: {fileID: 942336605}
---- !u!114 &601069455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 601069449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94eebff8234c4a9438a1605ff5dbf89e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LiveEnemyCount: 0
-  EnemyPrefab: {fileID: 11455086, guid: 7743b96f1c7f6754abf4d084b245c20b, type: 2}
-  HazardCount: 1
-  SpawnWait: 1
-  StartWait: 0.5
-  WaveWait: 1
 --- !u!114 &601069456
 MonoBehaviour:
   m_ObjectHideFlags: 0

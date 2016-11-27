@@ -116,18 +116,26 @@ public class Entity : EntityBehavior
         if (_currentGameCell == null)
         {
             // Could happen if HUMAN's update called before ENTITY.
-            var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
+            var cell = GetCurrentCell();
             _currentGameCell = cell;
         }
         return _currentGameCell;
+    }
+
+    private GameGrid.GameCell GetCurrentCell()
+    {
+        return
+            Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid.MapPositionToGameCellOrNull(
+                this.transform.position);
     }
 
     /// <summary>
     /// Must  be called whenever an entity moves or changes cells (drag, drop, teleport, etc). This keeps the Cells array up to date with the game.
     /// </summary>
     /// <param name="newGameCell"></param>
-    private void UpdateCurrentCellAndGameGrid(GameGrid.GameCell newGameCell)
+    private void UpdateCurrentCellAndGameGrid()
     {
+        var newGameCell = GetCurrentCell();
         if ( _currentGameCell != newGameCell)
         {
             if ((_currentGameCell != null) && (newGameCell != null) && _currentGameCell.GridPoint == newGameCell.GridPoint)
@@ -213,8 +221,7 @@ public class Entity : EntityBehavior
         if (!IsDragging())
         {
             // As entity moves around, we want to update the CellMap to know where entity is.
-            var cell = Toolbox.Instance.GameManager.GameGrid.MapPositionToGameCellOrNull(this.transform.position);
-            UpdateCurrentCellAndGameGrid(cell);
+            UpdateCurrentCellAndGameGrid();
         }
     }
 
@@ -226,19 +233,19 @@ public class Entity : EntityBehavior
 
     public Tower FindClosestLiveTower(float fMaxDistance)
     {
-        IEnumerable<Tower> nearby = Toolbox.Instance.GameManager.Towers();
+        IEnumerable<Tower> nearby = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Towers();
         return Closest<Tower>(nearby, fMaxDistance);
     }
 
     public Human FindClosestLiveHuman(float fMaxDistance)
     {
-        IEnumerable<Human> nearby = Toolbox.Instance.GameManager.Humans();
+        IEnumerable<Human> nearby = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Humans();
         return Closest<Human>(nearby, fMaxDistance);
     }
 
     public Enemy FindClosestLiveEnemy(float fMaxDistance)
     {
-        IEnumerable<Enemy> nearby = Toolbox.Instance.GameManager.Enemies();
+        IEnumerable<Enemy> nearby = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Enemies();
         return Closest<Enemy>( nearby, fMaxDistance);
     }
 
@@ -271,7 +278,7 @@ public class Entity : EntityBehavior
         bullet.transform.position = here;
         bullet.BulletSource = EntityClass;
 
-        var bulletsCollection = Toolbox.Instance.GameManager.Nodes.BulletsCollection;
+        var bulletsCollection = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Bullets;
         bullet.transform.SetParent(bulletsCollection);
         _reloadDelay = ReloadTime;
     }

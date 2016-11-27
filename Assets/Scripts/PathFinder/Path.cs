@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +36,7 @@ public class Path : MonoBehaviour {
 	}
 }
 
+#if UNITY_EDITOR
 /// Draw PATH in editor MODE when focus is on path
 [CustomEditor(typeof(Path))]
 public class PathEditor : Editor
@@ -124,3 +127,4 @@ public class WaypointEditor : Editor
     }
 }
 
+#endif
