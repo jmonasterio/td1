@@ -418,6 +418,25 @@ namespace Assets.Scripts
                 .Where(go => go.transform.hideFlags == HideFlags.None).ToArray();
         }
 
+        public static List<T> GetSceneObjectsInTranform<T>(Transform t) where T : UnityEngine.Object
+        {
+            var ret = new List<T>();
+            foreach (Transform x in t)
+            {
+                if (t.hideFlags == HideFlags.None)
+                {
+                    var ent = x.gameObject.GetComponent<T>();
+
+                    if (ent != null)
+                    {
+                        ret.Add(ent);
+                    }
+                }
+            }
+            return ret;
+        }
+
+
         public static EditorGrid FindActiveMap()
         {
             return

@@ -1,105 +1,54 @@
-﻿x BUG: Drop on city seems to destroy it.
-x Indicate the cell or item you'll drop on.
-x Drag spawner for tower gets dragged.
-x Don't show dragRect when on cells that you can't drop on.
-x Dragged item should not be opaque.
-x Don't allow draggin things that are stationary.
-x Dragging tower goes behind palette.
-x STILL SHITTY CODE: Edge of map not detect properly.
-x After moving a human, he doesn't start pathing anymore.
-x Dragging tower should not shoot, or be a target.
-x Bong if illegal drop.
-x Am I really reloading grid on every frame?
-x Drop a block, not blocking enemies.
-x Enemies not going back.
-x X icon if illegal drop cell.
-x Can drop offscreen again.
-x Enemies are routing around the bottom.
-x When human or enemy moves, they need to be moved to another cell.
-x don't allow dropping wall on a human
-x Human should pause for a second after being dropped.
-x After a drop/cancel, human seems to jump. Because when they start to wander, the wander code assumes the human is at the center of the cell to start. But they are not.
-x Offscreen ends up with items??? Why.
-x human goes behind wall
-x Multiple entry points and multiple routes.
-x Not getting X when dragging human.
-x Support real waypoints to help designer.
-x Fill-in Waves.MidWaypoint from the Path object. Don't specifiy each one point, just specify the "path" gameObject in the Wave.
-x Can't drop on city.
-x Enemy collision with robot... damages robot. Kills enemy.
-x Connect explosion prefabs to prefabs, instead of making a child object.
-x Can't seem to drop blocks or towers: GameManagerScript disabled which disabled audiocontroller.
-x In editor, draw lines on path.
-x Csv should allow comment lines ;;;
-x Humans shoot. 
-x Humans die.
-x Robot not dying?
-x Not needed: Enemy reaches end of path, should just start wandering if for some reason there is no robot. Or maybe a new path to robot? Should never happen.
-x Robot dies... level over.
-x Enemy should not be deleted until they really decompose.
-x Enemies all die... next level.
-x DEBUG: Loop level to restart waves when you lose
-x Enemies shoot.
-x Enemies die.
-x After being dead a while, the body should decompose.
-x Dragging block makes a small block
-x Real health
-x xlsx wave integration
-x Hide reticle while dragging.
-x Enemies are walking through walls.
-x Shooting enemies.
+﻿HAVE TO OVERCOME MY DISGUST WITH UNITY.
 
-x Dropped carcas does not resume decomposing (if cancel drop) with correct amount of remaining time.
-x Dropping carcases on city/robot not working.
-x Don't allow dropping human on decomposing city.
-x Do allow dropping new city on decomposing city.
-
-
-x Maybe a "Decomposer" ought to be a kind of entity, that keeps track of related entity that was decomposed.
-	- Benefit would be, we don't need special logic like: Don't allow dropping on while decomposing.
-	- You could build another city on a decomposing one, and it wouldn't use up the "slot".
-- MANUAL WORKAROUND: City needs to be a special kind of tower. Right now, they're not related.
-
-x Carcas not decomposing.
-x Carcas not animating.
-x Carcas income value not set when created.
-x Human should go to center of carcas.
-- Weird giant graphic flickers on gameover.
-
-x Entity should either store the current cell, or be really good at getting it back.
-
-x Fuck: I can drag items off the grid.
-
-
-x People seem to get lost? Maybe carcases out of sync between tree and gamegrid.
-
-x If user is wandering to a target that has been killed, then it should rewander.
-
+==== Engine Issues
+    - Layers versus children -- clunky.
+	- Levels are clunky.
+		- Hard to switch at design time.
+		- Waves aren't part of level.
+	- Graphics are already really slow.
+		- switch to 3d rendering.
+	- Datafile -> entity mapping.
+	
+	- Weird giant graphic flickers on gameover.
 -         I think I could make an Animation editor. It would have an animator with an animator controller, that just had one state.
             You could set the clip in it.
-
-
-- Different kinds of money
-	- Money to spawn humans.
-	- Money to create towers
-	- Money to heal
-
- xHuman:126 - Human gatherer, should try to go to gatherer city.
-
- x Gatherers - seem to jump around. 
- x Gatherers - clump
-
  - I shouldn't really be using sprites for HUMANS, ENEMIES, ROBOT, TOWERS, CARCAS
 	 - All should be animations (even if just one frame).
 	 - This will let me have a much sexier game.
 	 - Animations should come from AtlasController and be loaded from disk (maybe from an asset bundle?)
 	 - State changes will be handled all in code. Not state machine driven.
 	 - Maybe my code should do the animating of various sprites.
-
  - There should only be one HUMAN prefab (now I have Gatherer + normal).
     - Sprites should be loaded at startup 
 	- Size should be data driven.
 	- Maybe all the sprites should be on a Sprite controller.
+	- Chrome.
+
+	- Level editor scene can write a level to .CSV
+	- How should waves.csv handle levels.
+	- Preload scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
+
+	- EntityClass should be a derived value? on Entity out of sync with Tower Componenet. EntityClass not tower, for example. Could happen to others.
+
+	- When switching levels in editor (at runtime), we should move the level to the camera
+		and into the chrome. We don't move the camera at design time.
+	- Instead of using RAYCAST, look in the grid.
+	- xlsx entity integration
+	- Have a way for wave to start off screen.
+	- Need to prevent block a cell that already has an enemy in it.
+	- Need to keep track of which cells have enemies.
+	- Need to look, when I am about to enter a new cell, to see whether the path follower is blocked, and needs to turn back.
+	- Pause a level.
+
+==== GamePlay Issues
+
+- Design the flow of the main screens.
+
+- MANUAL WORKAROUND: City needs to be a special kind of tower. Right now, they're not related.
+- Different kinds of money
+	- Money to spawn humans.
+	- Money to create towers
+	- Money to heal
 
 - Maybe my entities should have no methods, and all work should be done in controllers. Like that paper I read.
 
@@ -114,32 +63,20 @@ x If gatherer in cell with carcas, should pick up some.
 	- If human wanders into a city or robot, it should go inside...
 - Hurt humans should head to a city/tower.
 
-- Maybe robot should be keep track of All Available g
+- Maybe robot should be keep track of All Available 
 
-x What stops a city from spawning humans? Run out of spawn money.
-x Gatherer city makes gatherers.
-x Regular city makes standard.
 
 - CNR: Wanderers are jumpy when they switch targets. Because should only switch targets near center of cell? Or lerp to new path.
-
-x Humans to spawn at one city and go to other cities.
-
-x RandomTowerCell should exclude the tower where the human was spawned.
 - City spawned human should get settings from CSV. Not from PREFAB.
 
 - Carcas should only be worth some part for growing stuff.
 - Can gatherers pick up dead humans? Or just dead enemies?
 - Level one only has the gatherer tower. Gathers's go get body of dead aliens. Humans get converted into gatherer.
-x Do we need a build rate
-x How to include GrowRate in part of human growth calc
 
 - Different texture for various carcas types.
 - Different texture for various human types.
 
-- Level editor scene can write a level to .CSV
-- How should waves.csv handle levels.
 - Enemy seems to stop abruptly, when exploding.
-- Preload scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
 - Planning screen...
 
 
@@ -149,25 +86,19 @@ x How to include GrowRate in part of human growth calc
 - Colision with robot is too far away. 
 - What happens when an enemy collides with a tower? Nothing?
 - Need men and women.
-x Need a spawn rate indicator.
 - Need different kinds of guns? Part of entity?
 - Need different types of bullets.
 - # of cities on the map affects the spawn rate.
 - Build the love shack
 - Tower that creates random humans should look like a little hostpiatl
 
-- EntityClass should be a derived value? on Entity out of sync with Tower Componenet. EntityClass not tower, for example. Could happen to others.
 - Wave co-routines: Need to stop if level ends in middle of a wave. I have Wave.CancelWave() method, but not called for now.
 - Maybe option to autdrop if you go over city.
 - If money goes down while dragging below cost, we may not be able to drop. OR take money at start of drop, and return if not used.
-x Mob explodes and does damage to the robot. 
 - Mob may stop to fight robot? Maybe stop to fight.
 - Animate back to palete
 - Human needs to be shorter (and centered?) so they don't try to draw over wall.
 
-
-- Instead of using RAYCAST, look in the grid.
-- xlsx entity integration
 
 - Spawn humans randomly.
 
@@ -188,54 +119,11 @@ x Mob explodes and does damage to the robot.
 
 - Humans, Resources (cities), Mobs, and Robots should come from spreadsheets
 
-x Mob Waves should come from spreadsheets
-- When switching levels in editor (at runtime), we should move the level to the camera
-	and into the chrome. We don't move the camera at design time.
-- It might make sense at runtime to COPY a level, so that we can re-run from original copy.
+
 - Snap to grid seems to screw up the dropping of dirt. TURNED OFF FOR NOW.
-- Have a way for wave to start off screen.
-- Pause a level.
 - Speed to next wavelet.
-- Need to look, when I am about to enter a new cell, to see whether the path follower is blocked, and needs to turn back.
-- Need to prevent block a cell that already has an enemy in it.
-- Need to keep track of which cells have enemies.
 
 - Multiselect humans would be a powerup.
-
-
-x When dropping towers, why do I get so many?
-x Grab humans and drop on resources or tower. Show while dragging. Return if a miss.
-x Towers and Cells can't be dropped on, because not on the grid... Hmmmm.
-
-x Don't drop on occupied squares.
-
-x Human Random walk
-x Humans "jump" at end of path.
-x Maybe do PICK & CLICK instead of DRAG and DROP
-x Drop a human anywhere, instead of just on a robot.
-x Teleport or walk to city? Darrin wants teleport.
-x Speed should be on the ENTITY, not on the PATH FOLLOWER
-x Don't drop off map.
-x Place towers
-x Only place towers if enough income.
-x Keep track of income.
-x Rename source to "palette" or something.
-x Add ability to drop a tower.
-x Add ability to drop terrain.
-
-x MVC: https://www.toptal.com/unity-unity3d/unity-with-mvc-how-to-level-up-your-game-development
-x Need more delay between bullets
-x OnGui needs to draw path for each enemy.
-x GameGrid shouldn't have the path. The FOLLOWER should have the path.
-x Create an enemy wave.
-x Set target of enemy when you create it, instead of in update.
-x Keep track of how many enemies make it home. So we know we lost.
-x Detect when level is over.
-x Create wave from wave collection.
-x Kill enemies that are hit by too many bullets
-x Start keeping simple score.
-x Add health to enemy and towers.
-
 
 
 

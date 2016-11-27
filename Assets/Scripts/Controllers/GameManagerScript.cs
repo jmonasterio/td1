@@ -24,6 +24,8 @@ public class GameManagerScript : MonoBehaviour
     {
         public Transform BulletsCollection;
         public Transform Enemies;
+        public Transform Towers;
+        public Transform Humans;
     }
 
 
@@ -55,6 +57,8 @@ public class GameManagerScript : MonoBehaviour
         _nodes = new TreeNodes();
         _nodes.BulletsCollection = GameObject.Find("Bullets").transform;
         _nodes.Enemies = GameObject.Find("Enemies").transform;
+        _nodes.Towers = GameObject.Find("Towers").transform;
+        _nodes.Humans = GameObject.Find("Humans").transform;
     }
 
     public void Start()
@@ -100,56 +104,16 @@ public class GameManagerScript : MonoBehaviour
     /// <returns></returns>
     public List<Tower> Towers()
     {
-        var gos = GameGrid.GetActiveObjectsInLayer(GameGrid.TOWER_LAYER);
-        var ret = new List<Tower>();
-        foreach (var go in gos)
-        {
-            ret.Add(go.GetComponent<Tower>());
-        }
-        return ret;
-    }
-
-    public List<Carcas> Carcases()
-    {
-        var gos = GameGrid.GetActiveObjectsInLayer(GameGrid.CARCAS_LAYER);
-        var ret = new List<Carcas>();
-        foreach (var go in gos)
-        {
-            ret.Add(go.GetComponent<Carcas>());
-        }
-        return ret;
+        return GameGrid.GetSceneObjectsInTranform<Tower>(_nodes.Towers);
     }
 
     public List<Human> Humans()
     {
-        var gos = GameGrid.GetActiveObjectsInLayer(GameGrid.HUMAN_LAYER);
-        var ret = new List<Human>();
-        foreach (var go in gos)
-        {
-            ret.Add(go.GetComponent<Human>());
-        }
-        return ret;
+        return GameGrid.GetSceneObjectsInTranform<Human>(_nodes.Humans);
     }
 
     public List<Enemy> Enemies()
     {
-        var enemiesCollection = GameObject.Find("Enemies"); // TBD: Maybe do this in the in the Enemy object.
-
-
-        var list = new List<Enemy>();
-        foreach (Transform en in enemiesCollection.transform)
-        {
-            var enemy = en.gameObject.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                list.Add(enemy);
-            }
-            else
-            {
-                // Maybe an explosion or something.
-            }
-             
-        }
-        return list;
+        return GameGrid.GetSceneObjectsInTranform<Enemy>(_nodes.Enemies);
     }
 }

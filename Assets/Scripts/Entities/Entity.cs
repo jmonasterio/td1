@@ -51,7 +51,7 @@ public class Entity : EntityBehavior
     public float ReloadTime = 0.75f;
     private float _reloadDelay;
 
-    new void Start()
+    void Start()
     {
         // Does some validation. 
         // TBD: Perhaps GetComponent should be source of truth and entity class should be calculated???
@@ -222,12 +222,6 @@ public class Entity : EntityBehavior
     public bool IsReloaded()
     {
         return _reloadDelay <= 0;
-    }
-
-    public Carcas FindClosestCarcas(float fMaxDistance)
-    {
-        var nearby = Toolbox.Instance.GameManager.Carcases();
-        return Closest<Carcas>(nearby, fMaxDistance);
     }
 
     public Tower FindClosestLiveTower(float fMaxDistance)

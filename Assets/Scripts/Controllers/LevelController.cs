@@ -75,7 +75,7 @@ public class LevelController : MonoBehaviour
          //   if (EditorSceneManager.CloseScene(scene, true))
          //   {
           //      // ReSharper disable once AccessToStaticMemberViaDerivedType
-           //     EditorSceneManager.LoadScene(activeLevel.ToString(), LoadSceneMode.Additive);
+                EditorSceneManager.LoadScene(activeLevel.ToString(), LoadSceneMode.Additive);
            // }
         }
         else
