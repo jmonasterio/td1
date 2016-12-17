@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Algorithms;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -90,22 +87,16 @@ namespace Assets.Scripts
             }
 
             var remainingWaypoints = new List<GameGrid.GameCell>();
+            remainingWaypoints.Add(current);
             remainingWaypoints.AddRange(orderedWayPointsGameCells);
             remainingWaypoints.Add(targetGameCell); 
 
-            if ( remainingWaypoints.Count == 0)
+            if ( remainingWaypoints.Count <= 1)
             {
                 return null; 
             }
 
             var fullPath = new List<GameCell>();
-            var firstLeg = FindPath(current, remainingWaypoints[0]);
-            if (firstLeg.Count == 0)
-            {
-                // No path
-                return null;
-            }
-            fullPath.AddRange(firstLeg);
             for (int ii = 0; ii < remainingWaypoints.Count - 1; ii++)
             {
                 var nextLeg = FindPath(remainingWaypoints[ii], remainingWaypoints[ii + 1]);
@@ -115,7 +106,8 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    break;
+                    // Could not find path between waypoints
+                    return null;
                 }
             }
             // TBD: There may be some overlap we need to fix
@@ -141,6 +133,7 @@ namespace Assets.Scripts
                 SearchLimit = 15000,
                 TieBreaker = false
             };
+
             var path = pf.FindPath(start.GridPoint, end.GridPoint);
             return MakeGameCellPath(path);
         }
@@ -403,7 +396,7 @@ namespace Assets.Scripts
         {
             return
                 Resources.FindObjectsOfTypeAll<EditorGrid>()
-                    .Where(go => go.gameObject.activeInHierarchy && go.gameObject.name == "Map")
+                    .Where(go => (go.gameObject != null) && go.gameObject.activeInHierarchy && go.gameObject.name == "Map")
                     .ToList()
                     .FirstOrDefault();
         }
@@ -463,14 +456,25 @@ namespace Assets.Scripts
 
         public void DrawTextAtPoint(GridPoint nodeGridPoint, string s)
         {
-            var vector = MapGridPointToVector(nodeGridPoint) - _textOffset;
-            var color = GUI.color;
-            GUI.color = Color.green;
-#if UNITY_EDITOR
-            Handles.Label(vector, s);
-#endif
-            GUI.color = color;
+            var vector = MapGridPointToVector(nodeGridPoint);
+            // - _textOffset;
+            if (Application.isPlaying)
+            {
+                GuiExtension.GuiLabel(vector, s, Color.black);
+            }
+            else
+            {
+                GuiExtension.HandleLabel(vector, s, Color.black);
+            }
         }
+
+        public Vector3 MapPositionToScreen(Vector3 pos)
+        {
+            var pos2 = Camera.main.WorldToScreenPoint(pos);
+            pos2.z = 0;
+            return pos2;
+        }
+
 
         public Vector3 MapGridPointToVector(GridPoint nodeGridPoint)
         {

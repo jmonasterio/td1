@@ -644,8 +644,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f34ccdd04dec844c87765c743764500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowXOnPath: 0
-  ShowGridAtRuntime: 0
+  ShowXOnPath: 1
+  ShowGridAtRuntime: 1
 --- !u!114 &601069456
 MonoBehaviour:
   m_ObjectHideFlags: 0

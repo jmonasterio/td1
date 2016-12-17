@@ -45,11 +45,6 @@ public class DragSpawner : MonoBehaviour
     {
         var income = SpawnPF.GetComponent<Entity>().BuildValue;
         var vector = this.transform.position + new Vector3(-1, 1, 0);
-        var color = GUI.color;
-        GUI.color = Color.black;
-#if UNITY_EDITOR
-        Handles.Label(vector, "Cost: " + income);
-#endif
-        GUI.color = color;
+        GuiExtension.GuiLabel( vector, "Cost: " + income, Color.red);
     }
 }

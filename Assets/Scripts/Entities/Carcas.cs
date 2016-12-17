@@ -27,7 +27,7 @@ namespace Assets.Scripts
             Normal = 1,
         }
 
-        public new void Start()
+        public void Start()
         {
             Debug.Assert( Entity != null);
             _dragSourceOrNull = GetComponent<DragSource>();

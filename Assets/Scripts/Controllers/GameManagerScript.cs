@@ -37,7 +37,7 @@ public class GameManagerScript : MonoBehaviour
     }
 
     // Use this for initialization (of me).
-    void Awake()
+    public void Awake()
     {
         // Need to be in AWAKE because other components refer to this.
         Toolbox.Instance.GameManager = this;

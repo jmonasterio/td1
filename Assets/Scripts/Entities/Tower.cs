@@ -47,7 +47,7 @@ public class Tower : EntityBehavior
     public TowerGatherState GatherState;
 
     // Use this for initialization
-    new void Start()
+    void Start()
     {
         _dragSource = GetComponent<DragSource>();
     }

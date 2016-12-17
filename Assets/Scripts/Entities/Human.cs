@@ -43,7 +43,7 @@ public class Human : EntityBehavior
     private Animator _animator;
 
     // Use this for initialization
-    new void Start()
+    void Start()
     {
         _wander = GetComponent<Wander>();
         _dragSource = GetComponent<DragSource>();
@@ -242,7 +242,7 @@ public class Human : EntityBehavior
                 return;
             }
 
-            Debug.Log("Hit!");
+            //Debug.Log("Hit!");
 
             bool justDied = Entity.TakeDamageFromBullet(bullet);
             if (justDied)

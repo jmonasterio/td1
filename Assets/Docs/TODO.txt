@@ -1,7 +1,9 @@
 ﻿HAVE TO OVERCOME MY DISGUST WITH UNITY.
 
 ==== Engine Issues
-	- GameGrid should be on the LEVEL instead of on the game manager.
+    - Path editor finds path on each frame. Lame.
+	- Need a way to display text.
+	- BUILD/RUN doesn't run.
     - GameManager shouldn't have towers, the level should
 	- ActiveLevelObject is clunky/slow
     - Layers versus children -- clunky.

@@ -39,7 +39,7 @@ public class Enemy : EntityBehavior {
 
     
     // Use this for initialization
-    new void Start ()
+    void Start ()
     {
         if (this.GetComponentInParent<Wave>() != null)
         {
@@ -123,7 +123,7 @@ public class Enemy : EntityBehavior {
                 return;
             }
 
-            Debug.Log("Hit!");
+            //Debug.Log("Hit!");
 
             bool justDied = Entity.TakeDamageFromBullet(bullet);
             if (justDied)

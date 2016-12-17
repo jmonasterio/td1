@@ -78,7 +78,10 @@ public class PathFollower : MonoBehaviour
         }
 
         // Changed target, so find a new path.
-        CurrentPath = gameGrid.FindPathWithWaypointsOrNull(CurrentGameCell, OrderedWaypointCells, TargetCell);
+        if( CurrentPath == null || DetourRequired( OrderedWaypointCells))
+        {
+            CurrentPath = gameGrid.FindPathWithWaypointsOrNull(CurrentGameCell, OrderedWaypointCells, TargetCell);
+        }
         if (CurrentPath == null || CurrentPath.Count == 0)
         {
             // Couldn't find a path!!!!
@@ -174,12 +177,20 @@ public class PathFollower : MonoBehaviour
         var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
         if (gameGrid != null)
         {
-
             // Refigure the path on each update (in case the path has changed).
             // TBD: We could optimize this, if we know there is nothing moving that can block things on path,
             //  and we're sure the target is still there ... more complex games might allow the user to drop
             /// walls to block paths.
-            CurrentPath = gameGrid.FindPathWithWaypointsOrNull(PrevGameCell, OrderedWaypointCells, TargetCell);
+            /// 
+            /// 
+            /// Alternate optimization: Follow path until blocked. Only then calculate a new
+            ///  path;
+
+            if (CurrentPath == null || DetourRequired(OrderedWaypointCells))
+            {
+                // Find a new path.
+                CurrentPath = gameGrid.FindPathWithWaypointsOrNull(PrevGameCell, OrderedWaypointCells, TargetCell);
+            }
 
             //var nextGameCell = FindNextGameCell( path, PrevGameCell);
 
@@ -240,6 +251,18 @@ public class PathFollower : MonoBehaviour
                 FollowToTargetCell(gameGrid, transform.position);
             }
         }
+    }
+
+    private bool DetourRequired(List<GameGrid.GameCell> orderedWaypointCells)
+    {
+        foreach (var wpc in orderedWaypointCells)
+        {
+            if (wpc.Background != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private float GetSpeedFromEntity()

@@ -9,7 +9,7 @@ namespace Assets.Scripts
         private DragSource _dragSource;
 
         // Use this for initialization
-        new void Start()
+        void Start()
         {
             _dragSource = GetComponent<DragSource>();
         }
@@ -63,7 +63,7 @@ namespace Assets.Scripts
                     return;
                 }
 
-                Debug.Log("Hit!");
+                //Debug.Log("Hit!");
 
                 bullet.Destroy();
 

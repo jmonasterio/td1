@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -25,34 +26,41 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void OnGUI()
     {
+        if( Event.current.type != EventType.Repaint)
+        {
+            return;
+        }
+
+
+
         var origColor = GUI.color;
-        GUI.color = Color.gray;
-#if UNITY_EDITOR
-        Handles.Label(this.transform.position - labelOffset, "" + _entity.Health);
-#endif
-        GUI.color = origColor;
+        GuiExtension.GuiLabel(this.transform.position - labelOffset, "" + _entity.Health, Color.gray);
 
         var pos = this.transform.position - labelOffset;
         pos.z = -10.0f;
 
+        pos = GuiExtension.MapPositionToScreen(pos);
+
         GUI.color = Color.red;
-        var boxSize = new Vector3(1, 0, 0);
+        var boxSize = new Vector3(0.005f, 0.001f, 0);
+        //boxSize = GuiExtension.MapWorldToScreenRect(boxSize);
 
-#if UNITY_EDITOR
-        var origHandleColor = Handles.color;
-        Handles.color = Color.green;
-        Handles.DrawAAPolyLine(Texture2D.whiteTexture, 3.0f,
-            pos,
-            pos + boxSize*_barDisplay);
+        var rc = new Rect(pos, boxSize * _barDisplay);
+        DrawQuad(rc, Color.green);
+        rc = new Rect(pos + boxSize * _barDisplay, boxSize - boxSize * _barDisplay);
+        DrawQuad(rc, Color.red);
 
-        Handles.color = Color.red;
-        Handles.DrawAAPolyLine(Texture2D.whiteTexture, 3.0f,
-            pos + boxSize*_barDisplay,
-            pos + boxSize);
+        GUI.color = origColor;
 
+    }
 
-        Handles.color = origHandleColor;
-#endif
+    private void DrawQuad(Rect pos, Color color)
+    {
+        var texture = Texture2D.whiteTexture;
+        texture.SetPixel(0,0,color);
+        texture.Apply();
+        GUI.skin.box.normal.background = texture;
+        GUI.Box(pos, GUIContent.none);
     }
 
     void Update()

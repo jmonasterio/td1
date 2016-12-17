@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,13 +10,14 @@ using Algorithms;
 using Assets.Scripts;
 
 [ExecuteInEditMode]
-public class Path : MonoBehaviour {
+public class Path : MonoBehaviour
+{
     public Waypoint StartWaypoint { get; private set; }
     public List<Waypoint> MidWaypoints { get; private set; }
     public Waypoint EndWaypoint { get; private set; }
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
 
         UpdateWaypoints();
@@ -31,9 +33,10 @@ public class Path : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-	
-	}
+    void Update()
+    {
+
+    }
 }
 
 #if UNITY_EDITOR
@@ -43,9 +46,17 @@ public class PathEditor : Editor
 {
     void OnSceneGUI()
     {
-        var path = target as Path;
-        path.UpdateWaypoints();
-        DrawPath(path);
+        try
+        {
+            var path = target as Path;
+            path.UpdateWaypoints();
+            DrawPath(path);
+        }
+        catch (Exception ex)
+        {
+            // Ignore
+
+        }
     }
 
     public static void DrawPath(Path path)
@@ -55,11 +66,16 @@ public class PathEditor : Editor
         {
             return;
         }
-        var gg = gm.GetComponent<GameGrid>();
-        if (gg == null)
+
+        if (gm.LevelController == null)
         {
-            return;
+
+            gm.Awake();
+            gm.LevelController.CurrentLevel.RebuildTreeNodes();
+
         }
+
+        var gg = gm.LevelController.CurrentLevel.GameGrid;
 
         gg.InitCellMapFromLevelMap( GameGrid.FindActiveMap().gameObject);
 
@@ -116,13 +132,21 @@ public class WaypointEditor : Editor
 {
     void OnSceneGUI()
     {
-        var wp = target as Waypoint;
-
-        var path = wp.GetComponentInParent<Path>();
-
-        if (path != null)
+        try
         {
-            PathEditor.DrawPath(path);
+
+            var wp = target as Waypoint;
+
+            var path = wp.GetComponentInParent<Path>();
+
+            if (path != null)
+            {
+                PathEditor.DrawPath(path);
+            }
+        }
+        catch (Exception ex)
+        {
+
         }
     }
 }

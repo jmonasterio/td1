@@ -2,9 +2,6 @@
 using Algorithms;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Assets.Scripts
 {
@@ -37,13 +34,16 @@ namespace Assets.Scripts
         private void DrawTextAtPoint(Rect rcInternalGrid, GridPoint nodeGridPoint, string s)
         {
             var vector = MapGridPointToVector(rcInternalGrid, nodeGridPoint);
-            var color = GUI.color;
-            GUI.color = Color.green;
-#if UNITY_EDITOR
-            Handles.Label(vector, s);
-#endif
-            GUI.color = color;
+            GuiExtension.GuiLabel(vector, s, Color.green);
         }
+
+        public Vector3 MapPositionToScreen(Vector3 pos)
+        {
+            var pos2 = Camera.main.WorldToScreenPoint(pos);
+            pos2.z = 0;
+            return pos2;
+        }
+
 
         public GridPoint MapVectorToGridPoint(Rect rcInternalGrid, Vector2 vv)
         {
