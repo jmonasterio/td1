@@ -45,6 +45,7 @@ public class Human : EntityBehavior
     // Use this for initialization
     void Start()
     {
+        this.
         _wander = GetComponent<Wander>();
         _dragSource = GetComponent<DragSource>();
         _animator = GetComponent<Animator>();

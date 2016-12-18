@@ -2,19 +2,11 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 using UnityEngine;
 
-public class AtlasController : MonoBehaviour
+public class AtlasController
 {
-
-    public void Awake()
-    {
-        // Load atlas from disk folders.
-#if UNITY_EDITOR
-        var assets = AssetDatabase.LoadAllAssetsAtPath(@"C:\td1\Assets\Animations\HumanGathererWalking.anim");
-        StandardMaleWalking = assets[0] as AnimationClip;
-#endif
-    }
 
     [Serializable]
     public class HumanSprites
@@ -28,7 +20,6 @@ public class AtlasController : MonoBehaviour
 
     public AnimationClip StandardMaleWalking;
 
-    [SerializeField]
-    public HumanSprites Humans;
+    [SerializeField] public HumanSprites Humans;
 }
 

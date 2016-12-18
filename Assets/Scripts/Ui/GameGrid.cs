@@ -178,16 +178,19 @@ namespace Assets.Scripts
 
         public void RebuildMapConnection()
         {
-            _map = FindActiveMap().gameObject;
+            _map = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject;
 
             // Initialize connection to others.
             InitCellMapFromLevelMap(_map);
 
             // Drag spawners need to know where to put created objects in level
-            var ds1 = GameObject.Find("DragSpawn_Tower").GetComponent<DragSpawner>();
-            ds1.SpawnParent = GameObject.Find("Towers").gameObject;
-            ds1 = GameObject.Find("DragSpawn_Wall").GetComponent<DragSpawner>();
-            ds1.SpawnParent = GameObject.Find("Map").gameObject;
+            if (GameObject.Find("DragSpawn_Tower") != null)
+            {
+                var ds1 = GameObject.Find("DragSpawn_Tower").GetComponent<DragSpawner>();
+                ds1.SpawnParent = GameObject.Find("Towers").gameObject;
+                ds1 = GameObject.Find("DragSpawn_Wall").GetComponent<DragSpawner>();
+                ds1.SpawnParent = GameObject.Find("Map").gameObject;
+            }
 
         }
 
@@ -269,20 +272,23 @@ namespace Assets.Scripts
             InitGameGrid(_mapDims);
 
             var blocks = GetActiveObjectsInLayer(BACKGROUND_LAYER);
-            AddToMap(blocks);
+            AddToMapCells(blocks);
 
             Debug.Assert(StartWaypoint != null, "Did not find start.");
             Debug.Assert(EndWaypoint != null, "Did not find end.");
 
-            AddToMap(Toolbox.Instance.GameManager.LevelController.CurrentLevel.Towers().Cast<GameObject>().ToList());
+            AddToMapCells(Toolbox.Instance.GameManager.LevelController.CurrentLevel.Towers().Select( _ => _.gameObject).ToList());
 
             var robots = (GetActiveObjectsInLayer(ROBOT_LAYER));
-            AddToMap(robots);
+            AddToMapCells(robots);
 
-            AddToMap(Toolbox.Instance.GameManager.LevelController.CurrentLevel.Humans().Cast<GameObject>().ToList());
+            var humans = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Humans();
+            var gos = humans.Select( _ => _.gameObject);
+            var golist = gos.ToList();
+            AddToMapCells(golist);
         }
 
-        public void AddToMap( IList<GameObject> entities)
+        public void AddToMapCells( IList<GameObject> entities)
         {
 
         // Walk thru the grid and figure out terrain type for each
@@ -325,6 +331,18 @@ namespace Assets.Scripts
                         {
                             cell.GroundType = GameCell.GroundTypes.Dirt;
                         }
+                    }
+                    else if (entity.EntityClass == Entity.EntityClasses.Human)
+                    {
+                        cell.Humans.Add( entity.GetComponent<Human>());
+                    }
+                    else if (entity.EntityClass == Entity.EntityClasses.Tower)
+                    {
+                        cell.Tower = entity.GetComponent<Tower>();
+                    }
+                    else if (entity.EntityClass == Entity.EntityClasses.Robot)
+                    {
+                        cell.Robot = entity.GetComponent<Robot>();
                     }
                     else
                     {
@@ -390,15 +408,6 @@ namespace Assets.Scripts
         {
             return Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(go => go.transform.hideFlags == HideFlags.None).ToArray();
-        }
-
-        public static EditorGrid FindActiveMap()
-        {
-            return
-                Resources.FindObjectsOfTypeAll<EditorGrid>()
-                    .Where(go => (go.gameObject != null) && go.gameObject.activeInHierarchy && go.gameObject.name == "Map")
-                    .ToList()
-                    .FirstOrDefault();
         }
 
         public static List<GameObject> GetActiveObjectsInLayer(int layer)

@@ -84,7 +84,7 @@ public class Tower : EntityBehavior
             }
             else if ( result == GrowHumanResult.Finished)
             {
-                var parent = GameObject.Find("Humans");
+                var parent = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Humans.gameObject;
 
                 // TBD: Humans settings should come from CSV... not from prefab.
                 var newHuman = Entity.InstantiateAt(Spawn1Prefab, parent, this.transform.position, isSnap: false);

@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Algorithms;
 using Assets.Scripts;
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
@@ -9,16 +10,34 @@ using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/*
+ * Additive scenes kinda suck for levels:
+ *  1) They don't load in same way in editor as runtime.
+ *  2) Lots of other problems.
+ *  3) I don't want to rely on Unity's persistence... they keep losing my data.
+ *  
+ *  To load a level, we'll load in the "EmptyLevel" prefab.
+ *  Then using data files for the level, we'll add everything onto it.
+ *  
+ *  Later we can make an level editor that will load and empty level, let you edit, and then save back to data.
+ *  
+ *  Instead of trying to use unity.
+ */
 [ExecuteInEditMode]
 public class LevelController : MonoBehaviour
 {
 
-    public Levels ActiveLevel;
+    public Levels ActiveLevelName;
     private Levels _activeLevel;
+
     private Level _currentLevel;
+
+    public Level EmptyLevelPrefab;
+    public Human EmptyHumanPrefab;
 
     public enum Levels
     {
+        None,
         Level1,
         Level2
     }
@@ -34,77 +53,61 @@ public class LevelController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-        _currentLevel = Resources.FindObjectsOfTypeAll<Level>().ToList().FirstOrDefault();
+        _activeLevel = Levels.None;
+        _currentLevel = null; // _currentLevel = Resources.FindObjectsOfTypeAll<Level>().ToList().FirstOrDefault();
     }
 
-
-    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
-    {
-        try
-        {
-            _currentLevel = Resources.FindObjectsOfTypeAll<Level>().ToList().FirstOrDefault();
-
-            // Fix up connections after changing scenes
-
-        }
-        catch (Exception ex)
-        {
-            Debug.LogWarning( "sceneloaded: " + ex.Message);
-        }
-    }
 
     // Update is called once per frame
     void Update () {
-        if (ActiveLevel != _activeLevel)
+        if (ActiveLevelName != _activeLevel)
         {
             Debug.Log("Switched Level");
-            ChangeLevel(ActiveLevel, _activeLevel);
-            _activeLevel = ActiveLevel;
+            ChangeLevel(ActiveLevelName, _activeLevel);
+            _activeLevel = ActiveLevelName;
         }
-    }
-
-    void OnValidate()
-    {
     }
 
     private void ChangeLevel(Levels activeLevel, Levels oldActiveLevel)
     {
         Debug.Log("Change level");
 
-        Toolbox.Instance.GameManager.LevelController.CurrentLevel.WavesController.CancelActiveWaves();
-
         if (!Application.isPlaying)
         {
-            // Debug.Assert(EditorSceneManager.GetActiveScene().name == oldActiveLevel.ToString());
-            //  var scene = EditorSceneManager.GetSceneByName(oldActiveLevel.ToString());
-            // ReSharper disable once AccessToStaticMemberViaDerivedType
-            //   if (EditorSceneManager.CloseScene(scene, true))
-            //   {
-            //      // ReSharper disable once AccessToStaticMemberViaDerivedType
-#if UNITY_EDITOR
+            // Editor level switch
 
-            EditorSceneManager.LoadScene(activeLevel.ToString(), LoadSceneMode.Additive);
-#endif
-            // }
+            // TBD: May want to save any changes to data file.
         }
         else
         {
-            // Only works at runtime.
-            // Debug.Assert(SceneManager.GetActiveScene().name == oldActiveLevel.ToString());
-            // ReSharper disable once AccessToStaticMemberViaDerivedType
-
-            if (SceneManager.UnloadScene(oldActiveLevel.ToString()))
+            if (Toolbox.Instance.GameManager.LevelController.CurrentLevel != null)
             {
-                _currentLevel = null;
-
-                // ReSharper disable once AccessToStaticMemberViaDerivedType
-                SceneManager.LoadScene(activeLevel.ToString(), LoadSceneMode.Additive);
+                Toolbox.Instance.GameManager.LevelController.CurrentLevel.WavesController.CancelActiveWaves();
             }
 
+// Delete old level
+            if (_currentLevel != null)
+            {
+                Destroy(_currentLevel.gameObject);
+                _currentLevel = null;
+            }
+
+            // Runtime level switch.
+            _currentLevel = Instantiate<Level>(EmptyLevelPrefab); // Make a copy, so we don't remove from tree and then we can run wave again.
+            _currentLevel.gameObject.name = "Level";
+            _currentLevel.transform.SetParent(this.transform.root);
+            _currentLevel.transform.position = new Vector3(-1.19f, 0.33f, 0f);
+
+            _activeLevel = ActiveLevelName;
         }
     }
 
+    private void SaveLevel(Levels activeLevelname, Level currentLevel)
+    {
+
+    }
+
+#if DEAD
     private void MoveCameraToLevel(Level activeLevel)
     {
         var camera = FindCamera();
@@ -128,5 +131,6 @@ public class LevelController : MonoBehaviour
             Resources.FindObjectsOfTypeAll<Level>()
                 .ToArray();
     }
+#endif
 
 }

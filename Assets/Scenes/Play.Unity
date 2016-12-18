@@ -612,11 +612,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameName: td1
-  ScoreController: {fileID: 0}
-  DataController: {fileID: 0}
-  GameController: {fileID: 0}
-  AtlasController: {fileID: 0}
-  LevelController: {fileID: 0}
+  ScoreController: {fileID: 601069456}
+  DataController: {fileID: 601069460}
+  GameController: {fileID: 601069457}
+  LevelController: {fileID: 601069458}
   _selector: {fileID: 1846754589}
   _dragBox: {fileID: 454299322}
   _disallowed: {fileID: 942336605}
@@ -683,7 +682,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7fc3d6fd150c7341b51912db10768f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActiveLevel: 0
+  ActiveLevelName: 1
+  EmptyLevelPrefab: {fileID: 114000013552856236, guid: 3755464a54614384a92dde76bfc0cc4c,
+    type: 2}
+  EmptyHumanPrefab: {fileID: 11405522, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
 --- !u!114 &601069459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,7 +949,7 @@ MonoBehaviour:
     current: 
     lastLang: 
   GameManager: {fileID: 601069450}
-  DebugSys: {fileID: 0}
+  DebugSys: {fileID: 601069452}
 --- !u!4 &1708420655
 Transform:
   m_ObjectHideFlags: 0

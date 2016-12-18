@@ -77,7 +77,7 @@ public class PathEditor : Editor
 
         var gg = gm.LevelController.CurrentLevel.GameGrid;
 
-        gg.InitCellMapFromLevelMap( GameGrid.FindActiveMap().gameObject);
+        gg.InitCellMapFromLevelMap( Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject);
 
         //if (this.GetInstanceID() == Selection.activeInstanceID)
         //{

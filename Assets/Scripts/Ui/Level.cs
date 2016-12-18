@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Algorithms;
 using Assets.Scripts;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -17,6 +18,7 @@ public class Level : MonoBehaviour
         public Transform Enemies;
         public Transform Towers;
         public Transform Humans;
+        public Transform Map;
     }
 
 
@@ -44,10 +46,33 @@ public class Level : MonoBehaviour
     {
 
         RebuildTreeNodes();
+        PopulateLevel();
     }
 
-// Update is called once per frame
-void Update () {
+    private void PopulateLevel()
+    {
+        // All this needs to come from data files.
+
+        // Paths
+        // Backgrounds
+        // Robots
+        // Towers
+        // Humans
+
+        var human = Instantiate<Human>(Toolbox.Instance.GameManager.LevelController.EmptyHumanPrefab);
+        human.gameObject.name = "Human1";
+        human.transform.SetParent(Nodes.Humans);
+        human.transform.position = GameGrid.MapGridPointToVector(new GridPoint(0, 0));
+
+
+        // Enemies
+    }
+
+
+
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 
@@ -68,7 +93,7 @@ void Update () {
         myStyle.fontSize = 32;
 
 #if UNITY_EDITOR
-        Handles.Label(this.transform.position + new Vector3(-5.0f, +10.0f, 0f), "" + Toolbox.Instance.GameManager.LevelController.ActiveLevel.ToString(), myStyle);
+        Handles.Label(this.transform.position + new Vector3(-5.0f, +10.0f, 0f), "" + Toolbox.Instance.GameManager.LevelController.ActiveLevelName.ToString(), myStyle);
 #endif
         GUI.color = color;
         }
@@ -101,10 +126,11 @@ void Update () {
     public void RebuildTreeNodes()
     {
         _nodes = new TreeNodes();
-        _nodes.Bullets = GameObject.Find("Bullets").transform;
-        _nodes.Enemies = GameObject.Find("Enemies").transform;
-        _nodes.Towers = GameObject.Find("Towers").transform;
-        _nodes.Humans = GameObject.Find("Humans").transform;
+        _nodes.Bullets = this.transform.FindChild("Bullets").transform;
+        _nodes.Enemies = this.transform.FindChild("Enemies").transform;
+        _nodes.Towers = this.transform.FindChild("Towers").transform;
+        _nodes.Humans = this.transform.FindChild("Humans").transform;
+        _nodes.Map = this.transform.FindChild("Map").transform;
     }
 
     public GameGrid GameGrid
