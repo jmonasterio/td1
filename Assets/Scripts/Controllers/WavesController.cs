@@ -134,7 +134,7 @@ public class WavesController : MonoBehaviour
     IEnumerator SpawnWaves(Path path)
     {
         yield return new WaitForSeconds(StartWait);
-        var wavesOnLevel = Toolbox.Instance.GameManager.GetComponent<DataController>().WavesCsv;
+        var wavesOnLevel = Toolbox.Instance.GameManager.GetComponent<DataController>().Waves;
         var waveCsv = wavesOnLevel.Where(_ => _.WaveId == 0 && _.Path == path.name);
 
         var coroutine = StartCoroutine(SingleWave(waveCsv, path));

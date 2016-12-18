@@ -5,7 +5,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-public class AtlasController
+public class AtlasController : MonoBehaviour
 {
 
     [Serializable]

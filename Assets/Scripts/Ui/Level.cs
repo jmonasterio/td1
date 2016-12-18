@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using Algorithms;
 using Assets.Scripts;
 #if UNITY_EDITOR
@@ -10,7 +11,7 @@ using UnityEditor;
 public class Level : MonoBehaviour
 {
     public WavesController WavesController;
-
+    public LevelController.Levels LevelId;
 
     public struct TreeNodes
     {
@@ -51,6 +52,8 @@ public class Level : MonoBehaviour
 
     private void PopulateLevel()
     {
+        var levelData = Toolbox.Instance.GameManager.DataController.LoadLevelData(LevelId);
+
         // All this needs to come from data files.
 
         // Paths
@@ -58,17 +61,37 @@ public class Level : MonoBehaviour
         // Robots
         // Towers
         // Humans
+        
+        // TBD: Lookup the humans characteristic data.
+        var humanData = Toolbox.Instance.GameManager.DataController.HumanClasses;
 
-        var human = Instantiate<Human>(Toolbox.Instance.GameManager.LevelController.EmptyHumanPrefab);
-        human.gameObject.name = "Human1";
-        human.transform.SetParent(Nodes.Humans);
-        human.transform.position = GameGrid.MapGridPointToVector(new GridPoint(0, 0));
+        foreach (var humanLevelData in levelData.HumanLevelData)
+        {
+            var humanDatum = humanData.FirstOrDefault(_ => _.EntityId == humanLevelData.EntityId);
+
+            // Make human from
+            InstantiateHumanFromData(humanDatum, humanLevelData); // Looks up correct prefab + sets some data.
+        }
 
 
         // Enemies
     }
 
-
+    private void InstantiateHumanFromData(HumanPoco humanDatum, DataController.HumanLevelData humanLevelData)
+    {
+        // TBD: This prefab should be coming from the ATLAS?
+        var prefab = Toolbox.Instance.GameManager.LevelController.EmptyHumanPrefab;
+        switch (humanDatum.EntityId)
+        {
+            default:
+                prefab = Toolbox.Instance.GameManager.LevelController.EmptyHumanPrefab;
+                break;
+        }
+        var human = Instantiate<Human>(prefab);
+        human.gameObject.name = "Human1";
+        human.transform.SetParent(Nodes.Humans);
+        human.transform.position = GameGrid.MapGridPointToVector(new GridPoint(humanLevelData.BaseLevelData.GridX, humanLevelData.BaseLevelData.GridY));
+    }
 
 
     // Update is called once per frame
@@ -93,7 +116,7 @@ public class Level : MonoBehaviour
         myStyle.fontSize = 32;
 
 #if UNITY_EDITOR
-        Handles.Label(this.transform.position + new Vector3(-5.0f, +10.0f, 0f), "" + Toolbox.Instance.GameManager.LevelController.ActiveLevelName.ToString(), myStyle);
+        Handles.Label(this.transform.position + new Vector3(-5.0f, +10.0f, 0f), "" + Toolbox.Instance.GameManager.LevelController.ActiveLevelId.ToString(), myStyle);
 #endif
         GUI.color = color;
         }

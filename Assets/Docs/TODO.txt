@@ -1,6 +1,12 @@
 ﻿HAVE TO OVERCOME MY DISGUST WITH UNITY.
+   PLAN: All levels will be loaded from data file instead of storing level setup in unity.
+   
+
 
 ==== Engine Issues
+	- Need new JsonFile to replace CsvFile, which is somtimes too limied.
+    - Load reset of level from data file.
+	- Should PopulateLevel be loading prefabs from the ATLAS?
     - Path editor finds path on each frame. Lame.
 	- Need a way to display text.
 	- BUILD/RUN doesn't run.

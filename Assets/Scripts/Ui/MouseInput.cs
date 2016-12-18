@@ -44,79 +44,82 @@ public class MouseInput : MonoBehaviour
 	    {
 	        GameGrid.GameCell gameCellOrNull;
             var pos = GetCursorPosition(out gameCellOrNull);
-
-            // We support BOTH DRAG...DROP and CLICK...DRAG...CLICK .
-            if (_attachOnNextUpdate != null)
-            {
-                Debug.Assert(DraggingNow == null, "already dragging.");
-                DraggingNow = _attachOnNextUpdate;
-                _attachOnNextUpdate = null;
-                DraggingNow.StartDragging(pos);
-                return;
-            }
-
-            bool isDragging = (DraggingNow != null);
-            var leftButtonDown = Input.GetMouseButtonDown(DRAG_BUTTON_ID);
-	        var leftButtonUp = Input.GetMouseButtonUp(DRAG_BUTTON_ID);
-	        var rightButtonDown = Input.GetMouseButtonDown(CANCEL_BUTTON_ID);
-	        bool movedAwayFromClick = false;
-
-
-            // Move the selector around, to chase the mouse
-
-            _selector.transform.position = pos;
-
-	        if (isDragging)
+	        if (gameCellOrNull != null)
 	        {
-	            movedAwayFromClick = DraggingNow.IsMovedAwayFromClick(pos);
 
-	            DraggingNow.transform.position = pos;
+	            // We support BOTH DRAG...DROP and CLICK...DRAG...CLICK .
+	            if (_attachOnNextUpdate != null)
+	            {
+	                Debug.Assert(DraggingNow == null, "already dragging.");
+	                DraggingNow = _attachOnNextUpdate;
+	                _attachOnNextUpdate = null;
+	                DraggingNow.StartDragging(pos);
+	                return;
+	            }
 
-	            if ((gameCellOrNull != null) && DraggingNow.CanDropAt(gameCellOrNull))
+	            bool isDragging = (DraggingNow != null);
+	            var leftButtonDown = Input.GetMouseButtonDown(DRAG_BUTTON_ID);
+	            var leftButtonUp = Input.GetMouseButtonUp(DRAG_BUTTON_ID);
+	            var rightButtonDown = Input.GetMouseButtonDown(CANCEL_BUTTON_ID);
+	            bool movedAwayFromClick = false;
+
+
+	            // Move the selector around, to chase the mouse
+
+	            _selector.transform.position = pos;
+
+	            if (isDragging)
 	            {
-	                // Snap dragbox to grid, but not the thing we're dragging.
-	                _dragBox.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
-                    _disallowed.transform.position = OFF_SCREEN;
-                }
-                else
+	                movedAwayFromClick = DraggingNow.IsMovedAwayFromClick(pos);
+
+	                DraggingNow.transform.position = pos;
+
+	                if ((gameCellOrNull != null) && DraggingNow.CanDropAt(gameCellOrNull))
+	                {
+	                    // Snap dragbox to grid, but not the thing we're dragging.
+	                    _dragBox.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
+	                    _disallowed.transform.position = OFF_SCREEN;
+	                }
+	                else
+	                {
+	                    // Don't show drag box, if can't drop there OR off map.
+	                    _dragBox.transform.position = OFF_SCREEN;
+	                    _disallowed.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
+	                }
+
+	            }
+	            //else
+	            //{
+	            //    _dragBox.transform.position = OFF_SCREEN;
+	            //}
+
+	            if (rightButtonDown && isDragging)
 	            {
-                    // Don't show drag box, if can't drop there OR off map.
+	                DraggingNow.CancelDragging();
+	                DraggingNow = null;
 	                _dragBox.transform.position = OFF_SCREEN;
-	                _disallowed.transform.position = SnapToGrid.RoundTransform(pos, 1.0f);
+	                _disallowed.transform.position = OFF_SCREEN;
 	            }
-
-            }
-	        //else
-	        //{
-	        //    _dragBox.transform.position = OFF_SCREEN;
-	        //}
-
-	        if (rightButtonDown && isDragging)
-	        {
-	            DraggingNow.CancelDragging();
-	            DraggingNow = null;
-                _dragBox.transform.position = OFF_SCREEN;
-	            _disallowed.transform.position = OFF_SCREEN;
-	        }
-            else if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick) )
-	        {
-	            // End dragging with a click.
-	            DraggingNow.FinishOrCancelDragging( gameCellOrNull, pos);
-	            DraggingNow = null;
-                _dragBox.transform.position = OFF_SCREEN;
-                _disallowed.transform.position = OFF_SCREEN;
-
-            }
-            else if (leftButtonDown && !isDragging)
-	        {
-	            var dragSource = FindFirstDragSourceAtMousePositionOrNull();
-	            if (dragSource != null)
+	            else if ((leftButtonDown && isDragging) || (leftButtonUp && isDragging && movedAwayFromClick))
 	            {
-                    DraggingNow = dragSource;
-                    dragSource.StartDragging(pos);
+	                // End dragging with a click.
+	                DraggingNow.FinishOrCancelDragging(gameCellOrNull, pos);
+	                DraggingNow = null;
+	                _dragBox.transform.position = OFF_SCREEN;
+	                _disallowed.transform.position = OFF_SCREEN;
+
+	            }
+	            else if (leftButtonDown && !isDragging)
+	            {
+	                var dragSource = FindFirstDragSourceAtMousePositionOrNull();
+	                if (dragSource != null)
+	                {
+	                    DraggingNow = dragSource;
+	                    dragSource.StartDragging(pos);
+	                }
 	            }
 	        }
-        }
+	    }
 
     }
 
@@ -131,6 +134,12 @@ public class MouseInput : MonoBehaviour
     {
         var screenPos = Input.mousePosition;
         screenPos.z = -5;
+
+        if (Toolbox.Instance.GameManager.LevelController.CurrentLevel == null)
+        {
+            gameCellOrNull = null;
+            return Vector3.zero;
+        }
 
         var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
         if (gameGrid != null)

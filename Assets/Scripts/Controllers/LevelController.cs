@@ -27,7 +27,7 @@ using UnityEngine.UI;
 public class LevelController : MonoBehaviour
 {
 
-    public Levels ActiveLevelName;
+    public Levels ActiveLevelId;
     private Levels _activeLevel;
 
     private Level _currentLevel;
@@ -60,11 +60,11 @@ public class LevelController : MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-        if (ActiveLevelName != _activeLevel)
+        if (ActiveLevelId != _activeLevel)
         {
             Debug.Log("Switched Level");
-            ChangeLevel(ActiveLevelName, _activeLevel);
-            _activeLevel = ActiveLevelName;
+            ChangeLevel(ActiveLevelId, _activeLevel);
+            _activeLevel = ActiveLevelId;
         }
     }
 
@@ -97,8 +97,9 @@ public class LevelController : MonoBehaviour
             _currentLevel.gameObject.name = "Level";
             _currentLevel.transform.SetParent(this.transform.root);
             _currentLevel.transform.position = new Vector3(-1.19f, 0.33f, 0f);
+            _currentLevel.LevelId = ActiveLevelId;
 
-            _activeLevel = ActiveLevelName;
+            _activeLevel = ActiveLevelId;
         }
     }
 

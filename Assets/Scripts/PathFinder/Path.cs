@@ -52,7 +52,7 @@ public class PathEditor : Editor
             path.UpdateWaypoints();
             DrawPath(path);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Ignore
 
@@ -144,7 +144,7 @@ public class WaypointEditor : Editor
                 PathEditor.DrawPath(path);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
 
         }
