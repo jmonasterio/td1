@@ -9,7 +9,7 @@ public class DataController : MonoBehaviour {
     public IEnumerable<WavePoco> Waves { get; private set; }
 
     public CsvFile EnemiesClassesCsv { get; private set; }
-    public CsvFile TowerClassesCsv { get; private set; }
+    public IEnumerable<TowerPoco> TowerClasses { get; private set; }
     public IEnumerable<HumanPoco> HumanClasses { get; private set; }
     public IEnumerable<RobotPoco> RobotClasses { get; private set; }
     public JsonFile LevelsJson { get; private set; }
@@ -30,7 +30,7 @@ public class DataController : MonoBehaviour {
     {
         Waves = new TypeSafeWrapper<WavePoco>(ReloadCsv("waves.csv"));
         EnemiesClassesCsv = ReloadCsv("enemy-classes.csv");
-        TowerClassesCsv = ReloadCsv("tower-classes.csv");
+        TowerClasses = new TypeSafeWrapper<TowerPoco>(ReloadCsv("tower-classes.csv"));
         HumanClasses = new TypeSafeWrapper<HumanPoco>(ReloadCsv("human-classes.csv"));
         RobotClasses = new TypeSafeWrapper<RobotPoco>(ReloadCsv("robot-classes.csv"));
     }
@@ -49,6 +49,14 @@ public class DataController : MonoBehaviour {
             {
                 new HumanLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(5,5) } },
                 new HumanLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(6,6) }  },
+            },
+
+            TowerLevelData = new List<TowerLevelData>()
+            {
+                new TowerLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(1,1) }  },
+                new TowerLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(3,3) }  },
+                new TowerLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(-1,-1) }  },
+                new TowerLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(-3,-3) }  },
             },
 
             PathLevelData = new List<PathLevelData>()

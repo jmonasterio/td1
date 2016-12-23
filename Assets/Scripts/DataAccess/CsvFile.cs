@@ -130,6 +130,55 @@ public interface IPoco
     void Init(CsvLine line);
 }
 
+public struct TowerPoco : IPoco
+{
+    public string EntityId;
+    public float Entity_IncomeCost;
+    public float Entity_Health;
+    public float Entity_HealthMax;
+    public float ReloadTime;
+    public float Speed;
+
+    public void Init(CsvLine line)
+    {
+
+        foreach (var col in line.Columns)
+        {
+            var key = col.Header.ComponentName + "." + col.Header.ComponentField;
+
+            // TBD: This switch statement could be generated with reflection, but can't see benefit yet.
+            switch (key)
+            {
+                case ".EntityId":
+                    EntityId = col.Value;
+                    break;
+                case "Entity.IncomeCost":
+                    Entity_IncomeCost = float.Parse(col.Value);
+                    break;
+                case "Entity.Health":
+                    Entity_Health = float.Parse(col.Value);
+                    break;
+                case "Entity.HealthMax":
+                    Entity_HealthMax = float.Parse(col.Value);
+                    break;
+                case "Entity.Speed":
+                    Speed = float.Parse(col.Value);
+                    break;
+                case "Entity.ReloadTime":
+                    ReloadTime = float.Parse(col.Value);
+                    break;
+
+                default:
+                    Debug.LogError("Could not parse CSV at line: " + line.LineNumber + " for key: " + key);
+
+                    break;
+
+            }
+        }
+    }
+}
+
+
 public struct HumanPoco : IPoco
 {
     public string EntityId;

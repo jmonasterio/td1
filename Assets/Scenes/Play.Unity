@@ -734,6 +734,7 @@ MonoBehaviour:
     Start: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
     Midpoint: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
     End: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
+    Tower: {fileID: 11494990, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
 --- !u!1 &674520049
 GameObject:
   m_ObjectHideFlags: 0

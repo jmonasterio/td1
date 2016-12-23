@@ -121,7 +121,7 @@ MonoBehaviour:
   Health: 4
   HealthMax: 50
   ExplosionPrefab: {fileID: 19831652, guid: 03d32f2d2b76d64459b031e5b1cacccc, type: 2}
-  CarcasPrefab: {fileID: 0}
+  CarcasPrefab: {fileID: 11402070, guid: 778f9a7ece33db74d989240e9eb361fa, type: 2}
   Notes: 
   ClassNotes: 
   ReloadTime: 0.75

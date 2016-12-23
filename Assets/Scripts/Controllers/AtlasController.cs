@@ -25,6 +25,8 @@ public class AtlasController : MonoBehaviour
         public Waypoint Start;
         public Waypoint Midpoint;
         public Waypoint End;
+
+        public Tower Tower;
     }
 
     public AnimationClip StandardMaleWalking;

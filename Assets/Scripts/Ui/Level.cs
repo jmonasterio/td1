@@ -60,16 +60,22 @@ public class Level : MonoBehaviour
 
 
         // Backgrounds
+
+        
         // Robots
         var robotData = Toolbox.Instance.GameManager.DataController.RobotClasses;
         var robotLevelData = levelData.RotbotLevelData;
         var robotDatum = robotData.FirstOrDefault(_ => _.EntityId == robotLevelData.EntityId);
-
-        // Make human from
         InstantiateRobotFromData(robotDatum, robotLevelData); // Looks up correct prefab + sets some data.
 
-
         // Towers
+        var towerData = Toolbox.Instance.GameManager.DataController.TowerClasses;
+        foreach (var towerLevelData in levelData.TowerLevelData)
+        {
+            var towerDatum = towerData.FirstOrDefault(_ => _.EntityId == towerLevelData.EntityId);
+            InstantiateTowerFromData(towerDatum, towerLevelData); // Looks up correct prefab + sets some data.
+        }
+
         // Humans
 
         // TBD: Lookup the humans characteristic data.
@@ -89,9 +95,23 @@ public class Level : MonoBehaviour
             InstantiatePathFromData(pathLevelData);
         }
 
+        // Enemies.
+
+        // Enemies get added by the wave controller.
+
+
         Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid.InitCellMapFromLevelEntities();
 
-        // Enemies
+    }
+
+    private void InstantiateTowerFromData(TowerPoco towerDatum, DataController.TowerLevelData towerLevelData)
+    {
+        // TBD: This prefab should be coming from the ATLAS?
+        var prefab = Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs.Tower;
+        var tower = Instantiate<Tower>(prefab);
+        tower.gameObject.name = "Tower" + towerDatum.EntityId;
+        tower.transform.SetParent(Nodes.Towers);
+        tower.transform.position = GameGrid.MapGridPointToVector(towerLevelData.BaseLevelData.GridPoint);
     }
 
     private void InstantiateHumanFromData(HumanPoco humanDatum, DataController.HumanLevelData humanLevelData)
