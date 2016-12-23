@@ -18,8 +18,18 @@ public class AtlasController : MonoBehaviour
 
     }
 
+    [Serializable]
+    public class EmptyPrefabeTypes
+    {
+        public Path PathContainer;
+        public Waypoint Start;
+        public Waypoint Midpoint;
+        public Waypoint End;
+    }
+
     public AnimationClip StandardMaleWalking;
 
     [SerializeField] public HumanSprites Humans;
+    [SerializeField] public EmptyPrefabeTypes EmptyPrefabs;
 }
 

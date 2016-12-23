@@ -16,7 +16,7 @@ GameObject:
   - 61: {fileID: 6139894}
   - 114: {fileID: 11431132}
   m_Layer: 13
-  m_Name: SquarePF (1)
+  m_Name: Robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 132908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.43413663, y: 0.15420882, z: 0}
-  m_LocalScale: {x: 0.06961838, y: 0.15016928, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de5fbeb5481bbc48b43ebb29e456b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 0}
 --- !u!114 &11467218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,10 +116,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EntityClass: 3
-  IncomeCost: 50
+  BuildValue: 5
+  SpawnValue: 0
   Health: 4
   HealthMax: 50
   ExplosionPrefab: {fileID: 19831652, guid: 03d32f2d2b76d64459b031e5b1cacccc, type: 2}
+  CarcasPrefab: {fileID: 0}
+  Notes: 
+  ClassNotes: 
   ReloadTime: 0.75
   Speed: 1
 --- !u!212 &21276720
@@ -130,17 +135,20 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_ReflectionProbeUsage: 0
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 1
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89

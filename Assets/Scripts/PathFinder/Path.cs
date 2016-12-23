@@ -12,9 +12,13 @@ using Assets.Scripts;
 [ExecuteInEditMode]
 public class Path : MonoBehaviour
 {
-    public Waypoint StartWaypoint { get; private set; }
-    public List<Waypoint> MidWaypoints { get; private set; }
-    public Waypoint EndWaypoint { get; private set; }
+    public Waypoint StartWaypoint { get; set; }
+    public List<Waypoint> MidWaypoints { get; set; }
+    public Waypoint EndWaypoint { get; set; }
+
+    public Path()
+    {
+    }
 
     // Use this for initialization
     void Start()
@@ -61,7 +65,7 @@ public class PathEditor : Editor
 
     public static void DrawPath(Path path)
     {
-        var gm = FindObjectOfType(typeof(GameManagerScript)) as GameManagerScript;
+        var gm = Toolbox.Instance.GameManager;
         if (gm == null)
         {
             return;
@@ -73,11 +77,10 @@ public class PathEditor : Editor
             gm.Awake();
             gm.LevelController.CurrentLevel.RebuildTreeNodes();
 
+            gm.LevelController.CurrentLevel.GameGrid.InitCellMapFromLevelEntities();
         }
 
         var gg = gm.LevelController.CurrentLevel.GameGrid;
-
-        gg.InitCellMapFromLevelMap( Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject);
 
         //if (this.GetInstanceID() == Selection.activeInstanceID)
         //{

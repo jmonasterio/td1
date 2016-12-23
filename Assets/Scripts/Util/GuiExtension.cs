@@ -19,6 +19,7 @@ namespace Assets.Scripts
 
         public static Vector3 MapPositionToScreen(Vector3 pos)
         {
+            pos.y = -pos.y + 2.0f ;
             var pos2 = Camera.main.WorldToScreenPoint(pos);
             pos2.z = 0;
             return pos2;

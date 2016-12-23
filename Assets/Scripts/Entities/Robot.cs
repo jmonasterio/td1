@@ -19,12 +19,15 @@ namespace Assets.Scripts
         {
             if (Entity.IsReloaded())
             {
-
-                var enemy = Entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
-                // Should be related to bullet range.
-                if (enemy != null)
+                if (BulletPrefab != null)
                 {
-                    Entity.FireBulletAt(enemy, BulletPrefab);
+
+                    var enemy = Entity.FindClosestLiveEnemy(BulletPrefab.BulletRange);
+                    // Should be related to bullet range.
+                    if (enemy != null)
+                    {
+                        Entity.FireBulletAt(enemy, BulletPrefab);
+                    }
                 }
             }
 

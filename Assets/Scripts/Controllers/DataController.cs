@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Algorithms;
 
 public class DataController : MonoBehaviour {
 
@@ -10,7 +11,7 @@ public class DataController : MonoBehaviour {
     public CsvFile EnemiesClassesCsv { get; private set; }
     public CsvFile TowerClassesCsv { get; private set; }
     public IEnumerable<HumanPoco> HumanClasses { get; private set; }
-    public CsvFile RobotClassesCsv { get; private set; }
+    public IEnumerable<RobotPoco> RobotClasses { get; private set; }
     public JsonFile LevelsJson { get; private set; }
 
     void Awake()
@@ -31,7 +32,7 @@ public class DataController : MonoBehaviour {
         EnemiesClassesCsv = ReloadCsv("enemy-classes.csv");
         TowerClassesCsv = ReloadCsv("tower-classes.csv");
         HumanClasses = new TypeSafeWrapper<HumanPoco>(ReloadCsv("human-classes.csv"));
-        RobotClassesCsv = ReloadCsv("robot-classes.csv");
+        RobotClasses = new TypeSafeWrapper<RobotPoco>(ReloadCsv("robot-classes.csv"));
     }
 
     public CsvFile ReloadCsv(string fileName)
@@ -46,8 +47,19 @@ public class DataController : MonoBehaviour {
         {
             HumanLevelData = new List<HumanLevelData>()
             {
-                new HumanLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridX = 5, GridY = 5 } },
-                new HumanLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridX = 6, GridY = 6 }  },
+                new HumanLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(5,5) } },
+                new HumanLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(6,6) }  },
+            },
+
+            PathLevelData = new List<PathLevelData>()
+            {
+                new PathLevelData()
+                {
+                EntityId = "simple1",
+                Start = new GridPoint(-3,-3),
+                End = new GridPoint(4,4),
+                Midpoints = new [] { new GridPoint(0,0) }
+                }
             }
         };
     }
@@ -59,18 +71,26 @@ public class DataController : MonoBehaviour {
         public RobotLevelData RotbotLevelData;
         public List<EnemyLevelData> EnemyLevelData;
         public List<BackgroundLevelData> BackgroundLevelData;
+        public List<PathLevelData> PathLevelData;
     }
 
     public struct BaseLevelData
     {
-        public float GridX;
-        public float GridY;
+        public GridPoint GridPoint;
     }
 
     public struct HumanLevelData
     {
         public BaseLevelData BaseLevelData;
         public string EntityId;
+    }
+
+    public struct PathLevelData
+    {
+        public string EntityId;
+        public GridPoint Start;
+        public GridPoint[] Midpoints;
+        public GridPoint End;
     }
 
     public struct TowerLevelData

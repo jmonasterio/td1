@@ -20,6 +20,8 @@ public class Level : MonoBehaviour
         public Transform Towers;
         public Transform Humans;
         public Transform Map;
+        public Transform Level; // Self
+        public Transform Paths;
     }
 
 
@@ -56,12 +58,20 @@ public class Level : MonoBehaviour
 
         // All this needs to come from data files.
 
-        // Paths
+
         // Backgrounds
         // Robots
+        var robotData = Toolbox.Instance.GameManager.DataController.RobotClasses;
+        var robotLevelData = levelData.RotbotLevelData;
+        var robotDatum = robotData.FirstOrDefault(_ => _.EntityId == robotLevelData.EntityId);
+
+        // Make human from
+        InstantiateRobotFromData(robotDatum, robotLevelData); // Looks up correct prefab + sets some data.
+
+
         // Towers
         // Humans
-        
+
         // TBD: Lookup the humans characteristic data.
         var humanData = Toolbox.Instance.GameManager.DataController.HumanClasses;
 
@@ -73,6 +83,13 @@ public class Level : MonoBehaviour
             InstantiateHumanFromData(humanDatum, humanLevelData); // Looks up correct prefab + sets some data.
         }
 
+        // Paths
+        foreach (var pathLevelData in levelData.PathLevelData)
+        {
+            InstantiatePathFromData(pathLevelData);
+        }
+
+        Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid.InitCellMapFromLevelEntities();
 
         // Enemies
     }
@@ -90,9 +107,67 @@ public class Level : MonoBehaviour
         var human = Instantiate<Human>(prefab);
         human.gameObject.name = "Human1";
         human.transform.SetParent(Nodes.Humans);
-        human.transform.position = GameGrid.MapGridPointToVector(new GridPoint(humanLevelData.BaseLevelData.GridX, humanLevelData.BaseLevelData.GridY));
+        human.transform.position = GameGrid.MapGridPointToVector(humanLevelData.BaseLevelData.GridPoint);
     }
 
+    private void InstantiateRobotFromData(RobotPoco robotDatum, DataController.RobotLevelData robotLevelData)
+    {
+        // TBD: This prefab should be coming from the ATLAS?
+        var prefab = Toolbox.Instance.GameManager.LevelController.EmptyRobotPrefab;
+        switch (robotDatum.EntityId)
+        {
+            default:
+                prefab = Toolbox.Instance.GameManager.LevelController.EmptyRobotPrefab;
+                break;
+        }
+        var human = Instantiate<Robot>(prefab);
+        human.gameObject.name = "Robot1";
+        human.transform.SetParent(Nodes.Level);
+        human.transform.position = GameGrid.MapGridPointToVector(robotLevelData.BaseLevelData.GridPoint);
+    }
+
+    private void InstantiatePathFromData(DataController.PathLevelData pathLevelData)
+    {
+        var emptyPrefabs = Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs;
+        
+        var pathContainer = Instantiate<Path>(emptyPrefabs.PathContainer);
+        pathContainer.name = pathLevelData.EntityId;
+        pathContainer.transform.SetParent(Nodes.Paths);
+
+        var path = pathContainer.GetComponent<Path>();
+
+        var start = Instantiate<Waypoint>(emptyPrefabs.Start);
+        start.transform.SetParent(Nodes.Paths);
+        start.transform.SetParent(pathContainer.transform);
+        start.transform.position = GameGrid.MapGridPointToVector(pathLevelData.Start);
+        start.GetComponent<Waypoint>().WaypointType = Waypoint.WaypointTypes.Start;
+
+        path.StartWaypoint = start;
+
+        int idx = 0;
+        var midpoints = new List<Waypoint>();
+        foreach (var wp in pathLevelData.Midpoints)
+        {
+            var mid = Instantiate<Waypoint>(emptyPrefabs.Midpoint);
+            mid.transform.SetParent(Nodes.Paths);
+            mid.transform.SetParent(pathContainer.transform);
+            mid.transform.position = GameGrid.MapGridPointToVector(wp);
+            mid.GetComponent<Waypoint>().WaypointIndex = idx++;
+            mid.GetComponent<Waypoint>().WaypointType = Waypoint.WaypointTypes.Waypoint;
+            midpoints.Add(mid);
+        }
+
+        path.MidWaypoints = midpoints;
+
+        var end = Instantiate<Waypoint>(emptyPrefabs.End);
+        end.transform.SetParent(Nodes.Paths);
+        end.transform.SetParent(pathContainer.transform);
+        end.transform.position = GameGrid.MapGridPointToVector(pathLevelData.End);
+        end.GetComponent<Waypoint>().WaypointType = Waypoint.WaypointTypes.End;
+
+        path.EndWaypoint = end;
+
+    }
 
     // Update is called once per frame
     void Update () {
@@ -154,6 +229,8 @@ public class Level : MonoBehaviour
         _nodes.Towers = this.transform.FindChild("Towers").transform;
         _nodes.Humans = this.transform.FindChild("Humans").transform;
         _nodes.Map = this.transform.FindChild("Map").transform;
+        _nodes.Level = this.transform;
+        _nodes.Paths = this.transform.FindChild("Paths").transform;
     }
 
     public GameGrid GameGrid
@@ -180,6 +257,11 @@ public class Level : MonoBehaviour
     public List<Human> Humans()
     {
         return GetSceneObjectsInTranform<Human>(_nodes.Humans);
+    }
+
+    public List<Path> Paths()
+    {
+        return GetSceneObjectsInTranform<Path>(_nodes.Paths);
     }
 
     public List<Enemy> Enemies()

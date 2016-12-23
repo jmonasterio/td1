@@ -10,11 +10,9 @@ namespace Assets.Scripts
     [ExecuteInEditMode]
     public class GameGrid : MonoBehaviour
     {
-        private GameObject _map;
-
         public GameObject GetMap()
         {
-            return _map;
+            return Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject;
         }
 
         public const int BACKGROUND_LAYER = 8;
@@ -160,15 +158,16 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-
+#if DEAD
             if ( !Application.isPlaying)
             {
-                InitCellMapFromLevelMap(_map);
+                InitCellMapFromLevelEntities(_map);
             }
             //var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
             // var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
 
             //FindPath(start, end);
+#endif
         }
 
         public void Start()
@@ -178,10 +177,8 @@ namespace Assets.Scripts
 
         public void RebuildMapConnection()
         {
-            _map = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject;
-
             // Initialize connection to others.
-            InitCellMapFromLevelMap(_map);
+            InitCellMapFromLevelEntities();
 
             // Drag spawners need to know where to put created objects in level
             if (GameObject.Find("DragSpawn_Tower") != null)
@@ -249,7 +246,7 @@ namespace Assets.Scripts
             var entity = prefab.GetComponent<Entity>();
 
             var newGameObject = Instantiate(prefab);
-            newGameObject.transform.SetParent(_map.transform);
+            newGameObject.transform.SetParent(GetMap().transform);
             newGameObject.transform.position = MapGridPointToPosition(cell.GridPoint);
 
             AddEntityToGameGrid(cell, prefab, entity.EntityClass);
@@ -264,8 +261,9 @@ namespace Assets.Scripts
                 Mathf.RoundToInt((float) gridPoint.Y + _mapInternalGrid.min.y), 0);
         }
 
-        public void InitCellMapFromLevelMap(GameObject map)
+        public void InitCellMapFromLevelEntities()
         {
+            var map = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject;
             _mapInternalGrid = GridHelper.GetInternalGridRect(map);
 
             _mapDims = CalcMapDims(_mapInternalGrid);
@@ -286,6 +284,18 @@ namespace Assets.Scripts
             var gos = humans.Select( _ => _.gameObject);
             var golist = gos.ToList();
             AddToMapCells(golist);
+
+            var paths = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Paths();
+            foreach (Path path in paths)
+            {
+                var wps = new List<Waypoint>();
+                foreach (Transform wp in path.transform)
+                {
+                    wps.Add(wp.GetComponent<Waypoint>());
+                }
+                AddToMapCells( wps.Select(_ => _.gameObject).ToList());
+            }
+
         }
 
         public void AddToMapCells( IList<GameObject> entities)

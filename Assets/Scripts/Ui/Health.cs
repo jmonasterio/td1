@@ -7,7 +7,7 @@ using UnityEditor;
 public class Health : MonoBehaviour
 {
 
-    private Vector3 labelOffset = new Vector3(0.55f, -1f, 0f);
+    private Vector3 labelOffset = new Vector3(0.0f, -0.4f, 0f);
     private Entity _entity;
     private float _barDisplay;
 
