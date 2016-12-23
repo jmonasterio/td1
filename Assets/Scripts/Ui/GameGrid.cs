@@ -12,7 +12,14 @@ namespace Assets.Scripts
     {
         public GameObject GetMap()
         {
-            return Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject;
+            try
+            {
+                return Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Could not get map.");
+            }
         }
 
         public const int BACKGROUND_LAYER = 8;

@@ -17,11 +17,11 @@ public class WavesController : MonoBehaviour
 
     void Start()
     {
-        StartLevel( Time.time );
+        StartLevel(Time.time);
     }
 
 
-    public void StartLevel( float levelStartTime)
+    public void StartLevel(float levelStartTime)
     {
         Toolbox.Instance.GameManager.DataController.ReloadCsvs();
         _levelStartTime = levelStartTime;
@@ -55,19 +55,20 @@ public class WavesController : MonoBehaviour
 
 
 
-        foreach ( var poco in waveCsv)
+        foreach (var poco in waveCsv)
         {
             //wave.CancelWaveCoroutine();
             if (poco.EntityType == "Enemy")
             {
                 Vector3 spawnPosition = path.StartWaypoint.transform.position;
                 //var newEnemy = enemy.gameObject; // Instantiate<Enemy>(EnemyPrefab);
-                var newEnemy = Instantiate<Enemy>(EnemyPrefab); // Make a copy, so we don't remove from tree and then we can run wave again.
+                var newEnemy = Instantiate<Enemy>(EnemyPrefab);
+                    // Make a copy, so we don't remove from tree and then we can run wave again.
 
-                Debug.Assert(newEnemy.GetComponent<Enemy>() != null );
+                Debug.Assert(newEnemy.GetComponent<Enemy>() != null);
 
                 newEnemy.gameObject.name = path.gameObject.name + DateTime.Now.Ticks;
-                newEnemy.transform.SetParent( enemiesCollection);
+                newEnemy.transform.SetParent(enemiesCollection);
                 newEnemy.transform.position = spawnPosition;
                 newEnemy.gameObject.SetActive(true);
                 switch (poco.Data)
@@ -86,7 +87,7 @@ public class WavesController : MonoBehaviour
                 // so we can't use newEnemy.PathFollower;
 
                 var pathFollower = newEnemy.GetComponent<PathFollower>();
-                pathFollower.SetPathWaypoints(path); 
+                pathFollower.SetPathWaypoints(path);
 
                 this.LiveEnemyCount++;
 
@@ -101,7 +102,7 @@ public class WavesController : MonoBehaviour
                 }
                 else
                 {
-                    if( poco.EntityType == "WaveBreak")
+                    if (poco.EntityType == "WaveBreak")
                     {
                         yield return new WaitForSeconds(poco.Delay);
                     }
@@ -149,7 +150,17 @@ public class WavesController : MonoBehaviour
     {
         foreach (var co in _runningWaves)
         {
-            StopCoroutine(co);
+            if (co != null)
+            {
+                try
+                {
+                    StopCoroutine(co);
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log( "Failed to stop coroutine: " + ex.Message);
+                }
+            }
         }
         _runningWaves.Clear();
     }

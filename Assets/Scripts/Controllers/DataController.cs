@@ -55,11 +55,20 @@ public class DataController : MonoBehaviour {
             {
                 new PathLevelData()
                 {
-                EntityId = "simple1",
-                Start = new GridPoint(-3,-3),
+                EntityId = "BasicPath", // AdvancedPath
+                Start = new GridPoint(-8,-3),
+                End = new GridPoint(4,4),
+                Midpoints = new [] { new GridPoint(0,0) }
+                },
+
+                new PathLevelData()
+                {
+                EntityId = "AdvancedPath", // AdvancedPath
+                Start = new GridPoint(10,0),
                 End = new GridPoint(4,4),
                 Midpoints = new [] { new GridPoint(0,0) }
                 }
+
             }
         };
     }
