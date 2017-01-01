@@ -117,11 +117,11 @@ public class Level : MonoBehaviour
     private void InstantiateHumanFromData(HumanPoco humanDatum, DataController.HumanLevelData humanLevelData)
     {
         // TBD: This prefab should be coming from the ATLAS?
-        var prefab = Toolbox.Instance.GameManager.LevelController.EmptyHumanPrefab;
+        var prefab = Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs.Human;
         switch (humanDatum.EntityId)
         {
             default:
-                prefab = Toolbox.Instance.GameManager.LevelController.EmptyHumanPrefab;
+                prefab = Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs.Human;
                 break;
         }
         var human = Instantiate<Human>(prefab);
@@ -132,12 +132,12 @@ public class Level : MonoBehaviour
 
     private void InstantiateRobotFromData(RobotPoco robotDatum, DataController.RobotLevelData robotLevelData)
     {
-        // TBD: This prefab should be coming from the ATLAS?
-        var prefab = Toolbox.Instance.GameManager.LevelController.EmptyRobotPrefab;
+        // TBD: This prefab should be coming from the AtlasController?
+        var prefab = Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs.Robot;
         switch (robotDatum.EntityId)
         {
             default:
-                prefab = Toolbox.Instance.GameManager.LevelController.EmptyRobotPrefab;
+                prefab = Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs.Robot;
                 break;
         }
         var human = Instantiate<Robot>(prefab);

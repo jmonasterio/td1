@@ -684,10 +684,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActiveLevelId: 1
-  EmptyLevelPrefab: {fileID: 114000013552856236, guid: 3755464a54614384a92dde76bfc0cc4c,
-    type: 2}
-  EmptyHumanPrefab: {fileID: 11405522, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
-  EmptyRobotPrefab: {fileID: 11444708, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
 --- !u!114 &601069459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -729,6 +725,9 @@ MonoBehaviour:
     GathererMale: {fileID: 21300028, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
     GathererFemale: {fileID: 21300026, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
   EmptyPrefabs:
+    Level: {fileID: 114000013552856236, guid: 3755464a54614384a92dde76bfc0cc4c, type: 2}
+    Human: {fileID: 11405522, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
+    Robot: {fileID: 11444708, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
     PathContainer: {fileID: 114000011265463864, guid: 4b0671bc82a26654f90bc52071f505ba,
       type: 2}
     Start: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}

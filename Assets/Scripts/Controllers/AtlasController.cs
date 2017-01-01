@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -19,8 +20,12 @@ public class AtlasController : MonoBehaviour
     }
 
     [Serializable]
-    public class EmptyPrefabeTypes
+    public class EmptyPrefabTypes
     {
+        public Level Level;
+        public Human Human;
+        public Robot Robot;
+
         public Path PathContainer;
         public Waypoint Start;
         public Waypoint Midpoint;
@@ -32,6 +37,6 @@ public class AtlasController : MonoBehaviour
     public AnimationClip StandardMaleWalking;
 
     [SerializeField] public HumanSprites Humans;
-    [SerializeField] public EmptyPrefabeTypes EmptyPrefabs;
+    [SerializeField] public EmptyPrefabTypes EmptyPrefabs;
 }
 

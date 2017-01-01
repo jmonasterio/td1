@@ -32,9 +32,6 @@ public class LevelController : MonoBehaviour
 
     private Level _currentLevel;
 
-    public Level EmptyLevelPrefab;
-    public Human EmptyHumanPrefab;
-    public Robot EmptyRobotPrefab;
 
     public enum Levels
     {
@@ -94,7 +91,7 @@ public class LevelController : MonoBehaviour
             }
 
             // Runtime level switch.
-            _currentLevel = Instantiate<Level>(EmptyLevelPrefab); // Make a copy, so we don't remove from tree and then we can run wave again.
+            _currentLevel = Instantiate<Level>(Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs.Level); // Make a copy, so we don't remove from tree and then we can run wave again.
             _currentLevel.gameObject.name = "Level";
             _currentLevel.transform.SetParent(Toolbox.Instance.GameManager.transform.parent);
             _currentLevel.transform.position = new Vector3(-1.19f, 0.33f, 0f);
