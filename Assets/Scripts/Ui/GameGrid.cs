@@ -480,19 +480,33 @@ namespace Assets.Scripts
 
         readonly Vector3 _textOffset = new Vector3(0.25f, -0.25f, 0f);
 
-        public void DrawTextAtPoint(GridPoint nodeGridPoint, string s)
+        public void DrawTextAtGridPoint(GridPoint nodeGridPoint, string s, Color col)
         {
             var vector = MapGridPointToVector(nodeGridPoint);
             // - _textOffset;
             if (Application.isPlaying)
             {
-                GuiExtension.GuiLabel(vector, s, Color.black);
+                GuiExtension.GuiLabel(vector, s, col);
             }
             else
             {
-                GuiExtension.HandleLabel(vector, s, Color.black);
+                GuiExtension.HandleLabel(vector, s, col);
             }
         }
+
+        public void DrawTextAtVector(Vector3 vector, string s, Color col)
+        {
+            // - _textOffset;
+            if (Application.isPlaying)
+            {
+                GuiExtension.GuiLabel(vector, s, col);
+            }
+            else
+            {
+                GuiExtension.HandleLabel(vector, s, col);
+            }
+        }
+
 
         public Vector3 MapPositionToScreen(Vector3 pos)
         {

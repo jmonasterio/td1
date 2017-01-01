@@ -106,7 +106,7 @@ public class PathEditor : Editor
                     // Draw lines between the nodes, just to see.
                     //Debug.DrawLine( );
                     var nodePoint = node.GridPoint;
-                    gameGrid.DrawTextAtPoint(nodePoint, "X");
+                    gameGrid.DrawTextAtGridPoint(nodePoint, "X", Color.black);
                 }
             }
         }

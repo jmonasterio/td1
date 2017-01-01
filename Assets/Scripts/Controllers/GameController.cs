@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         //Toolbox.Instance.GameManager.LevelController.ActiveLevelId = LevelController.Levels.Level1;
+        JsonFile.Test();
     }
 
     // Update is called once per frame

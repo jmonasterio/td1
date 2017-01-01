@@ -4,10 +4,31 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
+[Serializable]
+public struct HumanPocoList
+{
+    public HumanPoco[] Humans;
+}
+
 public struct JsonFile
 {
-
+    public static void Test()
+    {
+        var humanClasses = new HumanPocoList
+        {
+            Humans = new HumanPoco[] {
+            new HumanPoco() { EntityId = "Pawn", Entity_Health=3, Entity_HealthMax = 5, Entity_IncomeCost = 0, ReloadTime = 0.75f, Speed=2.0f},
+            new HumanPoco() { EntityId = "Bishop", Entity_Health=7, Entity_HealthMax = 7, Entity_IncomeCost = 0, ReloadTime = 0.75f, Speed=2.0f},
+            new HumanPoco() { EntityId = "Queen", Entity_Health=11, Entity_HealthMax = 11, Entity_IncomeCost = 0, ReloadTime = 0.75f, Speed=2.0f},
+            }
+        };
+        var j = JsonUtility.ToJson(humanClasses);
+        var txt = JsonUtility.FromJson<HumanPocoList>(j);
+        JsonUtility.FromJsonOverwrite(j, humanClasses);
+    }
 }
+
+
 
 public struct CsvFile
 {
@@ -178,7 +199,7 @@ public struct TowerPoco : IPoco
     }
 }
 
-
+[Serializable]
 public struct HumanPoco : IPoco
 {
     public string EntityId;

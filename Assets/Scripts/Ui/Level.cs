@@ -204,16 +204,13 @@ public class Level : MonoBehaviour
     // Update is called once per frame
     void OnGUI()
         {
-        var color = GUI.color;
-        GUI.color = Color.green;
+            if (Event.current.type.Equals(EventType.Repaint))
+            {
+                var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
 
-        GUIStyle myStyle = new GUIStyle(GUI.skin.GetStyle("label"));
-        myStyle.fontSize = 32;
-
-#if UNITY_EDITOR
-        Handles.Label(this.transform.position + new Vector3(-5.0f, +10.0f, 0f), "" + Toolbox.Instance.GameManager.LevelController.ActiveLevelId.ToString(), myStyle);
-#endif
-        GUI.color = color;
+                gameGrid.DrawTextAtVector(this.transform.position + new Vector3(-5.0f, +10.0f, 0f),
+                    "" + Toolbox.Instance.GameManager.LevelController.ActiveLevelId.ToString(), Color.black);
+            }
         }
 
     private static List<T> GetSceneObjectsInTranform<T>(Transform t) where T : UnityEngine.Object

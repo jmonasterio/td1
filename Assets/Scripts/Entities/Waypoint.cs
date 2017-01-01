@@ -1,4 +1,5 @@
 ﻿using Algorithms;
+using Assets.Scripts;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -34,25 +35,21 @@ public class Waypoint : MonoBehaviour
            this.GetComponent<SpriteRenderer>().enabled = false;
            return;
         }
-
-        var vector = this.transform.position;
-        var color = GUI.color;
-        GUI.color = Color.black;
-        if (this.WaypointType == WaypointTypes.Start)
+        if (Event.current.type == EventType.Repaint)
         {
-#if UNITY_EDITOR
-            Handles.Label(vector, "Start: " + WaypointGroup);
-#endif
-        }
-        else if (this.WaypointType == WaypointTypes.End)
-        {
-#if UNITY_EDITOR
-            Handles.Label(vector, "End: " + WaypointGroup);
-#endif
 
-        }
-        GUI.color = color;
+            var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
 
+            if (this.WaypointType == WaypointTypes.Start)
+            {
+                gameGrid.DrawTextAtGridPoint(this.GridPoint, "Start: " + WaypointGroup, Color.black);
+            }
+            else if (this.WaypointType == WaypointTypes.End)
+            {
+                gameGrid.DrawTextAtGridPoint(this.GridPoint, "End: " + WaypointGroup, Color.black);
+
+            }
+        }
     }
 
 }

@@ -148,7 +148,7 @@ public class PathFollower : MonoBehaviour
                 var nodePoint = node.GridPoint;
                 if (Toolbox.Instance.DebugSys.ShowXOnPath)
                 {
-                    gameGrid.DrawTextAtPoint(nodePoint, "X");
+                    gameGrid.DrawTextAtGridPoint(nodePoint, "X", Color.black);
                 }
             }
         }

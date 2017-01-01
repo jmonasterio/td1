@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Algorithms;
+using Path = System.IO.Path;
 
 public class DataController : MonoBehaviour {
 
@@ -31,8 +32,13 @@ public class DataController : MonoBehaviour {
         Waves = new TypeSafeWrapper<WavePoco>(ReloadCsv("waves.csv"));
         EnemiesClassesCsv = ReloadCsv("enemy-classes.csv");
         TowerClasses = new TypeSafeWrapper<TowerPoco>(ReloadCsv("tower-classes.csv"));
-        HumanClasses = new TypeSafeWrapper<HumanPoco>(ReloadCsv("human-classes.csv"));
+        HumanClasses = JsonUtility.FromJson<HumanPocoList>(LoadJson("human-classes.json")).Humans;
         RobotClasses = new TypeSafeWrapper<RobotPoco>(ReloadCsv("robot-classes.csv"));
+    }
+
+    private string LoadJson(string humanClassesJson)
+    {
+        return File.ReadAllText( System.IO.Path.Combine("Assets//Data//", humanClassesJson));
     }
 
     public CsvFile ReloadCsv(string fileName)

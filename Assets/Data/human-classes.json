@@ -1,0 +1,28 @@
+{
+  "Humans": [
+    {
+      "EntityId": "Pawn",
+      "Entity_IncomeCost": 0.0,
+      "Entity_Health": 3.0,
+      "Entity_HealthMax": 5.0,
+      "ReloadTime": 0.75,
+      "Speed": 2.0
+    },
+    {
+      "EntityId": "Bishop",
+      "Entity_IncomeCost": 0.0,
+      "Entity_Health": 7.0,
+      "Entity_HealthMax": 7.0,
+      "ReloadTime": 0.75,
+      "Speed": 2.0
+    },
+    {
+      "EntityId": "Queen",
+      "Entity_IncomeCost": 0.0,
+      "Entity_Health": 11.0,
+      "Entity_HealthMax": 11.0,
+      "ReloadTime": 0.75,
+      "Speed": 2.0
+    }
+  ]
+}

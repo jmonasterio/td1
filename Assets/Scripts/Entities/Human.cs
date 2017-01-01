@@ -230,7 +230,7 @@ public class Human : EntityBehavior
         var colliderGo = collision.gameObject;
         var bullet = colliderGo.GetComponent<Bullet>();
 
-        if (_dragSource.Dragging)
+        if (_dragSource!= null && _dragSource.Dragging)
         {
             return;
         }
