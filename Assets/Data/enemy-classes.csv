@@ -1,4 +1,0 @@
-EntityId,	Entity.IncomeCost,        Entity.Health,     Entity.HealthMax,   Entity.ReloadTime,  Entity.Speed,   Enemy.FlagCount
-Pawn,		5,						  3,				 5,					 0.75,			     2.0,			 1
-Bishop,		15,						  5,				 7,					 0.65,			     3.0,			 1
-Queen,		25,						  11,				 11,				 0.55,			     4.0,			 1

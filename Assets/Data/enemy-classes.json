@@ -1,0 +1,31 @@
+{
+  "List": [
+    {
+      "EntityId": "Pawn",
+      "Entity_IncomeCost": 5.0,
+      "Entity_Health": 3.0,
+      "Entity_HealthMax": 5.0,
+      "ReloadTime": 0.75,
+      "Speed": 2.0,
+      "Enemy_FlagCount": 1
+    },
+    {
+      "EntityId": "Bishop",
+      "Entity_IncomeCost": 15.0,
+      "Entity_Health": 5.0,
+      "Entity_HealthMax": 7.0,
+      "ReloadTime": 0.6499999761581421,
+      "Speed": 3.0,
+      "Enemy_FlagCount": 1
+    },
+    {
+      "EntityId": "Queen",
+      "Entity_IncomeCost": 25.0,
+      "Entity_Health": 11.0,
+      "Entity_HealthMax": 11.0,
+      "ReloadTime": 0.550000011920929,
+      "Speed": 4.0,
+      "Enemy_FlagCount": 1
+    }
+  ]
+}

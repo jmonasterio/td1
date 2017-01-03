@@ -1,0 +1,148 @@
+{
+  "List": [
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 2.0,
+      "EntityType": "WavePause",
+      "Notes": "",
+      "Data": ""
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 1.5,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.30000001192092898,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.5,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.30000001192092898,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.30000001192092898,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.30000001192092898,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.699999988079071,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.30000001192092898,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.699999988079071,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "BasicPath",
+      "Delay": 0.30000001192092898,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "AdvancedPath",
+      "Delay": 0.5,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "AdvancedPath",
+      "Delay": 0.5,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "AdvancedPath",
+      "Delay": 0.5,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "AdvancedPath",
+      "Delay": 0.5,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "AdvancedPath",
+      "Delay": 0.5,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "AdvancedPath",
+      "Delay": 0.5,
+      "EntityType": "Enemy",
+      "Notes": "",
+      "Data": "Standard"
+    },
+    {
+      "WaveId": 0,
+      "Path": "",
+      "Delay": 0.0,
+      "EntityType": "",
+      "Notes": "",
+      "Data": ""
+    }
+  ]
+}

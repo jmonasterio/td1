@@ -23,7 +23,7 @@ public class WavesController : MonoBehaviour
 
     public void StartLevel(float levelStartTime)
     {
-        Toolbox.Instance.GameManager.DataController.ReloadCsvs();
+        Toolbox.Instance.GameManager.DataController.ReloadJsonClasses();
         _levelStartTime = levelStartTime;
         var paths = GetAvailablePaths();
         foreach (var path in paths)
@@ -34,7 +34,7 @@ public class WavesController : MonoBehaviour
 
     }
 
-    IEnumerator SingleWave(IEnumerable<WavePoco> waveCsv, Path path)
+    IEnumerator SingleWave(IEnumerable<WaveLevelData> waveCsv, Path path)
     {
         //var child = _wavesOnThisLevel.transform.GetChild(childIdx);
 
@@ -135,7 +135,7 @@ public class WavesController : MonoBehaviour
     IEnumerator SpawnWaves(Path path)
     {
         yield return new WaitForSeconds(StartWait);
-        var wavesOnLevel = Toolbox.Instance.GameManager.GetComponent<DataController>().Waves;
+        var wavesOnLevel = Toolbox.Instance.GameManager.LevelController.CurrentLevel.LevelData.Waves;
         var waveCsv = wavesOnLevel.Where(_ => _.WaveId == 0 && _.Path == path.name);
 
         var coroutine = StartCoroutine(SingleWave(waveCsv, path));

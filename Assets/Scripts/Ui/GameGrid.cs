@@ -184,9 +184,7 @@ namespace Assets.Scripts
 
         public void RebuildMapConnection()
         {
-            // Initialize connection to others.
-            InitCellMapFromLevelEntities();
-
+            // TBD: Redo with references.
             // Drag spawners need to know where to put created objects in level
             if (GameObject.Find("DragSpawn_Tower") != null)
             {
@@ -268,7 +266,7 @@ namespace Assets.Scripts
                 Mathf.RoundToInt((float) gridPoint.Y + _mapInternalGrid.min.y), 0);
         }
 
-        public void InitCellMapFromLevelEntities()
+        public void InitCellMapFromLevelEntities(Level level)
         {
             var map = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject;
             _mapInternalGrid = GridHelper.GetInternalGridRect(map);
@@ -276,15 +274,14 @@ namespace Assets.Scripts
             _mapDims = CalcMapDims(_mapInternalGrid);
             InitGameGrid(_mapDims);
 
-            var blocks = GetActiveObjectsInLayer(BACKGROUND_LAYER);
-            AddToMapCells(blocks);
+            AddToMapCells(level.Backgrounds().Select(_ => _.gameObject).ToList());
 
             Debug.Assert(StartWaypoint != null, "Did not find start.");
             Debug.Assert(EndWaypoint != null, "Did not find end.");
 
-            AddToMapCells(Toolbox.Instance.GameManager.LevelController.CurrentLevel.Towers().Select( _ => _.gameObject).ToList());
+            AddToMapCells(level.Towers().Select( _ => _.gameObject).ToList());
 
-            var robots = (GetActiveObjectsInLayer(ROBOT_LAYER));
+            var robots = (level.Robot().Select( _ => _.gameObject).ToList());
             AddToMapCells(robots);
 
             var humans = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Humans();
@@ -361,6 +358,11 @@ namespace Assets.Scripts
                     {
                         cell.Robot = entity.GetComponent<Robot>();
                     }
+                    else if (entity.EntityClass == Entity.EntityClasses.Background)
+                    {
+                        cell.Background = entity.GetComponent<Block>();
+                        cell.GroundType = GameCell.GroundTypes.Rock;
+                    }
                     else
                     {
                         cell.GroundType = GameCell.GroundTypes.Path;
@@ -427,6 +429,7 @@ namespace Assets.Scripts
                 .Where(go => go.transform.hideFlags == HideFlags.None).ToArray();
         }
 
+#if OLD_WAY
         public static List<GameObject> GetActiveObjectsInLayer(int layer)
         {
             var objects = GetSceneObjects();
@@ -442,6 +445,7 @@ namespace Assets.Scripts
             return Selected;
 
         }
+#endif
 
         public byte[,] ToByteGrid()
         {

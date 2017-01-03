@@ -2,7 +2,6 @@
 using Algorithms;
 using UnityEngine;
 
-
 namespace Assets.Scripts
 {
     [ExecuteInEditMode]

@@ -15,9 +15,11 @@ public class Level : MonoBehaviour
 
     public struct TreeNodes
     {
+        public Transform Backgrounds;
         public Transform Bullets;
         public Transform Enemies;
         public Transform Towers;
+        public Transform Robots;
         public Transform Humans;
         public Transform Map;
         public Transform Level; // Self
@@ -54,23 +56,24 @@ public class Level : MonoBehaviour
 
     private void PopulateLevel()
     {
-        var levelData = Toolbox.Instance.GameManager.DataController.LoadLevelData(LevelId);
-
-        // All this needs to come from data files.
-
+        LevelData = Toolbox.Instance.GameManager.DataController.LoadLevelData(LevelId);
 
         // Backgrounds
+        var backgroundData = Toolbox.Instance.GameManager.DataController.BackgroundClasses;
+        foreach (var backgroundLevelData in LevelData.BackgroundLevelData)
+        {
+            var backgroundDatum = backgroundData.FirstOrDefault(_ => _.EntityId == backgroundLevelData.EntityId);
+            IntantiateBackgroundFromData(backgroundDatum, backgroundLevelData);
+        }
 
-        
         // Robots
         var robotData = Toolbox.Instance.GameManager.DataController.RobotClasses;
-        var robotLevelData = levelData.RotbotLevelData;
-        var robotDatum = robotData.FirstOrDefault(_ => _.EntityId == robotLevelData.EntityId);
-        InstantiateRobotFromData(robotDatum, robotLevelData); // Looks up correct prefab + sets some data.
+        var robotDatum = robotData.FirstOrDefault(_ => _.EntityId == LevelData.RobotLevelData.EntityId);
+        InstantiateRobotFromData(robotDatum, LevelData.RobotLevelData); // Looks up correct prefab + sets some data.
 
         // Towers
         var towerData = Toolbox.Instance.GameManager.DataController.TowerClasses;
-        foreach (var towerLevelData in levelData.TowerLevelData)
+        foreach (var towerLevelData in LevelData.TowerLevelData)
         {
             var towerDatum = towerData.FirstOrDefault(_ => _.EntityId == towerLevelData.EntityId);
             InstantiateTowerFromData(towerDatum, towerLevelData); // Looks up correct prefab + sets some data.
@@ -81,7 +84,7 @@ public class Level : MonoBehaviour
         // TBD: Lookup the humans characteristic data.
         var humanData = Toolbox.Instance.GameManager.DataController.HumanClasses;
 
-        foreach (var humanLevelData in levelData.HumanLevelData)
+        foreach (var humanLevelData in LevelData.HumanLevelData)
         {
             var humanDatum = humanData.FirstOrDefault(_ => _.EntityId == humanLevelData.EntityId);
 
@@ -90,7 +93,7 @@ public class Level : MonoBehaviour
         }
 
         // Paths
-        foreach (var pathLevelData in levelData.PathLevelData)
+        foreach (var pathLevelData in LevelData.PathLevelData)
         {
             InstantiatePathFromData(pathLevelData);
         }
@@ -100,8 +103,21 @@ public class Level : MonoBehaviour
         // Enemies get added by the wave controller.
 
 
-        Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid.InitCellMapFromLevelEntities();
+        Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid.InitCellMapFromLevelEntities(this);
 
+    }
+
+    public DataController.LevelData LevelData { get; set; }
+
+    private void IntantiateBackgroundFromData(BackgroundPoco backgroundDatum, DataController.BackgroundLevelData levelDataBackground)
+    {      
+        // TBD: This prefab should be coming from the ATLAS?
+        var prefab = Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs.Block;
+        var background = Instantiate<Block>(prefab);
+        background.gameObject.name = "Bg" + backgroundDatum.EntityId;
+        background.transform.SetParent(Nodes.Backgrounds);
+        background.transform.position = GameGrid.MapGridPointToVector(levelDataBackground.BaseLevelData.GridPoint);
+        background.transform.localScale = new Vector3(1,1,1);
     }
 
     private void InstantiateTowerFromData(TowerPoco towerDatum, DataController.TowerLevelData towerLevelData)
@@ -244,6 +260,7 @@ public class Level : MonoBehaviour
         _nodes.Bullets = this.transform.FindChild("Bullets").transform;
         _nodes.Enemies = this.transform.FindChild("Enemies").transform;
         _nodes.Towers = this.transform.FindChild("Towers").transform;
+        _nodes.Backgrounds = this.transform.FindChild("Backgrounds").transform;
         _nodes.Humans = this.transform.FindChild("Humans").transform;
         _nodes.Map = this.transform.FindChild("Map").transform;
         _nodes.Level = this.transform;
@@ -269,6 +286,16 @@ public class Level : MonoBehaviour
     public List<Tower> Towers()
     {
         return GetSceneObjectsInTranform<Tower>(_nodes.Towers);
+    }
+
+    public List<Tower> Robot()
+    {
+        return GetSceneObjectsInTranform<Tower>(_nodes.Robots);
+    }
+
+    public List<Block> Backgrounds()
+    {
+        return GetSceneObjectsInTranform<Block>(_nodes.Backgrounds);
     }
 
     public List<Human> Humans()

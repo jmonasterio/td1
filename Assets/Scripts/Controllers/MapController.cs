@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+#if DEAD
 public class MapController : MonoBehaviour {
 
     public Tower TowerPrefab;
@@ -49,3 +49,4 @@ public class MapController : MonoBehaviour {
     }
 #endif
 }
+#endif

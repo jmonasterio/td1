@@ -2,23 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Algorithms;
 using Path = System.IO.Path;
 
 public class DataController : MonoBehaviour {
 
-    public IEnumerable<WavePoco> Waves { get; private set; }
-
-    public CsvFile EnemiesClassesCsv { get; private set; }
+    public IEnumerable<EnemyPoco> EnemiesClassesCsv { get; private set; }
     public IEnumerable<TowerPoco> TowerClasses { get; private set; }
     public IEnumerable<HumanPoco> HumanClasses { get; private set; }
     public IEnumerable<RobotPoco> RobotClasses { get; private set; }
+    public IEnumerable<BackgroundPoco> BackgroundClasses { get; private set; }
     public JsonFile LevelsJson { get; private set; }
 
     void Awake()
     {
-        // Read in the CSV files.
-        ReloadCsvs();
+        // Read in the JSON files.
+        ReloadJsonClasses();
     }
 
 	
@@ -27,13 +27,13 @@ public class DataController : MonoBehaviour {
 	
 	}
 
-    public void ReloadCsvs()
+    public void ReloadJsonClasses()
     {
-        Waves = new TypeSafeWrapper<WavePoco>(ReloadCsv("waves.csv"));
-        EnemiesClassesCsv = ReloadCsv("enemy-classes.csv");
-        TowerClasses = new TypeSafeWrapper<TowerPoco>(ReloadCsv("tower-classes.csv"));
-        HumanClasses = JsonUtility.FromJson<HumanPocoList>(LoadJson("human-classes.json")).Humans;
-        RobotClasses = new TypeSafeWrapper<RobotPoco>(ReloadCsv("robot-classes.csv"));
+        EnemiesClassesCsv = JsonUtility.FromJson<PocoList<EnemyPoco>>(LoadJson("enemy-classes.json")).List;
+        TowerClasses = JsonUtility.FromJson<PocoList<TowerPoco>>(LoadJson("tower-classes.json")).List;
+        HumanClasses = JsonUtility.FromJson<PocoList<HumanPoco>>(LoadJson("human-classes.json")).List;
+        RobotClasses = JsonUtility.FromJson<PocoList<RobotPoco>>(LoadJson("robot-classes.json")).List;
+        BackgroundClasses = JsonUtility.FromJson<PocoList<BackgroundPoco>>(LoadJson("background-classes.json")).List;
     }
 
     private string LoadJson(string humanClassesJson)
@@ -41,16 +41,33 @@ public class DataController : MonoBehaviour {
         return File.ReadAllText( System.IO.Path.Combine("Assets//Data//", humanClassesJson));
     }
 
-    public CsvFile ReloadCsv(string fileName)
+#if DEAD
+    public static CsvFile ReloadCsv(string fileName)
     {
         var csvFile = CsvFile.Open(new FileInfo("Assets//Data//" + fileName));
         return csvFile;
     }
+#endif
 
     public LevelData LoadLevelData(LevelController.Levels levelId)
     {
         return new LevelData()
         {
+
+            Waves = JsonUtility.FromJson<PocoList<WaveLevelData>>(LoadJson("waves.json")).List.ToList(),
+
+            // TBD: Items below should come from json for level, like "waves.json" above.
+            RobotLevelData = new RobotLevelData
+            {
+                EntityId = "boss1",
+                BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(0, 0) }
+            },
+
+            BackgroundLevelData = new List<BackgroundLevelData>()
+            {
+                new BackgroundLevelData() { EntityId = "block", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(0,0) } },
+            },
+
             HumanLevelData = new List<HumanLevelData>()
             {
                 new HumanLevelData() { EntityId = "male", BaseLevelData = new BaseLevelData() { GridPoint = new GridPoint(5,5) } },
@@ -89,9 +106,10 @@ public class DataController : MonoBehaviour {
 
     public struct LevelData
     {
+        public List<WaveLevelData> Waves;
         public List<HumanLevelData> HumanLevelData;
         public List<TowerLevelData> TowerLevelData;
-        public RobotLevelData RotbotLevelData;
+        public RobotLevelData RobotLevelData;
         public List<EnemyLevelData> EnemyLevelData;
         public List<BackgroundLevelData> BackgroundLevelData;
         public List<PathLevelData> PathLevelData;

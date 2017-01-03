@@ -5,30 +5,41 @@ using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public struct HumanPocoList
+public struct PocoList<T> where T:struct
 {
-    public HumanPoco[] Humans;
+    public T[] List;
 }
+
 
 public struct JsonFile
 {
     public static void Test()
     {
-        var humanClasses = new HumanPocoList
+#if CONVERT_CSV
+        var Towers = new PocoList<TowerPoco>()
         {
-            Humans = new HumanPoco[] {
+            List = new TypeSafeWrapper<TowerPoco>(DataController.ReloadCsv("tower-classes.csv")).Make().ToArray()
+        };
+        var j = JsonUtility.ToJson(Towers);
+#endif
+
+        /*
+        var humanClasses = new PocoList<HumanPoco>()
+        {
+            List = new HumanPoco[] {
             new HumanPoco() { EntityId = "Pawn", Entity_Health=3, Entity_HealthMax = 5, Entity_IncomeCost = 0, ReloadTime = 0.75f, Speed=2.0f},
             new HumanPoco() { EntityId = "Bishop", Entity_Health=7, Entity_HealthMax = 7, Entity_IncomeCost = 0, ReloadTime = 0.75f, Speed=2.0f},
             new HumanPoco() { EntityId = "Queen", Entity_Health=11, Entity_HealthMax = 11, Entity_IncomeCost = 0, ReloadTime = 0.75f, Speed=2.0f},
             }
         };
         var j = JsonUtility.ToJson(humanClasses);
-        var txt = JsonUtility.FromJson<HumanPocoList>(j);
+        var txt = JsonUtility.FromJson<PocoList<HumanPoco>>(j);
         JsonUtility.FromJsonOverwrite(j, humanClasses);
+        */
     }
 }
 
-
+#if DEAD
 
 public struct CsvFile
 {
@@ -150,8 +161,10 @@ public interface IPoco
 {
     void Init(CsvLine line);
 }
+#endif
 
-public struct TowerPoco : IPoco
+[Serializable]
+public struct TowerPoco
 {
     public string EntityId;
     public float Entity_IncomeCost;
@@ -160,47 +173,10 @@ public struct TowerPoco : IPoco
     public float ReloadTime;
     public float Speed;
 
-    public void Init(CsvLine line)
-    {
-
-        foreach (var col in line.Columns)
-        {
-            var key = col.Header.ComponentName + "." + col.Header.ComponentField;
-
-            // TBD: This switch statement could be generated with reflection, but can't see benefit yet.
-            switch (key)
-            {
-                case ".EntityId":
-                    EntityId = col.Value;
-                    break;
-                case "Entity.IncomeCost":
-                    Entity_IncomeCost = float.Parse(col.Value);
-                    break;
-                case "Entity.Health":
-                    Entity_Health = float.Parse(col.Value);
-                    break;
-                case "Entity.HealthMax":
-                    Entity_HealthMax = float.Parse(col.Value);
-                    break;
-                case "Entity.Speed":
-                    Speed = float.Parse(col.Value);
-                    break;
-                case "Entity.ReloadTime":
-                    ReloadTime = float.Parse(col.Value);
-                    break;
-
-                default:
-                    Debug.LogError("Could not parse CSV at line: " + line.LineNumber + " for key: " + key);
-
-                    break;
-
-            }
-        }
-    }
 }
 
 [Serializable]
-public struct HumanPoco : IPoco
+public struct HumanPoco 
 {
     public string EntityId;
     public float Entity_IncomeCost;
@@ -209,45 +185,10 @@ public struct HumanPoco : IPoco
     public float ReloadTime;
     public float Speed;
 
-    public void Init(CsvLine line)
-    {
-
-        foreach (var col in line.Columns)
-        {
-            var key = col.Header.ComponentName + "." + col.Header.ComponentField;
-
-            // TBD: This switch statement could be generated with reflection, but can't see benefit yet.
-            switch (key)
-            {
-                case ".EntityId":
-                    EntityId = col.Value;
-                    break;
-                case "Entity.IncomeCost":
-                    Entity_IncomeCost = float.Parse(col.Value);
-                    break;
-                case "Entity.Health":
-                    Entity_Health = float.Parse(col.Value);
-                    break;
-                case "Entity.HealthMax":
-                    Entity_HealthMax = float.Parse( col.Value);
-                    break;
-                case "Entity.Speed":
-                    Speed = float.Parse(col.Value);
-                    break;
-                case "Entity.ReloadTime":
-                    ReloadTime = float.Parse(col.Value);
-                    break;
-
-                default:                    Debug.LogError("Could not parse CSV at line: " + line.LineNumber + " for key: " + key);
-
-                    break;
-
-            }
-        }
-    }
 }
 
-public struct RobotPoco : IPoco
+[Serializable]
+public struct EnemyPoco 
 {
     public string EntityId;
     public float Entity_IncomeCost;
@@ -255,48 +196,32 @@ public struct RobotPoco : IPoco
     public float Entity_HealthMax;
     public float ReloadTime;
     public float Speed;
+    public int Enemy_FlagCount;
 
-    public void Init(CsvLine line)
-    {
-
-        foreach (var col in line.Columns)
-        {
-            var key = col.Header.ComponentName + "." + col.Header.ComponentField;
-
-            // TBD: This switch statement could be generated with reflection, but can't see benefit yet.
-            switch (key)
-            {
-                case ".EntityId":
-                    EntityId = col.Value;
-                    break;
-                case "Entity.IncomeCost":
-                    Entity_IncomeCost = float.Parse(col.Value);
-                    break;
-                case "Entity.Health":
-                    Entity_Health = float.Parse(col.Value);
-                    break;
-                case "Entity.HealthMax":
-                    Entity_HealthMax = float.Parse(col.Value);
-                    break;
-                case "Entity.Speed":
-                    Speed = float.Parse(col.Value);
-                    break;
-                case "Entity.ReloadTime":
-                    ReloadTime = float.Parse(col.Value);
-                    break;
-
-                default:
-                    Debug.LogError("Could not parse CSV at line: " + line.LineNumber + " for key: " + key);
-
-                    break;
-
-            }
-        }
-    }
 }
 
 
-public struct WavePoco : IPoco
+[Serializable]
+public struct BackgroundPoco 
+{
+    public string EntityId;
+
+}
+
+[Serializable]
+public struct RobotPoco 
+{
+    public string EntityId;
+    public float Entity_IncomeCost;
+    public float Entity_Health;
+    public float Entity_HealthMax;
+    public float ReloadTime;
+    public float Speed;
+}
+
+
+[Serializable]
+public struct WaveLevelData 
 {
     public int WaveId;
     public string Path;
@@ -305,60 +230,6 @@ public struct WavePoco : IPoco
     public string Notes;
     public string Data;
 
-    public void Init(CsvLine line)
-    {
-        foreach (var col in line.Columns)
-        {
-            var key = col.Header.ComponentName + "." + col.Header.ComponentField;
-
-            // TBD: This switch statement could be generated with reflection, but can't see benefit yet.
-            switch (key)
-            {
-                case ".WaveId":
-                    WaveId = Int32.Parse(col.Value);
-                    break;
-                case ".Path":
-                    Path = col.Value;
-                    break;
-                case ".Delay":
-                    Delay = float.Parse(col.Value);
-                    break;
-                case ".EntityType":
-                    EntityType = col.Value;
-                    break;
-                case ".Data":
-                    Data = col.Value;
-                    break;
-                case ".Notes":
-                    Notes = col.Value;
-                    break;
-                default:
-                    Debug.LogError("Could not parse CSV at line: " + line.LineNumber + " for key: " + key);
-                    break;
-
-            }
-        }
-    }
+    
 }
 
-public class TypeSafeWrapper<T>:List<T> where T : IPoco, new()
-{
-    private TypeSafeWrapper()
-    {
-    }
-
-    public TypeSafeWrapper(CsvFile csv)
-    {
-        foreach (var line in csv.GetRestofLines())
-        {
-            var item = new T();
-            item.Init(line);
-            this.Add( item);
-        }
-    }
-
-    public List<T> Make()
-    {
-        return new List<T>();
-    }
-}

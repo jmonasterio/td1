@@ -1,0 +1,11 @@
+{
+  "List": [{
+      "EntityId": "boss1",
+      "Entity_IncomeCost": 15.0,
+      "Entity_Health": 3.0,
+      "Entity_HealthMax": 3.0,
+      "ReloadTime": 0.75,
+      "Speed": 0.0
+    }
+  ]
+}

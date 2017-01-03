@@ -25,6 +25,7 @@ public class AtlasController : MonoBehaviour
         public Level Level;
         public Human Human;
         public Robot Robot;
+        public Block Block;
 
         public Path PathContainer;
         public Waypoint Start;

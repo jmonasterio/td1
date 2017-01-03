@@ -728,6 +728,7 @@ MonoBehaviour:
     Level: {fileID: 114000013552856236, guid: 3755464a54614384a92dde76bfc0cc4c, type: 2}
     Human: {fileID: 11405522, guid: e1d2dcbab9d5ba246aa9a2e9d3aaf101, type: 2}
     Robot: {fileID: 11444708, guid: 0ba198ae44889744ca29275c5469f279, type: 2}
+    Block: {fileID: 11477292, guid: 28b6ca3ebb19a204ead519adaf9e8ffb, type: 2}
     PathContainer: {fileID: 114000011265463864, guid: 4b0671bc82a26654f90bc52071f505ba,
       type: 2}
     Start: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}

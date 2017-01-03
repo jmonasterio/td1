@@ -4,9 +4,13 @@
 
 
 ==== Engine Issues
+    - Need a separate APP or "mode" that allows editing of JSON waves and level files.
 	x Need new JsonFile to replace CsvFile, which is somtimes too limied.
-    - Load reset of level from data file.
-	- Should PopulateLevel be loading prefabs from the ATLAS?
+	- Load level data from file, like waves.json
+	- waves.json could be more structured.
+	- no inheritance in pocos. child objects.
+	- Get rid of IPoco when we get rid of the rest of the json.
+	x Should PopulateLevel be loading prefabs from the ATLAS?
     - Path editor finds path on each frame. Lame.
 	- Need a way to display text.
 	- BUILD/RUN doesn't run.
@@ -19,6 +23,7 @@
 	- Graphics are already really slow.
 		- switch to 3d rendering.
 	- Datafile -> entity mapping.
+	- May want to support more than one robot
 	
 	- Weird giant graphic flickers on gameover.
 -         I think I could make an Animation editor. It would have an animator with an animator controller, that just had one state.

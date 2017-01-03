@@ -9,7 +9,7 @@ using System.Linq;
 using Algorithms;
 using Assets.Scripts;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class Path : MonoBehaviour
 {
     public Waypoint StartWaypoint { get; set; }
@@ -42,6 +42,8 @@ public class Path : MonoBehaviour
 
     }
 }
+
+#if DEAD // Edit mode will be part of runtime. No more using Unity for serializaiton.
 
 #if UNITY_EDITOR
 /// Draw PATH in editor MODE when focus is on path
@@ -154,4 +156,5 @@ public class WaypointEditor : Editor
     }
 }
 
+#endif
 #endif
