@@ -26,6 +26,9 @@ public class MouseInput : MonoBehaviour
 #if TEST
     void OnGUI()
     {
+            if (Event.current.type == EventType.Repaint)
+        {
+
         if (DraggingNow != null)
         {
             var p2 = transform.position + new Vector3(1, 1, 1);
@@ -34,6 +37,7 @@ public class MouseInput : MonoBehaviour
             GUIHelper.DrawLine(new Vector2(transform.position.x, transform.position.y), new Vector2(p2.x, p2.y), Color.red);
             //GUIHelper.EndGroup();
         }
+}
     }
 #endif
 

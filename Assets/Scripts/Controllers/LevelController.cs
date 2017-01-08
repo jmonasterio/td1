@@ -4,9 +4,6 @@ using System.Collections;
 using System.Linq;
 using Algorithms;
 using Assets.Scripts;
-#if UNITY_EDITOR
-using UnityEditor.SceneManagement;
-#endif
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -26,12 +23,9 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class LevelController : MonoBehaviour
 {
-
     public Levels ActiveLevelId;
     private Levels _activeLevel;
-
     private Level _currentLevel;
-
 
     public enum Levels
     {
@@ -100,36 +94,5 @@ public class LevelController : MonoBehaviour
             _activeLevel = ActiveLevelId;
         }
     }
-
-    private void SaveLevel(Levels activeLevelname, Level currentLevel)
-    {
-
-    }
-
-#if DEAD
-    private void MoveCameraToLevel(Level activeLevel)
-    {
-        var camera = FindCamera();
-        Debug.Log(camera.tag);
-        var newCamerPos = activeLevel.gameObject.transform.FindChild("Map").transform.position;
-        newCamerPos.z = camera.transform.position.z;
-        camera.transform.position = newCamerPos;
-    }
-
-    private static Camera FindCamera()
-    {
-        return
-            Resources.FindObjectsOfTypeAll<Camera>().Where( cam => cam.name == "Main Camera")
-                .ToList().FirstOrDefault();
-    }
-
-
-    private static Level[] FindAllLevels()
-    {
-        return
-            Resources.FindObjectsOfTypeAll<Level>()
-                .ToArray();
-    }
-#endif
 
 }

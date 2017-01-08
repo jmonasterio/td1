@@ -239,6 +239,86 @@ Prefab:
     - {fileID: 11471212, guid: a4c7db36262dd5b4e8bb1bcf52637eeb, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: a4c7db36262dd5b4e8bb1bcf52637eeb, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &213778933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 213778934}
+  - 23: {fileID: 213778936}
+  - 102: {fileID: 213778935}
+  m_Layer: 0
+  m_Name: New Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &213778934
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 213778933}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.821, y: 0.01, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 277658537}
+  m_RootOrder: 0
+--- !u!102 &213778935
+TextMesh:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 213778933}
+  m_Text: 'Score: 1'
+  m_OffsetZ: 0
+  m_CharacterSize: 1
+  m_LineSpacing: 1
+  m_Anchor: 0
+  m_Alignment: 0
+  m_TabSize: 4
+  m_FontSize: 16
+  m_FontStyle: 0
+  m_RichText: 0
+  m_Font: {fileID: 12800000, guid: e0833d76dd1ddaf4099e6d23288919e9, type: 3}
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278190335
+--- !u!23 &213778936
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 213778933}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e0833d76dd1ddaf4099e6d23288919e9, type: 3}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
 --- !u!1 &251346327
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +426,8 @@ Transform:
   m_LocalPosition: {x: -10.82, y: 10, z: 0}
   m_LocalScale: {x: 5.636512, y: 3.9222076, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
+  m_Children:
+  - {fileID: 213778934}
   m_Father: {fileID: 500857977}
   m_RootOrder: 0
 --- !u!114 &277658538
@@ -661,6 +742,8 @@ MonoBehaviour:
   BuildScore: 0
   GrowScore: 0
   GrowRate: 1
+  ScoreText: {fileID: 213778935}
+  _scoreCount: 0
 --- !u!114 &601069457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,6 +818,18 @@ MonoBehaviour:
     Midpoint: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
     End: {fileID: 11417882, guid: 82fd082b90fe36e4e86056d1bbca81b9, type: 2}
     Tower: {fileID: 11494990, guid: 0707e3d54792bb94ea2ba57b229dc882, type: 2}
+  DefaultHealthSprites:
+    Health0: {fileID: 21300046, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health1: {fileID: 21300044, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health2: {fileID: 21300074, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health3: {fileID: 21300072, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health4: {fileID: 21300070, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health5: {fileID: 21300068, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health6: {fileID: 21300048, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health7: {fileID: 21300050, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health8: {fileID: 21300052, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health9: {fileID: 21300054, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
+    Health10: {fileID: 21300056, guid: 6c05daf5f0b435749a8276868c2238b5, type: 3}
 --- !u!1 &674520049
 GameObject:
   m_ObjectHideFlags: 0

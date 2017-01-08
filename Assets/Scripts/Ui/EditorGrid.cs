@@ -15,12 +15,18 @@ namespace Assets.Scripts
         // Update is called once per frame
         void OnGUI()
         {
-            if (!Application.isPlaying || Toolbox.Instance.DebugSys.ShowGridAtRuntime )
-            {
-                var rcInternalGrid = GridHelper.GetInternalGridRect(this.gameObject);
+            return; // ONGUITEST
 
-                DrawGridAroundIntegerPoints(rcInternalGrid);
-                DrawGridCoordinateText(rcInternalGrid);
+            if (Event.current.type == EventType.Repaint)
+            {
+
+                if (!Application.isPlaying || Toolbox.Instance.DebugSys.ShowGridAtRuntime)
+                {
+                    var rcInternalGrid = GridHelper.GetInternalGridRect(this.gameObject);
+
+                    DrawGridAroundIntegerPoints(rcInternalGrid);
+                    DrawGridCoordinateText(rcInternalGrid);
+                }
             }
         }
 

@@ -21,10 +21,23 @@ public class ScoreController : MonoBehaviour {
     public float GrowScore;
     public float GrowRate;
 
+    public TextMesh ScoreText;
+    public long _scoreCount;
+
     // Use this for initialization
 	void Start () {
-	
+	    
 	}
 	
 	// Update is called once per frame
+
+    void Update()
+    {
+        _scoreCount++;
+
+        if (_scoreCount%1 == 0)
+        {
+            ScoreText.text = "Score: " + _scoreCount;
+        }
+    }
 }

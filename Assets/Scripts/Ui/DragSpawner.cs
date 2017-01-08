@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Assets.Scripts;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class DragSpawner : MonoBehaviour
 {
@@ -43,8 +39,12 @@ public class DragSpawner : MonoBehaviour
     // Update is called once per frame
     private void OnGUI()
     {
-        var income = SpawnPF.GetComponent<Entity>().BuildValue;
-        var vector = this.transform.position + new Vector3(-1, 1, 0);
-        GuiExtension.GuiLabel( vector, "Cost: " + income, Color.red);
+        return; // ONGUITEST
+        if (Event.current.type == EventType.Repaint)
+        {
+            var income = SpawnPF.GetComponent<Entity>().BuildValue;
+            var vector = this.transform.position + new Vector3(-1, 1, 0);
+            GuiExtension.GuiLabel(vector, "Cost: " + income, Color.red);
+        }
     }
 }

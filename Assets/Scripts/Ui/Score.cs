@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class Score : MonoBehaviour {
     private SpriteRenderer _renderer;
@@ -16,21 +13,24 @@ public class Score : MonoBehaviour {
 	// Update is called once per frame
     private void OnGUI()
     {
-        var vector = new Vector3(_renderer.bounds.min.x, _renderer.bounds.max.y, _renderer.bounds.min.z) +
-                     new Vector3(0.5f, -0.5f, 0); 
-        var color = GUI.color;
-        GUI.color = Color.black;
-        float lineSpacing = 0.45f;
-#if UNITY_EDITOR
-        Handles.Label(vector, "Score: " + Toolbox.Instance.GameManager.ScoreController.Score);
-        vector.Set(vector.x, vector.y- lineSpacing, vector.z);
-        Handles.Label(vector, "Build Score: " + Toolbox.Instance.GameManager.ScoreController.BuildScore);
-        vector.Set(vector.x, vector.y - lineSpacing, vector.z);
-        Handles.Label(vector, "Grow Score: " + Toolbox.Instance.GameManager.ScoreController.GrowScore);
-        vector.Set(vector.x, vector.y - lineSpacing, vector.z);
-        Handles.Label(vector, "Grow rate: " + Toolbox.Instance.GameManager.ScoreController.GrowRate);
-#endif
-        GUI.color = color;
+        return; // ONGUITEST
+
+        if (Event.current.type == EventType.Repaint)
+        {
+            var vector = new Vector3(_renderer.bounds.min.x, _renderer.bounds.max.y, _renderer.bounds.min.z) +
+                         new Vector3(0.5f, -0.5f, 0);
+            float lineSpacing = 0.45f;
+
+            var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
+
+            gameGrid.DrawTextAtVector(vector, "Score: " + Toolbox.Instance.GameManager.ScoreController.Score, Color.blue);
+            vector.Set(vector.x, vector.y - lineSpacing, vector.z);
+            gameGrid.DrawTextAtVector(vector, "Build Score: " + Toolbox.Instance.GameManager.ScoreController.BuildScore, Color.blue);
+            vector.Set(vector.x, vector.y - lineSpacing, vector.z);
+            gameGrid.DrawTextAtVector(vector, "Grow Score: " + Toolbox.Instance.GameManager.ScoreController.GrowScore, Color.blue);
+            vector.Set(vector.x, vector.y - lineSpacing, vector.z);
+            gameGrid.DrawTextAtVector(vector, "Grow rate: " + Toolbox.Instance.GameManager.ScoreController.GrowRate, Color.blue);
+        }
     }
 }
 

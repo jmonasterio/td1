@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using Assets.Scripts;
 
 public class Income : MonoBehaviour {
 
@@ -14,15 +12,16 @@ public class Income : MonoBehaviour {
     // Update is called once per frame
     private void OnGUI()
     {
+        return; // ONGUITEST
 
-        var income = Toolbox.Instance.GameManager.GetComponent<ScoreController>().BuildScore;
-        var vector = this.transform.position;
-        var color = GUI.color;
-        GUI.color = Color.black;
-#if UNITY_EDITOR
-        Handles.Label(vector, "Income: " + income);
-#endif
-        GUI.color = color;
+        if (Event.current.type == EventType.Repaint)
+        {
+            var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
+
+            var income = Toolbox.Instance.GameManager.GetComponent<ScoreController>().BuildScore;
+            var vector = this.transform.position;
+            gameGrid.DrawTextAtVector(vector, "Income: " + income, Color.blue);
+        }
 
     }
 }

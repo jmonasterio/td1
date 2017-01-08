@@ -41,14 +41,6 @@ public class DataController : MonoBehaviour {
         return File.ReadAllText( System.IO.Path.Combine("Assets//Data//", humanClassesJson));
     }
 
-#if DEAD
-    public static CsvFile ReloadCsv(string fileName)
-    {
-        var csvFile = CsvFile.Open(new FileInfo("Assets//Data//" + fileName));
-        return csvFile;
-    }
-#endif
-
     public LevelData LoadLevelData(LevelController.Levels levelId)
     {
         return new LevelData()

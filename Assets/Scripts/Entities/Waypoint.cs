@@ -1,8 +1,5 @@
 ﻿using Algorithms;
 using Assets.Scripts;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 
 
@@ -30,13 +27,15 @@ public class Waypoint : MonoBehaviour
     // Update is called once per frame
     void OnGUI()
     {
-        if (Application.isPlaying)
-        {
-           this.GetComponent<SpriteRenderer>().enabled = false;
-           return;
-        }
+        return; // ONGUITEST
+
         if (Event.current.type == EventType.Repaint)
         {
+            if (Application.isPlaying)
+            {
+                this.GetComponent<SpriteRenderer>().enabled = false;
+                return;
+            }
 
             var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
 

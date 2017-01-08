@@ -137,6 +137,13 @@ public class PathFollower : MonoBehaviour
 
     void OnGUI()
     {
+        return; // ONGUITEST
+
+        if (Event.current.type != EventType.Repaint)
+        {
+            return;
+        }
+
         if (CurrentPath != null)
         {
             var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;

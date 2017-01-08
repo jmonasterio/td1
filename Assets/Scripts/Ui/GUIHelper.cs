@@ -73,32 +73,4 @@ public class GUIHelper
         clippingBounds = new Rect(0, 0, Screen.width, Screen.height);
         clippingEnabled = false;
     }
-#if DEAD
-    public static void DrawLine(Vector2 pointA, Vector2 pointB, Color color)
-    {
-        if (clippingEnabled)
-            if (!segment_rect_intersection(clippingBounds, ref pointA, ref pointB))
-                return;
-
-        if (!lineMaterial)
-        {
-            /* Credit:  */
-            lineMaterial = new Material("Shader \"Lines/Colored Blended\" {" +
-                                        "SubShader { Pass {" +
-                                        "   BindChannels { Bind \"Color\",color }" +
-                                        "   Blend SrcAlpha OneMinusSrcAlpha" +
-                                        "   ZWrite Off Cull Off Fog { Mode Off }" +
-                                        "} } }");
-            lineMaterial.hideFlags = HideFlags.HideAndDontSave;
-            lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
-        }
-
-        lineMaterial.SetPass(0);
-        GL.Begin(GL.LINES);
-        GL.Color(color);
-        GL.Vertex3(pointA.x, pointA.y, 0);
-        GL.Vertex3(pointB.x, pointB.y, 0);
-        GL.End();
-    }
-#endif
 }

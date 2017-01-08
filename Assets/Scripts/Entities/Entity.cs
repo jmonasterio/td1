@@ -122,6 +122,7 @@ public class Entity : EntityBehavior
         return _currentGameCell;
     }
 
+    // TBD: Maybe we can cache this better if we haven't moved.
     private GameGrid.GameCell GetCurrentCell()
     {
         return

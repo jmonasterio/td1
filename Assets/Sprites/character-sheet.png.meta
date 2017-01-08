@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6c05daf5f0b435749a8276868c2238b5
-timeCreated: 1476028461
+timeCreated: 1483910027
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -26,18 +26,22 @@ TextureImporter:
     21300038: human-gather-2
     21300040: human-gather-3
     21300042: human-gather-4
-    21300044: character-sheet_22
-    21300046: character-sheet_23
-    21300048: character-sheet_24
-    21300050: character-sheet_25
-    21300052: character-sheet_26
-    21300054: character-sheet_27
-    21300056: character-sheet_28
+    21300044: health-1
+    21300046: health-0
+    21300048: health-6
+    21300050: health-7
+    21300052: health-8
+    21300054: health-9
+    21300056: health-10
     21300058: character-sheet_29
     21300060: character-sheet_30
     21300062: character-sheet_31
     21300064: character-sheet_32
     21300066: character-sheet_11
+    21300068: health-5
+    21300070: health-4
+    21300072: health-3
+    21300074: health-2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -380,6 +384,149 @@ TextureImporter:
         y: 31
         width: 75
         height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-5
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 537
+        width: 30
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-4
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 506
+        width: 30
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-3
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 474
+        width: 29
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-2
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 434
+        width: 31
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-1
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 395
+        width: 32
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 1}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-0
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 363
+        width: 32
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-6
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 395
+        width: 32
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-7
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 434
+        width: 31
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-8
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 474
+        width: 30
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-9
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 506
+        width: 30
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: health-10
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 537
+        width: 30
+        height: 21
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

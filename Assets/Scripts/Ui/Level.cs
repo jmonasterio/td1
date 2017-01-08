@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Algorithms;
 using Assets.Scripts;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 [ExecuteInEditMode]
 public class Level : MonoBehaviour
@@ -220,7 +217,9 @@ public class Level : MonoBehaviour
     // Update is called once per frame
     void OnGUI()
         {
-            if (Event.current.type.Equals(EventType.Repaint))
+        return; // ONGUITEST
+
+        if (Event.current.type.Equals(EventType.Repaint))
             {
                 var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
 

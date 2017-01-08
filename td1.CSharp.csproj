@@ -75,7 +75,6 @@
     <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
     <Compile Include="Assets\Scripts\Controllers\GameManagerScript.cs" />
     <Compile Include="Assets\Scripts\Controllers\LevelController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\MapController.cs" />
     <Compile Include="Assets\Scripts\Controllers\PaletteController.cs" />
     <Compile Include="Assets\Scripts\Controllers\ScoreController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Singleton.cs" />

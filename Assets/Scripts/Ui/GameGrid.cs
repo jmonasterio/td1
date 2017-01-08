@@ -165,16 +165,6 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-#if DEAD
-            if ( !Application.isPlaying)
-            {
-                InitCellMapFromLevelEntities(_map);
-            }
-            //var start = this.MapGridPointToCell( MapVectorToGridPoint(this.StartWaypoint.transform.position));
-            // var end = this.MapGridPointToCell(MapVectorToGridPoint(this.EndWaypoint.transform.position));
-
-            //FindPath(start, end);
-#endif
         }
 
         public void Start()
@@ -215,6 +205,7 @@ namespace Assets.Scripts
             {
                 case Entity.EntityClasses.Background:
                     cell.Background = go.GetComponent<Block>();
+                    cell.GroundType = GameCell.GroundTypes.Rock;
                     break;
                 case Entity.EntityClasses.Waypoint:
                     cell.WayPoint = go.GetComponent<Waypoint>();
@@ -266,6 +257,8 @@ namespace Assets.Scripts
                 Mathf.RoundToInt((float) gridPoint.Y + _mapInternalGrid.min.y), 0);
         }
 
+        // TBD: InitCellMapFromLevel entities is kinda bogus. 
+        // Each entity should instead call: AddEntityToGameGrid() when it get's instantiated.
         public void InitCellMapFromLevelEntities(Level level)
         {
             var map = Toolbox.Instance.GameManager.LevelController.CurrentLevel.Nodes.Map.gameObject;
@@ -361,6 +354,7 @@ namespace Assets.Scripts
                     else if (entity.EntityClass == Entity.EntityClasses.Background)
                     {
                         cell.Background = entity.GetComponent<Block>();
+                        Debug.Assert( cell.Background != null);
                         cell.GroundType = GameCell.GroundTypes.Rock;
                     }
                     else
