@@ -8,8 +8,9 @@ namespace Assets.Scripts
     public class EditorGrid : MonoBehaviour {
 
         // Use this for initialization
-        void Start () {
-	
+        void Awake ()
+        {
+            //Camera.main.orthographicSize = 11.0f/(Screen.height*Screen.width);
         }
 
         // Update is called once per frame

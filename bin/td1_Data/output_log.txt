@@ -2,12 +2,12 @@ Mono path[0] = 'C:/td1/bin/td1_Data/Managed'
 Mono path[1] = 'C:/td1/bin/td1_Data/Mono'
 Mono config path = 'C:/td1/bin/td1_Data/Mono/etc'
 PlayerConnection initialized from C:/td1/bin/td1_Data (debug = 0)
-PlayerConnection initialized network socket : 0.0.0.0 55465
-Multi-casting "[IP] 192.168.10.142 [Port] 55465 [Flags] 3 [Guid] 2359493654 [EditorId] 1216637417 [Version] 1048832 [Id] WindowsPlayer(games-vm) [Debug] 1" to [225.0.0.222:54997]...
-Waiting for connection from host on [192.168.10.142:55465]...
-PlayerConnection accepted from [192.168.10.142] handle:0x2c4
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,defer=y,address=0.0.0.0:56654
-PlayerConnection already initialized - listening to [192.168.10.142:55465]
+PlayerConnection initialized network socket : 0.0.0.0 55027
+Multi-casting "[IP] 192.168.10.123 [Port] 55027 [Flags] 3 [Guid] 783069866 [EditorId] 1216637417 [Version] 1048832 [Id] WindowsPlayer(games-vm) [Debug] 1" to [225.0.0.222:54997]...
+Waiting for connection from host on [192.168.10.123:55027]...
+PlayerConnection accepted from [192.168.10.123] handle:0x334
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,defer=y,address=0.0.0.0:56866
+PlayerConnection already initialized - listening to [192.168.10.123:55027]
 Initialize engine version: 5.4.1f1 (649f48bbbf0f)
 GfxDevice: creating device client; threaded=1
 Direct3D:
@@ -24,13 +24,15 @@ Platform assembly: C:\td1\bin\td1_Data\Managed\UnityEngine.UI.dll (this message 
 Loading C:\td1\bin\td1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\td1\bin\td1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\td1\bin\td1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.285 seconds
+- Completed reload, in  0.157 seconds
 Platform assembly: C:\td1\bin\td1_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\td1\bin\td1_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
 <RI> Initializing input.
 XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 2.172800 ms
-PlayerConnection accepted from [192.168.10.142] handle:0x6f0
+UnloadTime: 2.173300 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 2a54 -> priority: 1 
+Waiting for finish

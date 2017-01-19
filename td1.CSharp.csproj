@@ -102,10 +102,12 @@
     <Compile Include="Assets\Scripts\Ai\PathFinder\PathFinderFast.cs" />
     <Compile Include="Assets\Scripts\Ai\PathFinder\PathFollower.cs" />
     <Compile Include="Assets\Scripts\Ai\PathFinder\PriorityQueueB.cs" />
+    <Compile Include="Assets\Scripts\Ui\Camera.cs" />
     <Compile Include="Assets\Scripts\Ui\DragSource.cs" />
     <Compile Include="Assets\Scripts\Ui\DragSpawner.cs" />
     <Compile Include="Assets\Scripts\Ui\DragTarget.cs" />
     <Compile Include="Assets\Scripts\Ui\EditorGrid.cs" />
+    <Compile Include="Assets\Scripts\Ui\GridOverlay.cs" />
     <Compile Include="Assets\Scripts\Ui\GUIHelper.cs" />
     <Compile Include="Assets\Scripts\Ui\GameGrid.cs" />
     <Compile Include="Assets\Scripts\Ui\GridHelper.cs" />

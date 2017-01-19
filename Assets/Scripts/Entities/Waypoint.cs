@@ -23,32 +23,26 @@ public class Waypoint : MonoBehaviour
     public GridPoint GridPoint;
 
     public int WaypointGroup = 0;
+    private TextMesh _wpText;
 
     // Update is called once per frame
-    void OnGUI()
+    void Start()
     {
-        return; // ONGUITEST
-
-        if (Event.current.type == EventType.Repaint)
+        var go2 = new GameObject("WpText");
+        go2.transform.SetParent(this.transform);
+        go2.AddComponent<MeshRenderer>();
+        _wpText = go2.AddComponent<TextMesh>();
+        switch (WaypointType)
         {
-            if (Application.isPlaying)
-            {
-                this.GetComponent<SpriteRenderer>().enabled = false;
-                return;
-            }
-
-            var gameGrid = Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid;
-
-            if (this.WaypointType == WaypointTypes.Start)
-            {
-                gameGrid.DrawTextAtGridPoint(this.GridPoint, "Start: " + WaypointGroup, Color.black);
-            }
-            else if (this.WaypointType == WaypointTypes.End)
-            {
-                gameGrid.DrawTextAtGridPoint(this.GridPoint, "End: " + WaypointGroup, Color.black);
-
-            }
+            case WaypointTypes.Start: _wpText.text = "Start:"+transform.parent.name; break;
+            case WaypointTypes.End: _wpText.text = "End:" + transform.parent.name; break;
+            case WaypointTypes.Waypoint: _wpText.text = "X:" + transform.parent.name; break;
         }
+        _wpText.richText = false;
+        _wpText.characterSize = 1;
+        _wpText.color = Color.red;
+        _wpText.transform.localPosition = new Vector3(0,1,-2);
+        _wpText.transform.localScale = new Vector3(5,5,5);
     }
 
 }

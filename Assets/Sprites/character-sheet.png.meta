@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6c05daf5f0b435749a8276868c2238b5
-timeCreated: 1483910027
+timeCreated: 1483936487
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -42,6 +42,7 @@ TextureImporter:
     21300070: health-4
     21300072: health-3
     21300074: health-2
+    21300076: DebugX
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -527,6 +528,19 @@ TextureImporter:
         y: 537
         width: 30
         height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: DebugX
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 700
+        width: 7
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -70,6 +70,11 @@ public class PathFollower : MonoBehaviour
 
         PrevGameCell = CurrentGameCell;
 
+        if (CurrentGameCell == null)
+        {
+            return;
+        }
+
         if ((OrderedWaypointCells.Count > 0) && (CurrentGameCell.GridPoint == OrderedWaypointCells[0].GridPoint))
         {
             // remove each waypoint as we reach it. The idea is that the path may get changed (due to blockages) from here on out, but we won't go back to this particular waypoint once we reach it.
@@ -138,6 +143,8 @@ public class PathFollower : MonoBehaviour
     void OnGUI()
     {
         return; // ONGUITEST
+
+        // ******** BAD IDEA BECAUSE DREW X'S FOR EVERY SINGLE ENTITY THAT WAS A PATHFOLLOWER.
 
         if (Event.current.type != EventType.Repaint)
         {

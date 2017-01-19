@@ -53,5 +53,9 @@ public class AtlasController : MonoBehaviour
     [SerializeField] public HumanSprites Humans;
     [SerializeField] public EmptyPrefabTypes EmptyPrefabs;
     [SerializeField] public HealthSprites DefaultHealthSprites;
+
+    [SerializeField] public Sprite DebugX;
+
+    [SerializeField] public Sprite[] GroundSprites;
 }
 

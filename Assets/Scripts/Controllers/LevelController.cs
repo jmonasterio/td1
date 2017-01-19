@@ -88,7 +88,7 @@ public class LevelController : MonoBehaviour
             _currentLevel = Instantiate<Level>(Toolbox.Instance.GameManager.AtlasController.EmptyPrefabs.Level); // Make a copy, so we don't remove from tree and then we can run wave again.
             _currentLevel.gameObject.name = "Level";
             _currentLevel.transform.SetParent(Toolbox.Instance.GameManager.transform.parent);
-            _currentLevel.transform.position = new Vector3(-1.19f, 0.33f, 0f);
+            _currentLevel.transform.position = new Vector3(0f, 0f, 0f); // Important to center. Map Scale:(4.89, 3.67)
             _currentLevel.LevelId = ActiveLevelId;
 
             _activeLevel = ActiveLevelId;

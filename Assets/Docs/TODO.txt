@@ -1,9 +1,14 @@
 ﻿HAVE TO OVERCOME MY DISGUST WITH UNITY.
    PLAN: All levels will be loaded from data file instead of storing level setup in unity.
    
+   DO NOT USE ON GUI during game. Everything is a gameobject. Only update gameobject sprites and text as little as possible.
 
 
 ==== Engine Issues
+- GOTO:             // TTBD: Need to find path, and add a cell object PathDebug"X" at each point along the path.
+
+    - Draw PATH using game objects (only when show path visible). Cleanup game object otherwise.
+	- Animate object manually by changing sprites. I think this will be much easier to understand.
     - Need a separate APP or "mode" that allows editing of JSON waves and level files.
 	x Need new JsonFile to replace CsvFile, which is somtimes too limied.
 	- Load level data from file, like waves.json

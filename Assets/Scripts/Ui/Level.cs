@@ -49,6 +49,8 @@ public class Level : MonoBehaviour
 
         RebuildTreeNodes();
         PopulateLevel();
+
+        MakeBackgroundSprite();
     }
 
     private void PopulateLevel()
@@ -100,7 +102,7 @@ public class Level : MonoBehaviour
         // Enemies get added by the wave controller.
 
 
-        Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid.InitCellMapFromLevelEntities(this);
+        // TBD: TEMP Toolbox.Instance.GameManager.LevelController.CurrentLevel.GameGrid.InitCellMapFromLevelEntities(this);
 
     }
 
@@ -202,16 +204,8 @@ public class Level : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update () {
-	
-	}
 
-    // So we see in EDITOR, too.
-    void OnSceneGUI()
-        {
-        OnGUI();
-        }
+
 
 
     // Update is called once per frame
@@ -310,6 +304,85 @@ public class Level : MonoBehaviour
     public List<Enemy> Enemies()
     {
         return GetSceneObjectsInTranform<Enemy>(_nodes.Enemies);
+    }
+
+    public void Update()
+    {
+        /*
+        var mapRenderer = _nodes.Map.GetComponent<SpriteRenderer>();
+
+        float scaleX = Mathf.Cos(Time.time) * 0.5F + 1;
+        float scaleY = Mathf.Sin(Time.time) * 0.5F + 1;
+        mapRenderer.sprite.mainTextureScale = new Vector2(scaleX, scaleY);
+        */
+
+    }
+
+    public void MakeBackgroundSprite()
+    {
+        var mapRenderer = _nodes.Map.GetComponent<SpriteRenderer>();
+        var old = mapRenderer.sprite.texture;
+        //var rc = BoundsToScreenRect(mapRenderer.bounds);
+        //var newText = new Texture2D((int) (rc.width), (int) rc.height, old.format, false);
+
+        //Debug.Assert(newText.width == (int) rc.width);
+        //Debug.Assert(newText.height == (int)rc.height);
+
+        var newText = new Texture2D((int) (old.width), (int) old.height, old.format, false);
+
+        var spriteGrounds = Toolbox.Instance.GameManager.AtlasController.GroundSprites;
+
+        var tileDim = spriteGrounds[0].texture.width;
+        Color[][] colorCopies = new Color[10][];
+        for (int ii = 0; ii < spriteGrounds.Length; ii++)
+        {
+            colorCopies[ii] = spriteGrounds[ii].texture.GetPixels(0, 0, tileDim, tileDim);
+        }
+
+        for (int xx = 0; xx <= newText.width; xx += tileDim)
+        {
+            for (int yy = 0; yy <= newText.height; yy += tileDim)
+            {
+                var colors = colorCopies[Random.Range(0, 9)];
+                var w = tileDim;
+                if (xx + w > newText.width)
+                {
+                    w = newText.width - xx;
+                }
+                var h = tileDim;
+                if (yy + h > newText.height)
+                {
+                    h = newText.height - yy;
+                }
+                newText.SetPixels(xx, yy, w, h, colors);
+            }
+        }
+        newText.Apply();
+
+        Sprite sprite = Sprite.Create(newText,
+            new Rect(0, 0, newText.width, newText.height),
+            new Vector2(0.5f, 0.5f), mapRenderer.sprite.pixelsPerUnit);
+
+        mapRenderer.sprite = sprite;
+
+#if OLD
+        Color[] colors = old.GetPixels(0, 0, (int)(old.width), old.height);
+        left.SetPixels(colors);
+        left.Apply();
+        Debug.Log("Old Bounds: " + GetComponent<Renderer>().sprite.bounds + " Rect: " + GetComponent<Renderer>().sprite.rect + " TexRect: " + GetComponent<Renderer>().sprite.textureRect);
+        Debug.Log("Bounds: " + sprite.bounds + " Rect: " + sprite.rect + " TexRect: " + sprite.textureRect);
+        GetComponent<Renderer>().sprite = sprite;
+#endif
+    }
+
+    public Rect BoundsToScreenRect(Bounds bounds)
+    {
+        // Get mesh origin and farthest extent (this works best with simple convex meshes)
+        Vector3 origin = Camera.main.WorldToScreenPoint(new Vector3(bounds.min.x, bounds.max.y, 0f));
+        Vector3 extent = Camera.main.WorldToScreenPoint(new Vector3(bounds.max.x, bounds.min.y, 0f));
+
+        // Create rect in screen space and return - does not account for camera perspective
+        return new Rect(origin.x, Screen.height - origin.y, extent.x - origin.x, origin.y - extent.y);
     }
 
 }
