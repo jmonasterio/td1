@@ -325,8 +325,9 @@ public class Level : MonoBehaviour
         var old = mapRenderer.sprite.texture;
         var rc = BoundsToScreenRect(mapRenderer.bounds);
 
-        // x4 makes the texture big enough to cover the sprite. Don't know why.
-        var newText = new Texture2D((int) (rc.width*4), (int) rc.height*4, old.format, false);
+        // x3.1 makes the texture big enough to cover the sprite. Don't know why.
+        // We get exactly 13.5 x 24 grid of (80x80 cells) at 1920.
+        var newText = new Texture2D((int) (rc.width*3.15f), (int) (rc.height*3.15f), old.format, false);
 
         newText.filterMode = FilterMode.Bilinear;
 
@@ -377,9 +378,9 @@ public class Level : MonoBehaviour
             new Vector2(0.5f, 0.5f), mapRenderer.sprite.pixelsPerUnit);
 
         mapRenderer.sprite = sprite;
-        // This fixes the ASPECT ratio of the grid, but ruins the scale.
+        // This fixes the ASPECT ratio of the grid (and stretches to fit camera), but ruins the scale.
         // Without this, the grid is stretched horizontally.
-        mapRenderer.transform.localScale = new Vector3(2.85f,2.85f, 1);
+        mapRenderer.transform.localScale = new Vector3(4.1f,4.1f, 1);
 
 #if OLD
         Color[] colors = old.GetPixels(0, 0, (int)(old.width), old.height);

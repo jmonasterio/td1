@@ -5,6 +5,10 @@
 
 
 ==== Engine Issues
+
+- Aspect ratio of screen doesn't show bars when I want it to (like in 4x3) mode. Try: http://wiki.unity3d.com/index.php?title=AspectRatioEnforcer
+x Screen shoudl be 24x13.5 (80pixel grid), but its 34x19
+
 - GOTO:             // TTBD: Need to find path, and add a cell object PathDebug"X" at each point along the path.
 
     - Draw PATH using game objects (only when show path visible). Cleanup game object otherwise.
