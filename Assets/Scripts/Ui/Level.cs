@@ -318,17 +318,31 @@ public class Level : MonoBehaviour
 
     }
 
+    // I don't know what the fuck I'm doing. All the constants are empircal.
     public void MakeBackgroundSprite()
     {
         var mapRenderer = _nodes.Map.GetComponent<SpriteRenderer>();
         var old = mapRenderer.sprite.texture;
-        //var rc = BoundsToScreenRect(mapRenderer.bounds);
-        //var newText = new Texture2D((int) (rc.width), (int) rc.height, old.format, false);
+        var rc = BoundsToScreenRect(mapRenderer.bounds);
+
+        // x4 makes the texture big enough to cover the sprite. Don't know why.
+        var newText = new Texture2D((int) (rc.width*4), (int) rc.height*4, old.format, false);
+
+        newText.filterMode = FilterMode.Bilinear;
 
         //Debug.Assert(newText.width == (int) rc.width);
         //Debug.Assert(newText.height == (int)rc.height);
 
-        var newText = new Texture2D((int) (old.width), (int) old.height, old.format, false);
+        // TBD: Where does this 2x multiplier come from?
+        //var newText = new Texture2D((int) (old.width*2), (int) old.height*2, old.format, false);
+
+        var spriteAspect = (float) old.width/(float) old.height;
+        var screenAspect = (float) Screen.width/ (float) Screen.height;
+        var boundsAspect = (float) rc.width/(float) rc.height;
+        Debug.Log( "SPRITE: " + spriteAspect);
+        Debug.Log("SCREEN: " + screenAspect);
+        Debug.Log("BOUNDS: " + boundsAspect);
+
 
         var spriteGrounds = Toolbox.Instance.GameManager.AtlasController.GroundSprites;
 
@@ -337,6 +351,13 @@ public class Level : MonoBehaviour
         for (int ii = 0; ii < spriteGrounds.Length; ii++)
         {
             colorCopies[ii] = spriteGrounds[ii].texture.GetPixels(0, 0, tileDim, tileDim);
+            for (int gg = 0; gg < tileDim; gg++)
+            {
+                colorCopies[ii][gg] = Color.red;
+                colorCopies[ii][gg+tileDim] = Color.red;
+                colorCopies[ii][gg*tileDim] = Color.red;
+                colorCopies[ii][gg*tileDim+1] = Color.red;
+            }
         }
 
         for (int xx = 0; xx <= newText.width; xx += tileDim)
@@ -345,25 +366,20 @@ public class Level : MonoBehaviour
             {
                 var colors = colorCopies[Random.Range(0, 9)];
                 var w = tileDim;
-                if (xx + w > newText.width)
-                {
-                    w = newText.width - xx;
-                }
                 var h = tileDim;
-                if (yy + h > newText.height)
-                {
-                    h = newText.height - yy;
-                }
                 newText.SetPixels(xx, yy, w, h, colors);
             }
         }
         newText.Apply();
 
-        Sprite sprite = Sprite.Create(newText,
-            new Rect(0, 0, newText.width, newText.height),
+        var rect = new Rect(0, 0, newText.width, newText.height);
+        Sprite sprite = Sprite.Create(newText, rect,
             new Vector2(0.5f, 0.5f), mapRenderer.sprite.pixelsPerUnit);
 
         mapRenderer.sprite = sprite;
+        // This fixes the ASPECT ratio of the grid, but ruins the scale.
+        // Without this, the grid is stretched horizontally.
+        mapRenderer.transform.localScale = new Vector3(2.85f,2.85f, 1);
 
 #if OLD
         Color[] colors = old.GetPixels(0, 0, (int)(old.width), old.height);
@@ -382,7 +398,7 @@ public class Level : MonoBehaviour
         Vector3 extent = Camera.main.WorldToScreenPoint(new Vector3(bounds.max.x, bounds.min.y, 0f));
 
         // Create rect in screen space and return - does not account for camera perspective
-        return new Rect(origin.x, Screen.height - origin.y, extent.x - origin.x, origin.y - extent.y);
+        return new Rect( origin.x, Screen.height - origin.y, extent.x - origin.x, origin.y - extent.y);
     }
 
 }
