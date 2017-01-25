@@ -48,7 +48,7 @@ s = Desired Height of Photoshop Square (px)
                 if (screenAspectRatio > DEFAULT_ASPECT)
                 {
                     // Handles bars on sides for 1800x900, for example.
-                    screenAspectRatio = _defaultAspect;
+                    screenAspectRatio = DEFAULT_ASPECT;
                 }
 
 
