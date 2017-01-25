@@ -102,7 +102,7 @@
     <Compile Include="Assets\Scripts\Ai\PathFinder\PathFinderFast.cs" />
     <Compile Include="Assets\Scripts\Ai\PathFinder\PathFollower.cs" />
     <Compile Include="Assets\Scripts\Ai\PathFinder\PriorityQueueB.cs" />
-    <Compile Include="Assets\Scripts\Ui\Camera.cs" />
+    <Compile Include="Assets\Scripts\Ui\CameraHelper.cs" />
     <Compile Include="Assets\Scripts\Ui\DragSource.cs" />
     <Compile Include="Assets\Scripts\Ui\DragSpawner.cs" />
     <Compile Include="Assets\Scripts\Ui\DragTarget.cs" />

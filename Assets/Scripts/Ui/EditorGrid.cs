@@ -10,7 +10,7 @@ namespace Assets.Scripts
         // Use this for initialization
         void Awake ()
         {
-            //Camera.main.orthographicSize = 11.0f/(Screen.height*Screen.width);
+            //CameraHelper.main.orthographicSize = 11.0f/(Screen.height*Screen.width);
         }
 
         // Update is called once per frame

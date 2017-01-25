@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Algorithms;
 using Assets.Scripts;
+using Assets.Scripts.Ui;
 
 [ExecuteInEditMode]
 public class Level : MonoBehaviour
@@ -322,12 +323,14 @@ public class Level : MonoBehaviour
     public void MakeBackgroundSprite()
     {
         var mapRenderer = _nodes.Map.GetComponent<SpriteRenderer>();
+        var level = _nodes.Level;
         var old = mapRenderer.sprite.texture;
-        var rc = BoundsToScreenRect(mapRenderer.bounds);
+        //var rc = BoundsToScreenRect(mapRenderer.bounds);
+        var rc = new Rect(0,0,CameraHelper.DEFAULT_WIDTH,CameraHelper.DEFAULT_HEIGHT); // Level.
 
         // x3.1 makes the texture big enough to cover the sprite. Don't know why.
         // We get exactly 13.5 x 24 grid of (80x80 cells) at 1920.
-        var newText = new Texture2D((int) (rc.width*3.15f), (int) (rc.height*3.15f), old.format, false);
+        var newText = new Texture2D((int) (rc.width), (int) (rc.height), old.format, false);
 
         newText.filterMode = FilterMode.Bilinear;
 
@@ -375,12 +378,14 @@ public class Level : MonoBehaviour
 
         var rect = new Rect(0, 0, newText.width, newText.height);
         Sprite sprite = Sprite.Create(newText, rect,
-            new Vector2(0.5f, 0.5f), mapRenderer.sprite.pixelsPerUnit);
+            new Vector2(0.5f, 0.5f), 80); //mapRenderer.sprite.pixelsPerUnit);
 
         mapRenderer.sprite = sprite;
         // This fixes the ASPECT ratio of the grid (and stretches to fit camera), but ruins the scale.
         // Without this, the grid is stretched horizontally.
-        mapRenderer.transform.localScale = new Vector3(4.1f,4.1f, 1);
+        //mapRenderer.transform.localScale = new Vector3(3.1f, 3.1f, 1); // TBD: Secret constants.
+        mapRenderer.transform.localScale = new Vector3(1f, 1f, 1); // TBD: Secret constants.
+        //mapRenderer.transform.localPosition = new Vector3(0.25f, 0.25f, 0);
 
 #if OLD
         Color[] colors = old.GetPixels(0, 0, (int)(old.width), old.height);
